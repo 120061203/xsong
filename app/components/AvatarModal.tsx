@@ -11,6 +11,7 @@ interface SocialMedia {
   bgColor: string;
   hoverBgColor: string;
   hoverTextColor: string;
+  qrIconColor: string; // 新增：QR Code 中 icon 的專用顏色
 }
 
 interface AvatarModalProps {
@@ -26,7 +27,8 @@ const socialMedias: SocialMedia[] = [
     color: 'text-gray-900 dark:text-white',
     bgColor: 'bg-gray-100 dark:bg-gray-700',
     hoverBgColor: 'hover:bg-gray-200 dark:hover:bg-gray-600',
-    hoverTextColor: 'hover:text-gray-900 dark:hover:text-white'
+    hoverTextColor: 'hover:text-gray-900 dark:hover:text-white',
+    qrIconColor: 'text-gray-800' // GitHub icon 在 QR Code 中使用深灰色
   },
   {
     name: 'LinkedIn',
@@ -35,7 +37,8 @@ const socialMedias: SocialMedia[] = [
     color: 'text-blue-600',
     bgColor: 'bg-blue-100 dark:bg-blue-900/20',
     hoverBgColor: 'hover:bg-blue-200 dark:hover:bg-blue-800/30',
-    hoverTextColor: 'hover:text-blue-700 dark:hover:text-blue-400'
+    hoverTextColor: 'hover:text-blue-700 dark:hover:text-blue-400',
+    qrIconColor: 'text-blue-600' // LinkedIn icon 在 QR Code 中使用藍色
   },
   {
     name: 'Instagram',
@@ -43,8 +46,9 @@ const socialMedias: SocialMedia[] = [
     icon: 'fa-brands fa-instagram',
     color: 'text-pink-600',
     bgColor: 'bg-pink-100 dark:bg-pink-900/20',
-    hoverBgColor: 'hover:bg-green-600 dark:hover:bg-green-600',  // hover 後變成綠色
-    hoverTextColor: 'hover:text-black dark:hover:text-black'      // hover 後 icon 變成黑色
+    hoverBgColor: 'hover:bg-green-600 dark:hover:bg-green-600',
+    hoverTextColor: 'hover:text-black dark:hover:text-black',
+    qrIconColor: 'text-pink-600' // Instagram icon 在 QR Code 中使用粉色
   }
 ];
 
@@ -58,13 +62,13 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
     try {
       setIsGenerating(true);
       const dataUrl = await QRCode.toDataURL(url, {
-        width: 200,
-        margin: 2,
+        width: 300,  // 固定使用大尺寸
+        margin: 2,   // 增加邊距，提高清晰度
         color: {
           dark: '#000000',
           light: '#FFFFFF'
         },
-        errorCorrectionLevel: 'H'
+        errorCorrectionLevel: 'H'  // 使用最高錯誤修正等級，提高清晰度
       });
       setQrCodeDataUrl(dataUrl);
     } catch (error) {
@@ -80,7 +84,7 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
     setIsFlipped(true);
     setTimeout(() => {
       generateQRCode(social.url);
-    }, 250);
+    }, 100);
   };
 
   const handleBackClick = () => {
@@ -180,18 +184,27 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
             </div>
             
             <div className="flex flex-col items-center justify-center space-y-6 py-8">
-              <div className="w-48 h-48 bg-white p-4 rounded-xl shadow-lg flex items-center justify-center">
+              <div className="relative bg-white p-6 rounded-xl shadow-lg flex items-center justify-center">
                 {isGenerating ? (
                   <div className="flex flex-col items-center justify-center space-y-3">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                     <p className="text-sm text-gray-500">生成 QR Code 中...</p>
                   </div>
                 ) : qrCodeDataUrl ? (
-                  <img 
-                    src={qrCodeDataUrl} 
-                    alt={`${selectedSocial.name} QR Code`}
-                    className="w-full h-full object-contain"
-                  />
+                  <>
+                    <img 
+                      src={qrCodeDataUrl} 
+                      alt={`${selectedSocial.name} QR Code`}
+                      className="object-contain"
+                      style={{ width: '300px', height: '300px' }}
+                    />
+                    {/* 中間的社交媒體 icon */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-gray-200">
+                        <i className={`${selectedSocial.icon} text-3xl ${selectedSocial.qrIconColor}`}></i>
+                      </div>
+                    </div>
+                  </>
                 ) : null}
               </div>
               
