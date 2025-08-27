@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 暫時移除 output: 'export' 以支援開發
+  output: 'export',
   images: {
     unoptimized: true,
   },

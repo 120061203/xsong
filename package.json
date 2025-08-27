@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:export": "next build --config next.config.deploy.ts",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0"
