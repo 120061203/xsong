@@ -43,16 +43,13 @@ function markdownToHtml(markdown: string): string {
     .replace(/<\/p>$/, '');
 }
 
-// 只使用 @ts-expect-error，移除 @ts-ignore
-// @ts-expect-error Next.js PageProps typing issue
+// 使用最簡單的型別定義，避免複雜的型別檢查
 export default async function BlogPage({ 
   params 
 }: { 
-  params: Promise<{ id: string }> | { id: string } 
+  params: { id: string } 
 }) {
-  // 處理 params 可能是 Promise 的情況
-  const resolvedParams = await Promise.resolve(params);
-  const { id } = resolvedParams;
+  const { id } = params;
   
   const postPath = path.join(process.cwd(), "content/blog", `${id}.md`);
   
