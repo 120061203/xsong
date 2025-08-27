@@ -97,6 +97,36 @@ export default function WhiteboardPage() {
     return () => clearInterval(interval);
   }, [isCountupRunning]);
 
+  // 快捷鍵處理
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // 防止在輸入框中觸發快捷鍵
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      
+      console.log('按鍵按下:', e.key, '目標:', e.target);
+      
+      if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        console.log('觸發全螢幕');
+        toggleFullscreen();
+      } else if (e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        console.log('觸發跑馬燈切換');
+        togglePlay();
+      } else if (e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        console.log('觸發截圖');
+        captureScreenshot();
+      }
+    };
+
+    // 使用 window 而不是 document
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isPlaying]); // 添加 isPlaying 依賴
+
   // 設定倒數時間
   const setCountdownDuration = () => {
     const totalSeconds = countdownHours * 3600 + countdownMinutes * 60 + countdownSeconds;
@@ -213,12 +243,12 @@ export default function WhiteboardPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">白板工具</h1>
+    <div className="max-w-6xl mx-auto px-4 py-4"> {/* 從 py-8 改為 py-4 */}
+      <h1 className="text-3xl font-bold mb-4">白板工具</h1> {/* 從 mb-8 改為 mb-4 */}
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> {/* 從 gap-8 改為 gap-6 */}
         {/* 左側控制面板 */}
-        <div className="space-y-6">
+        <div className="space-y-4"> {/* 從 space-y-6 改為 space-y-4 */}
           {/* 模式選擇按鈕 */}
           <div className="space-y-3">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -461,57 +491,6 @@ export default function WhiteboardPage() {
               className="w-full h-10 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer"
             />
           </div>
-
-          {/* 內建模板 */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              內建模板
-            </label>
-            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
-              {templates.map((template, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleTemplateChange(index)}
-                  className={`p-2 text-xs rounded border transition-all ${
-                    selectedTemplate === index
-                      ? 'ring-2 ring-blue-500 scale-105'
-                      : 'border-gray-300 dark:border-gray-600 hover:scale-102'
-                  }`}
-                  style={{ backgroundColor: template.backgroundColor, color: template.textColor }}
-                >
-                  {template.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 控制按鈕 */}
-          <div className="space-y-2">
-            <button
-              onClick={togglePlay}
-              className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${
-                isPlaying
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-green-600 hover:bg-green-700 text-white'
-              }`}
-            >
-              {isPlaying ? '停止' : '開始'} 跑馬燈
-            </button>
-            
-            <button
-              onClick={captureScreenshot}
-              className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-            >
-              截圖
-            </button>
-            
-            <button
-              onClick={toggleFullscreen}
-              className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
-            >
-              全螢幕
-            </button>
-          </div>
         </div>
 
         {/* 右側白板區域 */}
@@ -519,7 +498,7 @@ export default function WhiteboardPage() {
           <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
             <div
               ref={whiteboardRef}
-              className="relative w-full h-96 flex items-center justify-center overflow-hidden"
+              className="relative w-full h-80 flex items-center justify-center overflow-hidden"
               style={{ backgroundColor }}
             >
               <div
@@ -535,6 +514,62 @@ export default function WhiteboardPage() {
                 }}
               >
                 {getDisplayText()}
+              </div>
+            </div>
+            
+            {/* 底部控制區域 */}
+            <div className="p-2 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+              {/* 控制按鈕 - 移到模板上方 */}
+              <div className="mb-2">
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    onClick={togglePlay}
+                    className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${
+                      isPlaying
+                        ? 'bg-red-600 hover:bg-red-700 text-white'
+                        : 'bg-green-600 hover:bg-green-700 text-white'
+                    }`}
+                  >
+                    {isPlaying ? '停止' : '開始'} 跑馬燈 (S)
+                  </button>
+                  
+                  <button
+                    onClick={captureScreenshot}
+                    className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                  >
+                    截圖 (P)
+                  </button>
+                  
+                  <button
+                    onClick={toggleFullscreen}
+                    className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+                  >
+                    全螢幕 (F)
+                  </button>
+                </div>
+              </div>
+
+              {/* 內建模板 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  內建模板
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
+                  {templates.map((template, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleTemplateChange(index)}
+                      className={`p-1 text-xs rounded border transition-all ${
+                        selectedTemplate === index
+                          ? 'ring-2 ring-blue-500 scale-105'
+                          : 'border-gray-300 dark:border-gray-600 hover:scale-102'
+                      }`}
+                      style={{ backgroundColor: template.backgroundColor, color: template.textColor }}
+                    >
+                      {template.name}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
