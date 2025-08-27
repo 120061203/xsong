@@ -178,9 +178,11 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
                 </div>
               ) : qrCodeDataUrls[currentIndex] ? (
                 <>
-                  <img 
+                  <Image 
                     src={qrCodeDataUrls[currentIndex]} 
                     alt={`${socialMedias[currentIndex].name} QR Code`}
+                    width={250}
+                    height={250}
                     className="object-contain w-full max-w-[250px] h-auto"
                   />
                   {/* 中間的社交媒體 icon */}
