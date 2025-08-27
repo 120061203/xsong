@@ -93,7 +93,7 @@ export default function RedirectClient({ code }: { code: string }) {
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             如果沒有自動跳轉，請點擊下方按鈕
-          </a>
+          </p>
           <a
             href={urlData.url}
             target="_blank"
