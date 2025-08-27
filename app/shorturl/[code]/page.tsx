@@ -1,6 +1,10 @@
 import RedirectClient from "./RedirectClient";
 
-export default async function ShortUrlPage({ params }: { params: { code: string } }) {
+export default async function ShortUrlPage({
+  params,
+}: {
+  params: { code: string };
+}) {
   return <RedirectClient code={params.code} />;
 }
 
