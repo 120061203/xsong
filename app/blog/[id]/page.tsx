@@ -93,6 +93,9 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
       </div>
     );
   } catch (error) {
+    // 使用 error 變數來避免未使用警告
+    console.error('Error reading blog post:', error);
+    
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center">
