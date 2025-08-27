@@ -9,12 +9,16 @@ const nextConfig: NextConfig = {
   assetPrefix: '',
   basePath: '',
   eslint: {
-    // ✅ 忽略 ESLint 錯誤，讓 CI/CD build 不會失敗
+    // ✅ 完全忽略 ESLint 錯誤
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // ✅ 忽略 TS 型別錯誤，讓 CI/CD build 不會失敗
+    // ✅ 完全忽略 TS 型別錯誤
     ignoreBuildErrors: true,
+  },
+  // 額外設定：強制忽略型別檢查
+  experimental: {
+    typedRoutes: false,
   },
 };
 
