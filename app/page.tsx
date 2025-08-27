@@ -14,16 +14,14 @@ export default function Home() {
         {/* 左側：文字區塊 */}
         <div className="flex-1 flex flex-col justify-center space-y-6 max-w-2xl md:ml-8 lg:ml-12 xl:ml-16">
           <p className="text-lg md:text-2xl text-gray-600 dark:text-gray-300 text-left">
-            HI! I&apos;m XiaoSong
+            HI  !  I&apos;m
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-left">
-            <span className="text-gray-900 dark:text-white">xsong</span>
-            <span className="text-blue-600 dark:text-green-400">.us</span>
+            <span className="text-gray-900 dark:text-white">小松 XiaoSong</span>
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed text-left">
-            Graduate from <span className="text-blue-600 dark:text-teal-400 font-bold">NCU</span>, 
-            passionate about Maker and development,<br className="hidden md:block"/>
-            currently exploring <span className="text-blue-600 dark:text-orange-400">Devops</span> and <span className="text-gray-600 dark:text-green-500">AI</span>.
+            Passionate about<span className ="text-blue-600 dark:text-teal-400 font-bold"> Maker and Development</span><br/>
+            Currently exploring <span className="text-blue-600 dark:text-orange-400">Devops</span> and <span className="text-gray-600 dark:text-green-500">AI</span>.
           </p>
 
           {/* 社交連結 */}

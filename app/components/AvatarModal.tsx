@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
+import Image from 'next/image';
 
 interface SocialMedia {
   name: string;
@@ -111,14 +112,11 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
     const isRightSwipe = distance < -50;
 
     if (isLeftSwipe && currentIndex < 2) {
-      // 向左滑動，顯示下一個
       setCurrentIndex(currentIndex + 1);
     } else if (isRightSwipe && currentIndex > 0) {
-      // 向右滑動，顯示上一個
       setCurrentIndex(currentIndex - 1);
     }
 
-    // 重置觸控狀態
     setTouchStart(null);
     setTouchEnd(null);
   };
@@ -127,13 +125,13 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="relative w-96 h-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
         {/* 標題欄 */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-600">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">
             {socialMedias[currentIndex].name}
           </h3>
           <button
@@ -147,16 +145,34 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
 
         {/* 主要內容區域 - 支援觸控滑動 */}
         <div 
-          className="p-6"
+          className="p-4"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="flex flex-col items-center justify-center space-y-6 py-8">
+          <div className="flex flex-col items-center justify-center space-y-4 py-4">
+            {/* Badge 樣式：只顯示名字 */}
+            <div className="text-center mb-4">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                小松 XiaoSong
+              </h2>
+            </div>
+
+            {/* 頭像在中間 */}
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/avatar.png"
+                alt="小松 XiaoSong"
+                width={80}
+                height={80}
+                className="rounded-full border-4 border-blue-600 dark:border-green-400"
+              />
+            </div>
+
             {/* QR Code 顯示 */}
-            <div className="relative bg-white p-6 rounded-xl shadow-lg flex items-center justify-center min-h-[300px] w-full">
+            <div className="relative bg-white p-4 rounded-xl shadow-lg flex items-center justify-center w-full">
               {isGenerating ? (
-                <div className="flex flex-col items-center justify-center space-y-3">
+                <div className="flex flex-col items-center justify-center space-y-3 py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                   <p className="text-sm text-gray-500">生成 QR Code 中...</p>
                 </div>
@@ -165,23 +181,22 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
                   <img 
                     src={qrCodeDataUrls[currentIndex]} 
                     alt={`${socialMedias[currentIndex].name} QR Code`}
-                    className="object-contain"
-                    style={{ width: '300px', height: '300px' }}
+                    className="object-contain w-full max-w-[250px] h-auto"
                   />
                   {/* 中間的社交媒體 icon */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-gray-200">
-                      <i className={`${socialMedias[currentIndex].icon} text-3xl ${socialMedias[currentIndex].qrIconColor}`}></i>
+                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-gray-200">
+                      <i className={`${socialMedias[currentIndex].icon} text-xl ${socialMedias[currentIndex].qrIconColor}`}></i>
                     </div>
                   </div>
                 </>
               ) : (
-                <div className="text-center">
-                  <div className="text-red-500 text-6xl mb-4">❌</div>
-                  <p className="text-sm text-gray-500 mb-4">QR Code 生成失敗</p>
+                <div className="text-center py-8">
+                  <div className="text-red-500 text-4xl mb-2">❌</div>
+                  <p className="text-sm text-gray-500 mb-2">QR Code 生成失敗</p>
                   <button
                     onClick={generateAllQRCodes}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
                   >
                     重新生成
                   </button>
@@ -191,14 +206,14 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
 
             {/* 社交媒體資訊 */}
             <div className="text-center">
-              <p className="text-gray-600 dark:text-gray-400 mb-2">
+              <p className="text-gray-600 dark:text-gray-400 mb-2 text-sm">
                 掃描 QR Code 或點擊下方連結
               </p>
               <a
                 href={socialMedias[currentIndex].url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-green-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-green-700 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-green-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-green-700 transition-colors text-sm"
               >
                 <i className={`${socialMedias[currentIndex].icon} mr-2`}></i>
                 前往 {socialMedias[currentIndex].name}
@@ -208,12 +223,12 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
         </div>
 
         {/* 滑動指示器 */}
-        <div className="flex justify-center items-center space-x-2 p-4 border-t border-gray-200 dark:border-gray-600">
+        <div className="flex justify-center items-center space-x-2 p-3 border-t border-gray-200 dark:border-gray-600">
           {socialMedias.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
+              className={`w-2.5 h-2.5 rounded-full transition-colors ${
                 index === currentIndex
                   ? 'bg-blue-600 dark:bg-green-400'
                   : 'bg-gray-300 dark:bg-gray-600'
