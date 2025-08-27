@@ -42,7 +42,6 @@ function markdownToHtml(markdown: string): string {
     .replace(/<\/p>$/, '');
 }
 
-// 🚑 忽略 Next.js PageProps 型別檢查
 // @ts-expect-error Next.js PageProps typing issue
 export default async function BlogPage({ params }: { params: { id: string } }) {
   const { id } = params;
