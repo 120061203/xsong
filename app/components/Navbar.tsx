@@ -23,7 +23,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-xl font-bold text-blue-600 dark:text-green-400">
-              xsong.dev
+              xsong.us
             </Link>
           </div>
 
