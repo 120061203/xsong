@@ -206,9 +206,9 @@ export default function WhiteboardPage() {
 
   // 計算動畫持續時間
   const getAnimationDuration = (speedValue: number) => {
-    const minDuration = 60000; // 60秒（最慢）
-    const maxDuration = 3000;  // 3秒（最快）
-    const duration = minDuration - (speedValue - 10) * (minDuration - maxDuration) / 190;
+    const minDuration = 6000; // 6秒（最慢）
+    const maxDuration = 50;   // 0.05秒（最快）
+    const duration = minDuration - (speedValue - 10) * (minDuration - maxDuration) / 90;
     return Math.max(maxDuration, Math.min(minDuration, duration));
   };
 
@@ -403,7 +403,7 @@ export default function WhiteboardPage() {
             <input
               type="range"
               min="16"
-              max="120"
+              max="360"
               value={fontSize}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFontSize(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
@@ -422,7 +422,7 @@ export default function WhiteboardPage() {
             <input
               type="range"
               min="10"
-              max="200"
+              max="100"
               value={speed}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
