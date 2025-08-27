@@ -1,95 +1,60 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Image from "next/image"
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="flex flex-col md:flex-row items-center justify-center min-h-screen px-6">
+      
+      {/* 左側：文字區塊 */}
+      <div className="flex-1 flex flex-col justify-center space-y-6">
+        <p className="text-lg md:text-2xl text-gray-300">
+          HI! I&apos;m a
+        </p>
+        <h1 className="text-5xl md:text-7xl font-extrabold">
+          <span className="text-white">xsong</span>
+          <span className="text-green-400">.dev</span>
+        </h1>
+        <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+          A student from <span className="text-teal-400 font-bold">NCU</span>, 
+          passionate about Maker and development,<br/>
+          currently exploring <span className="text-orange-400">Devops</span> and <span className="text-green-500">AI</span>.
+        </p>
 
-        <div className={styles.ctas}>
+        {/* 社交連結 */}
+        <div className="flex space-x-4 pt-4">
           <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            href="https://github.com/xsong"
             target="_blank"
-            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-gray-900 transition"
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            <i className="fa-brands fa-github"></i>
           </a>
           <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            href="https://linkedin.com/in/xsong"
             target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
+            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-gray-900 transition"
           >
-            Read our docs
+            <i className="fa-brands fa-linkedin"></i>
+          </a>
+          <a
+            href="https://instagram.com/xsong"
+            target="_blank"
+            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-gray-900 transition"
+          >
+            <i className="fa-brands fa-instagram"></i>
           </a>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </div>
+
+      {/* 右側：頭像 */}
+      <div className="flex-1 flex justify-center mt-10 md:mt-0">
+        <Image
+          src="/avatar.png"
+          alt="avatar"
+          width={300}
+          height={300}
+          className="rounded-full border-4 border-green-400"
+        />
+      </div>
+    </main>
+  )
 }
