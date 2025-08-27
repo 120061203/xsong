@@ -14,8 +14,6 @@ const Navbar = () => {
     { href: '/projects', label: 'Projects' },
     { href: '/tools', label: 'Tools' },
     { href: '/linktree', label: 'LinkTree' },
-    { href: '/resume', label: 'Resume' },
-    { href: '/download', label: 'Download' },
   ];
 
   return (
