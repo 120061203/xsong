@@ -29,25 +29,25 @@ export default function Breadcrumb() {
       let label = '';
       switch (path) {
         case 'about':
-          label = '關於我';
+          label = 'about';
           break;
         case 'blog':
           label = 'Blog';
           break;
         case 'projects':
-          label = '專案作品';
+          label = 'Projects';
           break;
         case 'tools':
-          label = '實用工具';
+          label = 'Tools';
           break;
         case 'linktree':
-          label = '連結樹';
+          label = 'Linktree';
           break;
         case 'secret':
-          label = '秘密頁面';
+          label = 'Secret';
           break;
         case 'download':
-          label = '下載區';
+          label = 'Download';
           break;
         case 'shorturl':
           label = '短網址產生器';
