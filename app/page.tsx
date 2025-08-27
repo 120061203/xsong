@@ -7,7 +7,7 @@ export default function Home() {
       {/* 左側：文字區塊 */}
       <div className="flex-1 flex flex-col justify-center space-y-6">
         <p className="text-lg md:text-2xl text-gray-600 dark:text-gray-300">
-          HI! I&apos;m an Engineer
+          HI! I&apos;m XiaoSong
         </p>
         <h1 className="text-5xl md:text-7xl font-extrabold">
           <span className="text-gray-900 dark:text-white">xsong</span>
