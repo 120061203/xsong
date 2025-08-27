@@ -43,8 +43,7 @@ function markdownToHtml(markdown: string): string {
     .replace(/<\/p>$/, '');
 }
 
-// 使用更強力的型別忽略方式
-// @ts-ignore
+// 只使用 @ts-expect-error，移除 @ts-ignore
 // @ts-expect-error Next.js PageProps typing issue
 export default async function BlogPage({ 
   params 
