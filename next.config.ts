@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/xsong' : '',
-  basePath: process.env.NODE_ENV === 'production' ? '/xsong' : '',
+  trailingSlash: true,  // 保持 /index.html 路徑乾淨
+  assetPrefix: '',
+  basePath: '',
 };
 
 export default nextConfig;
