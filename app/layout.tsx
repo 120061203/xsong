@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Breadcrumb from "./components/Breadcrumb";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 const geistSans = Geist({
@@ -33,13 +34,16 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
         <ThemeProvider>
-          <Navbar />
-          <main className="flex-1 flex items-center justify-center">
-            {children}
-          </main>
-          <Footer />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <Breadcrumb />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>
