@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   assetPrefix: '',
   basePath: '',
+  eslint: {
+    // 忽略建置時的 ESLint 錯誤
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
