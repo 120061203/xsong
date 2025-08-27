@@ -14,6 +14,12 @@ export default function Tools() {
       href: '/tools/whiteboard',
       icon: '📝',
     },
+    {
+      title: 'Blog 系統',
+      description: 'Markdown 編輯器，撰寫和發布文章',
+      href: '/blog',
+      icon: '📚',
+    },
     // 未來可以添加更多工具
   ];
 

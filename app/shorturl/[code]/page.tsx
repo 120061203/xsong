@@ -8,6 +8,13 @@ interface UrlData {
   url: string;
 }
 
+// 新增：生成靜態路徑參數
+export async function generateStaticParams() {
+  // 這裡可以預先生成一些常用的短網址路徑
+  // 或者返回空陣列，讓 Next.js 知道這是動態路由
+  return [];
+}
+
 export default function ShortUrlRedirect() {
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true);
