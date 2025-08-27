@@ -29,7 +29,7 @@ export default function Breadcrumb() {
       let label = '';
       switch (path) {
         case 'about':
-          label = 'about';
+          label = 'About';
           break;
         case 'blog':
           label = 'Blog';

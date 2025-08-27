@@ -2,10 +2,10 @@ import Image from "next/image"
 
 export default function Home() {
   return (
-    <div className="min-h-[calc(100vh-200px)] flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-[calc(100vh-200px)] flex flex-col md:flex-row items-center px-4 sm:px-6 lg:px-8 py-8">
       
       {/* 左側：文字區塊 */}
-      <div className="flex-1 flex flex-col justify-center space-y-6 max-w-2xl mx-auto md:mx-auto lg:mx-auto xl:mx-auto">
+      <div className="flex-1 flex flex-col justify-center space-y-6 max-w-2xl md:ml-8 lg:ml-12 xl:ml-16">
         <p className="text-lg md:text-2xl text-gray-600 dark:text-gray-300 text-left">
           HI! I&apos;m XiaoSong
         </p>
@@ -16,7 +16,7 @@ export default function Home() {
         <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed text-left">
           Graduate from <span className="text-blue-600 dark:text-teal-400 font-bold">NCU</span>, 
           passionate about Maker and development,<br className="hidden md:block"/>
-          currently exploring <span className="text-blue-600 dark:text-orange-400">Devops</span> and <span className="text-blue-600 dark:text-green-500">AI</span>.
+          currently exploring <span className="text-blue-600 dark:text-orange-400">Devops</span> and <span className="text-gray-600 dark:text-green-500">AI</span>.
         </p>
 
         {/* 社交連結 */}
@@ -26,33 +26,33 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub Profile"
-            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition"
+            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
           >
-            <i className="fa-brands fa-github"></i>
+            <i className="fa-brands fa-github text-xl"></i>
           </a>
           <a
             href="https://linkedin.com/in/songlinchen"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn Profile"
-            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition"
+            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
           >
-            <i className="fa-brands fa-linkedin"></i>
+            <i className="fa-brands fa-linkedin text-xl"></i>
           </a>
           <a
             href="https://instagram.com/c.s.l.0922"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram Profile"
-            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition"
+            className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
           >
-            <i className="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-instagram text-xl"></i>
           </a>
         </div>
       </div>
 
       {/* 右側：頭像 */}
-      <div className="flex-1 flex justify-center mt-8 md:mt-0 md:pl-8 lg:pl-0 xl:pl-0">
+      <div className="flex-1 flex justify-center mt-8 md:mt-0">
         <Image
           src="/avatar.png"
           alt="avatar"
