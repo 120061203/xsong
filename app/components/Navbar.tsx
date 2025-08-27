@@ -31,9 +31,6 @@ export default function Navbar() {
             <Link href="/tools" className="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
               Tools
             </Link>
-            <Link href="/linktree" className="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
-              LinkTree
-            </Link>
           </div>
 
           {/* Mobile menu button and theme toggle */}
@@ -73,9 +70,6 @@ export default function Navbar() {
               </Link>
               <Link href="/tools" className="block px-3 py-2 text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
                 Tools
-              </Link>
-              <Link href="/linktree" className="block px-3 py-2 text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
-                LinkTree
               </Link>
             </div>
           </div>
