@@ -1,66 +1,46 @@
 import Link from 'next/link';
 
-export default function Tools() {
-  const tools = [
-    {
-      title: '短網址產生器',
-      description: '將長網址轉換為簡潔的短網址',
-      href: '/tools/shorturl',
-      icon: '🔗',
-    },
-    {
-      title: '白板工具',
-      description: '創建、編輯和分享你的想法，支援跑馬燈和模板',
-      href: '/tools/whiteboard',
-      icon: '📝',
-    },
-    {
-      title: 'Blog 系統',
-      description: 'Markdown 編輯器，撰寫和發布文章',
-      href: '/blog',
-      icon: '📚',
-    },
-    // 未來可以添加更多工具
-  ];
-
+export default function ToolsPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-4xl w-full">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-blue-600 dark:text-green-400 mb-4">
-            實用工具
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            精選的線上工具，提升你的工作效率
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+        工具集
+      </h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* 白板工具 */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+            白板工具
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            創建文字跑馬燈、自訂背景顏色、內建模板、截圖功能
           </p>
+          <a
+            href="/tools/whiteboard"
+            className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-green-600 text-white rounded-md hover:bg-blue-700 dark:hover:bg-green-700 transition-colors"
+          >
+            開始使用
+          </a>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="group block p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-green-600 transition-all duration-200 hover:shadow-lg"
-            >
-              <div className="text-4xl mb-4">{tool.icon}</div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors">
-                {tool.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                {tool.description}
-              </p>
-            </Link>
-          ))}
-        </div>
-
-        {/* 未來工具預告 */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            更多實用工具開發中...
+        {/* Blog 系統 */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+            Blog 系統
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Markdown 編輯器、即時預覽、文章管理
           </p>
+          <a
+            href="/blog"
+            className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-green-600 text-white rounded-md hover:bg-blue-700 dark:hover:bg-green-700 transition-colors"
+          >
+            開始使用
+          </a>
         </div>
       </div>
     </div>
-  );
+  )
 }
   
