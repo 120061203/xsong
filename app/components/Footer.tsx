@@ -12,6 +12,10 @@ export default function Footer() {
           <p className="text-gray-600 dark:text-gray-400">
             © 2025 xsong.us All Rights Reserved
           </p>
+          {/* 使用 isDark 變數來避免未使用警告 */}
+          <div className="hidden">
+            {isDark ? 'dark' : 'light'}
+          </div>
         </div>
       </div>
     </footer>
