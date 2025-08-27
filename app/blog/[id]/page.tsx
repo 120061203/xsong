@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import Link from 'next/link';
 
 // 簡單的 Markdown 轉 HTML 函數
 function markdownToHtml(markdown: string): string {
@@ -81,12 +82,12 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
           />
           
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <a 
+            <Link 
               href="/blog"
               className="text-blue-600 dark:text-green-400 hover:underline"
             >
               ← 回到文章列表
-            </a>
+            </Link>
           </div>
         </article>
       </div>
@@ -97,14 +98,14 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
         <div className="text-center">
           <h1 className="text-3xl font-bold text-red-600 mb-4">文章未找到</h1>
           <p className="text-gray-600 dark:text-gray-400">
-            找不到 ID 為 "{id}" 的文章
+            找不到 ID 為 &quot;{id}&quot; 的文章
           </p>
-          <a 
+          <Link 
             href="/blog"
             className="text-blue-600 dark:text-green-400 hover:underline mt-4 inline-block"
           >
             ← 回到文章列表
-          </a>
+          </Link>
         </div>
       </div>
     );
