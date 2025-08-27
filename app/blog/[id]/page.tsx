@@ -1,10 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-interface BlogPageProps {
-  params: { id: string };
-}
-
 // 簡單的 Markdown 轉 HTML 函數
 function markdownToHtml(markdown: string): string {
   return markdown
@@ -46,7 +42,11 @@ function markdownToHtml(markdown: string): string {
     .replace(/<\/p>$/, '');
 }
 
-export default async function BlogPostPage({ params }: BlogPageProps) {
+export default async function BlogPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = params;
   const postPath = path.join(process.cwd(), "content/blog", `${id}.md`);
   
