@@ -7,14 +7,14 @@ export default function Home() {
       {/* 左側：文字區塊 */}
       <div className="flex-1 flex flex-col justify-center space-y-6">
         <p className="text-lg md:text-2xl text-gray-600 dark:text-gray-300">
-          HI! I&apos;m a
+          HI! I&apos;m an Engineer
         </p>
         <h1 className="text-5xl md:text-7xl font-extrabold">
           <span className="text-gray-900 dark:text-white">xsong</span>
-          <span className="text-blue-600 dark:text-green-400">.dev</span>
+          <span className="text-blue-600 dark:text-green-400">.us</span>
         </h1>
         <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed">
-          A student from <span className="text-blue-600 dark:text-teal-400 font-bold">NCU</span>, 
+          Graduate from <span className="text-blue-600 dark:text-teal-400 font-bold">NCU</span>, 
           passionate about Maker and development,<br/>
           currently exploring <span className="text-blue-600 dark:text-orange-400">Devops</span> and <span className="text-blue-600 dark:text-green-500">AI</span>.
         </p>
@@ -22,7 +22,7 @@ export default function Home() {
         {/* 社交連結 */}
         <div className="flex space-x-4 pt-4">
           <a
-            href="https://github.com/xsong"
+            href="https://github.com/120061203"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub Profile"
@@ -31,7 +31,7 @@ export default function Home() {
             <i className="fa-brands fa-github"></i>
           </a>
           <a
-            href="https://linkedin.com/in/xsong"
+            href="https://linkedin.com/in/songlinchen"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn Profile"
@@ -40,7 +40,7 @@ export default function Home() {
             <i className="fa-brands fa-linkedin"></i>
           </a>
           <a
-            href="https://instagram.com/xsong"
+            href="https://instagram.com/c.s.l.0922"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram Profile"
