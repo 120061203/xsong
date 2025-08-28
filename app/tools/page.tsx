@@ -19,20 +19,6 @@ export default function ToolsPage() {
             開始使用
           </Link>
         </div>
-
-        {/* Blog 系統 */}
-        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-          <h2 className="text-xl font-semibold mb-3">Blog 系統</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
-            Markdown 編輯器、即時預覽、文章管理
-          </p>
-          <Link 
-            href="/blog"
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            查看文章
-          </Link>
-        </div>
       </div>
     </div>
   );
