@@ -41,7 +41,22 @@ export default function WhiteboardDisplayPage() {
       color: '#00ff00',
       intensity: 10
     },
-    animationType: 'marquee' as 'marquee' | 'bounce' | 'pulse' | 'fade'
+    animationType: 'marquee' as 'marquee' | 'bounce' | 'pulse' | 'fade',
+    // 新增：毛玻璃效果和 Material Design 陰影
+    glassEffect: {
+      enabled: false,
+      blur: 20,
+      transparency: 0.1,
+      border: true,
+      borderColor: '#ffffff',
+      borderWidth: 1
+    },
+    materialElevation: {
+      enabled: false,
+      level: 4,
+      color: '#000000',
+      opacity: 0.25
+    }
   });
 
   // 添加計時器狀態來強制重新渲染
@@ -86,7 +101,22 @@ export default function WhiteboardDisplayPage() {
         color: params.get('textGlowColor') || '#00ff00',
         intensity: Number(params.get('textGlowIntensity')) || 10
       },
-      animationType: params.get('animationType') as 'marquee' | 'bounce' | 'pulse' | 'fade' || 'marquee'
+      animationType: (params.get('animationType') as 'marquee' | 'bounce' | 'pulse' | 'fade') || 'marquee',
+      // 新增：毛玻璃效果和 Material Design 陰影
+      glassEffect: {
+        enabled: params.get('glassEffectEnabled') === 'true',
+        blur: Number(params.get('glassEffectBlur')) || 20,
+        transparency: Number(params.get('glassEffectTransparency')) || 0.1,
+        border: params.get('glassEffectBorder') === 'true',
+        borderColor: params.get('glassEffectBorderColor') || '#ffffff',
+        borderWidth: Number(params.get('glassEffectBorderWidth')) || 1
+      },
+      materialElevation: {
+        enabled: params.get('materialElevationEnabled') === 'true',
+        level: Number(params.get('materialElevationLevel')) || 4,
+        color: params.get('materialElevationColor') || '#000000',
+        opacity: Number(params.get('materialElevationOpacity')) || 0.25
+      }
     });
   }, []);
 
@@ -280,6 +310,22 @@ export default function WhiteboardDisplayPage() {
         }
       } else {
         (displayDiv as HTMLElement).style.background = displayData.backgroundColor;
+      }
+      
+      // 應用毛玻璃效果
+      if (displayData.glassEffect.enabled) {
+        (displayDiv as HTMLElement).style.backdropFilter = `blur(${displayData.glassEffect.blur}px)`;
+        (displayDiv as HTMLElement).style.backgroundColor = `rgba(255, 255, 255, ${displayData.glassEffect.transparency})`;
+        if (displayData.glassEffect.border) {
+          (displayDiv as HTMLElement).style.border = `${displayData.glassEffect.borderWidth}px solid ${displayData.glassEffect.borderColor}`;
+        } else {
+          (displayDiv as HTMLElement).style.border = 'none';
+        }
+      }
+      
+      // 應用 Material Design 陰影
+      if (displayData.materialElevation.enabled) {
+        (displayDiv as HTMLElement).style.boxShadow = `0 ${displayData.materialElevation.level * 0.5}px ${displayData.materialElevation.level}px rgba(0, 0, 0, ${displayData.materialElevation.opacity})`;
       }
     }
 

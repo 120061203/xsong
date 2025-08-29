@@ -23,6 +23,23 @@ const templates: Template[] = [
   { name: '淺粉深字', backgroundColor: '#fce7f3', textColor: '#831843', type: 'static', initialText: '淺粉深字範例' },
   { name: '暖橙深字', backgroundColor: '#fed7aa', textColor: '#7c2d12', type: 'static', initialText: '暖橙深字範例' },
   { name: '淺藍深字', backgroundColor: '#dbeafe', textColor: '#1e40af', type: 'static', initialText: '淺藍深字範例' },
+  
+  // Material Design 風格模板
+  { name: 'Material Blue', backgroundColor: '#2196f3', textColor: '#ffffff', type: 'static', initialText: 'Material Design' },
+  { name: 'Material Green', backgroundColor: '#4caf50', textColor: '#ffffff', type: 'static', initialText: 'Material Design' },
+  { name: 'Material Purple', backgroundColor: '#9c27b0', textColor: '#ffffff', type: 'static', initialText: 'Material Design' },
+  { name: 'Material Orange', backgroundColor: '#ff9800', textColor: '#ffffff', type: 'static', initialText: 'Material Design' },
+  
+  // 蘋果玻璃風格模板
+  { name: 'Glass Light', backgroundColor: 'rgba(255, 255, 255, 0.1)', textColor: '#ffffff', type: 'static', initialText: 'Glass Effect' },
+  { name: 'Glass Dark', backgroundColor: 'rgba(0, 0, 0, 0.1)', textColor: '#ffffff', type: 'static', initialText: 'Glass Dark' },
+  // 新增：現代毛玻璃風格模板（基於提供的範例）
+  { name: 'Pixso Glass', backgroundColor: 'rgba(147, 51, 234, 0.15)', textColor: '#ffffff', type: 'static', initialText: 'Pixso Glass' },
+  { name: 'Figma Glass', backgroundColor: 'rgba(59, 130, 246, 0.12)', textColor: '#1e40af', type: 'static', initialText: 'Figma Glass' },
+  { name: 'Modern Glass', backgroundColor: 'rgba(236, 72, 153, 0.1)', textColor: '#be185d', type: 'static', initialText: 'Modern Glass' },
+  { name: 'Neon Glass', backgroundColor: 'rgba(34, 197, 94, 0.08)', textColor: '#16a34a', type: 'static', initialText: 'Neon Glass' },
+  { name: 'Ocean Glass', backgroundColor: 'rgba(6, 182, 212, 0.1)', textColor: '#0891b2', type: 'static', initialText: 'Ocean Glass' },
+  { name: 'Sunset Glass', backgroundColor: 'rgba(251, 146, 60, 0.12)', textColor: '#ea580c', type: 'static', initialText: 'Sunset Glass' },
 ];
 
 export default function WhiteboardPage() {
@@ -59,6 +76,28 @@ export default function WhiteboardPage() {
     intensity: 10
   });
   const [animationType, setAnimationType] = useState<'marquee' | 'bounce' | 'pulse' | 'fade'>('marquee');
+  
+  // 新增：Material Design 和玻璃風格效果
+  const [glassEffect, setGlassEffect] = useState({
+    enabled: false,
+    blur: 20,
+    transparency: 0.1,
+    border: true,
+    borderColor: '#ffffff',
+    borderWidth: 1
+  });
+  const [textGradient, setTextGradient] = useState({
+    enabled: false,
+    type: 'linear' as 'linear' | 'radial',
+    colors: ['#ff6b6b', '#4ecdc4'],
+    direction: 'to right'
+  });
+  const [materialElevation, setMaterialElevation] = useState({
+    enabled: false,
+    level: 4,
+    color: '#000000',
+    opacity: 0.25
+  });
   
   // 計時器狀態
   const [currentTime, setCurrentTime] = useState('');
@@ -200,6 +239,15 @@ export default function WhiteboardPage() {
 
   // 另開視窗功能
   const openInNewWindow = () => {
+    console.log('🔍 openInNewWindow 被調用，當前狀態:', {
+      text,
+      backgroundColor,
+      textColor,
+      selectedTemplate,
+      glassEffect,
+      materialElevation
+    });
+    
     const params = new URLSearchParams({
       text: text,
       speed: speed.toString(),
@@ -231,8 +279,21 @@ export default function WhiteboardPage() {
       textGlowEnabled: textGlow.enabled.toString(),
       textGlowColor: textGlow.color,
       textGlowIntensity: textGlow.intensity.toString(),
-      animationType: animationType
+      animationType: animationType,
+      // 新增：毛玻璃效果和 Material Design 陰影參數
+      glassEffectEnabled: glassEffect.enabled.toString(),
+      glassEffectBlur: glassEffect.blur.toString(),
+      glassEffectTransparency: glassEffect.transparency.toString(),
+      glassEffectBorder: glassEffect.border.toString(),
+      glassEffectBorderColor: glassEffect.borderColor,
+      glassEffectBorderWidth: glassEffect.borderWidth.toString(),
+      materialElevationEnabled: materialElevation.enabled.toString(),
+      materialElevationLevel: materialElevation.level.toString(),
+      materialElevationColor: materialElevation.color,
+      materialElevationOpacity: materialElevation.opacity.toString()
     });
+    
+    console.log('🔗 生成的 URL 參數:', params.toString());
     
     const windowRef = window.open(
       `/tools/whiteboard/display?${params.toString()}`,
@@ -272,7 +333,10 @@ export default function WhiteboardPage() {
         textBorder,
         backgroundGradient,
         textGlow,
-        animationType
+        animationType,
+        // 新增：毛玻璃效果和 Material Design 陰影依賴
+        glassEffect,
+        materialElevation
       };
       
       console.log('🔄 同步狀態到新視窗:', syncData);
@@ -299,7 +363,10 @@ export default function WhiteboardPage() {
     textBorder,
     backgroundGradient,
     textGlow,
-    animationType
+    animationType,
+    // 新增：毛玻璃效果和 Material Design 陰影依賴
+    glassEffect,
+    materialElevation
   ]);
 
   // 鍵盤快捷鍵
@@ -322,45 +389,103 @@ export default function WhiteboardPage() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning]);
+  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning, openInNewWindow]);
 
   // 處理模板變更
   const handleTemplateChange = (index: number) => {
     const template = templates[index];
+    console.log('🎨 模板切換:', { index, template, currentMode });
+    
     setSelectedTemplate(index);
     setBackgroundColor(template.backgroundColor);
     setTextColor(template.textColor);
     
     // 重置 OBS 效果設定，避免效果殘留
-    setTextShadow({
-      enabled: false,
-      color: '#000000',
-      blur: 4,
-      offsetX: 2,
-      offsetY: 2
-    });
-    setTextBorder({
-      enabled: false,
-      color: '#ffffff',
-      width: 3
-    });
-    setBackgroundGradient({
-      enabled: false,
-      type: 'linear',
-      colors: ['#ffffff', '#000000'],
-      direction: 'to right'
-    });
-    setTextGlow({
-      enabled: false,
-      color: '#00ff00',
-      intensity: 10
-    });
+    setTextShadow({ enabled: false, color: '#000000', blur: 4, offsetX: 2, offsetY: 2 });
+    setTextBorder({ enabled: false, color: '#ffffff', width: 3 });
+    setBackgroundGradient({ enabled: false, type: 'linear', colors: ['#ffffff', '#000000'], direction: 'to right' });
+    setTextGlow({ enabled: false, color: '#00ff00', intensity: 10 });
+    setTextGradient({ enabled: false, type: 'linear', colors: ['#ff6b6b', '#4ecdc4'], direction: 'to right' });
+    
+    // 為毛玻璃模板自動啟用毛玻璃效果
+    if (template.name.includes('Glass') || template.name.includes('毛玻璃')) {
+      console.log('🔮 啟用毛玻璃效果:', template.name);
+      setGlassEffect({
+        enabled: true,
+        blur: 20,
+        transparency: 0.15,
+        border: true,
+        borderColor: template.textColor,
+        borderWidth: 1
+      });
+      
+      // 為特定毛玻璃模板設定不同的效果
+      if (template.name === 'Pixso Glass') {
+        setGlassEffect({
+          enabled: true,
+          blur: 25,
+          transparency: 0.12,
+          border: true,
+          borderColor: '#ffffff',
+          borderWidth: 2
+        });
+      } else if (template.name === 'Figma Glass') {
+        setGlassEffect({
+          enabled: true,
+          blur: 18,
+          transparency: 0.08,
+          border: false,
+          borderColor: '#ffffff',
+          borderWidth: 1
+        });
+      } else if (template.name === 'Modern Glass') {
+        setGlassEffect({
+          enabled: true,
+          blur: 30,
+          transparency: 0.1,
+          border: true,
+          borderColor: '#be185d',
+          borderWidth: 1.5
+        });
+      }
+      
+      // 為毛玻璃模板添加 Material Design 陰影
+      setMaterialElevation({
+        enabled: true,
+        level: 8,
+        color: '#000000',
+        opacity: 0.15
+      });
+    } else {
+      console.log('🚫 關閉毛玻璃效果:', template.name);
+      // 非毛玻璃模板，關閉毛玻璃效果
+      setGlassEffect({
+        enabled: false,
+        blur: 20,
+        transparency: 0.1,
+        border: true,
+        borderColor: '#ffffff',
+        borderWidth: 1
+      });
+      setMaterialElevation({
+        enabled: false,
+        level: 4,
+        color: '#000000',
+        opacity: 0.25
+      });
+    }
     
     // 不改變當前模式，只改變顏色
-    // setCurrentMode(template.type);
     if (template.initialText && currentMode === 'static') {
       setText(template.initialText);
     }
+    
+    console.log('✅ 模板切換完成，新狀態:', {
+      selectedTemplate: index,
+      backgroundColor: template.backgroundColor,
+      textColor: template.textColor,
+      text: template.initialText
+    });
   };
 
   // 格式化時間顯示
@@ -829,13 +954,21 @@ export default function WhiteboardPage() {
             <div
               ref={whiteboardRef}
               className="relative w-full h-80 flex items-center justify-center overflow-hidden"
-              style={{ 
-                ...(backgroundGradient.enabled ? {} : { backgroundColor }),
-                ...(backgroundGradient.enabled ? { background: backgroundGradient.type === 'linear' 
-                  ? `linear-gradient(${backgroundGradient.direction}, ${backgroundGradient.colors.join(', ')})`
-                  : `radial-gradient(circle, ${backgroundGradient.colors.join(', ')})`
-                } : {})
-              }}
+                              style={{ 
+                  ...(backgroundGradient.enabled ? {} : { backgroundColor }),
+                  ...(backgroundGradient.enabled ? { background: backgroundGradient.type === 'linear' 
+                    ? `linear-gradient(${backgroundGradient.direction}, ${backgroundGradient.colors.join(', ')})`
+                    : `radial-gradient(circle, ${backgroundGradient.colors.join(', ')})`
+                  } : {}),
+                  ...(glassEffect.enabled ? {
+                    backdropFilter: `blur(${glassEffect.blur}px)`,
+                    backgroundColor: `rgba(255, 255, 255, ${glassEffect.transparency})`,
+                    border: glassEffect.border ? `${glassEffect.borderWidth}px solid ${glassEffect.borderColor}` : 'none'
+                  } : {}),
+                  ...(materialElevation.enabled ? {
+                    boxShadow: `0 ${materialElevation.level * 0.5}px ${materialElevation.level}px rgba(0, 0, 0, ${materialElevation.opacity})`
+                  } : {})
+                }}
             >
               <div
                 className={`font-bold whitespace-nowrap ${
