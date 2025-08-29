@@ -1,10 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-
 export default function WhiteboardDisplayPage() {
-  const searchParams = useSearchParams();
   const [displayData, setDisplayData] = useState({
     text: '載入中...',
     backgroundColor: '#ffffff',
@@ -70,7 +67,7 @@ export default function WhiteboardDisplayPage() {
       backgroundColor: params.get('backgroundColor') || '#ffffff',
       textColor: params.get('textColor') || '#000000',
       fontSize: Number(params.get('fontSize')) || 48,
-      currentMode: (params.get('currentMode') as any) || 'static',
+      currentMode: (params.get('currentMode') as 'static' | 'current-time' | 'countdown' | 'countup') || 'static',
       isPlaying: params.get('isPlaying') === 'true',
       speed: Number(params.get('speed')) || 20,
       countdownTime: Number(params.get('countdownTime')) || 0,

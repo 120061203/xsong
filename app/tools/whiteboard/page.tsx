@@ -86,12 +86,7 @@ export default function WhiteboardPage() {
     borderColor: '#ffffff',
     borderWidth: 1
   });
-  const [textGradient, setTextGradient] = useState({
-    enabled: false,
-    type: 'linear' as 'linear' | 'radial',
-    colors: ['#ff6b6b', '#4ecdc4'],
-    direction: 'to right'
-  });
+
   const [materialElevation, setMaterialElevation] = useState({
     enabled: false,
     level: 4,
@@ -405,7 +400,7 @@ export default function WhiteboardPage() {
     setTextBorder({ enabled: false, color: '#ffffff', width: 3 });
     setBackgroundGradient({ enabled: false, type: 'linear', colors: ['#ffffff', '#000000'], direction: 'to right' });
     setTextGlow({ enabled: false, color: '#00ff00', intensity: 10 });
-    setTextGradient({ enabled: false, type: 'linear', colors: ['#ff6b6b', '#4ecdc4'], direction: 'to right' });
+
     
     // 為毛玻璃模板自動啟用毛玻璃效果
     if (template.name.includes('Glass') || template.name.includes('毛玻璃')) {
@@ -623,39 +618,7 @@ export default function WhiteboardPage() {
     return Math.max(maxDuration, Math.min(minDuration, duration));
   };
 
-  // 生成 CSS 樣式字符串
-  const generateTextStyles = () => {
-    let styles = `color: ${textColor}; font-size: ${fontSize}px;`;
-    
-    // 文字陰影
-    if (textShadow.enabled) {
-      styles += `text-shadow: ${textShadow.offsetX}px ${textShadow.offsetY}px ${textShadow.blur}px ${textShadow.color};`;
-    }
-    
-    // 文字邊框
-    if (textBorder.enabled) {
-      styles += `-webkit-text-stroke: ${textBorder.width}px ${textBorder.color};`;
-    }
-    
-    // 文字發光
-    if (textGlow.enabled) {
-      styles += `filter: drop-shadow(0 0 ${textGlow.intensity}px ${textGlow.color});`;
-    }
-    
-    return styles;
-  };
 
-  // 生成背景樣式
-  const generateBackgroundStyles = () => {
-    if (backgroundGradient.enabled) {
-      if (backgroundGradient.type === 'linear') {
-        return `background: linear-gradient(${backgroundGradient.direction}, ${backgroundGradient.colors.join(', ')});`;
-      } else {
-        return `background: radial-gradient(circle, ${backgroundGradient.colors.join(', ')});`;
-      }
-    }
-    return `background-color: ${backgroundColor};`;
-  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-4">
