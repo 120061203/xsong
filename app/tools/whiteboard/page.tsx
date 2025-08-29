@@ -44,14 +44,14 @@ const templates: Template[] = [
 
 export default function WhiteboardPage() {
   // 白板狀態
-  const [text, setText] = useState('歡迎使用白板工具');
+  const [text, setText] = useState('白板工具');
   const [speed, setSpeed] = useState(20);
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [textColor, setTextColor] = useState('#000000');
-  const [fontSize, setFontSize] = useState(120);
+  const [fontSize, setFontSize] = useState(60);
   const [currentMode, setCurrentMode] = useState<'static' | 'current-time' | 'countdown' | 'countup'>('static');
   
-  // 新增：OBS 直播效果設定
+  // 新增：進階文字效果設定
   const [textShadow, setTextShadow] = useState({
     enabled: false, // 改為 false，預設不啟用文字陰影
     color: '#000000',
@@ -258,7 +258,7 @@ export default function WhiteboardPage() {
       isPlaying: isPlaying.toString(),
       isCountdownRunning: isCountdownRunning.toString(),
       isCountupRunning: isCountupRunning.toString(),
-      // 新增：OBS 效果參數
+      // 新增：進階效果參數
       textShadowEnabled: textShadow.enabled.toString(),
       textShadowColor: textShadow.color,
       textShadowBlur: textShadow.blur.toString(),
@@ -323,7 +323,7 @@ export default function WhiteboardPage() {
         isPlaying,
         isCountdownRunning,
         isCountupRunning,
-        // 新增：OBS 效果同步
+        // 新增：進階效果同步
         textShadow,
         textBorder,
         backgroundGradient,
@@ -353,7 +353,7 @@ export default function WhiteboardPage() {
     isPlaying,
     isCountdownRunning,
     isCountupRunning,
-    // 新增：OBS 效果依賴
+    // 新增：進階效果依賴
     textShadow,
     textBorder,
     backgroundGradient,
@@ -398,11 +398,27 @@ export default function WhiteboardPage() {
     setBackgroundColor(template.backgroundColor);
     setTextColor(template.textColor);
     
-    // 重置 OBS 效果設定，避免效果殘留
+    // 重置進階效果設定，避免效果殘留
     setTextShadow({ enabled: false, color: '#000000', blur: 4, offsetX: 2, offsetY: 2 });
     setTextBorder({ enabled: false, color: '#ffffff', width: 3 });
     setBackgroundGradient({ enabled: false, type: 'linear', colors: ['#ffffff', '#000000'], direction: 'to right' });
     setTextGlow({ enabled: false, color: '#00ff00', intensity: 10 });
+    
+    // 重置毛玻璃效果和 Material Design 陰影
+    setGlassEffect({
+      enabled: false,
+      blur: 20,
+      transparency: 0.1,
+      border: true,
+      borderColor: '#ffffff',
+      borderWidth: 1
+    });
+    setMaterialElevation({
+      enabled: false,
+      level: 4,
+      color: '#000000',
+      opacity: 0.25
+    });
 
     
     // 為毛玻璃模板自動啟用毛玻璃效果
@@ -615,17 +631,58 @@ export default function WhiteboardPage() {
 
   // 計算動畫持續時間
   const getAnimationDuration = (speedValue: number) => {
-    const minDuration = 6000; // 6秒（最慢）
-    const maxDuration = 50;   // 0.05秒（最快）
-    const duration = minDuration - (speedValue - 10) * (minDuration - maxDuration) / 90;
-    return Math.max(maxDuration, Math.min(minDuration, duration));
+    // 根據文字長度和字體大小計算更合適的動畫時間
+    const textLength = text.length;
+    const charWidth = fontSize * 0.6; // 估算每個字符的寬度
+    const totalTextWidth = textLength * charWidth;
+    
+    // 動態獲取實際容器寬度
+    let containerWidth = 800; // 預設值
+    if (whiteboardRef.current) {
+      containerWidth = whiteboardRef.current.offsetWidth;
+    }
+    
+    // 計算文字需要移動的總距離（從右邊開始到左邊完全消失）
+    // 使用 100% 的 translateX，所以總距離是容器寬度 + 文字寬度
+    const totalDistance = containerWidth + totalTextWidth;
+    
+    // 根據速度調整動畫時間
+    const minDuration = 8000; // 8秒（最慢）
+    const maxDuration = 2000; // 2秒（最快）
+    const speedFactor = speedValue / 100; // 速度值越大，動畫越快
+    const duration = minDuration - (minDuration - maxDuration) * speedFactor;
+    
+    // 根據文字長度調整，確保有足夠時間完整顯示
+    // 每像素的動畫時間，確保文字能完整走完
+    // 使用極激進的時間計算，確保文字完整跑完
+    let pixelTime = 0.05; // 基礎時間增加
+    if (containerWidth > 1200) {
+      pixelTime = 0.50; // 超大視窗：極大幅增加時間
+    } else if (containerWidth > 1000) {
+      pixelTime = 0.40; // 大視窗：大幅增加時間
+    } else if (containerWidth > 800) {
+      pixelTime = 0.25; // 中等視窗：適度增加時間
+    }
+    
+    // 使用極激進的計算方法，確保大視窗有足夠時間
+    let adjustedDuration = Math.max(duration, totalDistance * pixelTime);
+    
+    // 對於大視窗，額外增加大量緩衝時間
+    if (containerWidth > 1000) {
+      adjustedDuration = Math.max(adjustedDuration, totalDistance * 0.30); // 至少0.30ms/像素
+    }
+    
+    // 額外增加總體緩衝時間，確保文字完整跑完
+    adjustedDuration = Math.round(adjustedDuration * 1.5); // 增加50%的緩衝時間
+    
+    return Math.round(adjustedDuration);
   };
 
 
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-4">
-      <h1 className="text-3xl font-bold mb-4">白板工具 - OBS 直播版</h1>
+              <h1 className="text-3xl font-bold mb-4">白板工具</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 左側控制面板 */}
@@ -820,8 +877,8 @@ export default function WhiteboardPage() {
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>小</span>
-              <span>大</span>
+              <span>慢</span>
+              <span>快</span>
             </div>
           </div>
 
@@ -873,9 +930,9 @@ export default function WhiteboardPage() {
             />
           </div>
 
-          {/* OBS 效果設定 */}
+          {/* 進階效果設定 */}
           <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <h3 className="text-lg font-medium text-blue-700 dark:text-blue-300">OBS 直播效果</h3>
+            <h3 className="text-lg font-medium text-blue-700 dark:text-blue-300">進階文字效果</h3>
             
             {/* 文字陰影 */}
             <div className="space-y-2">
@@ -1034,7 +1091,7 @@ export default function WhiteboardPage() {
                   // 中層：毛玻璃效果（無邊框）
                   ...(glassEffect.enabled ? {
                     backdropFilter: `blur(${glassEffect.blur}px)`,
-                    background: `rgba(255, 255, 255, ${glassEffect.transparency})`,
+                    backgroundColor: `rgba(255, 255, 255, ${glassEffect.transparency})`,
                     border: 'none'
                   } : {}),
                   
@@ -1143,6 +1200,8 @@ export default function WhiteboardPage() {
         }
         .animate-marquee {
           animation: marquee linear infinite;
+          white-space: nowrap;
+          display: inline-block;
         }
         .scale-102 {
           transform: scale(1.02);
