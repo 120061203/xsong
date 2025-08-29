@@ -97,35 +97,27 @@ export default function WhiteboardPage() {
     return () => clearInterval(interval);
   }, [isCountupRunning]);
 
-  // 快捷鍵處理
+  // 鍵盤快捷鍵
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      // 防止在輸入框中觸發快捷鍵
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-        return;
-      }
-      
-      console.log('按鍵按下:', e.key, '目標:', e.target);
-      
-      if (e.key.toLowerCase() === 'f') {
+      if (e.key.toLowerCase() === 's') {
         e.preventDefault();
-        console.log('觸發全螢幕');
-        toggleFullscreen();
-      } else if (e.key.toLowerCase() === 's') {
-        e.preventDefault();
-        console.log('觸發跑馬燈切換');
         togglePlay();
       } else if (e.key.toLowerCase() === 'p') {
         e.preventDefault();
-        console.log('觸發截圖');
         captureScreenshot();
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        openInNewWindow();
       }
     };
 
-    // 使用 window 而不是 document
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying]); // 添加 isPlaying 依賴
+  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning]);
 
   // 設定倒數時間
   const setCountdownDuration = () => {
@@ -209,6 +201,87 @@ export default function WhiteboardPage() {
       }
     }
   };
+
+  // 另開視窗功能
+  const newWindowRef = useRef<Window | null>(null);
+
+  const openInNewWindow = () => {
+    // 準備要傳遞的參數
+    const params = new URLSearchParams({
+      text: text,
+      speed: speed.toString(),
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      fontSize: fontSize.toString(),
+      currentMode: currentMode,
+      countdownHours: countdownHours.toString(),
+      countdownMinutes: countdownMinutes.toString(),
+      countdownSeconds: countdownSeconds.toString(),
+      countdownTime: countdownTime.toString(),
+      countupTime: countupTime.toString(),
+      isPlaying: isPlaying.toString(),
+      isCountdownRunning: isCountdownRunning.toString(),
+      isCountupRunning: isCountupRunning.toString()
+    });
+    
+    // 在新視窗中打開白板
+    const windowRef = window.open(
+      `/tools/whiteboard/display?${params.toString()}`,
+      'whiteboard-display',
+      'width=800,height=600,scrollbars=no,resizable=yes'
+    );
+    
+    if (windowRef) {
+      newWindowRef.current = windowRef;
+      
+      // 監聽新視窗關閉事件
+      const checkClosed = setInterval(() => {
+        if (windowRef.closed) {
+          newWindowRef.current = null;
+          clearInterval(checkClosed);
+        }
+      }, 1000);
+    }
+  };
+
+  // 即時同步狀態到新視窗
+  useEffect(() => {
+    if (newWindowRef.current && !newWindowRef.current.closed) {
+      const syncData = {
+        text,
+        speed,
+        backgroundColor,
+        textColor,
+        fontSize,
+        currentMode,
+        countdownTime,
+        countupTime,
+        isPlaying,
+        isCountdownRunning,
+        isCountupRunning
+      };
+      
+      console.log('🔄 同步狀態到新視窗:', syncData);
+      
+      // 發送狀態更新
+      newWindowRef.current.postMessage({
+        type: 'STATE_UPDATE',
+        data: syncData
+      }, '*');
+    }
+  }, [
+    text,
+    speed,
+    backgroundColor,
+    textColor,
+    fontSize,
+    currentMode,
+    countdownTime,
+    countupTime,
+    isPlaying,
+    isCountdownRunning,
+    isCountupRunning
+  ]);
 
   // 格式化時間顯示
   const formatTime = (seconds: number) => {
@@ -521,7 +594,7 @@ export default function WhiteboardPage() {
             <div className="p-2 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
               {/* 控制按鈕 - 移到模板上方 */}
               <div className="mb-2">
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   <button
                     onClick={togglePlay}
                     className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -545,6 +618,13 @@ export default function WhiteboardPage() {
                     className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
                   >
                     全螢幕 (F)
+                  </button>
+                  
+                  <button
+                    onClick={openInNewWindow}
+                    className="w-full px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-colors"
+                  >
+                    另開視窗 (N)
                   </button>
                 </div>
               </div>
