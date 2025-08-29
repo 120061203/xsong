@@ -14,7 +14,7 @@ export default function WhiteboardDisplayPage() {
     countupTime: 0,
     isCountdownRunning: false,
     isCountupRunning: false,
-    // 新增：OBS 效果設定
+    // 新增：進階效果設定
     textShadow: {
       enabled: false, // 改為 false，預設不啟用文字陰影
       color: '#000000',
@@ -62,6 +62,18 @@ export default function WhiteboardDisplayPage() {
   // 從 URL 參數載入初始設定
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    
+    // 調試：檢查關鍵參數
+    console.log('🔍 URL 參數檢查:', {
+      backgroundGradientEnabled: params.get('backgroundGradientEnabled'),
+      backgroundGradientType: params.get('backgroundGradientType'),
+      backgroundGradientColors: params.get('backgroundGradientColors'),
+      backgroundGradientDirection: params.get('backgroundGradientDirection'),
+      glassEffectEnabled: params.get('glassEffectEnabled'),
+      glassEffectBlur: params.get('glassEffectBlur'),
+      glassEffectTransparency: params.get('glassEffectTransparency')
+    });
+    
     setDisplayData({
       text: params.get('text') || '載入中...',
       backgroundColor: params.get('backgroundColor') || '#ffffff',
@@ -74,7 +86,7 @@ export default function WhiteboardDisplayPage() {
       countupTime: Number(params.get('countupTime')) || 0,
       isCountdownRunning: params.get('isCountdownRunning') === 'true',
       isCountupRunning: params.get('isCountupRunning') === 'true',
-      // 新增：OBS 效果設定
+      // 新增：進階效果設定
       textShadow: {
         enabled: params.get('textShadowEnabled') === 'true',
         color: params.get('textShadowColor') || '#000000',
@@ -89,7 +101,7 @@ export default function WhiteboardDisplayPage() {
       },
       backgroundGradient: {
         enabled: params.get('backgroundGradientEnabled') === 'true',
-        type: params.get('backgroundGradientType') as 'linear' | 'radial' || 'linear',
+        type: (params.get('backgroundGradientType') as 'linear' | 'radial') || 'linear',
         colors: params.get('backgroundGradientColors')?.split(',').map(c => c.trim()) || ['#ffffff', '#000000'],
         direction: params.get('backgroundGradientDirection') || 'to right'
       },
@@ -113,6 +125,21 @@ export default function WhiteboardDisplayPage() {
         level: Number(params.get('materialElevationLevel')) || 4,
         color: params.get('materialElevationColor') || '#000000',
         opacity: Number(params.get('materialElevationOpacity')) || 0.25
+      }
+    });
+    
+    // 調試：檢查設定後的狀態
+    console.log('🎨 設定後的 displayData:', {
+      backgroundGradient: {
+        enabled: params.get('backgroundGradientEnabled') === 'true',
+        type: (params.get('backgroundGradientType') as 'linear' | 'radial') || 'linear',
+        colors: params.get('backgroundGradientColors')?.split(',').map(c => c.trim()) || ['#ffffff', '#000000'],
+        direction: params.get('backgroundGradientDirection') || 'to right'
+      },
+      glassEffect: {
+        enabled: params.get('glassEffectEnabled') === 'true',
+        blur: Number(params.get('glassEffectBlur')) || 20,
+        transparency: Number(params.get('glassEffectTransparency')) || 0.1
       }
     });
   }, []);
@@ -144,10 +171,64 @@ export default function WhiteboardDisplayPage() {
 
   // 計算動畫持續時間
   const getAnimationDuration = (speedValue: number) => {
-    const minDuration = 6000; // 6秒（最慢）
-    const maxDuration = 50;   // 0.05秒（最快）
-    const duration = minDuration - (speedValue - 10) * (minDuration - maxDuration) / 90;
-    return Math.max(maxDuration, Math.min(minDuration, duration));
+    // 根據文字長度和字體大小計算更合適的動畫時間
+    const textLength = displayData.text.length;
+    const charWidth = displayData.fontSize * 0.6; // 估算每個字符的寬度
+    const totalTextWidth = textLength * charWidth;
+    
+    // 動態獲取實際容器寬度
+    let containerWidth = 800; // 預設值
+    if (typeof window !== 'undefined') {
+      containerWidth = window.innerWidth;
+    }
+    
+    // 計算文字需要移動的總距離（從右邊開始到左邊完全消失）
+    // 使用 100% 的 translateX，所以總距離是容器寬度 + 文字寬度
+    const totalDistance = containerWidth + totalTextWidth;
+    
+    // 根據速度調整動畫時間
+    const minDuration = 8000; // 8秒（最慢）
+    const maxDuration = 2000; // 2秒（最快）
+    const speedFactor = speedValue / 100; // 速度值越大，動畫越快
+    const duration = minDuration - (minDuration - maxDuration) * speedFactor;
+    
+    // 根據文字長度調整，確保有足夠時間完整顯示
+    // 每像素的動畫時間，確保文字能完整走完
+    // 使用極激進的時間計算，確保文字完整跑完
+    let pixelTime = 0.05; // 基礎時間增加
+    if (containerWidth > 1200) {
+      pixelTime = 0.50; // 超大視窗：極大幅增加時間
+    } else if (containerWidth > 1000) {
+      pixelTime = 0.40; // 大視窗：大幅增加時間
+    } else if (containerWidth > 800) {
+      pixelTime = 0.25; // 中等視窗：適度增加時間
+    }
+    
+    // 使用極激進的計算方法，確保大視窗有足夠時間
+    let adjustedDuration = Math.max(duration, totalDistance * pixelTime);
+    
+    // 對於大視窗，額外增加大量緩衝時間
+    if (containerWidth > 1000) {
+      adjustedDuration = Math.max(adjustedDuration, totalDistance * 0.30); // 至少0.30ms/像素
+    }
+    
+    // 額外增加總體緩衝時間，確保文字完整跑完
+    adjustedDuration = Math.round(adjustedDuration * 1.5); // 增加50%的緩衝時間
+    
+    console.log('🎬 動畫計算:', {
+      textLength,
+      fontSize: displayData.fontSize,
+      charWidth,
+      totalTextWidth,
+      containerWidth,
+      totalDistance,
+      speedValue,
+      duration,
+      adjustedDuration,
+      pixelTime
+    });
+    
+    return Math.round(adjustedDuration);
   };
 
   // 獲取顯示文字
@@ -206,6 +287,11 @@ export default function WhiteboardDisplayPage() {
             }
             .animate-marquee {
               animation: marquee linear infinite;
+              white-space: nowrap;
+              display: inline-block;
+              will-change: transform;
+              /* 確保動畫不會被截斷 */
+              animation-fill-mode: both;
             }
             ::-webkit-scrollbar { display: none; }
             * { 
@@ -244,12 +330,6 @@ export default function WhiteboardDisplayPage() {
     // 完全替換頁面內容
     document.documentElement.innerHTML = htmlContent;
     
-    // 設置背景顏色
-    const displayDiv = document.getElementById('whiteboard-display');
-    if (displayDiv) {
-              (displayDiv as HTMLElement).style.background = displayData.backgroundColor;
-    }
-
     // 設置動畫和速度
     const textDiv = document.getElementById('display-text');
     if (textDiv) {
@@ -266,6 +346,8 @@ export default function WhiteboardDisplayPage() {
 
   // 專門處理狀態更新的 useEffect
   useEffect(() => {
+    console.log('🔄 狀態更新觸發，當前 displayData:', displayData);
+    
     // 更新文字內容
     const textDiv = document.getElementById('display-text');
     if (textDiv) {
@@ -273,7 +355,7 @@ export default function WhiteboardDisplayPage() {
       (textDiv as HTMLElement).style.fontSize = `${displayData.fontSize}px`;
       (textDiv as HTMLElement).style.color = displayData.textColor;
       
-      // 應用 OBS 效果
+      // 應用進階效果
       // 文字陰影
       if (displayData.textShadow.enabled) {
         (textDiv as HTMLElement).style.textShadow = `${displayData.textShadow.offsetX}px ${displayData.textShadow.offsetY}px ${displayData.textShadow.blur}px ${displayData.textShadow.color}`;
@@ -299,21 +381,33 @@ export default function WhiteboardDisplayPage() {
     // 更新背景
     const displayDiv = document.getElementById('whiteboard-display');
     if (displayDiv) {
+      console.log('🎨 應用背景效果:', {
+        backgroundGradient: displayData.backgroundGradient,
+        glassEffect: displayData.glassEffect,
+        materialElevation: displayData.materialElevation
+      });
+      
       if (displayData.backgroundGradient.enabled) {
+        console.log('🌈 應用背景漸層:', displayData.backgroundGradient);
         if (displayData.backgroundGradient.type === 'linear') {
           (displayDiv as HTMLElement).style.background = `linear-gradient(${displayData.backgroundGradient.direction}, ${displayData.backgroundGradient.colors.join(', ')})`;
         } else {
           (displayDiv as HTMLElement).style.background = `radial-gradient(circle, ${displayData.backgroundGradient.colors.join(', ')})`;
         }
       } else {
+        console.log('🎨 應用純色背景:', displayData.backgroundColor);
         (displayDiv as HTMLElement).style.background = displayData.backgroundColor;
       }
       
       // 應用毛玻璃效果（無邊框）
       if (displayData.glassEffect.enabled) {
+        console.log('🔮 應用毛玻璃效果:', displayData.glassEffect);
         (displayDiv as HTMLElement).style.backdropFilter = `blur(${displayData.glassEffect.blur}px)`;
         (displayDiv as HTMLElement).style.setProperty('-webkit-backdrop-filter', `blur(${displayData.glassEffect.blur}px)`); // Safari 支援
-        (displayDiv as HTMLElement).style.background = `rgba(255, 255, 255, ${displayData.glassEffect.transparency})`;
+        
+        // 注意：這裡不設定 backgroundColor，避免與 background 衝突
+        // 毛玻璃效果通過 backdrop-filter 實現，不需要額外的背景色
+        
         (displayDiv as HTMLElement).style.border = 'none';
         // 添加圓角和定位讓毛玻璃效果更明顯
         (displayDiv as HTMLElement).style.borderRadius = '8px';
@@ -323,6 +417,7 @@ export default function WhiteboardDisplayPage() {
       
       // 應用 Material Design 陰影
       if (displayData.materialElevation.enabled) {
+        console.log('📦 應用 Material Design 陰影:', displayData.materialElevation);
         (displayDiv as HTMLElement).style.boxShadow = `0 ${displayData.materialElevation.level * 0.5}px ${displayData.materialElevation.level}px rgba(0, 0, 0, ${displayData.materialElevation.opacity})`;
       }
     }
