@@ -14,7 +14,7 @@ interface Template {
 const templates: Template[] = [
   // 基礎模板
   { name: '白底黑字', backgroundColor: '#ffffff', textColor: '#000000', type: 'static', initialText: '白底黑字範例' },
-  { name: '黑底白字', backgroundColor: '#000000', textColor: '#ffffff', type: 'static', initialText: '黑底黑字範例' },
+  { name: '黑底白字', backgroundColor: '#000000', textColor: '#ffffff', type: 'static', initialText: '黑底白字範例' },
   { name: '深藍白字', backgroundColor: '#1e40af', textColor: '#ffffff', type: 'static', initialText: '深藍白字範例' },
   { name: '深綠白字', backgroundColor: '#047857', textColor: '#ffffff', type: 'static', initialText: '深綠白字範例' },
   
@@ -26,13 +26,39 @@ const templates: Template[] = [
 ];
 
 export default function WhiteboardPage() {
-  const [text, setText] = useState('輸入你的文字...');
+  // 白板狀態
+  const [text, setText] = useState('歡迎使用白板工具');
   const [speed, setSpeed] = useState(20);
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [textColor, setTextColor] = useState('#000000');
-  const [fontSize, setFontSize] = useState(48);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState(0);
+  const [fontSize, setFontSize] = useState(120);
+  const [currentMode, setCurrentMode] = useState<'static' | 'current-time' | 'countdown' | 'countup'>('static');
+  
+  // 新增：OBS 直播效果設定
+  const [textShadow, setTextShadow] = useState({
+    enabled: false, // 改為 false，預設不啟用文字陰影
+    color: '#000000',
+    blur: 4,
+    offsetX: 2,
+    offsetY: 2
+  });
+  const [textBorder, setTextBorder] = useState({
+    enabled: false, // 改為 false，預設不啟用邊框
+    color: '#ffffff',
+    width: 3
+  });
+  const [backgroundGradient, setBackgroundGradient] = useState({
+    enabled: false,
+    type: 'linear' as 'linear' | 'radial',
+    colors: ['#ffffff', '#000000'],
+    direction: 'to right'
+  });
+  const [textGlow, setTextGlow] = useState({
+    enabled: false,
+    color: '#00ff00',
+    intensity: 10
+  });
+  const [animationType, setAnimationType] = useState<'marquee' | 'bounce' | 'pulse' | 'fade'>('marquee');
   
   // 計時器狀態
   const [currentTime, setCurrentTime] = useState('');
@@ -46,10 +72,12 @@ export default function WhiteboardPage() {
   const [countdownMinutes, setCountdownMinutes] = useState(1);
   const [countdownSeconds, setCountdownSeconds] = useState(0);
   
-  // 當前模式
-  const [currentMode, setCurrentMode] = useState<'static' | 'current-time' | 'countdown' | 'countup'>('static');
+  // 播放狀態
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(0);
   
   const whiteboardRef = useRef<HTMLDivElement>(null);
+  const newWindowRef = useRef<Window | null>(null);
 
   // 更新目前時間
   useEffect(() => {
@@ -72,6 +100,7 @@ export default function WhiteboardPage() {
   // 倒數計時
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    
     if (isCountdownRunning && countdownTime > 0) {
       interval = setInterval(() => {
         setCountdownTime(prev => {
@@ -83,41 +112,32 @@ export default function WhiteboardPage() {
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isCountdownRunning, countdownTime]);
 
   // 正數計時
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    
     if (isCountupRunning) {
       interval = setInterval(() => {
         setCountupTime(prev => prev + 1);
       }, 1000);
     }
-    return () => clearInterval(interval);
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isCountupRunning]);
 
-  // 鍵盤快捷鍵
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 's') {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.key.toLowerCase() === 'p') {
-        e.preventDefault();
-        captureScreenshot();
-      } else if (e.key.toLowerCase() === 'f') {
-        e.preventDefault();
-        toggleFullscreen();
-      } else if (e.key.toLowerCase() === 'n') {
-        e.preventDefault();
-        openInNewWindow();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning]);
+  // 切換模式
+  const switchMode = (mode: 'static' | 'current-time' | 'countdown' | 'countup') => {
+    setCurrentMode(mode);
+    setIsPlaying(false);
+  };
 
   // 設定倒數時間
   const setCountdownDuration = () => {
@@ -125,88 +145,61 @@ export default function WhiteboardPage() {
     setCountdownTime(totalSeconds);
   };
 
-  // 切換模式
-  const switchMode = (mode: 'static' | 'current-time' | 'countdown' | 'countup') => {
-    setCurrentMode(mode);
-    setIsPlaying(false);
-    
-    if (mode === 'countdown') {
-      setCountdownDuration();
-    } else if (mode === 'countup') {
-      setCountupTime(0);
-      setIsCountupRunning(false);
-    }
-  };
-
-  const handleTemplateChange = (index: number) => {
-    const template = templates[index];
-    setBackgroundColor(template.backgroundColor);
-    setTextColor(template.textColor);
-    setSelectedTemplate(index);
-    
-    if (template.initialText) {
-      setText(template.initialText);
-    }
-  };
-
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-  };
-
+  // 切換倒數計時
   const toggleCountdown = () => {
     if (countdownTime > 0) {
       setIsCountdownRunning(!isCountdownRunning);
     }
   };
 
+  // 重置倒數計時
+  const resetCountdown = () => {
+    setIsCountdownRunning(false);
+    setCountdownTime(0);
+  };
+
+  // 切換正數計時
   const toggleCountup = () => {
     setIsCountupRunning(!isCountupRunning);
   };
 
-  const resetCountdown = () => {
-    setCountdownDuration();
-    setIsCountdownRunning(false);
-  };
-
+  // 重置正數計時
   const resetCountup = () => {
-    setCountupTime(0);
     setIsCountupRunning(false);
+    setCountupTime(0);
   };
 
+  // 切換播放狀態
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  // 截圖功能
   const captureScreenshot = async () => {
     if (whiteboardRef.current) {
       try {
-        const canvas = await html2canvas(whiteboardRef.current, {
-          backgroundColor: backgroundColor,
-          scale: 2,
-        });
-        
+        const canvas = await html2canvas(whiteboardRef.current);
         const link = document.createElement('a');
-        link.download = 'whiteboard-screenshot.png';
+        link.download = `whiteboard-${Date.now()}.png`;
         link.href = canvas.toDataURL();
         link.click();
       } catch (error) {
         console.error('截圖失敗:', error);
-        alert('截圖失敗，請重試');
       }
     }
   };
 
+  // 全螢幕功能
   const toggleFullscreen = () => {
-    if (whiteboardRef.current) {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      } else {
-        whiteboardRef.current.requestFullscreen();
-      }
+    if (!document.fullscreenElement) {
+      whiteboardRef.current?.requestFullscreen();
+    } else {
+      document.exitFullscreen();
     }
   };
 
   // 另開視窗功能
-  const newWindowRef = useRef<Window | null>(null);
-
   const openInNewWindow = () => {
-    // 準備要傳遞的參數
     const params = new URLSearchParams({
       text: text,
       speed: speed.toString(),
@@ -221,10 +214,26 @@ export default function WhiteboardPage() {
       countupTime: countupTime.toString(),
       isPlaying: isPlaying.toString(),
       isCountdownRunning: isCountdownRunning.toString(),
-      isCountupRunning: isCountupRunning.toString()
+      isCountupRunning: isCountupRunning.toString(),
+      // 新增：OBS 效果參數
+      textShadowEnabled: textShadow.enabled.toString(),
+      textShadowColor: textShadow.color,
+      textShadowBlur: textShadow.blur.toString(),
+      textShadowOffsetX: textShadow.offsetX.toString(),
+      textShadowOffsetY: textShadow.offsetY.toString(),
+      textBorderEnabled: textBorder.enabled.toString(),
+      textBorderColor: textBorder.color,
+      textBorderWidth: textBorder.width.toString(),
+      backgroundGradientEnabled: backgroundGradient.enabled.toString(),
+      backgroundGradientType: backgroundGradient.type,
+      backgroundGradientColors: backgroundGradient.colors.join(','),
+      backgroundGradientDirection: backgroundGradient.direction,
+      textGlowEnabled: textGlow.enabled.toString(),
+      textGlowColor: textGlow.color,
+      textGlowIntensity: textGlow.intensity.toString(),
+      animationType: animationType
     });
     
-    // 在新視窗中打開白板
     const windowRef = window.open(
       `/tools/whiteboard/display?${params.toString()}`,
       'whiteboard-display',
@@ -234,7 +243,6 @@ export default function WhiteboardPage() {
     if (windowRef) {
       newWindowRef.current = windowRef;
       
-      // 監聽新視窗關閉事件
       const checkClosed = setInterval(() => {
         if (windowRef.closed) {
           newWindowRef.current = null;
@@ -258,12 +266,17 @@ export default function WhiteboardPage() {
         countupTime,
         isPlaying,
         isCountdownRunning,
-        isCountupRunning
+        isCountupRunning,
+        // 新增：OBS 效果同步
+        textShadow,
+        textBorder,
+        backgroundGradient,
+        textGlow,
+        animationType
       };
       
       console.log('🔄 同步狀態到新視窗:', syncData);
       
-      // 發送狀態更新
       newWindowRef.current.postMessage({
         type: 'STATE_UPDATE',
         data: syncData
@@ -280,8 +293,75 @@ export default function WhiteboardPage() {
     countupTime,
     isPlaying,
     isCountdownRunning,
-    isCountupRunning
+    isCountupRunning,
+    // 新增：OBS 效果依賴
+    textShadow,
+    textBorder,
+    backgroundGradient,
+    textGlow,
+    animationType
   ]);
+
+  // 鍵盤快捷鍵
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        captureScreenshot();
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        openInNewWindow();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning]);
+
+  // 處理模板變更
+  const handleTemplateChange = (index: number) => {
+    const template = templates[index];
+    setSelectedTemplate(index);
+    setBackgroundColor(template.backgroundColor);
+    setTextColor(template.textColor);
+    
+    // 重置 OBS 效果設定，避免效果殘留
+    setTextShadow({
+      enabled: false,
+      color: '#000000',
+      blur: 4,
+      offsetX: 2,
+      offsetY: 2
+    });
+    setTextBorder({
+      enabled: false,
+      color: '#ffffff',
+      width: 3
+    });
+    setBackgroundGradient({
+      enabled: false,
+      type: 'linear',
+      colors: ['#ffffff', '#000000'],
+      direction: 'to right'
+    });
+    setTextGlow({
+      enabled: false,
+      color: '#00ff00',
+      intensity: 10
+    });
+    
+    // 不改變當前模式，只改變顏色
+    // setCurrentMode(template.type);
+    if (template.initialText && currentMode === 'static') {
+      setText(template.initialText);
+    }
+  };
 
   // 格式化時間顯示
   const formatTime = (seconds: number) => {
@@ -315,13 +395,47 @@ export default function WhiteboardPage() {
     return Math.max(maxDuration, Math.min(minDuration, duration));
   };
 
+  // 生成 CSS 樣式字符串
+  const generateTextStyles = () => {
+    let styles = `color: ${textColor}; font-size: ${fontSize}px;`;
+    
+    // 文字陰影
+    if (textShadow.enabled) {
+      styles += `text-shadow: ${textShadow.offsetX}px ${textShadow.offsetY}px ${textShadow.blur}px ${textShadow.color};`;
+    }
+    
+    // 文字邊框
+    if (textBorder.enabled) {
+      styles += `-webkit-text-stroke: ${textBorder.width}px ${textBorder.color};`;
+    }
+    
+    // 文字發光
+    if (textGlow.enabled) {
+      styles += `filter: drop-shadow(0 0 ${textGlow.intensity}px ${textGlow.color});`;
+    }
+    
+    return styles;
+  };
+
+  // 生成背景樣式
+  const generateBackgroundStyles = () => {
+    if (backgroundGradient.enabled) {
+      if (backgroundGradient.type === 'linear') {
+        return `background: linear-gradient(${backgroundGradient.direction}, ${backgroundGradient.colors.join(', ')});`;
+      } else {
+        return `background: radial-gradient(circle, ${backgroundGradient.colors.join(', ')});`;
+      }
+    }
+    return `background-color: ${backgroundColor};`;
+  };
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-4"> {/* 從 py-8 改為 py-4 */}
-      <h1 className="text-3xl font-bold mb-4">白板工具</h1> {/* 從 mb-8 改為 mb-4 */}
+    <div className="max-w-6xl mx-auto px-4 py-4">
+      <h1 className="text-3xl font-bold mb-4">白板工具 - OBS 直播版</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> {/* 從 gap-8 改為 gap-6 */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 左側控制面板 */}
-        <div className="space-y-4"> {/* 從 space-y-6 改為 space-y-4 */}
+        <div className="space-y-4">
           {/* 模式選擇按鈕 */}
           <div className="space-y-3">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -564,6 +678,149 @@ export default function WhiteboardPage() {
               className="w-full h-10 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer"
             />
           </div>
+
+          {/* OBS 效果設定 */}
+          <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <h3 className="text-lg font-medium text-blue-700 dark:text-blue-300">OBS 直播效果</h3>
+            
+            {/* 文字陰影 */}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={textShadow.enabled}
+                  onChange={(e) => setTextShadow(prev => ({ ...prev, enabled: e.target.checked }))}
+                  className="rounded"
+                />
+                <label className="text-sm font-medium text-blue-700 dark:text-blue-300">文字陰影</label>
+              </div>
+              {textShadow.enabled && (
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="color"
+                    value={textShadow.color}
+                    onChange={(e) => setTextShadow(prev => ({ ...prev, color: e.target.value }))}
+                    className="w-full h-8 border border-blue-300 rounded cursor-pointer"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="20"
+                    value={textShadow.blur}
+                    onChange={(e) => setTextShadow(prev => ({ ...prev, blur: Number(e.target.value) }))}
+                    className="w-full h-2 bg-blue-200 rounded cursor-pointer"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* 文字邊框 */}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={textBorder.enabled}
+                  onChange={(e) => setTextBorder(prev => ({ ...prev, enabled: e.target.checked }))}
+                  className="rounded"
+                />
+                <label className="text-sm font-medium text-blue-700 dark:text-blue-300">文字邊框</label>
+              </div>
+              {textBorder.enabled && (
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="color"
+                    value={textBorder.color}
+                    onChange={(e) => setTextBorder(prev => ({ ...prev, color: e.target.value }))}
+                    className="w-full h-8 border border-blue-300 rounded cursor-pointer"
+                  />
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={textBorder.width}
+                    onChange={(e) => setTextBorder(prev => ({ ...prev, width: Number(e.target.value) }))}
+                    className="w-full h-2 bg-blue-200 rounded cursor-pointer"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* 漸層背景 */}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={backgroundGradient.enabled}
+                  onChange={(e) => setBackgroundGradient(prev => ({ ...prev, enabled: e.target.checked }))}
+                  className="rounded"
+                />
+                <label className="text-sm font-medium text-blue-700 dark:text-blue-300">漸層背景</label>
+              </div>
+              {backgroundGradient.enabled && (
+                <div className="space-y-2">
+                  <select
+                    value={backgroundGradient.type}
+                    onChange={(e) => setBackgroundGradient(prev => ({ ...prev, type: e.target.value as 'linear' | 'radial' }))}
+                    className="w-full px-2 py-1 text-sm border border-blue-300 rounded bg-white dark:bg-gray-700"
+                  >
+                    <option value="linear">線性漸層</option>
+                    <option value="radial">放射漸層</option>
+                  </select>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      type="color"
+                      value={backgroundGradient.colors[0]}
+                      onChange={(e) => setBackgroundGradient(prev => ({ 
+                        ...prev, 
+                        colors: [e.target.value, prev.colors[1]] 
+                      }))}
+                      className="w-full h-8 border border-blue-300 rounded cursor-pointer"
+                    />
+                    <input
+                      type="color"
+                      value={backgroundGradient.colors[1]}
+                      onChange={(e) => setBackgroundGradient(prev => ({ 
+                        ...prev, 
+                        colors: [prev.colors[0], e.target.value] 
+                      }))}
+                      className="w-full h-8 border border-blue-300 rounded cursor-pointer"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 文字發光 */}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={textGlow.enabled}
+                  onChange={(e) => setTextGlow(prev => ({ ...prev, enabled: e.target.checked }))}
+                  className="rounded"
+                />
+                <label className="text-sm font-medium text-blue-700 dark:text-blue-300">文字發光</label>
+              </div>
+              {textGlow.enabled && (
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="color"
+                    value={textGlow.color}
+                    onChange={(e) => setTextGlow(prev => ({ ...prev, color: e.target.value }))}
+                    className="w-full h-8 border border-blue-300 rounded cursor-pointer"
+                  />
+                  <input
+                    type="range"
+                    min="1"
+                    max="30"
+                    value={textGlow.intensity}
+                    onChange={(e) => setTextGlow(prev => ({ ...prev, intensity: Number(e.target.value) }))}
+                    className="w-full h-2 bg-blue-200 rounded cursor-pointer"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* 右側白板區域 */}
@@ -572,13 +829,28 @@ export default function WhiteboardPage() {
             <div
               ref={whiteboardRef}
               className="relative w-full h-80 flex items-center justify-center overflow-hidden"
-              style={{ backgroundColor }}
+              style={{ 
+                ...(backgroundGradient.enabled ? {} : { backgroundColor }),
+                ...(backgroundGradient.enabled ? { background: backgroundGradient.type === 'linear' 
+                  ? `linear-gradient(${backgroundGradient.direction}, ${backgroundGradient.colors.join(', ')})`
+                  : `radial-gradient(circle, ${backgroundGradient.colors.join(', ')})`
+                } : {})
+              }}
             >
               <div
                 className={`font-bold whitespace-nowrap ${
                   isPlaying ? 'animate-marquee' : ''
                 }`}
                 style={{
+                  ...(textShadow.enabled ? {
+                    textShadow: `${textShadow.offsetX}px ${textShadow.offsetY}px ${textShadow.blur}px ${textShadow.color}`
+                  } : {}),
+                  ...(textBorder.enabled ? {
+                    WebkitTextStroke: `${textBorder.width}px ${textBorder.color}`
+                  } : {}),
+                  ...(textGlow.enabled ? {
+                    filter: `drop-shadow(0 0 ${textGlow.intensity}px ${textGlow.color})`
+                  } : {}),
                   color: textColor,
                   fontSize: `${fontSize}px`,
                   animationDuration: `${getAnimationDuration(speed)}ms`,
