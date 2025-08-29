@@ -175,7 +175,7 @@ export default function WhiteboardDisplayPage() {
         }
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
       };
-      return `倒數: ${formatTime(displayData.countdownTime)}`;
+      return `${formatTime(displayData.countdownTime)}`;
     } else if (displayData.currentMode === 'countup') {
       const formatTime = (seconds: number) => {
         const hours = Math.floor(seconds / 3600);
@@ -187,7 +187,7 @@ export default function WhiteboardDisplayPage() {
         }
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
       };
-      return `計時: ${formatTime(displayData.countupTime)}`;
+      return `${formatTime(displayData.countupTime)}`;
     }
     return displayData.text;
   };
@@ -312,15 +312,16 @@ export default function WhiteboardDisplayPage() {
         (displayDiv as HTMLElement).style.background = displayData.backgroundColor;
       }
       
-      // 應用毛玻璃效果
+      // 應用毛玻璃效果（無邊框）
       if (displayData.glassEffect.enabled) {
         (displayDiv as HTMLElement).style.backdropFilter = `blur(${displayData.glassEffect.blur}px)`;
+        (displayDiv as HTMLElement).style.setProperty('-webkit-backdrop-filter', `blur(${displayData.glassEffect.blur}px)`); // Safari 支援
         (displayDiv as HTMLElement).style.backgroundColor = `rgba(255, 255, 255, ${displayData.glassEffect.transparency})`;
-        if (displayData.glassEffect.border) {
-          (displayDiv as HTMLElement).style.border = `${displayData.glassEffect.borderWidth}px solid ${displayData.glassEffect.borderColor}`;
-        } else {
-          (displayDiv as HTMLElement).style.border = 'none';
-        }
+        (displayDiv as HTMLElement).style.border = 'none';
+        // 添加圓角和定位讓毛玻璃效果更明顯
+        (displayDiv as HTMLElement).style.borderRadius = '8px';
+        (displayDiv as HTMLElement).style.position = 'relative';
+        (displayDiv as HTMLElement).style.zIndex = '1';
       }
       
       // 應用 Material Design 陰影
@@ -341,6 +342,24 @@ export default function WhiteboardDisplayPage() {
       }
     }
   }, [displayData, timeTick]);
+
+  // 鍵盤快捷鍵處理
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        // 全螢幕功能
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   // 返回一個簡單的載入頁面，實際內容會被 useEffect 替換
   return (
