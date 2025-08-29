@@ -247,7 +247,7 @@ export default function WhiteboardDisplayPage() {
     // 設置背景顏色
     const displayDiv = document.getElementById('whiteboard-display');
     if (displayDiv) {
-      (displayDiv as HTMLElement).style.backgroundColor = displayData.backgroundColor;
+              (displayDiv as HTMLElement).style.background = displayData.backgroundColor;
     }
 
     // 設置動畫和速度
@@ -313,7 +313,7 @@ export default function WhiteboardDisplayPage() {
       if (displayData.glassEffect.enabled) {
         (displayDiv as HTMLElement).style.backdropFilter = `blur(${displayData.glassEffect.blur}px)`;
         (displayDiv as HTMLElement).style.setProperty('-webkit-backdrop-filter', `blur(${displayData.glassEffect.blur}px)`); // Safari 支援
-        (displayDiv as HTMLElement).style.backgroundColor = `rgba(255, 255, 255, ${displayData.glassEffect.transparency})`;
+        (displayDiv as HTMLElement).style.background = `rgba(255, 255, 255, ${displayData.glassEffect.transparency})`;
         (displayDiv as HTMLElement).style.border = 'none';
         // 添加圓角和定位讓毛玻璃效果更明顯
         (displayDiv as HTMLElement).style.borderRadius = '8px';
@@ -343,7 +343,8 @@ export default function WhiteboardDisplayPage() {
   // 鍵盤快捷鍵處理
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 'f') {
+      // 檢查是否按下了 Ctrl 或 Cmd 鍵
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
         e.preventDefault();
         // 全螢幕功能
         if (!document.fullscreenElement) {

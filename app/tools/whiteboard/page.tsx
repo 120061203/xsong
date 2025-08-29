@@ -367,18 +367,21 @@ export default function WhiteboardPage() {
   // 鍵盤快捷鍵
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 's') {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.key.toLowerCase() === 'p') {
-        e.preventDefault();
-        captureScreenshot();
-      } else if (e.key.toLowerCase() === 'f') {
-        e.preventDefault();
-        toggleFullscreen();
-      } else if (e.key.toLowerCase() === 'n') {
-        e.preventDefault();
-        openInNewWindow();
+      // 檢查是否按下了 Ctrl 或 Cmd 鍵
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key.toLowerCase() === 's') {
+          e.preventDefault();
+          togglePlay();
+        } else if (e.key.toLowerCase() === 'p') {
+          e.preventDefault();
+          captureScreenshot();
+        } else if (e.key.toLowerCase() === 'f') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key.toLowerCase() === 'b') {
+          e.preventDefault();
+          openInNewWindow();
+        }
       }
     };
 
@@ -1026,12 +1029,12 @@ export default function WhiteboardPage() {
                     background: backgroundGradient.type === 'linear' 
                       ? `linear-gradient(${backgroundGradient.direction}, ${backgroundGradient.colors.join(', ')})`
                       : `radial-gradient(circle, ${backgroundGradient.colors.join(', ')})`
-                  } : { backgroundColor }),
+                  } : { background: backgroundColor }),
                   
                   // 中層：毛玻璃效果（無邊框）
                   ...(glassEffect.enabled ? {
                     backdropFilter: `blur(${glassEffect.blur}px)`,
-                    backgroundColor: `rgba(255, 255, 255, ${glassEffect.transparency})`,
+                    background: `rgba(255, 255, 255, ${glassEffect.transparency})`,
                     border: 'none'
                   } : {}),
                   
@@ -1079,28 +1082,28 @@ export default function WhiteboardPage() {
                         : 'bg-green-600 hover:bg-green-700 text-white'
                     }`}
                   >
-                    {isPlaying ? '停止' : '開始'} 跑馬燈 (S)
+                    {isPlaying ? '停止' : '開始'} 跑馬燈 (Ctrl+S)
                   </button>
                   
                   <button
                     onClick={captureScreenshot}
                     className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
                   >
-                    截圖 (P)
+                    截圖 (Ctrl+P)
                   </button>
                   
                   <button
                     onClick={toggleFullscreen}
                     className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
                   >
-                    全螢幕 (F)
+                    全螢幕 (Ctrl+F)
                   </button>
                   
                   <button
                     onClick={openInNewWindow}
                     className="w-full px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-colors"
                   >
-                    另開視窗 (N)
+                    另開視窗 (Ctrl+B)
                   </button>
                 </div>
               </div>
@@ -1110,12 +1113,12 @@ export default function WhiteboardPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   內建模板
                 </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {templates.map((template, index) => (
                     <button
                       key={index}
                       onClick={() => handleTemplateChange(index)}
-                      className={`p-1 text-xs rounded border transition-all ${
+                      className={`px-3 py-2 text-sm font-medium rounded border transition-all ${
                         selectedTemplate === index
                           ? 'ring-2 ring-blue-500 scale-105'
                           : 'border-gray-300 dark:border-gray-600 hover:scale-102'
