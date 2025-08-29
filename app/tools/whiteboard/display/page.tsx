@@ -409,8 +409,7 @@ export default function WhiteboardDisplayPage() {
         // 毛玻璃效果通過 backdrop-filter 實現，不需要額外的背景色
         
         (displayDiv as HTMLElement).style.border = 'none';
-        // 添加圓角和定位讓毛玻璃效果更明顯
-        (displayDiv as HTMLElement).style.borderRadius = '8px';
+        // 添加定位讓毛玻璃效果更明顯
         (displayDiv as HTMLElement).style.position = 'relative';
         (displayDiv as HTMLElement).style.zIndex = '1';
       }
