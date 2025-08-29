@@ -16,7 +16,32 @@ export default function WhiteboardDisplayPage() {
     countdownTime: 0,
     countupTime: 0,
     isCountdownRunning: false,
-    isCountupRunning: false
+    isCountupRunning: false,
+    // 新增：OBS 效果設定
+    textShadow: {
+      enabled: false, // 改為 false，預設不啟用文字陰影
+      color: '#000000',
+      blur: 4,
+      offsetX: 2,
+      offsetY: 2
+    },
+    textBorder: {
+      enabled: false, // 改為 false，預設不啟用邊框
+      color: '#ffffff',
+      width: 3
+    },
+    backgroundGradient: {
+      enabled: false,
+      type: 'linear' as 'linear' | 'radial',
+      colors: ['#ffffff', '#000000'],
+      direction: 'to right'
+    },
+    textGlow: {
+      enabled: false,
+      color: '#00ff00',
+      intensity: 10
+    },
+    animationType: 'marquee' as 'marquee' | 'bounce' | 'pulse' | 'fade'
   });
 
   // 添加計時器狀態來強制重新渲染
@@ -36,7 +61,32 @@ export default function WhiteboardDisplayPage() {
       countdownTime: Number(params.get('countdownTime')) || 0,
       countupTime: Number(params.get('countupTime')) || 0,
       isCountdownRunning: params.get('isCountdownRunning') === 'true',
-      isCountupRunning: params.get('isCountupRunning') === 'true'
+      isCountupRunning: params.get('isCountupRunning') === 'true',
+      // 新增：OBS 效果設定
+      textShadow: {
+        enabled: params.get('textShadowEnabled') === 'true',
+        color: params.get('textShadowColor') || '#000000',
+        blur: Number(params.get('textShadowBlur')) || 4,
+        offsetX: Number(params.get('textShadowOffsetX')) || 2,
+        offsetY: Number(params.get('textShadowOffsetY')) || 2
+      },
+      textBorder: {
+        enabled: params.get('textBorderEnabled') === 'true',
+        color: params.get('textBorderColor') || '#ffffff',
+        width: Number(params.get('textBorderWidth')) || 3
+      },
+      backgroundGradient: {
+        enabled: params.get('backgroundGradientEnabled') === 'true',
+        type: params.get('backgroundGradientType') as 'linear' | 'radial' || 'linear',
+        colors: params.get('backgroundGradientColors')?.split(',').map(c => c.trim()) || ['#ffffff', '#000000'],
+        direction: params.get('backgroundGradientDirection') || 'to right'
+      },
+      textGlow: {
+        enabled: params.get('textGlowEnabled') === 'true',
+        color: params.get('textGlowColor') || '#00ff00',
+        intensity: Number(params.get('textGlowIntensity')) || 10
+      },
+      animationType: params.get('animationType') as 'marquee' | 'bounce' | 'pulse' | 'fade' || 'marquee'
     });
   }, []);
 
@@ -151,7 +201,6 @@ export default function WhiteboardDisplayPage() {
               font-weight: bold;
               white-space: nowrap;
               user-select: none;
-              text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             }
           </style>
         </head>
@@ -196,12 +245,42 @@ export default function WhiteboardDisplayPage() {
       textDiv.textContent = getDisplayText();
       (textDiv as HTMLElement).style.fontSize = `${displayData.fontSize}px`;
       (textDiv as HTMLElement).style.color = displayData.textColor;
+      
+      // 應用 OBS 效果
+      // 文字陰影
+      if (displayData.textShadow.enabled) {
+        (textDiv as HTMLElement).style.textShadow = `${displayData.textShadow.offsetX}px ${displayData.textShadow.offsetY}px ${displayData.textShadow.blur}px ${displayData.textShadow.color}`;
+      } else {
+        (textDiv as HTMLElement).style.textShadow = 'none';
+      }
+      
+      // 文字邊框
+      if (displayData.textBorder.enabled) {
+        (textDiv as HTMLElement).style.webkitTextStroke = `${displayData.textBorder.width}px ${displayData.textBorder.color}`;
+      } else {
+        (textDiv as HTMLElement).style.webkitTextStroke = 'none';
+      }
+      
+      // 文字發光
+      if (displayData.textGlow.enabled) {
+        (textDiv as HTMLElement).style.filter = `drop-shadow(0 0 ${displayData.textGlow.intensity}px ${displayData.textGlow.color})`;
+      } else {
+        (textDiv as HTMLElement).style.filter = 'none';
+      }
     }
 
-    // 更新背景顏色
+    // 更新背景
     const displayDiv = document.getElementById('whiteboard-display');
     if (displayDiv) {
-      (displayDiv as HTMLElement).style.backgroundColor = displayData.backgroundColor;
+      if (displayData.backgroundGradient.enabled) {
+        if (displayData.backgroundGradient.type === 'linear') {
+          (displayDiv as HTMLElement).style.background = `linear-gradient(${displayData.backgroundGradient.direction}, ${displayData.backgroundGradient.colors.join(', ')})`;
+        } else {
+          (displayDiv as HTMLElement).style.background = `radial-gradient(circle, ${displayData.backgroundGradient.colors.join(', ')})`;
+        }
+      } else {
+        (displayDiv as HTMLElement).style.background = displayData.backgroundColor;
+      }
     }
 
     // 更新動畫狀態和速度
