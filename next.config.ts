@@ -17,10 +17,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   // 額外設定：強制忽略型別檢查
-  experimental: {
-    typedRoutes: false,
-    serverComponentsExternalPackages: [],
-  },
+  typedRoutes: false,
+  serverExternalPackages: [],
 };
 
 export default nextConfig;
