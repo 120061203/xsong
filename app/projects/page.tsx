@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import Image from 'next/image';
 
 interface Project {
   id: string;
@@ -93,15 +94,19 @@ const projects: Project[] = [
   }
 ];
 
-// 根據更新日期排序（最新的在前）
-const sortedProjects = projects.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+// 按更新日期排序（最新的在前）
+const sortedProjects = [...projects].sort((a, b) => 
+  new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+);
 
-const allTechnologies = Array.from(new Set(projects.flatMap(project => project.technologies)));
+// 獲取所有技術標籤
+const allTechnologies = Array.from(
+  new Set(projects.flatMap(project => project.technologies))
+).sort();
 
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const { isDark } = useTheme();
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
@@ -112,22 +117,22 @@ export default function ProjectsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Projects
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            A collection of my projects. Click on any project to see more details.
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            探索我的專案作品，從全端應用到互動工具，每個專案都展現了不同的技術挑戰和解決方案。
           </p>
         </div>
 
-        {/* Filters */}
+        {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           <button
             onClick={() => setSelectedFilter('All')}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
               selectedFilter === 'All'
-                ? 'bg-green-500 text-white shadow-lg'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
             }`}
           >
             All
@@ -136,10 +141,10 @@ export default function ProjectsPage() {
             <button
               key={tech}
               onClick={() => setSelectedFilter(tech)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 selectedFilter === tech
-                  ? 'bg-green-500 text-white shadow-lg'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
               }`}
             >
               {tech}
@@ -148,54 +153,50 @@ export default function ProjectsPage() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredProjects.map((project) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project, index) => (
             <div
               key={project.id}
-              className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer transform hover:-translate-y-2 hover:scale-105 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
+              style={{ 
+                animationDelay: `${index * 100}ms`,
+                animation: 'fadeInUp 0.6s ease-out forwards'
+              }}
               onClick={() => setSelectedProject(project)}
             >
-              {/* Hover Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500 transform -skew-x-12 -translate-x-full group-hover:translate-x-full"></div>
+              {/* Background Gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${project.backgroundColor} opacity-90`}></div>
               
-              {/* Image Container with Hover Effects */}
-              <div className="aspect-video bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden relative border-b-2 border-gray-200 dark:border-gray-700">
-                <img 
-                  src={project.image} 
-                  alt={`${project.title} screenshot`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling.style.display = 'flex';
-                  }}
-                />
-                <div className="text-gray-500 dark:text-gray-400 text-center hidden">
-                  <i className="fas fa-image text-4xl mb-2"></i>
-                  <p className="text-sm">Project Preview</p>
-                </div>
-                
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                    <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-3 border-2 border-white border-opacity-30">
-                      <i className="fas fa-external-link-alt text-white text-xl"></i>
-                    </div>
+              {/* Content */}
+              <div className="relative z-10 p-6 h-full flex flex-col">
+                {/* Project Image */}
+                <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const nextElement = target.nextElementSibling as HTMLElement;
+                      if (nextElement) {
+                        nextElement.style.display = 'flex';
+                      }
+                    }}
+                  />
+                  <div className="text-gray-500 dark:text-gray-400 text-center hidden">
+                    <i className="fas fa-image text-4xl mb-2"></i>
+                    <p className="text-sm">Project Preview</p>
                   </div>
                 </div>
-              </div>
-              
-              {/* Content with Enhanced Hover Effects */}
-              <div className={`p-6 ${project.backgroundColor} ${project.textColor} relative overflow-hidden`}>
-                {/* Animated Background Pattern */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white to-transparent transform rotate-45 scale-150"></div>
-                </div>
-                
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-2 transition-all duration-300 group-hover:scale-105">
+
+                {/* Project Info */}
+                <div className="flex-1 flex flex-col">
+                  <h3 className={`text-xl font-bold mb-2 ${project.textColor}`}>
                     {project.title}
                   </h3>
-                  <p className="text-sm mb-3 line-clamp-2 opacity-90 transition-all duration-300 group-hover:opacity-100">
+                  <p className={`text-sm mb-3 ${project.textColor} opacity-90 line-clamp-3`}>
                     {project.description}
                   </p>
                   
@@ -285,41 +286,35 @@ export default function ProjectsPage() {
                 <div className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     {/* Project Image */}
-                    <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden border-2 border-gray-300 dark:border-gray-600">
-                      <img 
-                        src={selectedProject.image} 
+                    <div className="relative">
+                      <Image
+                        src={selectedProject.image}
                         alt={`${selectedProject.title} screenshot`}
-                        className="w-full h-full object-cover rounded-lg"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.nextElementSibling.style.display = 'flex';
-                        }}
+                        width={600}
+                        height={400}
+                        className="w-full h-64 object-cover rounded-lg border border-gray-200 dark:border-gray-600"
                       />
-                      <div className="text-gray-500 dark:text-gray-400 text-center hidden">
-                        <i className="fas fa-image text-6xl mb-4"></i>
-                        <p className="text-lg">Project Screenshot</p>
-                      </div>
                     </div>
 
-                    {/* Project Description */}
-                    <div className="space-y-4">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">關於專案</h3>
-                        <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                          {selectedProject.longDescription}
-                        </p>
-                      </div>
+                    {/* Project Details */}
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                        專案描述
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        {selectedProject.longDescription}
+                      </p>
 
-                      {/* Action Buttons */}
-                      <div className="flex flex-col gap-3">
+                      {/* Links */}
+                      <div className="space-y-3">
                         {selectedProject.githubUrl && (
                           <a
                             href={selectedProject.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors border-2 border-gray-500 hover:border-gray-600"
+                            className="inline-flex items-center px-4 py-2 bg-gray-900 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
                           >
-                            <i className="fab fa-github"></i>
+                            <i className="fab fa-github mr-2"></i>
                             View on GitHub
                           </a>
                         )}
@@ -328,9 +323,9 @@ export default function ProjectsPage() {
                             href={selectedProject.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors border-2 border-green-400 hover:border-green-500"
+                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ml-3"
                           >
-                            <i className="fas fa-external-link-alt"></i>
+                            <i className="fas fa-external-link-alt mr-2"></i>
                             Visit Website
                           </a>
                         )}
@@ -340,16 +335,17 @@ export default function ProjectsPage() {
 
                   {/* Features */}
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                      功能特色
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                      主要功能
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {selectedProject.features.map((feature, index) => (
-                        <div key={index} className="flex items-start gap-3">
-                          <i className="fas fa-check text-green-500 mt-1"></i>
-                          <span className="text-gray-600 dark:text-gray-400">
-                            {feature}
-                          </span>
+                        <div
+                          key={index}
+                          className="flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                        >
+                          <i className="fas fa-check-circle text-green-500 mr-3"></i>
+                          <span className="text-gray-700 dark:text-gray-300">{feature}</span>
                         </div>
                       ))}
                     </div>
