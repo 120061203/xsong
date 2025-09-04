@@ -54,6 +54,17 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 							</a>
 						</div>
 
+						<!-- Mobile Menu Button -->
+						<div class="md:hidden flex items-center space-x-2">
+							<button
+								id="mobile-menu-button"
+								class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+								aria-label="Toggle mobile menu"
+							>
+								<i class="fas fa-bars text-xl" id="mobile-menu-icon"></i>
+							</button>
+						</div>
+
 						<!-- Theme Toggle -->
 						<div class="flex items-center space-x-2">
 							<button
@@ -63,6 +74,24 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 							>
 								<i class="fas fa-moon text-xl" id="theme-icon"></i>
 							</button>
+						</div>
+					</div>
+
+					<!-- Mobile Navigation Menu -->
+					<div id="mobile-menu" class="md:hidden hidden">
+						<div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+							<a href="/about" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+								About
+							</a>
+							<a href="/blog" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-green-400 bg-blue-50 dark:bg-green-900/20 rounded-md">
+								Blog
+							</a>
+							<a href="/projects" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+								Projects
+							</a>
+							<a href="/tools" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+								Tools
+							</a>
 						</div>
 					</div>
 				</div>
@@ -88,6 +117,11 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			const themeToggle = document.getElementById('theme-toggle');
 			const themeIcon = document.getElementById('theme-icon');
 			
+			// Mobile menu functionality
+			const mobileMenuButton = document.getElementById('mobile-menu-button');
+			const mobileMenu = document.getElementById('mobile-menu');
+			const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+			
 			// Check for saved theme preference or default to light mode
 			const currentTheme = localStorage.getItem('theme') || 'light';
 			document.documentElement.classList.toggle('dark', currentTheme === 'dark');
@@ -97,6 +131,20 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 				const isDark = document.documentElement.classList.toggle('dark');
 				localStorage.setItem('theme', isDark ? 'dark' : 'light');
 				updateThemeIcon();
+			});
+			
+			// Mobile menu toggle
+			mobileMenuButton.addEventListener('click', () => {
+				const isOpen = mobileMenu.classList.toggle('hidden');
+				mobileMenuIcon.className = `fas ${isOpen ? 'fa-bars' : 'fa-times'} text-xl`;
+			});
+			
+			// Close mobile menu when clicking outside
+			document.addEventListener('click', (e) => {
+				if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+					mobileMenu.classList.add('hidden');
+					mobileMenuIcon.className = 'fas fa-bars text-xl';
+				}
 			});
 			
 			function updateThemeIcon() {
