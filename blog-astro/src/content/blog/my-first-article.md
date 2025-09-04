@@ -4,6 +4,8 @@ description: "分享我建立這個技術部落格的初衷，以及未來想要
 pubDate: 2025-09-04
 updatedDate: 2025-09-04
 heroImage: "https://picsum.photos/800/400"
+categories: ["技術分享", "部落格建立"]
+tags: ["Astro", "Next.js", "技術寫作", "個人成長"]
 ---
 
 # 我的第一篇技術文章
