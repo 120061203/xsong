@@ -73,10 +73,17 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Build Astro Blog
+        run: |
+          cd blog-astro
+          npm install
+          npm run build
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Copy 404.html
         run: cp public/404.html out/404.html
+      - name: Copy Astro Blog to output
+        run: cp -r public/blog/* out/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
