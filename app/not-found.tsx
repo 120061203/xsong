@@ -7,17 +7,18 @@ import Link from 'next/link';
 export default function NotFound() {
   const pathname = usePathname();
 
-  useEffect(() => {
-    // 檢查是否為 /url/ 格式的短網址
-    const urlMatch = pathname.match(/^\/url\/(.+)$/);
-    
-    if (urlMatch) {
-      const shortCode = urlMatch[1];
-      console.log('重定向到:', `https://go-shorturl.vercel.app/url/${shortCode}`);
-      window.location.href = `https://go-shorturl.vercel.app/url/${shortCode}`;
-      return;
+  // 同步檢查路徑，立即重定向
+  const urlMatch = pathname.match(/^\/url\/(.+)$/);
+  if (urlMatch) {
+    const shortCode = urlMatch[1];
+    console.log('重定向到:', `https://go-shorturl.vercel.app/url/${shortCode}`);
+    // 立即重定向，不等待任何渲染
+    if (typeof window !== 'undefined') {
+      window.location.replace(`https://go-shorturl.vercel.app/url/${shortCode}`);
     }
-  }, [pathname]);
+    // 返回空組件，避免渲染任何內容
+    return null;
+  }
 
   // 如果不是短網址，顯示標準 404 頁面
   return (
