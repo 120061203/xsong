@@ -1,89 +1,81 @@
-# 小松的個人履歷
+# 陳松林的個人履歷
 
 ## 個人資料
-- **姓名：** 小松
-- **職位：** 前端開發工程師
+- **姓名：** 陳松林
+- **職位：** DevOps 工程師
 - **地點：** 台中，台灣
-- **Email：** songlin.chen@example.com
+- **Email：** ccssll120061203@gmail.com
 - **GitHub：** github.com/120061203
 
 ## 工作經歷
 
-### 前端開發工程師 (2023 - 現在)
-**某科技公司**
-- 負責前端開發，使用 React、TypeScript 等技術開發企業級應用程式
-- 參與多個重要專案的開發，並協助團隊提升開發效率
-- 技術棧：React, Next.js, TypeScript, TailwindCSS
-
-### 前端實習生 (2022 - 2023)
-**某新創公司**
-- 參與產品開發，學習現代前端技術棧
-- 協助開發用戶介面，並參與產品設計討論
-- 技術棧：Vue.js, JavaScript, CSS3
+### DevOps 工程師 (2025.08 - 現在)
+**台中某軟體公司**
+- 負責 DevOps 相關工作，專注於專案協調與領導
+- 致力於技術創新和團隊合作
+- 技術棧：React, Docker, Kubernetes, Terraform
 
 ## 學歷
 
+### 網路學習科技研究所 (2023 - 2025)
+**國立中央大學**
+- 專注於網路學習科技研究，深入探討教育技術與數位學習領域
+
 ### 資訊工程學系 (2018 - 2022)
-**某大學**
+**國立高雄大學**
 - 主修資訊工程，專注於軟體開發和系統設計
-- 參與多個專案，並擔任技術社團幹部
+- 參與多個專案，並擔任專案組長
 
 ## 技能專長
 
-### 前端技術
-- **React / Next.js：** 90%
-- **Vue.js：** 85%
-- **TypeScript：** 88%
-- **TailwindCSS：** 92%
+### 主要技術
+- **React**
+- **Docker**
+- **Kubernetes**
+- **Terraform**
 
 ### 其他技能
-- **Node.js：** 75%
-- **Git：** 85%
-- **Docker：** 70%
-- **AWS：** 65%
+- **Python Flask/Django**
+- **IoT 開發**
+- **Arduino/NodeMCU**
+- **PHP/MySQL**
 
 ## 演講經歷
 
-### React Hooks 深度解析 (2024.06)
-**台中前端開發者聚會**
-- 深入探討 React Hooks 的使用方法和最佳實踐
-- 分享實際專案中的應用經驗
-
-### 現代前端開發工具介紹 (2024.03)
-**台北技術分享會**
-- 介紹現代前端開發中常用的工具和技術
-- 包括 Vite、ESLint、Prettier 等
-
-### TypeScript 實戰應用 (2023.12)
-**高雄程式開發者社群**
-- 分享 TypeScript 在實際專案中的應用經驗
-- 以及如何提升程式碼品質
-
-### 靜態網站生成器比較 (2023.09)
-**台中技術分享會**
-- 比較 Next.js、Astro、Hugo 等靜態網站生成器的優缺點
-- 幫助開發者選擇合適的工具
+### LLM Comparator: Running Comparative Evaluations with Google Vertex AI (2024.11.30)
+**2024 DevFest Taipei - Google Official Workshop**
+- 在 Vertex AI 平台上如何評估兩個語言模型
+- 分享 LLM 比較評估的實戰經驗
 
 ## 專案經驗
 
-### 個人技術部落格
-- 使用 Astro 框架建立的個人技術部落格
-- 整合 Next.js 主網站，實現統一的技術分享平台
-- 包含文章管理、標籤分類、搜尋等功能
+### Air Pocket APP (2021)
+**Industry Award and Honorable Mention, Graduation Project Competition**
+- 建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化
+- 使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信
 
-### 企業級管理系統
-- 使用 React + TypeScript 開發的企業級管理系統
-- 實現複雜的數據管理和用戶權限控制
-- 優化前端性能，提升用戶體驗
+### Smart Watch (2022)
+**Honorable Mention, Intelligent Application Competition**
+- 設計了一個可穿戴 IoT 設備，用於即時生理監測，捕捉心率、體溫等指標
+- 實現 Python Django 後端，並整合 Line Bot 提供即時健康警報通知
+
+### Solar Smart Blinds (2020)
+**Top 20, Taiwan Energy Technology Innovation Competition**
+- 開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率
+- 使用 Arduino NodeMCU 開發控制系統，整合亮度感測器和馬達模組，實現即時太陽追蹤和自動調整
+
+### GoGoShop Ordering System (2020)
+**Ranked 1st, Website Design class projects**
+- 開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL
+- 設計了響應式 RWD 前端，支援產品管理和訂單處理
 
 ## 語言能力
 - **中文：** 母語
 - **英文：** 流利
-- **日文：** 基礎
 
-## 證照
-- AWS Certified Developer Associate
-- Google Cloud Platform Associate Cloud Engineer
+## 專業定位
+- **專案協調人與領導者**
+- 專注於 DevOps 工程與技術創新
 
 ---
 

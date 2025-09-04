@@ -22,7 +22,7 @@ export default function AboutPage() {
             關於我
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-6">
-            熱愛技術的開發者，專注於前端開發與技術分享
+            專案協調人與領導者，專注於 DevOps 工程與技術創新
           </p>
           <div className="flex justify-center space-x-4">
             <a 
@@ -54,13 +54,13 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">個人簡介</h2>
           <div className="prose dark:prose-invert max-w-none">
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-              你好！我是小松，目前居住在台中，是一位熱愛技術的開發者。平時除了寫程式之外，也喜歡去社群中分享各種技術心得和教學經驗。
+              你好！我是陳松林，目前居住在台中，是一位 DevOps 工程師。我專注於專案協調與領導，致力於技術創新和團隊合作。
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
               在技術學習的過程中，我發現很多時候「寫下來」是最好的學習方式，因此決定建立這個技術部落格，分享我的技術心得、演講內容、課程教學，以及個人成長記錄。
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              我專注於前端開發技術，包括 React、Vue、Next.js、Astro 等現代前端框架，同時也涉獵後端技術和 DevOps 相關知識。
+              我專注於 DevOps 技術，包括 React、Docker、Kubernetes、Terraform 等現代開發工具，同時也涉獵 IoT 和AWS雲端技術相關知識。
             </p>
           </div>
         </div>
@@ -88,16 +88,18 @@ export default function AboutPage() {
             >
               演講經歷
             </button>
+
             <button
-              onClick={() => setActiveTab('skills')}
+              onClick={() => setActiveTab('projects')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'skills'
+                activeTab === 'projects'
                   ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
-              技能專長
+              專案經驗
             </button>
+
             <button
               onClick={() => setActiveTab('contact')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -125,36 +127,36 @@ export default function AboutPage() {
                     <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                     <div className="ml-16">
                       <div className="flex items-center mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">前端開發工程師</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">DevOps 工程師</h3>
                         <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
-                          2023 - 現在
+                          2025.08 - 現在
                         </span>
                       </div>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2">某科技公司</p>
+                      <p className="text-gray-600 dark:text-gray-400 mb-2">台中某軟體公司</p>
                       <p className="text-gray-600 dark:text-gray-300">
-                        負責前端開發，使用 React、TypeScript 等技術開發企業級應用程式。參與多個重要專案的開發，並協助團隊提升開發效率。
+                        負責 DevOps 相關工作，專注於專案協調與領導，致力於技術創新和團隊合作。
                       </p>
                     </div>
                   </div>
 
-                  {/* 實習經歷 */}
+                  {/* 碩士學歷 */}
                   <div className="relative">
                     <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                     <div className="ml-16">
                       <div className="flex items-center mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">前端實習生</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">網路學習科技研究所</h3>
                         <span className="ml-4 px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full">
-                          2022 - 2023
+                          2023 - 2025
                         </span>
                       </div>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2">某新創公司</p>
+                      <p className="text-gray-600 dark:text-gray-400 mb-2">國立中央大學</p>
                       <p className="text-gray-600 dark:text-gray-300">
-                        參與產品開發，學習現代前端技術棧。協助開發用戶介面，並參與產品設計討論。
+                        專注於網路學習科技研究，深入探討教育技術與數位學習領域。
                       </p>
                     </div>
                   </div>
 
-                  {/* 學歷 */}
+                  {/* 學士學歷 */}
                   <div className="relative">
                     <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                     <div className="ml-16">
@@ -164,9 +166,9 @@ export default function AboutPage() {
                           2018 - 2022
                         </span>
                       </div>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2">某大學</p>
+                      <p className="text-gray-600 dark:text-gray-400 mb-2">國立高雄大學</p>
                       <p className="text-gray-600 dark:text-gray-300">
-                        主修資訊工程，專注於軟體開發和系統設計。參與多個專案，並擔任技術社團幹部。
+                        主修資訊工程，專注於軟體開發和系統設計。參與多個專案，並擔任專案組長。
                       </p>
                     </div>
                   </div>
@@ -183,134 +185,105 @@ export default function AboutPage() {
                 {/* 演講項目 */}
                 <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">React Hooks 深度解析</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2024.06</span>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LLM Comparator: Running Comparative Evaluations with Google Vertex AI</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2024.11.30</span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">台中前端開發者聚會</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">2024 DevFest Taipei - Google Official Workshop</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm">
-                    深入探討 React Hooks 的使用方法和最佳實踐，分享實際專案中的應用經驗。
+                    在 Vertex AI 平台上如何評估兩個語言模型，分享 LLM 比較評估的實戰經驗。
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">React</span>
-                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Hooks</span>
-                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">前端開發</span>
-                  </div>
-                </div>
-
-                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">現代前端開發工具介紹</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2024.03</span>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">台北技術分享會</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">
-                    介紹現代前端開發中常用的工具和技術，包括 Vite、ESLint、Prettier 等。
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Vite</span>
-                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">ESLint</span>
-                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">開發工具</span>
-                  </div>
-                </div>
-
-                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">TypeScript 實戰應用</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2023.12</span>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">高雄程式開發者社群</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">
-                    分享 TypeScript 在實際專案中的應用經驗，以及如何提升程式碼品質。
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">TypeScript</span>
-                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">程式碼品質</span>
-                  </div>
-                </div>
-
-                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">靜態網站生成器比較</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2023.09</span>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">台中技術分享會</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">
-                    比較 Next.js、Astro、Hugo 等靜態網站生成器的優缺點，幫助開發者選擇合適的工具。
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">Next.js</span>
-                    <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">Astro</span>
-                    <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">靜態網站</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Vertex AI</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">LLM</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">AI 評估</span>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* 技能專長 */}
-          {activeTab === 'skills' && (
+          {/* 專案經驗 */}
+          {activeTab === 'projects' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">技能專長</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* 前端技術 */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">前端技術</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">React / Next.js</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-blue-500 h-2 rounded-full" style={{width: '90%'}}></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Vue.js</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{width: '85%'}}></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">TypeScript</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-purple-500 h-2 rounded-full" style={{width: '88%'}}></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">TailwindCSS</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-cyan-500 h-2 rounded-full" style={{width: '92%'}}></div>
-                      </div>
-                    </div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">專案經驗</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Air Pocket APP */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2021</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">Industry Award and Honorable Mention, Graduation Project Competition</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                    建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">IoT</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Python Flask</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">MQTT</span>
                   </div>
                 </div>
 
-                {/* 其他技能 */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">其他技能</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Node.js</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-yellow-500 h-2 rounded-full" style={{width: '75%'}}></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Git</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-red-500 h-2 rounded-full" style={{width: '85%'}}></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Docker</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-blue-500 h-2 rounded-full" style={{width: '70%'}}></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">AWS</span>
-                      <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-orange-500 h-2 rounded-full" style={{width: '65%'}}></div>
-                      </div>
-                    </div>
+                {/* Smart Watch */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart Watch</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2022</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">Honorable Mention, Intelligent Application Competition</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                    設計了一個可穿戴 IoT 設備，用於即時生理監測，捕捉心率、體溫等指標。
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    實現 Python Django 後端，並整合 Line Bot 提供即時健康警報通知。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">IoT</span>
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Python Django</span>
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Line Bot</span>
+                  </div>
+                </div>
+
+                {/* Solar Smart Blinds */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solar Smart Blinds</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2020</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">Top 20, Taiwan Energy Technology Innovation Competition</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                      開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率。
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      使用 Arduino NodeMCU 開發控制系統，整合亮度感測器和馬達模組，實現即時太陽追蹤和自動調整。
+                    </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">Arduino</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">NodeMCU</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">IoT</span>
+                  </div>
+                </div>
+
+                {/* GoGoShop Ordering System */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">GoGoShop Ordering System</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2020</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">Ranked 1st, Website Design class projects</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                    開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL。
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    設計了響應式 RWD 前端，支援產品管理和訂單處理。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">PHP</span>
+                    <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">MySQL</span>
+                    <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">RWD</span>
                   </div>
                 </div>
               </div>
@@ -328,10 +301,10 @@ export default function AboutPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Email</h3>
-                    <p className="text-gray-600 dark:text-gray-300">songlin.chen@example.com</p>
-                  </div>
+                                          <div>
+                          <h3 className="font-semibold text-gray-900 dark:text-white">Email</h3>
+                          <p className="text-gray-600 dark:text-gray-300">ccssll120061203@gmail.com</p>
+                        </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
@@ -352,10 +325,10 @@ export default function AboutPage() {
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">LinkedIn</h3>
-                    <a href="https://linkedin.com/in/songlin-chen" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">linkedin.com/in/songlin-chen</a>
-                  </div>
+                                          <div>
+                          <h3 className="font-semibold text-gray-900 dark:text-white">LinkedIn</h3>
+                          <a href="https://linkedin.com/in/songlinchen" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">linkedin.com/in/songlinchen</a>
+                        </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
