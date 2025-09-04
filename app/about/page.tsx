@@ -266,87 +266,101 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* 得獎經驗 */}
+          {/* 得獎經驗時間軸 */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">得獎經驗</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Air Pocket APP */}
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">2021</span>
+            <div className="relative">
+              {/* 時間軸線 */}
+              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+              
+              {/* 時間軸項目 */}
+              <div className="space-y-8">
+                              {/* Air Pocket APP */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
+                        2021
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">畢業專題競賽 - 佳作 及 廠商獎</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">IoT</span>
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Python Flask</span>
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">MQTT</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">畢業專題競賽 - 佳作 及 廠商獎</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
-                  建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信。
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">IoT</span>
-                  <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Python Flask</span>
-                  <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">MQTT</span>
-                </div>
-              </div>
 
-              {/* Smart Watch */}
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart Watch</h3>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">2022</span>
+                              {/* Smart Watch */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart Watch</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full">
+                        2022
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">2022數位聯網智動化創新應用競賽 - 佳作</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      設計了一個可穿戴 IoT 設備，用於即時生理監測，捕捉心率、體溫等指標。實現 Python Django 後端，並整合 Line Bot 提供即時健康警報通知。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">IoT</span>
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Python Django</span>
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Line Bot</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">2022數位聯網智動化創新應用競賽 - 佳作</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
-                  設計了一個可穿戴 IoT 設備，用於即時生理監測，捕捉心率、體溫等指標。
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  實現 Python Django 後端，並整合 Line Bot 提供即時健康警報通知。
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">IoT</span>
-                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Python Django</span>
-                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Line Bot</span>
-                </div>
-              </div>
 
-              {/* Solar Smart Blinds */}
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solar Smart Blinds</h3>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">2020</span>
+                {/* Solar Smart Blinds */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-yellow-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solar Smart Blinds</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full">
+                        2020
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">台灣能潔能科技創意實作競賽 - 全國20強</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率。使用 Arduino NodeMCU 開發控制系統，整合亮度感測器和馬達模組，實現即時太陽追蹤和自動調整。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">Arduino</span>
+                      <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">NodeMCU</span>
+                      <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">IoT</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">台灣能潔能科技創意實作競賽 - 全國20強</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
-                    開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率。
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">
-                    使用 Arduino NodeMCU 開發控制系統，整合亮度感測器和馬達模組，實現即時太陽追蹤和自動調整。
-                  </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">Arduino</span>
-                  <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">NodeMCU</span>
-                  <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">IoT</span>
-                </div>
-              </div>
 
-              {/* GoGoShop Ordering System */}
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">GoGoShop Ordering System</h3>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">2020</span>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">第九屆激發學生創意競賽 - 第二名</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
-                  開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL。
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  設計了響應式 RWD 前端，支援產品管理和訂單處理。
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">PHP</span>
-                  <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">MySQL</span>
-                  <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">RWD</span>
+                {/* GoGoShop Ordering System */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">GoGoShop Ordering System</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full">
+                        2020
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">第九屆激發學生創意競賽 - 第二名</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL。設計了響應式 RWD 前端，支援產品管理和訂單處理。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">PHP</span>
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">MySQL</span>
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">RWD</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
