@@ -324,12 +324,12 @@ export default function AboutPage() {
                   <div className="absolute left-6 top-2 w-4 h-4 bg-yellow-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
                     <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solar Smart Blinds</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">太陽能百葉窗結合物聯網app解決西曬問題</h3>
                       <span className="ml-4 px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full">
                         2020
                       </span>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">台灣能潔能科技創意實作競賽 - 全國20強</p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">台灣能潔能科技創意實作競賽 - 全國20強 & 第九屆激發學生創意競賽 - 第二名</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
                       開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率。使用 Arduino NodeMCU 開發控制系統，整合亮度感測器和馬達模組，實現即時太陽追蹤和自動調整。
                     </p>
@@ -351,7 +351,7 @@ export default function AboutPage() {
                         2020
                       </span>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">第九屆激發學生創意競賽 - 第二名</p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">網頁程式設計課程 - 第一名</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
                       開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL。設計了響應式 RWD 前端，支援產品管理和訂單處理。
                     </p>
