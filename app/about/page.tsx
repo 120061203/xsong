@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="w-32 h-32 mx-auto mb-8">
@@ -179,7 +179,7 @@ export default function AboutPage() {
                 <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Git程式碼時光機-新手入門</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">GDSC NCU</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2023.10.04</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
@@ -223,7 +223,7 @@ export default function AboutPage() {
                 <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Maker之旅 x 個性化木紋杯墊</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">GDSC NCU</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2024.09.28</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
@@ -266,9 +266,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* 專案經驗 */}
+          {/* 得獎經驗 */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">專案經驗</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">得獎經驗</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Air Pocket APP */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
