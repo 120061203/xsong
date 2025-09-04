@@ -10,7 +10,10 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 <Layout title={title} description={description}>
 	<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-		<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex flex-col lg:flex-row gap-8">
+				<!-- 主要內容區域 -->
+				<div class="lg:w-3/4">
 			<!-- Back to Blog -->
 			<div class="mb-8">
 				<a 
@@ -66,11 +69,113 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					</header>
 
 					<!-- Content -->
-					<div class="prose prose-lg max-w-none dark:prose-invert">
+					<div class="prose prose-lg max-w-none dark:prose-invert" id="article-content">
 						<slot />
 					</div>
 				</div>
 			</article>
+				</div>
+
+				<!-- 右側目錄導航 -->
+				<div class="lg:w-1/4">
+					<div class="sticky top-8">
+						<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">目錄</h3>
+							<nav id="table-of-contents" class="space-y-2">
+								<!-- 目錄項目將由 JavaScript 動態生成 -->
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+
+	<script>
+		// 目錄導航功能
+		function initTableOfContents() {
+			const articleContent = document.getElementById('article-content');
+			const tocContainer = document.getElementById('table-of-contents');
+			
+			if (!articleContent || !tocContainer) return;
+			
+			// 獲取所有標題
+			const headings = articleContent.querySelectorAll('h1, h2, h3, h4');
+			const tocItems = [];
+			
+			headings.forEach((heading, index) => {
+				// 為標題添加 ID
+				const id = `heading-${index}`;
+				heading.id = id;
+				
+				// 創建目錄項目
+				const tocItem = document.createElement('a');
+				tocItem.href = `#${id}`;
+				tocItem.textContent = heading.textContent;
+				tocItem.className = 'block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-green-400 transition-colors py-1 px-2 rounded cursor-pointer';
+				
+				// 添加點擊事件，實現平滑滾動
+				tocItem.addEventListener('click', (e) => {
+					e.preventDefault();
+					const targetHeading = document.getElementById(id);
+					if (targetHeading) {
+						targetHeading.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start'
+						});
+					}
+				});
+				
+				// 根據標題層級添加縮進
+				const level = parseInt(heading.tagName.charAt(1));
+				tocItem.style.paddingLeft = `${(level - 1) * 12 + 8}px`;
+				
+				tocContainer.appendChild(tocItem);
+				tocItems.push({ element: tocItem, id: id });
+			});
+			
+			// 滾動監聽器
+			function updateActiveTocItem() {
+				const scrollPosition = window.scrollY;
+				const windowHeight = window.innerHeight;
+				
+				let activeId = null;
+				let minDistance = Infinity;
+				
+				headings.forEach((heading) => {
+					const rect = heading.getBoundingClientRect();
+					const distance = Math.abs(rect.top);
+					
+					// 找到距離視窗頂部最近的標題
+					if (distance < minDistance && rect.top <= 150) {
+						minDistance = distance;
+						activeId = heading.id;
+					}
+				});
+				
+				// 如果沒有找到合適的標題，選擇第一個
+				if (!activeId && headings.length > 0) {
+					activeId = headings[0].id;
+				}
+				
+				// 更新活動狀態
+				tocItems.forEach(({ element, id }) => {
+					if (id === activeId) {
+						element.classList.add('text-blue-600', 'dark:text-green-400', 'bg-blue-50', 'dark:bg-green-900/20', 'font-medium');
+						element.classList.remove('text-gray-600', 'dark:text-gray-400');
+					} else {
+						element.classList.remove('text-blue-600', 'dark:text-green-400', 'bg-blue-50', 'dark:bg-green-900/20', 'font-medium');
+						element.classList.add('text-gray-600', 'dark:text-gray-400');
+					}
+				});
+			}
+			
+			// 添加滾動監聽器
+			window.addEventListener('scroll', updateActiveTocItem);
+			updateActiveTocItem(); // 初始化
+		}
+		
+		// 頁面載入完成後初始化
+		document.addEventListener('DOMContentLoaded', initTableOfContents);
+	</script>
 </Layout>
