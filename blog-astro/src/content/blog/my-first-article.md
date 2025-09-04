@@ -5,7 +5,7 @@ pubDate: 2025-09-04
 updatedDate: 2025-09-04
 heroImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=400&fit=crop"
 categories: ["技術分享", "部落格建立"]
-tags: ["Astro", "Next.js", "技術寫作", "個人成長"]
+tags: ["Astro", "Next.js", "技術寫作", "個人成長", "前端開發", "靜態網站", "GitHub Pages", "TypeScript", "TailwindCSS", "開發工具"]
 ---
 
 # 前言
