@@ -83,7 +83,7 @@ jobs:
       - name: Copy 404.html
         run: cp public/404.html out/404.html
       - name: Copy Astro Blog to output
-        run: cp -r public/blog/* out/
+        run: cp -r public/blog/* out/blog/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
