@@ -17,8 +17,8 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-		<script src="https://cdn.tailwindcss.com"></script>
-		<script>
+		<script is:inline src="https://cdn.tailwindcss.com"></script>
+		<script is:inline>
 			tailwind.config = {
 				darkMode: 'class',
 				theme: {
