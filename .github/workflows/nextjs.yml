@@ -97,8 +97,14 @@ jobs:
           # 處理雙重 blog 目錄問題（由於 base: '/blog' 配置）
           if [ -d "public/blog/blog" ]; then
             echo "🔄 處理雙重 blog 目錄..."
-            # 複製文章頁面到正確位置
-            cp -r public/blog/blog/* out/blog/
+            # 只複製文章目錄，不覆蓋 index.html
+            for dir in public/blog/blog/*/; do
+              if [ -d "$dir" ]; then
+                dirname=$(basename "$dir")
+                echo "📄 複製文章目錄: $dirname"
+                cp -r "$dir" "out/blog/"
+              fi
+            done
             echo "✅ 文章頁面已複製到正確位置"
           fi
           
