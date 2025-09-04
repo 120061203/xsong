@@ -101,6 +101,28 @@ export default function AboutPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('community')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'community'
+                  ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              社群參與
+            </button>
+
+            <button
+              onClick={() => setActiveTab('teaching')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'teaching'
+                  ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              教學經驗
+            </button>
+
+            <button
               onClick={() => setActiveTab('contact')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 activeTab === 'contact'
@@ -213,7 +235,7 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
                     <span className="text-sm text-gray-500 dark:text-gray-400">2021</span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">Industry Award and Honorable Mention, Graduation Project Competition</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">畢業專題競賽 - 佳作 及 廠商獎</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
                     建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。
                   </p>
@@ -233,7 +255,7 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart Watch</h3>
                     <span className="text-sm text-gray-500 dark:text-gray-400">2022</span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">Honorable Mention, Intelligent Application Competition</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">2022數位聯網智動化創新應用競賽 - 佳作</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
                     設計了一個可穿戴 IoT 設備，用於即時生理監測，捕捉心率、體溫等指標。
                   </p>
@@ -253,7 +275,7 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solar Smart Blinds</h3>
                     <span className="text-sm text-gray-500 dark:text-gray-400">2020</span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">Top 20, Taiwan Energy Technology Innovation Competition</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">台灣能潔能科技創意實作競賽 - 全國20強</p>
                     <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
                       開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率。
                     </p>
@@ -273,7 +295,7 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">GoGoShop Ordering System</h3>
                     <span className="text-sm text-gray-500 dark:text-gray-400">2020</span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">Ranked 1st, Website Design class projects</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">第九屆激發學生創意競賽 - 第二名</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
                     開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL。
                   </p>
@@ -284,6 +306,134 @@ export default function AboutPage() {
                     <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">PHP</span>
                     <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">MySQL</span>
                     <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">RWD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 社群參與 */}
+          {activeTab === 'community' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">社群參與</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* COSCUP開源人年會 */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">COSCUP開源人年會</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2023 - 2025</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">製播組成員</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    負責直播串流和議程剪輯，協助開源社群活動的順利進行。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">直播串流</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">議程剪輯</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">開源社群</span>
+                  </div>
+                </div>
+
+                {/* SITCON學生計算機年會 */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">SITCON學生計算機年會</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2022.12</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">記錄組成員</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    負責平面攝影和後製出圖，記錄學生技術交流的重要時刻。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">平面攝影</span>
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">後製出圖</span>
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">學生社群</span>
+                  </div>
+                </div>
+
+                {/* LIS情境科學教材 */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LIS情境科學教材</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2022.1 - 7</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">編輯志工</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    負責課程重點的摘錄與統整，協助科學教育內容的品質提升。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">課程編輯</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">內容統整</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">科學教育</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 教學經驗 */}
+          {activeTab === 'teaching' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">教學經驗</h2>
+              <div className="space-y-8">
+                {/* GDSC */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">國立中央大學 Google Developer Student Club</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2023 - 2025</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">社群技術顧問兼講師</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                    在碩士一年級時加入GDSC技術組核心團隊，樂於向全校對資訊有熱忱但不知如何開始的同學分享資訊技能。
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    在課程中不斷精進自身的技能和表達能力，課後滿意度達到4.9/5。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">技術顧問</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">資訊技能</span>
+                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">教學</span>
+                  </div>
+                </div>
+
+                {/* 國光高中 */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">高雄中山大學附屬國光高級中學</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2021.9 - 2022.6</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">物聯科學社講師</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                    作為講師，自行備課，鼓勵學生在課堂上發揮創意。
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    在學生了解物聯網程式的基礎概念後，協助他們完成程式練習。透過教學過程，個人對程式和硬體操作也更加熟悉。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">物聯網</span>
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">程式教學</span>
+                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">硬體操作</span>
+                  </div>
+                </div>
+
+                {/* 高雄大學創客坊 */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">國立高雄大學</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">2022.4</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">創客坊物聯網講師</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                    畢業前在母校開設課程，將所學的物聯網等專業知識，結合鐳射切割、平面設計等專業技能，讓更多人學習跨領域知識。
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    最讓個人有成就感的是在遠距教學情況下仍能協助同學進行程式除錯（debug），並認為自己的學習和理解能力因此得到提升。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">物聯網</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">鐳射切割</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">平面設計</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">遠距教學</span>
                   </div>
                 </div>
               </div>
