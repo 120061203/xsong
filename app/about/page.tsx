@@ -366,6 +366,351 @@ export default function AboutPage() {
             </div>
           </div>
 
+          {/* 參賽經歷時間軸 */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">參賽經歷</h2>
+            <div className="relative">
+              {/* 時間軸線 */}
+              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+              
+              {/* 時間軸項目 */}
+              <div className="space-y-8">
+                {/* AWS臺灣生成式AI應用黑客松競賽 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-red-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AWS臺灣生成式AI應用黑客松競賽</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-full">
+                        2025.4
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">黑客組</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      參與 AWS 生成式 AI 應用開發競賽，運用 AWS 雲端服務和 AI 技術進行創新應用開發。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 3a1 1 0 0 0-1 1v1h2V4a1 1 0 0 0-1-1zM1 7v2h2V7H1zm0 4v2h2v-2H1zm0 4v2h2v-2H1zm0 4v1a1 1 0 0 0 1 1h1v-2H1zm4 0v2h2v-2H5zm4 0v2h2v-2H9zm4 0v2h2v-2h-2zm4 0v2h1a1 1 0 0 0 1-1v-1h-2zm0-4v-2h2v2h-2zm0-4V7h2v2h-2zm0-4V4a1 1 0 0 0-1-1h-1v2h2zm-4 0V3h-2v2h2zm-4 0V3H9v2h2z"/>
+                        </svg>
+                        AWS
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        生成式AI
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        雲端服務
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* APAC亞太區 Google Solution Challenge */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">APAC亞太區 Google Solution Challenge</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
+                        2025.4
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">SDG 3 Good Health and Well-being 邊緣運算機器狗</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發邊緣運算機器狗解決方案，專注於健康與福祉議題，運用 Google 技術進行創新應用。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        邊緣運算
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        機器狗
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        SDG 3
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PicoCTF 資安挑戰賽 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">PicoCTF 資安挑戰賽</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full">
+                        2025.3
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">參賽</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      參與國際資安競賽，挑戰網路安全、密碼學、逆向工程等資安技術。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                        資安
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                        密碼學
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                        逆向工程
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 全國台北城市通黑客松 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">全國台北城市通黑客松</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full">
+                        2024.9
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">決賽入選 - 城市通APP微服務實作LLM RAG Flutter APP 後端資料API</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發城市通APP，整合微服務架構、LLM RAG技術和Flutter前端，提供智慧城市解決方案。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        微服務
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        LLM RAG
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Flutter
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Google Solution Challenge */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-yellow-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Google Solution Challenge</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full">
+                        2024.2
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">SDG 15 Life On Land議題 - Flutter App</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發 Flutter 應用程式，專注於陸地生態保護議題，運用 Google 技術解決環境問題。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Flutter
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        SDG 15
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        環境保護
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 校際數位聯網智動化創新應用競賽 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-indigo-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">校際數位聯網智動化創新應用競賽</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300 rounded-full">
+                        2022.6
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">佳作 - 使用Python Django框架實作Linebot及串接雲端MQTT物聯網感測器</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發智慧化應用系統，整合 Python Django 後端、Line Bot 和 MQTT 物聯網感測器技術。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Python Django
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Line Bot
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        MQTT
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 資訊工程學系畢業專題競賽 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">資訊工程學系畢業專題競賽</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-pink-100 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded-full">
+                        2021.11
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">佳作及廠商獎 - 透過Adobe XD設計及實作空氣品質檢測APP及後端API</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      設計並開發空氣品質檢測應用程式，使用 Adobe XD 進行 UI/UX 設計，實作完整的 APP 和後端 API。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-pink-100 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Adobe XD
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-pink-100 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        空氣品質檢測
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-pink-100 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        API
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 第九屆激發學生創意競賽 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-teal-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">第九屆激發學生創意競賽</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded-full">
+                        2021.11
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">第二名 - 實作太陽能百葉窗APP即時角度調整系統</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發太陽能百葉窗智慧控制系統，實現即時角度調整功能，結合 APP 控制和硬體整合。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        太陽能百葉窗
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        即時控制
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        硬體整合
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 台灣能潔能科技創意實作競賽 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-orange-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">台灣能潔能科技創意實作競賽</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded-full">
+                        2020.10
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">全國20強 - 實作太陽能百葉窗APP即時角度調整系統</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      開發太陽能百葉窗智慧控制系統，運用潔能科技實現節能環保的智慧建築解決方案。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        潔能科技
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        智慧建築
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        節能環保
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* 社群參與 */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">社群參與</h2>
