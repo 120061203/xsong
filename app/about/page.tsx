@@ -218,6 +218,50 @@ export default function AboutPage() {
                     <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">新手教學</span>
                   </div>
                 </div>
+                
+                {/* 第三個演講項目 */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Maker之旅 x 個性化木紋杯墊</h3>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">GDSC NCU</span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                    結合 AI 技術與 Maker 精神，帶領學員製作個性化木紋杯墊，體驗 AI 在創意設計中的應用。
+                  </p>
+                  
+                  {/* 連結區域 */}
+                  <div className="flex flex-wrap gap-3 mb-4">
+                    <a 
+                      href="https://www.youtube.com/watch?v=GYC4Ka9UJFI" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-3 py-2 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                      YouTube
+                    </a>
+                    <a 
+                      href="https://docs.google.com/presentation/d/1DhGk2vi2WLfZkJbNWvd-G4Gah9nT-efk2AjN8wXoegE/edit?slide=id.g2efaa4a1007_0_621#slide=id.g2efaa4a1007_0_621" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                      </svg>
+                      簡報
+                    </a>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">AI</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">Maker</span>
+                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">創意設計</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
