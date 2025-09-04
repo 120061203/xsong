@@ -94,15 +94,36 @@ jobs:
           echo "📁 複製 Astro Blog 文件..."
           cp -r public/blog/* out/blog/
           
-          # 清理可能存在的雙重 blog 目錄
+          # 處理雙重 blog 目錄問題（由於 base: '/blog' 配置）
+          if [ -d "public/blog/blog" ]; then
+            echo "🔄 處理雙重 blog 目錄..."
+            # 複製文章頁面到正確位置
+            cp -r public/blog/blog/* out/blog/
+            echo "✅ 文章頁面已複製到正確位置"
+          fi
+          
+          # 清理重複的 blog 子目錄
           if [ -d "out/blog/blog" ]; then
-            echo "🧹 清理雙重 blog 目錄..."
+            echo "🧹 清理重複的 blog 子目錄..."
             rm -rf out/blog/blog
           fi
           
           # 檢查部署的文件
           echo "📋 檢查部署的文件:"
           ls -la out/blog/
+          
+          # 檢查文章頁面是否存在
+          if [ -d "out/blog/first-post" ]; then
+            echo "✅ 文章頁面 first-post 存在"
+          else
+            echo "❌ 文章頁面 first-post 缺失"
+          fi
+          
+          if [ -d "out/blog/hello-world" ]; then
+            echo "✅ 文章頁面 hello-world 存在"
+          else
+            echo "❌ 文章頁面 hello-world 缺失"
+          fi
           
           # 確保 CSS 和靜態資源路徑正確
           if [ -d "out/blog/_astro" ]; then
