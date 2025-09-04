@@ -9,7 +9,6 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://xsong.us',
-	base: '/blog',
 	integrations: [mdx(), sitemap()],
 	outDir: '../public/blog',
 
