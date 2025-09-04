@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 
 interface UrlRedirectPageProps {
-  params: {
+  params: Promise<{
     code: string;
-  };
+  }>;
 }
 
 // 生成靜態參數以支援靜態導出
@@ -12,8 +12,8 @@ export function generateStaticParams() {
   return [];
 }
 
-export default function UrlRedirectPage({ params }: UrlRedirectPageProps) {
-  const { code } = params;
+export default async function UrlRedirectPage({ params }: UrlRedirectPageProps) {
+  const { code } = await params;
 
   // 在伺服器端重定向
   redirect(`https://go-shorturl.vercel.app/url/${code}`);
