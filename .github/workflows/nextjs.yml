@@ -86,10 +86,14 @@ jobs:
         run: |
           # 複製 Blog 首頁和靜態資源
           cp -r public/blog/* out/blog/
-          # 複製 Blog 文章（如果存在 blog 子目錄）
+          # 處理雙重 blog 目錄問題（由於 base: '/blog' 配置）
           if [ -d "public/blog/blog" ]; then
             cp -r public/blog/blog/* out/blog/
             rm -rf out/blog/blog
+          fi
+          # 確保 CSS 和靜態資源路徑正確
+          if [ -d "out/blog/_astro" ]; then
+            echo "✅ Astro 靜態資源已正確部署"
           fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
