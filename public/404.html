@@ -139,14 +139,25 @@
                 // 提取短網址代碼
                 const shortCode = urlMatch[1];
                 
-                // 立即重定向，不顯示任何內容
-                window.location.replace(`https://go-shorturl.vercel.app/url/${shortCode}`);
+                // 顯示重定向內容
+                document.getElementById('redirect-content').style.display = 'block';
+                document.getElementById('error-content').style.display = 'none';
+                document.getElementById('redirect-url').textContent = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                
+                // 延遲重定向，讓用戶看到重定向信息
+                setTimeout(() => {
+                    window.location.replace(`https://go-shorturl.vercel.app/url/${shortCode}`);
+                }, 1000);
                 return;
             }
             
             // 如果不是短網址，顯示標準 404 頁面
             document.getElementById('redirect-content').style.display = 'none';
             document.getElementById('error-content').style.display = 'block';
+            
+            // 更新錯誤信息
+            document.querySelector('#error-content .message').textContent = '頁面未找到';
+            document.querySelector('#error-content .error-message').textContent = '您訪問的頁面不存在，請檢查網址是否正確';
             
             // 添加鍵盤快捷鍵支持
             document.addEventListener('keydown', function(event) {
