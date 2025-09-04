@@ -83,7 +83,14 @@ jobs:
       - name: Copy 404.html
         run: cp public/404.html out/404.html
       - name: Copy Astro Blog to output
-        run: cp -r public/blog/* out/blog/
+        run: |
+          # 複製 Blog 首頁和靜態資源
+          cp -r public/blog/* out/blog/
+          # 複製 Blog 文章（如果存在 blog 子目錄）
+          if [ -d "public/blog/blog" ]; then
+            cp -r public/blog/blog/* out/blog/
+            rm -rf out/blog/blog
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
