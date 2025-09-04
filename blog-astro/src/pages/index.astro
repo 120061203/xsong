@@ -4,60 +4,60 @@ import { getCollection } from 'astro:content';
 ---
 
 <Layout title="Blog - xsong.us">
-			<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-				<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-					<!-- Header -->
-					<div class="text-center mb-12">
-						<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-							Blog
-						</h1>
-						<p class="text-xl text-gray-600 dark:text-gray-400">
-							分享我的想法、技術心得和生活點滴
-						</p>
-					</div>
-
-					<!-- Blog Posts Grid -->
-					<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-						{await getCollection('blog').then(posts => 
-							posts.map(post => {
-								// 從文件名獲取 slug
-								const slug = post.id.replace(/\.(md|mdx)$/, '');
-								return (
-									<article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
-										<div class="p-6">
-											<div class="flex items-center justify-between mb-4">
-												<span class="text-sm text-gray-500 dark:text-gray-400">
-													{post.data.pubDate.toLocaleDateString('zh-TW', {
-														year: 'numeric',
-														month: 'long',
-														day: 'numeric'
-													})}
-												</span>
-											</div>
-											
-											<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
-												<a href={`/blog/${slug}`}>{post.data.title}</a>
-											</h2>
-											
-											<p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-												{post.data.description}
-											</p>
-											
-											<a 
-												href={`/blog/${slug}`}
-												class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors"
-											>
-												閱讀更多
-												<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-												</svg>
-											</a>
-										</div>
-									</article>
-								);
-							})
-						)}
-					</div>
-				</div>
+	<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+		<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+			<!-- Header -->
+			<div class="text-center mb-12">
+				<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+					Blog
+				</h1>
+				<p class="text-xl text-gray-600 dark:text-gray-400">
+					分享我的想法、技術心得和生活點滴
+				</p>
 			</div>
-		</Layout>
+
+			<!-- Blog Posts Grid -->
+			<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+				{await getCollection('blog').then(posts => 
+					posts.map(post => {
+						// 從文件名獲取 slug
+						const slug = post.id.replace(/\.(md|mdx)$/, '');
+						return (
+							<article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group">
+								<div class="p-6">
+									<div class="flex items-center justify-between mb-4">
+										<span class="text-sm text-gray-500 dark:text-gray-400">
+											{post.data.pubDate.toLocaleDateString('zh-TW', {
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric'
+											})}
+										</span>
+									</div>
+									
+									<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors">
+										<a href={`/blog/${slug}`}>{post.data.title}</a>
+									</h2>
+									
+									<p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+										{post.data.description}
+									</p>
+									
+									<a 
+										href={`/blog/${slug}`}
+										class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors"
+									>
+										閱讀更多
+										<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+										</svg>
+									</a>
+								</div>
+							</article>
+						);
+					})
+				)}
+			</div>
+		</div>
+	</div>
+</Layout>
