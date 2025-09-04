@@ -86,9 +86,8 @@ jobs:
         run: |
           # 複製 Blog 首頁和靜態資源
           cp -r public/blog/* out/blog/
-          # 處理雙重 blog 目錄問題（由於 base: '/blog' 配置）
-          if [ -d "public/blog/blog" ]; then
-            cp -r public/blog/blog/* out/blog/
+          # 清理可能存在的雙重 blog 目錄
+          if [ -d "out/blog/blog" ]; then
             rm -rf out/blog/blog
           fi
           # 確保 CSS 和靜態資源路徑正確
