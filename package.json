@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:export": "next build && node scripts/copy-404.js",
+    "build:export": "node scripts/build-blog.js && next build && node scripts/copy-404.js",
+    "build:blog": "node scripts/build-blog.js",
     "start": "next start",
     "lint": "eslint"
   },
