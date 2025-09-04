@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xsong.us - 重定向中...</title>
+    <meta name="description" content="xsong.us - 個人作品集網站">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .message {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .redirect-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fallback-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .fallback-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">xsong.us</div>
+        
+        <div id="redirect-content">
+            <div class="spinner"></div>
+            <div class="message">正在重定向到短網址服務...</div>
+            <div class="redirect-info" id="redirect-url"></div>
+        </div>
+        
+        <div id="error-content" style="display: none;">
+            <div class="message">無法重定向到短網址服務</div>
+            <div class="error-message">請檢查網址是否正確，或稍後再試</div>
+        </div>
+        
+        <a href="/" class="fallback-link">返回首頁</a>
+    </div>
+
+    <script>
+        (function() {
+            // 獲取當前路徑
+            const currentPath = window.location.pathname;
+            
+            // 檢查是否為 /url/ 格式的短網址
+            const urlMatch = currentPath.match(/^\/url\/(.+)$/);
+            
+            if (urlMatch) {
+                // 提取短網址代碼
+                const shortCode = urlMatch[1];
+                
+                // 顯示重定向信息
+                document.getElementById('redirect-url').textContent = 
+                    `重定向到: https://go-shorturl.vercel.app/url/${shortCode}`;
+                
+                // 設置重定向計時器
+                let countdown = 3;
+                const messageElement = document.querySelector('.message');
+                
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    if (countdown > 0) {
+                        messageElement.textContent = `正在重定向到短網址服務... (${countdown})`;
+                    } else {
+                        clearInterval(countdownInterval);
+                        performRedirect(shortCode);
+                    }
+                }, 1000);
+                
+                // 立即重定向（可選，移除註釋以啟用）
+                // performRedirect(shortCode);
+                
+            } else {
+                // 不是短網址格式，顯示錯誤
+                document.getElementById('redirect-content').style.display = 'none';
+                document.getElementById('error-content').style.display = 'block';
+            }
+            
+            function performRedirect(shortCode) {
+                try {
+                    // 重定向到短網址服務
+                    window.location.href = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                } catch (error) {
+                    // 如果重定向失敗，顯示錯誤信息
+                    console.error('重定向失敗:', error);
+                    document.getElementById('redirect-content').style.display = 'none';
+                    document.getElementById('error-content').style.display = 'block';
+                }
+            }
+            
+            // 添加鍵盤快捷鍵支持
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    window.location.href = '/';
+                }
+            });
+            
+            // 添加點擊容器返回首頁的功能
+            document.querySelector('.container').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    window.location.href = '/';
+                }
+            });
+            
+        })();
+    </script>
+</body>
+</html>
