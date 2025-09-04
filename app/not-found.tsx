@@ -24,7 +24,7 @@ export default function NotFound() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-gray-900 dark:text-white mb-4">404</h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">頁面未找到</p>
+        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">正在轉址...</p>
         <Link 
           href="/" 
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
