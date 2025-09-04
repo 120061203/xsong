@@ -127,8 +127,8 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* 演講經歷 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+          {/* 演講經歷時間軸 */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">演講經歷</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* 演講項目 */}
