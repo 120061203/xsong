@@ -15,6 +15,10 @@ try {
   console.log('🔨 構建 Astro 專案...');
   execSync('npm run build', { cwd: blogDir, stdio: 'inherit' });
   
+  // 清理重複的構建輸出
+  console.log('🧹 清理重複的構建輸出...');
+  execSync('node scripts/cleanup-project.js', { cwd: path.join(__dirname, '..'), stdio: 'inherit' });
+  
   console.log('✅ Astro Blog 構建完成！');
 } catch (error) {
   console.error('❌ 構建失敗:', error.message);
