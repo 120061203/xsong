@@ -96,6 +96,15 @@
             font-size: 0.9rem;
             margin-top: 1rem;
         }
+        
+        .debug-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -114,49 +123,47 @@
         </div>
         
         <a href="/" class="fallback-link">返回首頁</a>
+        
+        <div class="debug-info" id="debug-info"></div>
     </div>
 
     <script>
         (function() {
+            // 添加調試信息
+            const debugInfo = document.getElementById('debug-info');
+            debugInfo.textContent = `當前路徑: ${window.location.pathname}`;
+            
             // 獲取當前路徑
             const currentPath = window.location.pathname;
+            console.log('當前路徑:', currentPath);
             
             // 檢查是否為 /url/ 格式的短網址
             const urlMatch = currentPath.match(/^\/url\/(.+)$/);
+            console.log('URL 匹配結果:', urlMatch);
             
             if (urlMatch) {
                 // 提取短網址代碼
                 const shortCode = urlMatch[1];
+                console.log('短網址代碼:', shortCode);
                 
                 // 顯示重定向信息
                 document.getElementById('redirect-url').textContent = 
                     `重定向到: https://go-shorturl.vercel.app/url/${shortCode}`;
                 
-                // 設置重定向計時器
-                let countdown = 3;
-                const messageElement = document.querySelector('.message');
-                
-                const countdownInterval = setInterval(() => {
-                    countdown--;
-                    if (countdown > 0) {
-                        messageElement.textContent = `正在重定向到短網址服務... (${countdown})`;
-                    } else {
-                        clearInterval(countdownInterval);
-                        performRedirect(shortCode);
-                    }
-                }, 1000);
-                
-                // 立即重定向（可選，移除註釋以啟用）
-                // performRedirect(shortCode);
+                // 立即重定向（移除延遲）
+                performRedirect(shortCode);
                 
             } else {
                 // 不是短網址格式，顯示錯誤
+                console.log('不是短網址格式');
                 document.getElementById('redirect-content').style.display = 'none';
                 document.getElementById('error-content').style.display = 'block';
+                debugInfo.textContent += ' | 不是短網址格式';
             }
             
             function performRedirect(shortCode) {
                 try {
+                    console.log('執行重定向到:', `https://go-shorturl.vercel.app/url/${shortCode}`);
                     // 重定向到短網址服務
                     window.location.href = `https://go-shorturl.vercel.app/url/${shortCode}`;
                 } catch (error) {
@@ -164,6 +171,7 @@
                     console.error('重定向失敗:', error);
                     document.getElementById('redirect-content').style.display = 'none';
                     document.getElementById('error-content').style.display = 'block';
+                    debugInfo.textContent += ' | 重定向失敗: ' + error.message;
                 }
             }
             
