@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
   // 額外設定：強制忽略型別檢查
   typedRoutes: false,
   serverExternalPackages: [],
+
 };
 
 export default nextConfig;
