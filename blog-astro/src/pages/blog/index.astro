@@ -10,6 +10,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// 計算閱讀時間的函數
+function getReadingTime(content: string): number {
+	const wordsPerMinute = 200;
+	const words = content.trim().split(/\s+/).length;
+	return Math.ceil(words / wordsPerMinute);
+}
 ---
 
 <!doctype html>
@@ -49,29 +56,100 @@ const posts = (await getCollection('blog')).sort(
 			ul li img {
 				margin-bottom: 0.5rem;
 				border-radius: 12px;
+				width: 100%;
+				height: auto;
+				object-fit: cover;
 			}
 			ul li a {
 				display: block;
+				padding: 1.5rem;
+				border-radius: 16px;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+				height: 100%;
+				box-sizing: border-box;
+			}
+			ul li a::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+				opacity: 0;
+				transition: opacity 0.3s ease;
+			}
+			ul li a:hover {
+				background: rgba(255, 255, 255, 0.08);
+				border-color: rgba(255, 255, 255, 0.2);
+				transform: translateY(-4px);
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+			}
+			ul li a:hover::before {
+				opacity: 1;
 			}
 			.title {
 				margin: 0;
 				color: rgb(var(--black));
-				line-height: 1;
+				line-height: 1.2;
+				font-weight: 600;
+				position: relative;
+				z-index: 1;
+			}
+			.meta {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				margin: 0.5rem 0;
+				font-size: 0.85em;
+				color: rgb(var(--gray));
+				position: relative;
+				z-index: 1;
 			}
 			.date {
 				margin: 0;
 				color: rgb(var(--gray));
+				font-size: 0.9em;
+				position: relative;
+				z-index: 1;
+			}
+			.excerpt {
+				margin: 0.75rem 0 0 0;
+				color: rgb(var(--gray));
+				font-size: 0.9em;
+				line-height: 1.5;
+				position: relative;
+				z-index: 1;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.read-more {
+				margin-top: 1rem;
+				color: rgb(var(--accent));
+				font-weight: 500;
+				font-size: 0.9em;
+				position: relative;
+				z-index: 1;
 			}
 			ul li a:hover h4,
-			ul li a:hover .date {
+			ul li a:hover .date,
+			ul li a:hover .excerpt {
 				color: rgb(var(--accent));
 			}
 			ul a:hover img {
 				box-shadow: var(--box-shadow);
+				transform: scale(1.02);
 			}
 			@media (max-width: 720px) {
 				ul {
-					gap: 0.5em;
+					gap: 1rem;
 				}
 				ul li {
 					width: 100%;
@@ -83,6 +161,14 @@ const posts = (await getCollection('blog')).sort(
 				ul li:first-child .title {
 					font-size: 1.563em;
 				}
+				ul li a {
+					padding: 1rem;
+				}
+				.meta {
+					justify-content: center;
+					flex-wrap: wrap;
+					gap: 0.5rem;
+				}
 			}
 		</style>
 	</head>
@@ -92,19 +178,36 @@ const posts = (await getCollection('blog')).sort(
 			<section>
 				<ul>
 					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
+						posts.map((post) => {
+							const readingTime = getReadingTime(post.body);
+							return (
+								<li>
+									<a href={`/blog/${post.id}/`}>
+										{post.data.heroImage && (
+											<Image width={720} height={360} src={post.data.heroImage} alt="" />
+										)}
+										<h4 class="title">{post.data.title}</h4>
+										<div class="meta">
+											<span class="date">
+												<FormattedDate date={post.data.pubDate} />
+											</span>
+											<span>•</span>
+											<span>{readingTime} 分鐘</span>
+											{post.data.categories && post.data.categories.length > 0 && (
+												<>
+													<span>•</span>
+													<span>{post.data.categories[0]}</span>
+												</>
+											)}
+										</div>
+										{post.data.description && (
+											<p class="excerpt">{post.data.description}</p>
+										)}
+										<div class="read-more">閱讀更多 →</div>
+									</a>
+								</li>
+							);
+						})
 					}
 				</ul>
 			</section>
