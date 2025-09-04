@@ -36,8 +36,8 @@ function cleanup() {
         });
       };
       
-      copyDir(publicBlogDir, outDir);
-      console.log('✅ 將 Astro Blog 移動到 out 目錄');
+      copyDir(publicBlogDir, path.join(outDir, 'blog'));
+      console.log('✅ 將 Astro Blog 移動到 out/blog 目錄');
       
       // 移除 public/blog 目錄
       fs.rmSync(publicBlogDir, { recursive: true, force: true });
