@@ -21,6 +21,29 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: 'go-shorturl',
+    title: 'Go ShortURL',
+    description: '使用 Go 和 Vue.js 實作的短網址服務，提供高效能的重定向和統計功能。',
+    longDescription: '這是一個全端短網址服務，使用 Go 語言作為後端 API，Vue.js 作為前端框架。提供短網址生成、重定向、點擊統計等功能。後端使用 PostgreSQL 資料庫，支援高併發處理和即時統計。前端採用現代化設計，提供直觀的用戶介面。',
+    image: 'https://urlscan.io/liveshot/?width=1280&height=720&url=https://go-shorturl.vercel.app',
+    technologies: ['Go', 'Vue.js', 'PostgreSQL', 'RESTful API', 'Vercel', 'TypeScript', 'TailwindCSS'],
+    githubUrl: 'https://github.com/120061203/go-shorturl',
+    liveUrl: 'https://go-shorturl.vercel.app',
+    backgroundColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+    textColor: 'text-white',
+    lastUpdated: '2025-09-02',
+    features: [
+      '高效能 Go 後端 API',
+      '現代化 Vue.js 前端介面',
+      '短網址生成與重定向',
+      '點擊統計與分析',
+      'PostgreSQL 資料持久化',
+      'Vercel 部署與 CDN',
+      'RESTful API 設計',
+      '高併發處理能力'
+    ]
+  },
+  {
     id: 'xsong-personal-website',
     title: 'xsong.us',
     description: '一個現代化的個人作品集網站，展示專案、工具和專業經驗。',
