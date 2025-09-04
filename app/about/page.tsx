@@ -267,37 +267,15 @@ export default function AboutPage() {
           </div>
 
           {/* 得獎經驗時間軸 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">得獎經驗</h2>
             <div className="relative">
               {/* 時間軸線 */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
               
-              {/* 時間軸項目 */}
+                            {/* 時間軸項目 */}
               <div className="space-y-8">
-                              {/* Air Pocket APP */}
-                <div className="relative">
-                  <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
-                  <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
-                        2021
-                      </span>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">畢業專題競賽 - 佳作 及 廠商獎</p>
-                    <p className="text-gray-600 dark:text-gray-300 mb-3">
-                      建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信。
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">IoT</span>
-                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Python Flask</span>
-                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">MQTT</span>
-                    </div>
-                  </div>
-                </div>
-
-                              {/* Smart Watch */}
+                {/* Smart Watch */}
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
@@ -315,6 +293,28 @@ export default function AboutPage() {
                       <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">IoT</span>
                       <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Python Django</span>
                       <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Line Bot</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Air Pocket APP */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="flex items-center mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
+                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
+                        2021
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">畢業專題競賽 - 佳作 及 廠商獎</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">IoT</span>
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Python Flask</span>
+                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">MQTT</span>
                     </div>
                   </div>
                 </div>
