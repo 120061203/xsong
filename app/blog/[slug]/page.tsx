@@ -39,6 +39,13 @@ const blogPosts: Record<string, BlogPost> = {
   }
 };
 
+// 生成靜態參數以支援靜態導出
+export function generateStaticParams() {
+  return Object.keys(blogPosts).map((slug) => ({
+    slug: slug,
+  }));
+}
+
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params.slug as string;

@@ -20,7 +20,6 @@ const blogPosts: BlogPost[] = [
 ];
 
 export default function BlogPage() {
-  const [selectedPost, setSelectedPost] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
