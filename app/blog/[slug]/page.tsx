@@ -1,6 +1,3 @@
-'use client';
-
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface BlogPost {
@@ -46,9 +43,12 @@ export function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+interface BlogPostPageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
   const post = blogPosts[slug];
 
   if (!post) {
