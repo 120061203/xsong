@@ -76,23 +76,54 @@ jobs:
       - name: Build Astro Blog
         run: |
           cd blog-astro
+          # 清除快取和舊的構建文件
+          rm -rf dist node_modules/.cache
           npm install
           npm run build
+          echo "✅ Astro Blog 構建完成"
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Copy 404.html
         run: cp public/404.html out/404.html
       - name: Copy Astro Blog to output
         run: |
+          # 確保目標目錄存在
+          mkdir -p out/blog
+          
           # 複製 Blog 首頁和靜態資源
+          echo "📁 複製 Astro Blog 文件..."
           cp -r public/blog/* out/blog/
+          
           # 清理可能存在的雙重 blog 目錄
           if [ -d "out/blog/blog" ]; then
+            echo "🧹 清理雙重 blog 目錄..."
             rm -rf out/blog/blog
           fi
+          
+          # 檢查部署的文件
+          echo "📋 檢查部署的文件:"
+          ls -la out/blog/
+          
           # 確保 CSS 和靜態資源路徑正確
           if [ -d "out/blog/_astro" ]; then
             echo "✅ Astro 靜態資源已正確部署"
+          else
+            echo "❌ Astro 靜態資源缺失"
+            exit 1
+          fi
+          
+          # 檢查 index.html 是否正確
+          if [ -f "out/blog/index.html" ]; then
+            echo "✅ Blog 首頁文件存在"
+            # 檢查是否包含我們的 Layout
+            if grep -q "xsong.us" out/blog/index.html; then
+              echo "✅ Blog 首頁使用自定義 Layout"
+            else
+              echo "❌ Blog 首頁可能使用預設 Layout"
+            fi
+          else
+            echo "❌ Blog 首頁文件缺失"
+            exit 1
           fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
