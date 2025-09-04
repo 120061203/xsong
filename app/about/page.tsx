@@ -525,7 +525,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white">Instagram</h3>
-                  <a href="https://instagram.com/songlin" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">instagram.com/songlin</a>
+                  <a href="https://instagram.com/c.s.l.0922" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">instagram.com/c.s.l.0922</a>
                 </div>
               </div>
             </div>
