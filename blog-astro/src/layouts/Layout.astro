@@ -146,6 +146,15 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 				}
 			});
 			
+			// Close mobile menu when clicking on menu links
+			const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+			mobileMenuLinks.forEach(link => {
+				link.addEventListener('click', () => {
+					mobileMenu.classList.add('hidden');
+					mobileMenuIcon.className = 'fas fa-bars text-xl';
+				});
+			});
+			
 			function updateThemeIcon() {
 				const isDark = document.documentElement.classList.contains('dark');
 				themeIcon.className = `fas ${isDark ? 'fa-sun' : 'fa-moon'} text-xl`;
