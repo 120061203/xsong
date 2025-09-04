@@ -129,51 +129,24 @@
 
     <script>
         (function() {
-            // 添加調試信息
-            const debugInfo = document.getElementById('debug-info');
-            debugInfo.textContent = `當前路徑: ${window.location.pathname}`;
-            
             // 獲取當前路徑
             const currentPath = window.location.pathname;
-            console.log('當前路徑:', currentPath);
             
             // 檢查是否為 /url/ 格式的短網址
             const urlMatch = currentPath.match(/^\/url\/(.+)$/);
-            console.log('URL 匹配結果:', urlMatch);
             
             if (urlMatch) {
                 // 提取短網址代碼
                 const shortCode = urlMatch[1];
-                console.log('短網址代碼:', shortCode);
                 
-                // 顯示重定向信息
-                document.getElementById('redirect-url').textContent = 
-                    `重定向到: https://go-shorturl.vercel.app/url/${shortCode}`;
-                
-                // 立即重定向（移除延遲）
-                performRedirect(shortCode);
-                
-            } else {
-                // 不是短網址格式，顯示錯誤
-                console.log('不是短網址格式');
-                document.getElementById('redirect-content').style.display = 'none';
-                document.getElementById('error-content').style.display = 'block';
-                debugInfo.textContent += ' | 不是短網址格式';
+                // 立即重定向，不顯示任何內容
+                window.location.replace(`https://go-shorturl.vercel.app/url/${shortCode}`);
+                return;
             }
             
-            function performRedirect(shortCode) {
-                try {
-                    console.log('執行重定向到:', `https://go-shorturl.vercel.app/url/${shortCode}`);
-                    // 重定向到短網址服務
-                    window.location.href = `https://go-shorturl.vercel.app/url/${shortCode}`;
-                } catch (error) {
-                    // 如果重定向失敗，顯示錯誤信息
-                    console.error('重定向失敗:', error);
-                    document.getElementById('redirect-content').style.display = 'none';
-                    document.getElementById('error-content').style.display = 'block';
-                    debugInfo.textContent += ' | 重定向失敗: ' + error.message;
-                }
-            }
+            // 如果不是短網址，顯示標準 404 頁面
+            document.getElementById('redirect-content').style.display = 'none';
+            document.getElementById('error-content').style.display = 'block';
             
             // 添加鍵盤快捷鍵支持
             document.addEventListener('keydown', function(event) {
