@@ -954,6 +954,17 @@ export default function AboutPage() {
                     </svg>
                     簡報
                   </a>
+                  <a 
+                    href="https://drive.google.com/file/d/1C_iAOjCKQI_LlSXQ-9DcMgMkGWG_Zooc/view" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                    </svg>
+                    講義
+                  </a>
                 </div>
                 
                 <div className="flex flex-wrap gap-2">
