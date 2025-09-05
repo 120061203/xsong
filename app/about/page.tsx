@@ -9,9 +9,9 @@ export default function AboutPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="w-32 h-32 mx-auto mb-8">
-            <img 
-              src="/avatar.png" 
-              alt="小松" 
+            <img
+              src="/avatar.png"
+              alt="小松"
               className="w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg"
             />
           </div>
@@ -22,8 +22,8 @@ export default function AboutPage() {
             專案協調人與領導者，專注於 DevOps 工程與技術創新
           </p>
           <div className="flex justify-center space-x-4">
-            <a 
-              href="/songLinResume20250505.pdf" 
+            <a
+              href="/songLinResume20250505.pdf"
               download
               className="inline-flex items-center px-6 py-3 bg-blue-600 dark:bg-green-600 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-green-700 transition-colors"
             >
@@ -32,8 +32,8 @@ export default function AboutPage() {
               </svg>
               下載 CV
             </a>
-            <a 
-              href="https://github.com/120061203" 
+            <a
+              href="https://github.com/120061203"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors"
@@ -70,7 +70,7 @@ export default function AboutPage() {
             <div className="relative">
               {/* 時間軸線 */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-              
+
               {/* 時間軸項目 */}
               <div className="space-y-8">
                 {/* 工作經歷 */}
@@ -127,150 +127,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* 演講經歷時間軸 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">演講經歷</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* 演講項目 */}
-                              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="mb-3">
-                    <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
-                      2024.11.30
-                    </span>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LLM Comparator: Running Comparative Evaluations with Google Vertex AI</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">2024 DevFest Taipei - Google Official Workshop</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                    在 Vertex AI 平台上如何評估兩個語言模型，分享 LLM 比較評估的實戰經驗。
-                  </p>
-                  
-                  {/* 連結區域 */}
-                  <div className="flex flex-wrap gap-3 mb-4">
-                    <a 
-                      href="https://www.youtube.com/watch?v=XwVvr38aO4U" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-2 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                      YouTube
-                    </a>
-                    <a 
-                      href="https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
-                      </svg>
-                      簡報
-                    </a>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Vertex AI</span>
-                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">LLM</span>
-                    <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">AI 評估</span>
-                  </div>
-                </div>
-                
-                {/* 第二個演講項目 */}
-                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="mb-3">
-                    <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
-                      2023.10.04
-                    </span>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Git程式碼時光機-新手入門</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                    為 GDSC NCU 成員介紹 Git 版本控制的基本概念和實用技巧，幫助新手快速上手。
-                  </p>
-                  
-                  {/* 連結區域 */}
-                  <div className="flex flex-wrap gap-3 mb-4">
-                    <a 
-                      href="https://www.youtube.com/watch?v=s3LWK39HWHM" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-2 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                      YouTube
-                    </a>
-                    <a 
-                      href="https://docs.google.com/presentation/d/1PnOpOlVngBYEOAh6d558Ejq0hUugGaq1dGL4VTcLuIc/edit" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
-                      </svg>
-                      簡報
-                    </a>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Git</span>
-                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">版本控制</span>
-                    <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">新手教學</span>
-                  </div>
-                </div>
-                
-                {/* 第三個演講項目 */}
-                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="mb-3">
-                    <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
-                      2024.09.28
-                    </span>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Maker之旅 x 個性化木紋杯墊</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                    結合 AI 技術與 Maker 精神，帶領學員製作個性化木紋杯墊，體驗 AI 在創意設計中的應用。
-                  </p>
-                  
-                  {/* 連結區域 */}
-                  <div className="flex flex-wrap gap-3 mb-4">
-                    <a 
-                      href="https://www.youtube.com/watch?v=GYC4Ka9UJFI" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-2 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                      YouTube
-                    </a>
-                    <a 
-                      href="https://docs.google.com/presentation/d/1DhGk2vi2WLfZkJbNWvd-G4Gah9nT-efk2AjN8wXoegE/edit?slide=id.g2efaa4a1007_0_621#slide=id.g2efaa4a1007_0_621" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
-                      </svg>
-                      簡報
-                    </a>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">AI</span>
-                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">Maker</span>
-                    <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">創意設計</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* 得獎經驗時間軸 */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
@@ -278,7 +134,7 @@ export default function AboutPage() {
             <div className="relative">
               {/* 時間軸線 */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-              
+
                             {/* 時間軸項目 */}
               <div className="space-y-8">
                 {/* Smart Watch */}
@@ -378,7 +234,7 @@ export default function AboutPage() {
             <div className="relative">
               {/* 時間軸線 */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-              
+
               {/* 時間軸項目 */}
               <div className="space-y-8">
                 {/* AWS臺灣生成式AI應用黑客松競賽 */}
@@ -736,7 +592,7 @@ export default function AboutPage() {
                   <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">議程剪輯</span>
                   <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">開源社群</span>
                 </div>
-                
+
               </div>
 
               {/* SITCON學生計算機年會 */}
@@ -896,6 +752,6 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+      </div>
   );
-  }
-  
+}
