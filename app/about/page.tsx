@@ -698,6 +698,126 @@ export default function AboutPage() {
             </div>
           </div>
 
+          {/* 演講經驗 */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">演講經驗</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* 演講項目 1 */}
+              <div className="group cursor-pointer" onClick={() => window.open('https://www.youtube.com/watch?v=XwVvr38aO4U', '_blank')}>
+                <div className="relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105">
+                  {/* YouTube 縮圖區域 */}
+                  <div className="relative aspect-video bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform duration-300">
+                        <svg className="w-8 h-8 text-red-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                      <p className="text-white text-sm font-medium">觀看演講</p>
+                    </div>
+                    {/* 時間標籤 */}
+                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                      2024.11.30
+                    </div>
+                  </div>
+                  
+                  {/* 內容區域 */}
+                  <div className="p-4 bg-white dark:bg-gray-800">
+                    <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2 line-clamp-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                      LLM Comparator: Running Comparative Evaluations with Google Vertex AI
+                    </h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">2024 DevFest Taipei - Google Official Workshop</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 line-clamp-2">
+                      在 Vertex AI 平台上如何評估兩個語言模型，分享 LLM 比較評估的實戰經驗。
+                    </p>
+                    <div className="flex flex-wrap gap-1 mt-3">
+                      <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded">Vertex AI</span>
+                      <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded">LLM</span>
+                      <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded">AI 評估</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 演講項目 2 */}
+              <div className="group cursor-pointer" onClick={() => window.open('https://www.youtube.com/watch?v=s3LWK39HWHM', '_blank')}>
+                <div className="relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105">
+                  {/* YouTube 縮圖區域 */}
+                  <div className="relative aspect-video bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform duration-300">
+                        <svg className="w-8 h-8 text-green-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                      <p className="text-white text-sm font-medium">觀看演講</p>
+                    </div>
+                    {/* 時間標籤 */}
+                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                      2023.10.04
+                    </div>
+                  </div>
+                  
+                  {/* 內容區域 */}
+                  <div className="p-4 bg-white dark:bg-gray-800">
+                    <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                      Git程式碼時光機-新手入門
+                    </h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Google Developer Student Club NCU</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 line-clamp-2">
+                      為 GDSC NCU 成員介紹 Git 版本控制的基本概念和實用技巧，幫助新手快速上手。
+                    </p>
+                    <div className="flex flex-wrap gap-1 mt-3">
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Git</span>
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">版本控制</span>
+                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">新手教學</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 演講項目 3 */}
+              <div className="group cursor-pointer" onClick={() => window.open('https://www.youtube.com/watch?v=GYC4Ka9UJFI', '_blank')}>
+                <div className="relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105">
+                  {/* YouTube 縮圖區域 */}
+                  <div className="relative aspect-video bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform duration-300">
+                        <svg className="w-8 h-8 text-purple-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                      <p className="text-white text-sm font-medium">觀看演講</p>
+                    </div>
+                    {/* 時間標籤 */}
+                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                      2024.09.28
+                    </div>
+                  </div>
+                  
+                  {/* 內容區域 */}
+                  <div className="p-4 bg-white dark:bg-gray-800">
+                    <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2 line-clamp-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      AI Maker之旅 x 個性化木紋杯墊
+                    </h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Google Developer Student Club NCU</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 line-clamp-2">
+                      結合 AI 技術與 Maker 精神，帶領學員製作個性化木紋杯墊，體驗 AI 在創意設計中的應用。
+                    </p>
+                    <div className="flex flex-wrap gap-1 mt-3">
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">AI</span>
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">Maker</span>
+                      <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">創意設計</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* 聯絡方式 */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">聯絡方式</h2>
