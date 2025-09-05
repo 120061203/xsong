@@ -1,11 +1,56 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
+  const [activeSection, setActiveSection] = useState('');
+
+  // 目錄項目
+  const sections = [
+    { id: 'personal-info', title: '個人簡介' },
+    { id: 'education', title: '學經歷' },
+    { id: 'awards', title: '得獎經驗' },
+    { id: 'competitions', title: '參賽經歷' },
+    { id: 'teaching', title: '教學經驗' },
+    { id: 'speeches', title: '演講經驗' },
+    { id: 'contact', title: '聯絡方式' }
+  ];
+
+  // 滾動監聽
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i].id);
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 初始調用
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 滾動到指定區塊
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
     return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex gap-8">
+          {/* 主要內容區域 */}
+          <div className="flex-1 max-w-3xl">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="w-32 h-32 mx-auto mb-8">
@@ -47,7 +92,7 @@ export default function AboutPage() {
         </div>
 
         {/* 個人簡介 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+        <div id="personal-info" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">個人簡介</h2>
           <div className="prose dark:prose-invert max-w-none">
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
@@ -65,7 +110,7 @@ export default function AboutPage() {
 
 
           {/* 學經歷時間軸 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+          <div id="education" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">學經歷</h2>
             <div className="relative">
               {/* 時間軸線 */}
@@ -129,7 +174,7 @@ export default function AboutPage() {
 
 
           {/* 得獎經驗時間軸 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+          <div id="awards" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">得獎經驗</h2>
             <div className="relative">
               {/* 時間軸線 */}
@@ -229,7 +274,7 @@ export default function AboutPage() {
           </div>
 
           {/* 參賽經歷時間軸 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+          <div id="competitions" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">參賽經歷</h2>
             <div className="relative">
               {/* 時間軸線 */}
@@ -632,7 +677,7 @@ export default function AboutPage() {
           </div>
 
           {/* 教學經驗 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+          <div id="teaching" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">教學經驗</h2>
             <div className="space-y-8">
               {/* GDSC */}
@@ -699,10 +744,10 @@ export default function AboutPage() {
           </div>
 
           {/* 演講經驗 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
+          <div id="speeches" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">演講經驗</h2>
             <div className="space-y-8">
-              {/* 演講項目 1 */}
+              {/* 演講項目 1 - 最新 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
@@ -748,53 +793,7 @@ export default function AboutPage() {
                 </div>
               </div>
               
-              {/* 演講項目 2 */}
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                <div className="mb-3">
-                  <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
-                    2023.10.04
-                  </span>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Git程式碼時光機-新手入門</h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                  為 GDSC NCU 成員介紹 Git 版本控制的基本概念和實用技巧，幫助新手快速上手。
-                </p>
-                
-                {/* 連結區域 */}
-                <div className="flex flex-wrap gap-3 mb-4">
-                  <a 
-                    href="https://www.youtube.com/watch?v=s3LWK39HWHM" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-2 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
-                  >
-                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                    YouTube
-                  </a>
-                  <a 
-                    href="https://docs.google.com/presentation/d/1PnOpOlVngBYEOAh6d558Ejq0hUugGaq1dGL4VTcLuIc/edit" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
-                  >
-                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
-                    </svg>
-                    簡報
-                  </a>
-                </div>
-                
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Git</span>
-                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">版本控制</span>
-                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">新手教學</span>
-                </div>
-              </div>
-              
-              {/* 演講項目 3 */}
+              {/* 演講項目 2 - 中間 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
@@ -839,11 +838,57 @@ export default function AboutPage() {
                   <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">創意設計</span>
                 </div>
               </div>
+              
+              {/* 演講項目 3 - 最早 */}
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div className="mb-3">
+                  <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
+                    2023.10.04
+                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Git程式碼時光機-新手入門</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  為 GDSC NCU 成員介紹 Git 版本控制的基本概念和實用技巧，幫助新手快速上手。
+                </p>
+                
+                {/* 連結區域 */}
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <a 
+                    href="https://www.youtube.com/watch?v=s3LWK39HWHM" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    YouTube
+                  </a>
+                  <a 
+                    href="https://docs.google.com/presentation/d/1PnOpOlVngBYEOAh6d558Ejq0hUugGaq1dGL4VTcLuIc/edit" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                    </svg>
+                    簡報
+                  </a>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Git</span>
+                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">版本控制</span>
+                  <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">新手教學</span>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* 聯絡方式 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+          <div id="contact" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">聯絡方式</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-center space-x-4">
@@ -895,7 +940,33 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
+          </div>
+
+          {/* 右側目錄 */}
+          <div className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-24">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">目錄</h3>
+                <nav className="space-y-2">
+                  {sections.map((section) => (
+                    <button
+                      key={section.id}
+                      onClick={() => scrollToSection(section.id)}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                        activeSection === section.id
+                          ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 font-medium'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                      }`}
+                    >
+                      {section.title}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
   );
 }
