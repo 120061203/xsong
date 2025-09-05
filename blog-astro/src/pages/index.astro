@@ -15,7 +15,7 @@ const tags = [...new Set(posts.flatMap(post => post.data.tags || []))];
 function calculateReadingTime(content: string) {
 	const wordsPerMinute = 250;
 	// 移除 Markdown 語法，計算中文字數
-	const cleanContent = content.replace(/[#*`\[\]()]/g, '').replace(/---/g, '');
+	const cleanContent = content.replace(/[#*\`\[\]()]/g, '').replace(/---/g, '');
 	const words = cleanContent.length;
 	return Math.ceil(words / wordsPerMinute);
 }
@@ -125,7 +125,7 @@ function calculateReadingTime(content: string) {
 													<div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
 														<span>{readingTime} 分鐘</span>
 														<span class="mx-2">•</span>
-														<span>{post.body.replace(/[#*`\[\]()]/g, '').replace(/---/g, '').length} 字</span>
+														<span>{post.body.replace(/[#*\`\[\]()]/g, '').replace(/---/g, '').length} 字</span>
 													</div>
 												</div>
 												
