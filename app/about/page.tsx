@@ -47,7 +47,7 @@ export default function AboutPage() {
         </div>
 
         {/* 個人簡介 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">個人簡介</h2>
           <div className="prose dark:prose-invert max-w-none">
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
@@ -65,7 +65,7 @@ export default function AboutPage() {
 
 
           {/* 學經歷時間軸 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">學經歷</h2>
             <div className="relative">
               {/* 時間軸線 */}
@@ -574,7 +574,7 @@ export default function AboutPage() {
           </div>
 
           {/* 社群參與 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">社群參與</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* COSCUP開源人年會 */}
@@ -632,7 +632,7 @@ export default function AboutPage() {
           </div>
 
           {/* 教學經驗 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12 mx-4 sm:mx-8 lg:mx-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">教學經驗</h2>
             <div className="space-y-8">
               {/* GDSC */}
@@ -754,4 +754,5 @@ export default function AboutPage() {
         </div>
       </div>
   );
-}
+  }
+  
