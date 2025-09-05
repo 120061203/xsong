@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 export default function AboutPage() {
-  return (
+    return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
@@ -77,11 +77,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">DevOps 工程師</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
                         2025.08 - 現在
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">DevOps 工程師</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">台中某軟體公司</p>
                     <p className="text-gray-600 dark:text-gray-300">
@@ -94,11 +94,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">網路學習科技研究所</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
                         2023 - 2025
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">網路學習科技研究所</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">國立中央大學</p>
                     <p className="text-gray-600 dark:text-gray-300">
@@ -111,11 +111,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">資訊工程學系</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
                         2018 - 2022
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">資訊工程學系</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">國立高雄大學</p>
                     <p className="text-gray-600 dark:text-gray-300">
@@ -133,9 +133,11 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* 演講項目 */}
                               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="mb-3">
+                    <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
+                      2024.11.30
+                    </span>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LLM Comparator: Running Comparative Evaluations with Google Vertex AI</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2024.11.30</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-3">2024 DevFest Taipei - Google Official Workshop</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
@@ -177,9 +179,11 @@ export default function AboutPage() {
                 
                 {/* 第二個演講項目 */}
                 <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="mb-3">
+                    <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
+                      2023.10.04
+                    </span>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Git程式碼時光機-新手入門</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2023.10.04</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
@@ -221,9 +225,11 @@ export default function AboutPage() {
                 
                 {/* 第三個演講項目 */}
                 <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="mb-3">
+                    <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
+                      2024.09.28
+                    </span>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Maker之旅 x 個性化木紋杯墊</h3>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">2024.09.28</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-3">Google Developer Student Club NCU</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
@@ -279,11 +285,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart Watch</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
                         2022
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart Watch</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">2022數位聯網智動化創新應用競賽 - 佳作</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -301,11 +307,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
                         2021
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Air Pocket APP</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">畢業專題競賽 - 佳作 及 廠商獎</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -323,11 +329,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-yellow-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">太陽能百葉窗結合物聯網app解決西曬問題</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full mb-2">
                         2020
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">太陽能百葉窗結合物聯網app解決西曬問題</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">台灣能潔能科技創意實作競賽 - 全國20強 & 第九屆激發學生創意競賽 - 第二名</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -345,11 +351,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">GoGoShop Ordering System</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
                         2020
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">GoGoShop Ordering System</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">網頁程式設計課程 - 第一名</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -379,11 +385,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-red-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AWS臺灣生成式AI應用黑客松競賽</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-full mb-2">
                         2025.4
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AWS臺灣生成式AI應用黑客松競賽</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">黑客組</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -416,11 +422,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">APAC亞太區 Google Solution Challenge</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
                         2025.4
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">APAC亞太區 Google Solution Challenge</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">SDG 3 Good Health and Well-being 邊緣運算機器狗</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -453,11 +459,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-green-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">PicoCTF 資安挑戰賽</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
                         2025.3
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">PicoCTF 資安挑戰賽</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">參賽</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -490,11 +496,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">全國台北城市通黑客松</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
                         2024.9
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">全國台北城市通黑客松</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">決賽入選 - 城市通APP微服務實作LLM RAG Flutter APP 後端資料API</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -527,11 +533,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-yellow-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Google Solution Challenge</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full mb-2">
                         2024.2
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Google Solution Challenge</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">SDG 15 Life On Land議題 - Flutter App</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -564,11 +570,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-indigo-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">校際數位聯網智動化創新應用競賽</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300 rounded-full mb-2">
                         2022.6
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">校際數位聯網智動化創新應用競賽</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">佳作 - 使用Python Django框架實作Linebot及串接雲端MQTT物聯網感測器</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -601,11 +607,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">資訊工程學系畢業專題競賽</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-pink-100 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-pink-100 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded-full mb-2">
                         2021.11
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">資訊工程學系畢業專題競賽</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">佳作及廠商獎 - 透過Adobe XD設計及實作空氣品質檢測APP及後端API</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -638,11 +644,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-teal-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">第九屆激發學生創意競賽</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded-full mb-2">
                         2021.11
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">第九屆激發學生創意競賽</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">第二名 - 實作太陽能百葉窗APP即時角度調整系統</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -675,11 +681,11 @@ export default function AboutPage() {
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-orange-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                   <div className="ml-16">
-                    <div className="flex items-center mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">台灣能潔能科技創意實作競賽</h3>
-                      <span className="ml-4 px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded-full mb-2">
                         2020.10
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">台灣能潔能科技創意實作競賽</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">全國20強 - 實作太陽能百葉窗APP即時角度調整系統</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -891,4 +897,5 @@ export default function AboutPage() {
           </div>
         </div>
   );
-}
+  }
+  
