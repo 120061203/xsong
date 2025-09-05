@@ -119,17 +119,7 @@ jobs:
           ls -la out/blog/
           
           # 檢查文章頁面是否存在
-          if [ -d "out/blog/first-post" ]; then
-            echo "✅ 文章頁面 first-post 存在"
-          else
-            echo "❌ 文章頁面 first-post 缺失"
-          fi
-          
-          if [ -d "out/blog/hello-world" ]; then
-            echo "✅ 文章頁面 hello-world 存在"
-          else
-            echo "❌ 文章頁面 hello-world 缺失"
-          fi
+
           
           # 確保 CSS 和靜態資源路徑正確
           if [ -d "out/blog/_astro" ]; then
