@@ -7,6 +7,7 @@
     "build": "next build",
     "build:export": "next build && node scripts/copy-404.js",
     "build:blog": "node scripts/build-blog.js",
+    "create:blog-images": "node scripts/create-blog-image-folders.js",
     "start": "next start",
     "lint": "eslint"
   },
