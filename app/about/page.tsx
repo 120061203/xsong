@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { PersonStructuredData } from '../components/StructuredData';
 
 export default function AboutPage() {
   const [activeSection, setActiveSection] = useState('');
@@ -54,6 +55,13 @@ export default function AboutPage() {
 
     return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <PersonStructuredData
+        name="小松"
+        email="ccssll120061203@gmail.com"
+        url="https://xsong.us"
+        jobTitle="軟體工程師"
+        description="專精於前端開發、DevOps 和技術分享的軟體工程師"
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex gap-8">
           {/* 主要內容區域 */}
