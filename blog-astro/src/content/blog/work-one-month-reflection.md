@@ -3,7 +3,7 @@ title: "工作一個月的心態"
 description: "記錄作為新鮮人工作一個月後的心得與反思，分享職場初體驗的酸甜苦辣。"
 pubDate: 2025-09-04
 updatedDate: 2025-09-05
-heroImage: "https://raw.githubusercontent.com/120061203/xsong/main/images/work-one-month-reflection-1.png"
+heroImage: "../../assets/images/work-one-month-reflection/work-one-month-reflection-1.png"
 categories: ["工作日記", "職涯發展"]
 tags: ["工作日記", "職涯", "新鮮人就業", "職場心得", "工作反思", "個人成長"]
 ---
@@ -15,7 +15,7 @@ tags: ["工作日記", "職涯", "新鮮人就業", "職場心得", "工作反�
 ## 工作第一天
 8月4日，雨，和人資約9:00到公司，但沒想到第一天到公司，樓下電梯大廳排了很長的人，人潮就像吃buffet排隊的人流，每條隊伍大約15人以上，大約分4條隊伍，而我在16樓，只有唯一一條可以排隊，我在樓下拿了電梯卡，準備前往公司。
 
-![工作第一天 - 電梯大廳排隊](/images/work-one-month-reflection/work-one-month-reflection-1.png)
+![工作第一天 - 電梯大廳排隊](../../assets/images/work-one-month-reflection/work-one-month-reflection-1.png)
 
 抵達公司，剛好尾隨一位同樣晚到的同事，她幫我找了人資，還記得人資向我招了招手，示意我進去一個透明玻璃的會議室，她讓我登入一台Macbook電腦，並告訴我Google帳號密碼，領取我的Badge和電梯卡，並告訴我公司的簡單事項，包含上班彈性時間從8:00～9:00，自己往後加9小時，並讓我打卡，我還記得我第一天打卡是9:18，她說一般超過15分需要請假半小時，但第一天她就比較彈性，我只要18:18以後下班就可以了，我內心覺得也還蠻正常的。
 
