@@ -3,7 +3,7 @@ title: "我的第一篇技術文章"
 description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向。"
 pubDate: 2025-09-04
 updatedDate: 2025-09-04
-heroImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=400&fit=crop"
+heroImage: "../../assets/images/my-first-article/my-first-article-1.png"
 categories: ["技術分享", "部落格建立"]
 tags: ["Astro", "Next.js", "技術寫作", "個人成長", "前端開發", "靜態網站", "GitHub Pages", "TypeScript", "TailwindCSS", "開發工具"]
 ---
@@ -21,6 +21,8 @@ tags: ["Astro", "Next.js", "技術寫作", "個人成長", "前端開發", "靜�
 > 先來介紹一下我自己，我叫小松，目前居住在台中，我是一位熱愛技術的開發者，平時除了寫程式之外，也喜歡去社群中分享各種技術心得和教學經驗。在技術學習的過程中，我發現很多時候「寫下來」是最好的學習方式，因此決定建立這個技術部落格。
 
 在決定建立部落格時，我有幾個選擇：WordPress、Hugo、Next.js、Astro 等。雖然我最一開始的志願序是 WordPress > Next.js > Astro，但經過深入研究和比較後，我選擇了 Astro 作為我的部落格框架。
+
+![技術部落格建立過程](../../assets/images/my-first-article/my-first-article-1.png)
 
 但我想要先澄清，這個部落格不只是寫技術文章！我的目標是建立一個全方位的技術分享平台，包含技術心得、演講內容、課程教學、以及個人成長記錄，類似於一個技術人的數位花園。
 
