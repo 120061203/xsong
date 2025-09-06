@@ -1,4 +1,311 @@
-<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="分享我學習 Next.js 和 Astro 的心得，以及如何整合兩個框架的經驗。"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.13.5"><title>我的第一篇技術文章</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><script>
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向。"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.13.5"><title>我的第一篇技術文章</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><!-- 自定義部落格樣式 --><style>
+			/* 部落格文章樣式 */
+			.prose {
+				/* 基礎排版 */
+				line-height: 1.8;
+				color: #374151;
+			}
+
+			.dark .prose {
+				color: #d1d5db;
+			}
+
+			/* 標題樣式 */
+			.prose h1 {
+				font-size: 2.25rem;
+				font-weight: 700;
+				line-height: 1.2;
+				margin-top: 2.5rem;
+				margin-bottom: 1.5rem;
+				color: #111827;
+				border-bottom: 2px solid #e5e7eb;
+				padding-bottom: 0.5rem;
+			}
+
+			.dark .prose h1 {
+				color: #f9fafb;
+				border-bottom-color: #374151;
+			}
+
+			.prose h2 {
+				font-size: 1.875rem;
+				font-weight: 600;
+				line-height: 1.3;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				color: #111827;
+				border-left: 4px solid #3b82f6;
+				padding-left: 1rem;
+			}
+
+			.dark .prose h2 {
+				color: #f9fafb;
+				border-left-color: #10b981;
+			}
+
+			.prose h3 {
+				font-size: 1.5rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.75rem;
+				margin-bottom: 0.75rem;
+				color: #111827;
+			}
+
+			.dark .prose h3 {
+				color: #f9fafb;
+			}
+
+			.prose h4 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+				color: #111827;
+			}
+
+			.dark .prose h4 {
+				color: #f9fafb;
+			}
+
+			/* 段落樣式 */
+			.prose p {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				line-height: 1.8;
+				font-size: 1.125rem;
+			}
+
+			/* 列表樣式 */
+			.prose ul, .prose ol {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				padding-left: 1.5rem;
+			}
+
+			.prose li {
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				line-height: 1.7;
+			}
+
+			.prose ul li {
+				list-style-type: disc;
+			}
+
+			.prose ol li {
+				list-style-type: decimal;
+			}
+
+			/* 引用塊樣式 */
+			.prose blockquote {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+				border-left: 4px solid #3b82f6;
+				border-radius: 0.5rem;
+				font-style: italic;
+				position: relative;
+			}
+
+			.dark .prose blockquote {
+				background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+				border-left-color: #10b981;
+			}
+
+			.prose blockquote::before {
+				content: '"';
+				font-size: 3rem;
+				color: #3b82f6;
+				position: absolute;
+				top: -0.5rem;
+				left: 1rem;
+				font-family: serif;
+			}
+
+			.dark .prose blockquote::before {
+				color: #10b981;
+			}
+
+			.prose blockquote p {
+				margin: 0;
+				font-size: 1.125rem;
+				line-height: 1.7;
+			}
+
+			/* 程式碼樣式 */
+			.prose code {
+				background-color: #f3f4f6;
+				color: #dc2626;
+				padding: 0.25rem 0.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.dark .prose code {
+				background-color: #374151;
+				color: #f87171;
+			}
+
+			.prose pre {
+				background-color: #1f2937;
+				color: #f9fafb;
+				padding: 1.5rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				margin: 2rem 0;
+				border: 1px solid #374151;
+			}
+
+			.prose pre code {
+				background-color: transparent;
+				color: inherit;
+				padding: 0;
+				border-radius: 0;
+				font-size: 0.875rem;
+			}
+
+			/* 連結樣式 */
+			.prose a {
+				color: #3b82f6;
+				text-decoration: underline;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 2px;
+				transition: color 0.2s ease;
+			}
+
+			.dark .prose a {
+				color: #10b981;
+			}
+
+			.prose a:hover {
+				color: #2563eb;
+			}
+
+			.dark .prose a:hover {
+				color: #059669;
+			}
+
+			/* 表格樣式 */
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 2rem 0;
+				border-radius: 0.5rem;
+				overflow: hidden;
+				border: 1px solid #e5e7eb;
+			}
+
+			.dark .prose table {
+				border-color: #374151;
+			}
+
+			.prose th {
+				background-color: #f9fafb;
+				color: #111827;
+				font-weight: 600;
+				padding: 0.75rem 1rem;
+				text-align: left;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose th {
+				background-color: #374151;
+				color: #f9fafb;
+				border-bottom-color: #4b5563;
+			}
+
+			.prose td {
+				padding: 0.75rem 1rem;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose td {
+				border-bottom-color: #4b5563;
+			}
+
+			/* 水平線樣式 */
+			.prose hr {
+				margin: 3rem 0;
+				border: none;
+				height: 1px;
+				background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+			}
+
+			.dark .prose hr {
+				background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+			}
+
+			/* 圖片樣式 */
+			.prose img {
+				border-radius: 0.5rem;
+				margin: 2rem 0;
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			}
+
+			/* 強調文字 */
+			.prose strong {
+				font-weight: 600;
+				color: #111827;
+			}
+
+			.dark .prose strong {
+				color: #f9fafb;
+			}
+
+			/* 斜體文字 */
+			.prose em {
+				font-style: italic;
+				color: #6b7280;
+			}
+
+			.dark .prose em {
+				color: #9ca3af;
+			}
+
+			/* 特殊標記 */
+			.prose mark {
+				background-color: #fef3c7;
+				color: #92400e;
+				padding: 0.125rem 0.25rem;
+				border-radius: 0.25rem;
+			}
+
+			.dark .prose mark {
+				background-color: #451a03;
+				color: #fbbf24;
+			}
+
+			/* 段落間距優化 */
+			.prose > * + * {
+				margin-top: 1.5rem;
+			}
+
+			.prose > * + h1,
+			.prose > * + h2,
+			.prose > * + h3,
+			.prose > * + h4 {
+				margin-top: 2.5rem;
+			}
+
+			/* 列表間距 */
+			.prose ul + p,
+			.prose ol + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 引用塊間距 */
+			.prose blockquote + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 程式碼塊間距 */
+			.prose pre + p {
+				margin-top: 1.5rem;
+			}
+		</style><script>
 			tailwind.config = {
 				darkMode: 'class',
 				theme: {
@@ -15,45 +322,84 @@ Blog
 Projects
 </a> <a href="/tools" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
 Tools
-</a> </div> <!-- Theme Toggle --> <div class="flex items-center space-x-2"> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8"> <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- Back to Blog --> <div class="mb-8"> <a href="/blog" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors"> <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path> </svg>
+</a> </div> <!-- Theme Toggle and Mobile Menu Button --> <div class="flex items-center space-x-2"> <!-- Theme Toggle --> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> <!-- Mobile Menu Button --> <button id="mobile-menu-button" class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle mobile menu"> <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i> </button> </div> </div> <!-- Mobile Navigation Menu --> <div id="mobile-menu" class="md:hidden hidden"> <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"> <a href="/about" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+About
+</a> <a href="/blog" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-green-400 bg-blue-50 dark:bg-green-900/20 rounded-md">
+Blog
+</a> <a href="/projects" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Projects
+</a> <a href="/tools" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Tools
+</a> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col lg:flex-row gap-8"> <!-- 主要內容區域 --> <div class="lg:w-3/4"> <!-- Back to Blog --> <div class="mb-8"> <a href="/blog" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors"> <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path> </svg>
 返回部落格
-</a> </div> <!-- Article --> <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700"> <div class="w-full h-64 md:h-96 overflow-hidden"> <img src="https://picsum.photos/800/400" alt="我的第一篇技術文章" loading="lazy" decoding="async" fetchpriority="auto" width="1020" height="510" class="w-full h-full object-cover"> </div> <div class="p-8"> <!-- Header --> <header class="mb-8"> <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"> 我的第一篇技術文章 </h1> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm"> <time dateTime="2025-01-21T00:00:00.000Z"> 2025年1月21日 </time>  <span class="mx-2">•</span> <span>更新於 2025年1月21日</span>  </div> </header> <!-- Content --> <div class="prose prose-lg max-w-none dark:prose-invert">  <h1 id="我的第一篇技術文章">我的第一篇技術文章</h1>
-<p>歡迎來到我的技術部落格！這是我使用 Astro 寫的第一篇文章。</p>
+</a> </div> <!-- Article --> <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700"> <div class="w-full h-64 md:h-96 overflow-hidden"> <img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=400&fit=crop" alt="我的第一篇技術文章" loading="lazy" decoding="async" fetchpriority="auto" width="1020" height="510" class="w-full h-full object-cover"> </div> <div class="p-8"> <!-- Header --> <header class="mb-8"> <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"> 我的第一篇技術文章 </h1> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm"> <time dateTime="2025-09-04T00:00:00.000Z"> 2025年9月4日 </time>  <span class="mx-2">•</span> <span>更新於 2025年9月4日</span>  </div> </header> <!-- Content --> <div class="prose prose-lg max-w-none dark:prose-invert" id="article-content">  <h1 id="前言">前言</h1>
+<p>自 2025 年 9 月開始建立這個技術部落格至今，已經過了一段時間，卻還沒好好寫下建立部落格的初衷和未來規劃…，看來是時候該寫下這篇文章了 XD。</p>
+<p>本篇文章應該不會太長，但你會看到一位技術愛好者，從零開始建立個人技術部落格的完整歷程，以及未來想要分享的內容方向，相信各位讀者會滿意這篇文章的！</p>
+<h1 id="背景">背景</h1>
+<blockquote>
+<p>NOTE</p>
+<p>先來介紹一下我自己，我叫小松，目前居住在台中，我是一位熱愛技術的開發者，平時除了寫程式之外，也喜歡去社群中分享各種技術心得和教學經驗。在技術學習的過程中，我發現很多時候「寫下來」是最好的學習方式，因此決定建立這個技術部落格。</p>
+</blockquote>
+<p>在決定建立部落格時，我有幾個選擇：WordPress、Hugo、Next.js、Astro 等。雖然我最一開始的志願序是 Next.js > WordPress > Astro，但經過深入研究和比較後，我選擇了 Astro 作為我的部落格框架。</p>
+<p>但我想要先澄清，這個部落格不只是寫技術文章！我的目標是建立一個全方位的技術分享平台，包含技術心得、演講內容、課程教學、以及個人成長記錄，類似於一個技術人的數位花園。</p>
+<p>總之，我就開始建立部落格啦～當時是九月決定的，但我到現在才開始寫第一篇文章，看來是時候該開始了。</p>
+<h1 id="建立過程">建立過程</h1>
+<h2 id="技術選擇">技術選擇</h2>
+<p>當時抱持著興奮的心情開始研究各種技術棧，但沒幾天就遇到選擇困難症…。</p>
+<p>首先是<strong>框架選擇</strong>，過去幾年靜態網站生成器百花齊放，從 Jekyll、Hugo 到 Next.js、Astro，每個都有各自的優缺點，我完全不知道該選哪個！甚至會影響後續的開發效率。</p>
+<p>再來是設計風格…，我看了很多優秀的技術部落格，像是 <a href="https://blog.vicwen.app/">VicWen 的部落格</a>，他們的設計風格都很棒，但我想要有自己的特色，只能獨自摸索設計方向。</p>
+<p>最後是部署平台…，GitHub Pages、Vercel、Netlify 都是不錯的選擇，但考慮到我的主網站已經部署在 GitHub Pages，為了統一管理，我選擇了相同的平台。</p>
+<p>OK，總結一下，技術選擇困難加上設計風格摸索加上部署平台選擇，這也難怪很多人在建立部落格時會半途而廢，一般人面臨到這種「選擇困難症」，肯定直接放棄、自暴自棄，甚至半路中離的。</p>
+<p>我當時將情況跟朋友討論，他們都說：「你太糾結了，先選一個開始做吧！」於是我就選擇了 Astro，開始了我的部落格建立之旅。</p>
 <h2 id="為什麼選擇-astro">為什麼選擇 Astro？</h2>
-<p>Astro 是一個現代化的靜態網站生成器，它有以下優點：</p>
 <h3 id="-零-javascript-預設">🚀 零 JavaScript 預設</h3>
-<ul>
-<li>預設情況下不載入任何 JavaScript</li>
-<li>更快的載入速度和更好的 SEO</li>
-<li>只在需要時才載入互動功能</li>
-</ul>
+<p>Astro 最吸引我的地方就是「零 JavaScript 預設」的設計理念。在現代網頁開發中，JavaScript 已經成為不可或缺的一部分，但過多的 JavaScript 會影響載入速度和 SEO。Astro 預設情況下不載入任何 JavaScript，只在需要時才載入互動功能，這完全符合我的需求。</p>
 <h3 id="-內容集合">📝 內容集合</h3>
-<ul>
-<li>類型安全的內容管理</li>
-<li>自動生成 TypeScript 類型</li>
-<li>支援多種內容格式（Markdown、MDX）</li>
-</ul>
+<p>內容集合（Content Collections）是 Astro 的一大特色，它提供了類型安全的內容管理。透過 TypeScript 的自動類型生成，我可以在寫作時就發現潛在的錯誤，大大提升了開發效率。</p>
 <h3 id="-靈活的框架整合">🎨 靈活的框架整合</h3>
-<ul>
-<li>可以與 React、Vue、Svelte 等框架整合</li>
-<li>支援多種 UI 框架</li>
-<li>豐富的整合生態系統</li>
-</ul>
-<h2 id="技術棧">技術棧</h2>
+<p>雖然我主要使用 Astro，但 Astro 可以與 React、Vue、Svelte 等框架整合，這意味著我可以在需要時使用其他框架的組件，非常靈活。</p>
+<h1 id="技術棧">技術棧</h1>
 <p>我的部落格使用了以下技術：</p>
 <ul>
 <li><strong>Astro</strong> - 靜態網站生成器</li>
+<li><strong>Next.js</strong> - 主網站框架（整合用）</li>
 <li><strong>TailwindCSS</strong> - 樣式框架</li>
 <li><strong>TypeScript</strong> - 類型安全</li>
 <li><strong>GitHub Pages</strong> - 部署平台</li>
 </ul>
-<h2 id="下一步計劃">下一步計劃</h2>
-<p>未來我計劃：</p>
+<h1 id="未來計劃">未來計劃</h1>
+<h2 id="-技術文章">📚 技術文章</h2>
+<p>我計劃在這個部落格中分享各種技術心得：</p>
 <ol>
-<li>添加更多技術文章</li>
-<li>分享專案開發經驗</li>
-<li>記錄學習心得</li>
-<li>建立技術交流社群</li>
+<li><strong>前端開發</strong> - React、Vue、Next.js 等框架的使用心得</li>
+<li><strong>後端技術</strong> - Node.js、Go、資料庫設計等</li>
+<li><strong>DevOps</strong> - 部署、CI/CD、雲端服務等</li>
+<li><strong>工具分享</strong> - 實用的開發工具和技巧</li>
 </ol>
+<h2 id="-演講和教學">🎤 演講和教學</h2>
+<p>除了技術文章，我也計劃在這裡分享：</p>
+<ol>
+<li><strong>演講內容</strong> - 技術演講的完整內容和補充資料</li>
+<li><strong>課程心得</strong> - 教學過程中的經驗分享</li>
+<li><strong>學習資源</strong> - 推薦的學習資源和書籍</li>
+<li><strong>實作範例</strong> - 課程中的實作範例和解答</li>
+</ol>
+<h2 id="-個人成長">🌟 個人成長</h2>
+<p>最後，我也會記錄個人的成長歷程：</p>
+<ol>
+<li><strong>學習心得</strong> - 技術學習的過程和反思</li>
+<li><strong>職涯發展</strong> - 在技術領域的成長和規劃</li>
+<li><strong>社群參與</strong> - 參與技術社群的經驗和收穫</li>
+</ol>
+<h1 id="結語">結語</h1>
+<p>很高興自己努力了數月，終於建立了這個技術部落格。</p>
+<p>我認為的技術寫作 = 90% 內容 + 10% 技術，因此我認為我是位很幸運的人，我能夠靠努力將自己的技術能力提升，但卻是那 10% 的技術選擇帶領我到正確的方向。</p>
+<p>技術部落格，是個沉重的包袱，背負著自己、讀者、社群，甚至是整個技術生態，將力量集結於一處，為的就是在技術的殿堂中嶄露頭角。</p>
+<p>當然，除了建立部落格，有了平台外，也有知識沉澱、技能提升、人際圈增廣，等等諸多的好處，不僅僅只是「埋頭寫作只為了拚一個飄渺的名頭」，這段時間也帶給我非常多的改變，不只是心態上，變得更加沉著、穩定，抑或是面對技術挑戰仍面不改色的那份堅毅信念。</p>
+<p>雖然部落格的建立已經是一段時間前的事了，但在撰寫文章的當下，翻看著過往的程式碼，回憶皆一一浮現於腦中，彷彿是昨天我才剛寫完一行程式碼，還在準備迎接新功能的開發心情。</p>
+<p>最後，很感謝一路陪伴我的朋友、師長、並肩作戰的開發者們，若沒有你們的鼓勵，我恐怕無法撐到現在，是你們成就了我，深深一鞠躬。</p>
+<p>若你想知道建立完部落格後我做了什麼，可以透過傳送門前往~</p>
+<p>技術文章列表</p>
+<p>演講心得分享</p>
 <hr>
-<p><em>這篇文章標誌著我技術寫作之旅的開始！</em></p>  </div> </div> </article> </div> </div>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8"> <div class="text-center text-gray-600 dark:text-gray-400"> <p>&copy; 2025 xsong.us. All rights reserved.</p> </div> </div> </footer> </div> <script type="module">const n=document.getElementById("theme-toggle"),o=document.getElementById("theme-icon"),c=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",c==="dark");t();n.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),t()});function t(){const e=document.documentElement.classList.contains("dark");o.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}</script> </body> </html>
+<p><em>這篇文章標誌著我技術分享之旅的開始！期待在這裡與大家分享更多技術的大小事，以及演講和課程的內容。</em></p>  </div> </div> </article> </div> <!-- 右側目錄導航 --> <div class="lg:w-1/4"> <div class="sticky top-8"> <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700"> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">目錄</h3> <nav id="table-of-contents" class="space-y-2"> <!-- 目錄項目將由 JavaScript 動態生成 --> </nav> </div> </div> </div> </div> </div> </div> <script type="module">function u(){const c=document.getElementById("article-content"),s=document.getElementById("table-of-contents");if(!c||!s)return;const o=c.querySelectorAll("h1, h2, h3, h4"),d=[];o.forEach((n,a)=>{const t=`heading-${a}`;n.id=t;const e=document.createElement("a");e.href=`#${t}`,e.textContent=n.textContent,e.className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-green-400 transition-colors py-1 px-2 rounded cursor-pointer",e.addEventListener("click",g=>{g.preventDefault();const l=document.getElementById(t);l&&l.scrollIntoView({behavior:"smooth",block:"start"})});const r=parseInt(n.tagName.charAt(1));e.style.paddingLeft=`${(r-1)*12+8}px`,s.appendChild(e),d.push({element:e,id:t})});function i(){let n=null,a=1/0;o.forEach(t=>{const e=t.getBoundingClientRect(),r=Math.abs(e.top);r<a&&e.top<=150&&(a=r,n=t.id)}),!n&&o.length>0&&(n=o[0].id),d.forEach(({element:t,id:e})=>{e===n?(t.classList.add("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),t.classList.remove("text-gray-600","dark:text-gray-400")):(t.classList.remove("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),t.classList.add("text-gray-600","dark:text-gray-400"))})}window.addEventListener("scroll",i),i()}document.addEventListener("DOMContentLoaded",u);</script>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8"> <div class="text-center text-gray-600 dark:text-gray-400"> <p>&copy; 2025 xsong.us. All rights reserved.</p> </div> </div> </footer> </div> <script type="module">const o=document.getElementById("theme-toggle"),a=document.getElementById("theme-icon"),s=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu"),n=document.getElementById("mobile-menu-icon"),l=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",l==="dark");c();o.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),c()});s.addEventListener("click",()=>{const e=t.classList.toggle("hidden");n.className=`fas ${e?"fa-bars":"fa-times"} text-xl`});document.addEventListener("click",e=>{!s.contains(e.target)&&!t.contains(e.target)&&(t.classList.add("hidden"),n.className="fas fa-bars text-xl")});const m=t.querySelectorAll("a");m.forEach(e=>{e.addEventListener("click",()=>{t.classList.add("hidden"),n.className="fas fa-bars text-xl"})});function c(){const e=document.documentElement.classList.contains("dark");a.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}</script> </body> </html>

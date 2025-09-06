@@ -1,4 +1,311 @@
-<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="分享我的想法、技術心得和生活點滴"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.13.5"><title>Blog - xsong.us</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><script>
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="分享我的想法、技術心得和生活點滴"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.13.5"><title>Blog - xsong.us</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><!-- 自定義部落格樣式 --><style>
+			/* 部落格文章樣式 */
+			.prose {
+				/* 基礎排版 */
+				line-height: 1.8;
+				color: #374151;
+			}
+
+			.dark .prose {
+				color: #d1d5db;
+			}
+
+			/* 標題樣式 */
+			.prose h1 {
+				font-size: 2.25rem;
+				font-weight: 700;
+				line-height: 1.2;
+				margin-top: 2.5rem;
+				margin-bottom: 1.5rem;
+				color: #111827;
+				border-bottom: 2px solid #e5e7eb;
+				padding-bottom: 0.5rem;
+			}
+
+			.dark .prose h1 {
+				color: #f9fafb;
+				border-bottom-color: #374151;
+			}
+
+			.prose h2 {
+				font-size: 1.875rem;
+				font-weight: 600;
+				line-height: 1.3;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				color: #111827;
+				border-left: 4px solid #3b82f6;
+				padding-left: 1rem;
+			}
+
+			.dark .prose h2 {
+				color: #f9fafb;
+				border-left-color: #10b981;
+			}
+
+			.prose h3 {
+				font-size: 1.5rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.75rem;
+				margin-bottom: 0.75rem;
+				color: #111827;
+			}
+
+			.dark .prose h3 {
+				color: #f9fafb;
+			}
+
+			.prose h4 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+				color: #111827;
+			}
+
+			.dark .prose h4 {
+				color: #f9fafb;
+			}
+
+			/* 段落樣式 */
+			.prose p {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				line-height: 1.8;
+				font-size: 1.125rem;
+			}
+
+			/* 列表樣式 */
+			.prose ul, .prose ol {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				padding-left: 1.5rem;
+			}
+
+			.prose li {
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				line-height: 1.7;
+			}
+
+			.prose ul li {
+				list-style-type: disc;
+			}
+
+			.prose ol li {
+				list-style-type: decimal;
+			}
+
+			/* 引用塊樣式 */
+			.prose blockquote {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+				border-left: 4px solid #3b82f6;
+				border-radius: 0.5rem;
+				font-style: italic;
+				position: relative;
+			}
+
+			.dark .prose blockquote {
+				background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+				border-left-color: #10b981;
+			}
+
+			.prose blockquote::before {
+				content: '"';
+				font-size: 3rem;
+				color: #3b82f6;
+				position: absolute;
+				top: -0.5rem;
+				left: 1rem;
+				font-family: serif;
+			}
+
+			.dark .prose blockquote::before {
+				color: #10b981;
+			}
+
+			.prose blockquote p {
+				margin: 0;
+				font-size: 1.125rem;
+				line-height: 1.7;
+			}
+
+			/* 程式碼樣式 */
+			.prose code {
+				background-color: #f3f4f6;
+				color: #dc2626;
+				padding: 0.25rem 0.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.dark .prose code {
+				background-color: #374151;
+				color: #f87171;
+			}
+
+			.prose pre {
+				background-color: #1f2937;
+				color: #f9fafb;
+				padding: 1.5rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				margin: 2rem 0;
+				border: 1px solid #374151;
+			}
+
+			.prose pre code {
+				background-color: transparent;
+				color: inherit;
+				padding: 0;
+				border-radius: 0;
+				font-size: 0.875rem;
+			}
+
+			/* 連結樣式 */
+			.prose a {
+				color: #3b82f6;
+				text-decoration: underline;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 2px;
+				transition: color 0.2s ease;
+			}
+
+			.dark .prose a {
+				color: #10b981;
+			}
+
+			.prose a:hover {
+				color: #2563eb;
+			}
+
+			.dark .prose a:hover {
+				color: #059669;
+			}
+
+			/* 表格樣式 */
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 2rem 0;
+				border-radius: 0.5rem;
+				overflow: hidden;
+				border: 1px solid #e5e7eb;
+			}
+
+			.dark .prose table {
+				border-color: #374151;
+			}
+
+			.prose th {
+				background-color: #f9fafb;
+				color: #111827;
+				font-weight: 600;
+				padding: 0.75rem 1rem;
+				text-align: left;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose th {
+				background-color: #374151;
+				color: #f9fafb;
+				border-bottom-color: #4b5563;
+			}
+
+			.prose td {
+				padding: 0.75rem 1rem;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose td {
+				border-bottom-color: #4b5563;
+			}
+
+			/* 水平線樣式 */
+			.prose hr {
+				margin: 3rem 0;
+				border: none;
+				height: 1px;
+				background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+			}
+
+			.dark .prose hr {
+				background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+			}
+
+			/* 圖片樣式 */
+			.prose img {
+				border-radius: 0.5rem;
+				margin: 2rem 0;
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			}
+
+			/* 強調文字 */
+			.prose strong {
+				font-weight: 600;
+				color: #111827;
+			}
+
+			.dark .prose strong {
+				color: #f9fafb;
+			}
+
+			/* 斜體文字 */
+			.prose em {
+				font-style: italic;
+				color: #6b7280;
+			}
+
+			.dark .prose em {
+				color: #9ca3af;
+			}
+
+			/* 特殊標記 */
+			.prose mark {
+				background-color: #fef3c7;
+				color: #92400e;
+				padding: 0.125rem 0.25rem;
+				border-radius: 0.25rem;
+			}
+
+			.dark .prose mark {
+				background-color: #451a03;
+				color: #fbbf24;
+			}
+
+			/* 段落間距優化 */
+			.prose > * + * {
+				margin-top: 1.5rem;
+			}
+
+			.prose > * + h1,
+			.prose > * + h2,
+			.prose > * + h3,
+			.prose > * + h4 {
+				margin-top: 2.5rem;
+			}
+
+			/* 列表間距 */
+			.prose ul + p,
+			.prose ol + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 引用塊間距 */
+			.prose blockquote + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 程式碼塊間距 */
+			.prose pre + p {
+				margin-top: 1.5rem;
+			}
+		</style><script>
 			tailwind.config = {
 				darkMode: 'class',
 				theme: {
@@ -15,22 +322,22 @@ Blog
 Projects
 </a> <a href="/tools" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
 Tools
-</a> </div> <!-- Theme Toggle --> <div class="flex items-center space-x-2"> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- Header --> <div class="text-center mb-12"> <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+</a> </div> <!-- Theme Toggle and Mobile Menu Button --> <div class="flex items-center space-x-2"> <!-- Theme Toggle --> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> <!-- Mobile Menu Button --> <button id="mobile-menu-button" class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle mobile menu"> <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i> </button> </div> </div> <!-- Mobile Navigation Menu --> <div id="mobile-menu" class="md:hidden hidden"> <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"> <a href="/about" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+About
+</a> <a href="/blog" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-green-400 bg-blue-50 dark:bg-green-900/20 rounded-md">
+Blog
+</a> <a href="/projects" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Projects
+</a> <a href="/tools" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Tools
+</a> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">  <div class="min-h-screen bg-gray-50 dark:bg-gray-900"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"> <!-- Header --> <div class="text-center mb-12"> <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
 Blog
 </h1> <p class="text-xl text-gray-600 dark:text-gray-400">
-分享我的想法、技術心得和生活點滴
-</p> </div> <!-- Blog Posts Grid --> <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3"> <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2024年6月1日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/using-mdx">Using MDX</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> Lorem ipsum dolor sit amet </p> <a href="/blog/using-mdx" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
+分享技術的大小事，以及演講和課程內容
+</p> </div> <div class="flex flex-col lg:flex-row gap-8"> <!-- 左側分類導航 --> <div class="lg:w-1/4"> <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-8"> <!-- 搜尋框 --> <div class="mb-6"> <div class="relative"> <input type="text" id="search-input" placeholder="搜尋文章..." class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-green-400 focus:border-transparent"> <svg class="absolute right-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path> </svg> </div> </div> <!-- 分類 --> <div class="mb-6"> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">分類</h3> <div class="space-y-2"> <button class="category-filter w-full text-left px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-green-900/20 transition-colors" data-category="all">
+全部 (2)
+</button>  </div> </div> <!-- 標籤 --> <div class="mb-6"> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">標籤</h3> <div class="flex flex-wrap gap-2">  </div> </div> </div> </div> <!-- 右側文章列表 --> <div class="lg:w-3/4"> <div class="space-y-6"> <a href="/blog/work-one-month-reflection" class="block"> <article class="blog-post bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"> <div class="flex flex-col md:flex-row">  <div class="md:w-1/3"> <img src="[object Object]" alt="工作一個月的心態" class="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div>  <div class="md:w-2/3 p-6"> <div class="flex items-center justify-between mb-3"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2025年9月4日 </span> <div class="flex items-center text-sm text-gray-500 dark:text-gray-400"> <span>10 分鐘</span> <span class="mx-2">•</span> <span>2365 字</span> </div> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> 工作一個月的心態 </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> 記錄作為新鮮人工作一個月後的心得與反思，分享職場初體驗的酸甜苦辣。 </p>  <div class="flex flex-wrap items-center gap-2 mb-4">   </div> <div class="inline-flex items-center text-blue-600 dark:text-green-400 group-hover:text-blue-700 dark:group-hover:text-green-300 font-medium transition-colors">
 閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article><article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2022年7月8日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/first-post">First post</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> Lorem ipsum dolor sit amet </p> <a href="/blog/first-post" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
+<svg class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </div> </div> </div> </article> </a><a href="/blog/my-first-article" class="block"> <article class="blog-post bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"> <div class="flex flex-col md:flex-row">  <div class="md:w-1/3"> <img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=400&fit=crop" alt="我的第一篇技術文章" class="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div>  <div class="md:w-2/3 p-6"> <div class="flex items-center justify-between mb-3"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2025年9月4日 </span> <div class="flex items-center text-sm text-gray-500 dark:text-gray-400"> <span>10 分鐘</span> <span class="mx-2">•</span> <span>2448 字</span> </div> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> 我的第一篇技術文章 </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> 分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向。 </p>  <div class="flex flex-wrap items-center gap-2 mb-4">   </div> <div class="inline-flex items-center text-blue-600 dark:text-green-400 group-hover:text-blue-700 dark:group-hover:text-green-300 font-medium transition-colors">
 閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article><article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2025年1月20日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/hello-world">Hello World</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> 這是我的第一篇文章。歡迎來到我的部落格！ </p> <a href="/blog/hello-world" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
-閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article><article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2025年1月21日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/my-first-article">我的第一篇技術文章</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> 分享我學習 Next.js 和 Astro 的心得，以及如何整合兩個框架的經驗。 </p> <a href="/blog/my-first-article" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
-閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article><article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2022年7月15日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/second-post">Second post</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> Lorem ipsum dolor sit amet </p> <a href="/blog/second-post" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
-閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article><article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2022年7月22日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/third-post">Third post</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> Lorem ipsum dolor sit amet </p> <a href="/blog/third-post" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
-閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article><article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"> <div class="p-6"> <div class="flex items-center justify-between mb-4"> <span class="text-sm text-gray-500 dark:text-gray-400"> 2024年6月19日 </span> </div> <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors"> <a href="/blog/markdown-style-guide">Markdown Style Guide</a> </h2> <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"> Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro. </p> <a href="/blog/markdown-style-guide" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors">
-閱讀更多
-<svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </a> </div> </article> </div> </div> </div>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8"> <div class="text-center text-gray-600 dark:text-gray-400"> <p>&copy; 2025 xsong.us. All rights reserved.</p> </div> </div> </footer> </div> <script type="module">const n=document.getElementById("theme-toggle"),o=document.getElementById("theme-icon"),c=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",c==="dark");t();n.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),t()});function t(){const e=document.documentElement.classList.contains("dark");o.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}</script> </body> </html>
+<svg class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </div> </div> </div> </article> </a> </div> </div> </div> </div> </div> <script type="module">const d=document.getElementById("search-input"),y=document.querySelectorAll(".blog-post"),g=document.querySelectorAll(".category-filter"),L=document.querySelectorAll(".tag-filter");let c="all",a=[];d.addEventListener("input",t=>{t.target.value.toLowerCase(),o()});g.forEach(t=>{t.addEventListener("click",e=>{g.forEach(r=>r.classList.remove("bg-blue-100","dark:bg-green-900/20","text-blue-800","dark:text-green-300")),e.target.classList.add("bg-blue-100","dark:bg-green-900/20","text-blue-800","dark:text-green-300"),c=e.target.dataset.category,o()})});L.forEach(t=>{t.addEventListener("click",e=>{const r=e.target.dataset.tag;e.target.classList.contains("bg-blue-100","dark:bg-green-900/20")?(e.target.classList.remove("bg-blue-100","dark:bg-green-900/20","text-blue-800","dark:text-green-300"),a=a.filter(s=>s!==r)):(e.target.classList.add("bg-blue-100","dark:bg-green-900/20","text-blue-800","dark:text-green-300"),a.push(r)),o()})});function o(){const t=d.value.toLowerCase();y.forEach(e=>{const r=e.querySelector("h2").textContent.toLowerCase(),n=e.querySelector("p").textContent.toLowerCase(),s=Array.from(e.querySelectorAll(".text-xs")).map(l=>l.textContent.toLowerCase()),i=r.includes(t)||n.includes(t),u=c==="all"||s.includes(c.toLowerCase()),b=a.length===0||a.some(l=>s.includes(l.toLowerCase()));i&&u&&b?e.closest("a").style.display="block":e.closest("a").style.display="none"})}document.querySelector('[data-category="all"]').classList.add("bg-blue-100","dark:bg-green-900/20","text-blue-800","dark:text-green-300");</script>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8"> <div class="text-center text-gray-600 dark:text-gray-400"> <p>&copy; 2025 xsong.us. All rights reserved.</p> </div> </div> </footer> </div> <script type="module">const o=document.getElementById("theme-toggle"),a=document.getElementById("theme-icon"),s=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu"),n=document.getElementById("mobile-menu-icon"),l=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",l==="dark");c();o.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),c()});s.addEventListener("click",()=>{const e=t.classList.toggle("hidden");n.className=`fas ${e?"fa-bars":"fa-times"} text-xl`});document.addEventListener("click",e=>{!s.contains(e.target)&&!t.contains(e.target)&&(t.classList.add("hidden"),n.className="fas fa-bars text-xl")});const m=t.querySelectorAll("a");m.forEach(e=>{e.addEventListener("click",()=>{t.classList.add("hidden"),n.className="fas fa-bars text-xl"})});function c(){const e=document.documentElement.classList.contains("dark");a.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}</script> </body> </html>
