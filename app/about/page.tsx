@@ -55,7 +55,30 @@ export default function AboutPage() {
     // 頁面載入時檢查 hash
     handleHashScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    // 監聽路由變化（用於從其他頁面跳轉過來的情況）
+    const handleRouteChange = () => {
+      setTimeout(() => {
+        const contactElement = document.getElementById('contact');
+        if (contactElement && window.location.pathname === '/about') {
+          // 檢查是否剛從其他頁面跳轉過來
+          const isFromOtherPage = document.referrer && !document.referrer.includes('/about');
+          if (isFromOtherPage) {
+            contactElement.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      }, 300);
+    };
+
+    // 監聽頁面可見性變化
+    document.addEventListener('visibilitychange', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('visibilitychange', handleRouteChange);
+    };
   }, []);
 
   // 滾動到指定區塊

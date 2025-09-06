@@ -1,9 +1,11 @@
 'use client';
 
 import { useTheme } from '../contexts/ThemeContext';
+import { useRouter } from 'next/navigation';
 
 export default function Footer() {
   const { isDark } = useTheme();
+  const router = useRouter();
   
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4">
@@ -21,10 +23,8 @@ export default function Footer() {
             </a>
             
             {/* Contact Link */}
-            <a 
-              href="/about"
-              onClick={(e) => {
-                e.preventDefault();
+            <button 
+              onClick={() => {
                 // 檢查是否在 About 頁面
                 if (window.location.pathname === '/about') {
                   // 如果在 About 頁面，直接滾動到 Contact 區塊
@@ -36,8 +36,18 @@ export default function Footer() {
                     });
                   }
                 } else {
-                  // 如果不在 About 頁面，先跳轉再滾動
-                  window.location.href = '/about#contact';
+                  // 如果不在 About 頁面，使用 Next.js 路由跳轉
+                  router.push('/about');
+                  // 等待頁面載入後滾動到 Contact 區塊
+                  setTimeout(() => {
+                    const contactElement = document.getElementById('contact');
+                    if (contactElement) {
+                      contactElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                      });
+                    }
+                  }, 500);
                 }
               }}
               className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -45,7 +55,7 @@ export default function Footer() {
             >
               <i className="fas fa-envelope text-lg"></i>
               <span className="text-sm font-medium">Contact</span>
-            </a>
+            </button>
           </div>
           
           <p className="text-gray-600 dark:text-gray-400">
