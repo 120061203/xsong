@@ -12,6 +12,10 @@ export default defineConfig({
 	base: '/blog',
 	integrations: [mdx(), sitemap()],
 	outDir: '../public/blog',
+	server: {
+		port: 4321,
+		host: true
+	},
 
   vite: {
     plugins: [tailwindcss()],

@@ -5,12 +5,18 @@ console.log('📁 開始為 blog 文章創建圖片資料夾...');
 
 try {
   const blogDir = path.join(__dirname, '../blog-astro/src/content/blog');
-  const imagesDir = path.join(__dirname, '../blog-astro/public/images');
+  const publicImagesDir = path.join(__dirname, '../blog-astro/public/images');
+  const assetsImagesDir = path.join(__dirname, '../blog-astro/src/assets/images');
   
   // 確保 images 目錄存在
-  if (!fs.existsSync(imagesDir)) {
-    fs.mkdirSync(imagesDir, { recursive: true });
-    console.log('✅ 創建 images 主目錄');
+  if (!fs.existsSync(publicImagesDir)) {
+    fs.mkdirSync(publicImagesDir, { recursive: true });
+    console.log('✅ 創建 public/images 主目錄');
+  }
+  
+  if (!fs.existsSync(assetsImagesDir)) {
+    fs.mkdirSync(assetsImagesDir, { recursive: true });
+    console.log('✅ 創建 src/assets/images 主目錄');
   }
   
   // 讀取所有 blog 文章
@@ -22,14 +28,23 @@ try {
   mdFiles.forEach(file => {
     // 移除 .md 副檔名作為資料夾名稱
     const folderName = file.replace(/\.md$/, '');
-    const folderPath = path.join(imagesDir, folderName);
+    const publicFolderPath = path.join(publicImagesDir, folderName);
+    const assetsFolderPath = path.join(assetsImagesDir, folderName);
     
-    // 如果資料夾不存在，就創建它
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath, { recursive: true });
-      console.log(`✅ 創建資料夾: ${folderName}`);
+    // 創建 public/images 資料夾
+    if (!fs.existsSync(publicFolderPath)) {
+      fs.mkdirSync(publicFolderPath, { recursive: true });
+      console.log(`✅ 創建 public/images/${folderName} 資料夾`);
     } else {
-      console.log(`📁 資料夾已存在: ${folderName}`);
+      console.log(`📁 public/images/${folderName} 資料夾已存在`);
+    }
+    
+    // 創建 src/assets/images 資料夾
+    if (!fs.existsSync(assetsFolderPath)) {
+      fs.mkdirSync(assetsFolderPath, { recursive: true });
+      console.log(`✅ 創建 src/assets/images/${folderName} 資料夾`);
+    } else {
+      console.log(`📁 src/assets/images/${folderName} 資料夾已存在`);
     }
   });
   
@@ -37,9 +52,16 @@ try {
   
   // 顯示最終結構
   console.log('\n📋 當前圖片資料夾結構:');
-  const folders = fs.readdirSync(imagesDir);
-  folders.forEach(folder => {
-    console.log(`  📁 ${folder}/`);
+  console.log('  📁 public/images/');
+  const publicFolders = fs.readdirSync(publicImagesDir);
+  publicFolders.forEach(folder => {
+    console.log(`    📁 ${folder}/`);
+  });
+  
+  console.log('  📁 src/assets/images/');
+  const assetsFolders = fs.readdirSync(assetsImagesDir);
+  assetsFolders.forEach(folder => {
+    console.log(`    📁 ${folder}/`);
   });
   
 } catch (error) {
