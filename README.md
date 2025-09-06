@@ -16,6 +16,7 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 - **RSS Feed**: Automatic RSS feed generation for blog posts
 - **Copy Functions**: Copy URL and email functionality for better UX
 - **Smooth Navigation**: Enhanced scroll-to-section with bounce animations
+- **Optimized Image Loading**: Advanced image optimization with lazy loading and preloading
 
 ## 🛠️ Tech Stack
 
@@ -270,6 +271,15 @@ heroImage: "../../assets/images/your-post/your-image.png"
 - **Animation Timing**: 1.5s delay ensures scroll completion before animation starts
 - **Visual Feedback**: 15% scale increase with cubic-bezier easing for smooth bounce effect
 - **Debug Support**: Console logging for animation trigger debugging
+
+### Advanced Image Optimization
+- **Lazy Loading**: Images load only when entering viewport using Intersection Observer
+- **Smart Preloading**: First 3 projects load immediately, others load on demand
+- **Loading States**: Visual feedback with spinners and progress indicators
+- **Error Handling**: Automatic retry mechanism with multiple screenshot services
+- **Fallback Services**: Multiple screenshot APIs for improved reliability
+- **Performance Optimization**: Reduced initial load time and bandwidth usage
+- **User Experience**: Smooth transitions and clear loading feedback
 
 ## 🌐 Development vs Production
 
