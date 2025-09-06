@@ -19,13 +19,43 @@ interface Project {
   lastUpdated: string;
 }
 
+// 截圖服務配置
+const screenshotServices = [
+  {
+    name: 'urlscan',
+    url: (targetUrl: string) => `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`
+  },
+  {
+    name: 'screenshotmachine',
+    url: (targetUrl: string) => `https://api.screenshotmachine.com?key=demo&url=${targetUrl}&dimension=1280x720`
+  },
+  {
+    name: 'mini-s-shot',
+    url: (targetUrl: string) => `https://mini.s-shot.ru/1280x720/PNG/1280/Z100/?${targetUrl}`
+  },
+  {
+    name: 'htmlcsstoimage',
+    url: (targetUrl: string) => `https://htmlcsstoimage.com/demo?url=${targetUrl}`
+  },
+  {
+    name: 'webshot',
+    url: (targetUrl: string) => `https://webshot.deam.io/?url=${targetUrl}&width=1280&height=720`
+  }
+];
+
+// 隨機選擇截圖服務
+const getScreenshotUrl = (targetUrl: string) => {
+  const randomIndex = Math.floor(Math.random() * screenshotServices.length);
+  return screenshotServices[randomIndex].url(targetUrl);
+};
+
 const projects: Project[] = [
   {
     id: 'go-shorturl',
     title: 'Go ShortURL',
     description: '使用 Go 和 Vue.js 實作的短網址服務，提供高效能的重定向和統計功能。',
     longDescription: '這是一個全端短網址服務，使用 Go 語言作為後端 API，Vue.js 作為前端框架。提供短網址生成、重定向、點擊統計等功能。後端使用 PostgreSQL 資料庫，支援高併發處理和即時統計。前端採用現代化設計，提供直觀的用戶介面。',
-    image: 'https://urlscan.io/liveshot/?width=1280&height=720&url=https://go-shorturl.vercel.app',
+    image: getScreenshotUrl('https://go-shorturl.vercel.app'),
     technologies: ['Go', 'Vue.js', 'PostgreSQL', 'Supabase', 'RESTful API', 'Vercel', 'TypeScript', 'TailwindCSS'],
     githubUrl: 'https://github.com/120061203/go-shorturl',
     liveUrl: 'https://go-shorturl.vercel.app',
@@ -48,7 +78,7 @@ const projects: Project[] = [
     title: 'xsong.us',
     description: '一個現代化的個人作品集網站，展示專案、工具和專業經驗。',
     longDescription: '這個個人作品集網站使用 Next.js 建構，具有乾淨現代的設計，支援深色/淺色主題。包含專案展示、互動工具（如白板），以及跨所有裝置無縫運作的響應式佈局。網站展示了現代網頁開發實踐和各種技術技能。',
-    image: 'https://urlscan.io/liveshot/?width=1280&height=720&url=https://xsong.us',
+    image: getScreenshotUrl('https://xsong.us'),
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'React', 'Astro'],
     githubUrl: 'https://github.com/120061203/xsong',
     liveUrl: 'https://xsong.us',
@@ -71,7 +101,7 @@ const projects: Project[] = [
     title: 'Calendar Todo App',
     description: '一個結合日曆和待辦事項管理的綜合應用程式，具有現代化 UI 和即時同步功能。',
     longDescription: '這個應用程式結合了日曆功能和任務管理，讓用戶可以直觀地組織行程和追蹤日常任務。使用 React 前端和 Material-UI 設計系統，提供美觀且易用的介面。支援拖放操作來管理事件和任務。',
-    image: 'https://urlscan.io/liveshot/?width=1280&height=720&url=https://120061203.github.io/calendar-todo-app',
+    image: getScreenshotUrl('https://120061203.github.io/calendar-todo-app'),
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Supabase', 'Material-UI', 'FullCalendar', 'Jest', 'CRUD Operations', 'RESTful API', 'Real-time Sync'],
     githubUrl: 'https://github.com/120061203/calendar-todo-app',
     liveUrl: 'https://120061203.github.io/calendar-todo-app/',
@@ -97,7 +127,7 @@ const projects: Project[] = [
     title: 'Whiteboard Tool',
     description: '一個多功能白板應用程式，具有多種顯示模式、文字效果和即時自訂功能。',
     longDescription: '一個互動式白板工具，支援各種顯示模式，包括靜態文字、倒數計時器和跑馬燈效果。具有進階文字樣式功能，包括陰影、邊框、漸層和發光效果。非常適合簡報、公告和數位看板使用。',
-    image: 'https://urlscan.io/liveshot/?width=1280&height=720&url=https://xsong.us/tools/whiteboard',
+    image: getScreenshotUrl('https://xsong.us/tools/whiteboard'),
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'Canvas API', 'React'],
     githubUrl: 'https://github.com/120061203/xsong/tree/main/app/tools/whiteboard',
     liveUrl: 'https://xsong.us/tools/whiteboard',
@@ -173,13 +203,20 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 
   // 生成備用圖片 URL（使用不同的截圖服務）
   const getFallbackUrl = (originalUrl: string, retryIndex: number) => {
-    const url = originalUrl.match(/url=(.+)$/)?.[1];
-    if (!url) return originalUrl;
+    // 嘗試從 URL 中提取目標網址
+    const urlMatch = originalUrl.match(/url=([^&]+)/) || 
+                    originalUrl.match(/url=(.+)$/) ||
+                    originalUrl.match(/\/\/([^\/]+)/);
     
+    if (!urlMatch) return originalUrl;
+    
+    const targetUrl = urlMatch[1];
     const services = [
-      `https://urlscan.io/liveshot/?width=1280&height=720&url=${url}`,
-      `https://api.screenshotmachine.com?key=demo&url=${url}&dimension=1280x720`,
-      `https://mini.s-shot.ru/1280x720/PNG/1280/Z100/?${url}`
+      `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`,
+      `https://api.screenshotmachine.com?key=demo&url=${targetUrl}&dimension=1280x720`,
+      `https://mini.s-shot.ru/1280x720/PNG/1280/Z100/?${targetUrl}`,
+      `https://htmlcsstoimage.com/demo?url=${targetUrl}`,
+      `https://webshot.deam.io/?url=${targetUrl}&width=1280&height=720`
     ];
     
     return services[retryIndex % services.length];
