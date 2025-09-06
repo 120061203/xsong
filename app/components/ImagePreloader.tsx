@@ -111,47 +111,51 @@ export default function ImagePreloader() {
   const [preloadProgress, setPreloadProgress] = useState(0);
   const [isPreloading, setIsPreloading] = useState(true);
 
+  console.log('🎬 ImagePreloader 組件已渲染');
+
   useEffect(() => {
     const preloadImages = async () => {
       let completed = 0;
       
-      console.log('開始全局預載入前6個專案圖片...');
+      console.log('🚀 開始全局預載入前6個專案圖片...');
+      console.log('📍 ImagePreloader 組件已啟動');
       
       for (const project of firstSixProjects) {
         try {
           // 檢查是否已有緩存
           const cachedWebP = getCachedWebP(project.image);
           if (cachedWebP) {
-            console.log(`專案 ${project.title} 使用緩存 WebP`);
+            console.log(`✅ 專案 ${project.title} 使用緩存 WebP`);
             completed++;
             setPreloadProgress((completed / firstSixProjects.length) * 100);
             continue;
           }
           
           // 轉換為 WebP 並緩存
-          console.log(`預載入專案 ${project.title} 的圖片...`);
+          console.log(`🔄 預載入專案 ${project.title} 的圖片: ${project.image}`);
           const webpUrl = await convertToWebP(project.image);
           setCachedWebP(project.image, webpUrl);
           
           completed++;
           setPreloadProgress((completed / firstSixProjects.length) * 100);
-          console.log(`專案 ${project.title} 預載入完成 (${completed}/${firstSixProjects.length})`);
+          console.log(`✅ 專案 ${project.title} 預載入完成 (${completed}/${firstSixProjects.length})`);
           
           // 添加小延遲避免過於頻繁的 API 調用
           await new Promise(resolve => setTimeout(resolve, 300));
           
         } catch (error) {
-          console.warn(`專案 ${project.title} 預載入失敗:`, error);
+          console.warn(`❌ 專案 ${project.title} 預載入失敗:`, error);
           completed++;
           setPreloadProgress((completed / firstSixProjects.length) * 100);
         }
       }
       
-      console.log('全局預載入完成！');
+      console.log('🎉 全局預載入完成！');
       setIsPreloading(false);
     };
     
     // 延遲 1 秒後開始預載入，讓頁面先載入完成
+    console.log('⏰ 1 秒後開始預載入...');
     const timer = setTimeout(() => {
       preloadImages();
     }, 1000);
