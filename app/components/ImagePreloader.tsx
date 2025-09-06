@@ -57,15 +57,11 @@ const convertToWebP = async (imageUrl: string): Promise<string> => {
   });
 };
 
-// 截圖服務配置
+// 截圖服務配置（只使用最穩定的服務）
 const screenshotServices = [
   {
     name: 'urlscan',
     url: (targetUrl: string) => `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`
-  },
-  {
-    name: 'htmlcsstoimage',
-    url: (targetUrl: string) => `https://htmlcsstoimage.com/demo?url=${targetUrl}`
   }
 ];
 
