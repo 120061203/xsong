@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import Image from 'next/image';
 
@@ -127,13 +127,190 @@ const allTechnologies = Array.from(
   new Set(projects.flatMap(project => project.technologies))
 ).sort();
 
+// 優化的圖片組件
+interface OptimizedImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  fill?: boolean;
+  width?: number;
+  height?: number;
+  priority?: boolean;
+}
+
+function OptimizedImage({ src, alt, className, fill, width, height, priority = false }: OptimizedImageProps) {
+  const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [retryCount, setRetryCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(priority);
+  const maxRetries = 2;
+
+  // 懶加載：使用 Intersection Observer
+  useEffect(() => {
+    if (priority) return; // 優先載入的圖片不需要懶加載
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '50px', // 提前 50px 開始載入
+        threshold: 0.1
+      }
+    );
+
+    const currentElement = document.querySelector(`[data-image-src="${src}"]`);
+    if (currentElement) {
+      observer.observe(currentElement);
+    }
+
+    return () => observer.disconnect();
+  }, [src, priority]);
+
+  // 生成備用圖片 URL（使用不同的截圖服務）
+  const getFallbackUrl = (originalUrl: string, retryIndex: number) => {
+    const url = originalUrl.match(/url=(.+)$/)?.[1];
+    if (!url) return originalUrl;
+    
+    const services = [
+      `https://urlscan.io/liveshot/?width=1280&height=720&url=${url}`,
+      `https://api.screenshotmachine.com?key=demo&url=${url}&dimension=1280x720`,
+      `https://mini.s-shot.ru/1280x720/PNG/1280/Z100/?${url}`
+    ];
+    
+    return services[retryIndex % services.length];
+  };
+
+  const handleError = () => {
+    if (retryCount < maxRetries) {
+      setRetryCount(prev => prev + 1);
+      setImageState('loading');
+    } else {
+      setImageState('error');
+    }
+  };
+
+  const currentSrc = retryCount > 0 ? getFallbackUrl(src, retryCount) : src;
+
+  return (
+    <div className="relative w-full h-full" data-image-src={src}>
+      {/* 載入狀態 */}
+      {imageState === 'loading' && isVisible && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+          <div className="flex flex-col items-center space-y-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">載入截圖中...</p>
+          </div>
+        </div>
+      )}
+      
+      {/* 錯誤狀態 */}
+      {imageState === 'error' && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+          <div className="text-center">
+            <i className="fas fa-image text-4xl text-gray-400 mb-2"></i>
+            <p className="text-sm text-gray-500 dark:text-gray-400">截圖載入失敗</p>
+            <button 
+              onClick={() => {
+                setRetryCount(0);
+                setImageState('loading');
+              }}
+              className="mt-2 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              重試
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {/* 佔位符（未載入時） */}
+      {!isVisible && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+          <div className="text-center">
+            <i className="fas fa-image text-4xl text-gray-300 dark:text-gray-600 mb-2"></i>
+            <p className="text-sm text-gray-400 dark:text-gray-500">準備載入...</p>
+          </div>
+        </div>
+      )}
+      
+      {/* 實際圖片 */}
+      {isVisible && (
+        <Image
+          src={currentSrc}
+          alt={alt}
+          fill={fill}
+          width={width}
+          height={height}
+          className={`${className} ${imageState === 'loaded' ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+          priority={priority}
+          onLoad={() => setImageState('loaded')}
+          onError={handleError}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
     : sortedProjects.filter(project => project.technologies.includes(selectedFilter));
+
+  // 預載入圖片
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagesToPreload = sortedProjects.slice(0, 3).map(project => project.image);
+      
+      for (const imageSrc of imagesToPreload) {
+        try {
+          const img = new window.Image();
+          img.src = imageSrc;
+          await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject(new Error(`Failed to load image: ${imageSrc}`));
+          });
+          setPreloadedImages(prev => new Set([...prev, imageSrc]));
+        } catch (error) {
+          console.warn(`Failed to preload image: ${imageSrc}`);
+        }
+      }
+    };
+
+    preloadImages();
+  }, []);
+
+  // 當篩選改變時，預載入可見的圖片
+  useEffect(() => {
+    const preloadVisibleImages = async () => {
+      const visibleImages = filteredProjects.slice(0, 6).map(project => project.image);
+      
+      for (const imageSrc of visibleImages) {
+        if (!preloadedImages.has(imageSrc)) {
+          try {
+            const img = new window.Image();
+            img.src = imageSrc;
+            await new Promise<void>((resolve, reject) => {
+              img.onload = () => resolve();
+              img.onerror = () => reject(new Error(`Failed to load image: ${imageSrc}`));
+            });
+            setPreloadedImages(prev => new Set([...prev, imageSrc]));
+          } catch (error) {
+            console.warn(`Failed to preload image: ${imageSrc}`);
+          }
+        }
+      }
+    };
+
+    preloadVisibleImages();
+  }, [selectedFilter, preloadedImages]);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
@@ -194,24 +371,13 @@ export default function ProjectsPage() {
               <div className="relative z-10 p-6 h-full flex flex-col">
                 {/* Project Image */}
                 <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20">
-                  <Image
+                  <OptimizedImage
                     src={project.image}
                     alt={`${project.title} screenshot`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const nextElement = target.nextElementSibling as HTMLElement;
-                      if (nextElement) {
-                        nextElement.style.display = 'flex';
-                      }
-                    }}
+                    priority={index < 3} // 前三個項目優先載入
                   />
-                  <div className="text-gray-500 dark:text-gray-400 text-center hidden">
-                    <i className="fas fa-image text-4xl mb-2"></i>
-                    <p className="text-sm">Project Preview</p>
-                  </div>
                 </div>
 
                 {/* Project Info */}
@@ -309,13 +475,13 @@ export default function ProjectsPage() {
                 <div className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     {/* Project Image */}
-                    <div className="relative">
-                      <Image
+                    <div className="relative h-64">
+                      <OptimizedImage
                         src={selectedProject.image}
                         alt={`${selectedProject.title} screenshot`}
-                        width={600}
-                        height={400}
-                        className="w-full h-64 object-cover rounded-lg border border-gray-200 dark:border-gray-600"
+                        fill
+                        className="object-cover rounded-lg border border-gray-200 dark:border-gray-600"
+                        priority={true}
                       />
                     </div>
 
