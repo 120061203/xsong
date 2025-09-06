@@ -25,7 +25,7 @@ const setCachedWebP = (url: string, webpUrl: string) => {
 // WebP 轉換函數
 const convertToWebP = async (imageUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const img = new HTMLImageElement();
+    const img = document.createElement('img');
     img.crossOrigin = 'anonymous';
     
     img.onload = () => {
