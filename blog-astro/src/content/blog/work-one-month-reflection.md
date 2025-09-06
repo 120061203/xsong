@@ -1,8 +1,8 @@
 ---
 title: "工作一個月的心態"
 description: "記錄作為新鮮人工作一個月後的心得與反思，分享職場初體驗的酸甜苦辣。"
-pubDate: 2025-09-04
-updatedDate: 2025-09-05
+pubDate: 2025-09-05T14:07:00+08:00
+updatedDate: 2025-09-05T14:07:00+08:00
 heroImage: "../../assets/images/work-one-month-reflection/work-one-month-reflection-1.png"
 categories: ["工作日記", "職涯發展"]
 tags: ["工作日記", "職涯", "新鮮人就業", "職場心得", "工作反思", "個人成長"]
