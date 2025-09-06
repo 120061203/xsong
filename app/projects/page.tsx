@@ -282,7 +282,8 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         const cachedImage = getCachedImage(src);
         if (cachedImage) {
           setOptimizedSrc(cachedImage);
-          setImageState('loaded');
+          // 添加短暫延遲以顯示載入狀態
+          setTimeout(() => setImageState('loaded'), 500);
           return;
         }
 
@@ -310,11 +311,13 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
           const webpUrl = await convertToWebP(currentSrc);
           setCachedImage(src, webpUrl);
           setOptimizedSrc(webpUrl);
-          setImageState('loaded');
+          // 添加短暫延遲以顯示載入狀態
+          setTimeout(() => setImageState('loaded'), 800);
         } catch (webpError) {
           console.warn('WebP conversion failed, using original:', webpError);
           setOptimizedSrc(currentSrc);
-          setImageState('loaded');
+          // 添加短暫延遲以顯示載入狀態
+          setTimeout(() => setImageState('loaded'), 800);
         }
       } catch (error) {
         console.error('Image loading failed:', error);
