@@ -31,10 +31,15 @@ const screenshotServices = [
   }
 ];
 
-// 隨機選擇截圖服務
+// 根據 URL 的 hash 值選擇截圖服務（確保服務器端和客戶端一致）
 const getScreenshotUrl = (targetUrl: string) => {
-  const randomIndex = Math.floor(Math.random() * screenshotServices.length);
-  return screenshotServices[randomIndex].url(targetUrl);
+  // 使用 URL 的 hash 值來確保服務器端和客戶端選擇相同的服務
+  const hash = targetUrl.split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  const serviceIndex = Math.abs(hash) % screenshotServices.length;
+  return screenshotServices[serviceIndex].url(targetUrl);
 };
 
 const projects: Project[] = [
