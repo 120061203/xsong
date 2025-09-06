@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
 // 獲取所有文章
 const posts = await getCollection('blog').then(posts => 
@@ -104,11 +105,13 @@ function calculateReadingTime(content: string) {
 											{/* 文章封面圖 */}
 											{post.data.heroImage && (
 												<div class="md:w-1/3">
-													<img 
+													<Image 
 														src={post.data.heroImage} 
 														alt={post.data.title}
+														width={400}
+														height={300}
 														class="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-300"
-													>
+													/>
 												</div>
 											)}
 											
