@@ -384,20 +384,11 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
     : sortedProjects.filter(project => project.technologies.includes(selectedFilter));
 
-  // 簡單的延遲後隱藏初始載入狀態
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsInitialLoad(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
@@ -447,10 +438,8 @@ export default function ProjectsPage() {
               key={project.id}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
               style={{ 
-                ...(isInitialLoad && {
-                  animationDelay: `${index * 150}ms`, // 每個卡片間隔 150ms
-                  animation: 'fadeInUp 1s ease-out forwards'
-                }),
+                animationDelay: `${index * 150}ms`, // 每個卡片間隔 150ms
+                animation: 'fadeInUp 1s ease-out forwards',
                 transition: 'transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.5s ease-out'
               }}
               onClick={() => setSelectedProject(project)}
