@@ -74,23 +74,9 @@ interface Project {
   lastUpdated: string;
 }
 
-// 截圖服務配置（只使用最穩定的服務）
-const screenshotServices = [
-  {
-    name: 'urlscan',
-    url: (targetUrl: string) => `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`
-  }
-];
-
-// 根據 URL 的 hash 值選擇截圖服務（確保服務器端和客戶端一致）
+// 生成截圖 URL（使用 urlscan.io）
 const getScreenshotUrl = (targetUrl: string) => {
-  // 使用 URL 的 hash 值來確保服務器端和客戶端選擇相同的服務
-  const hash = targetUrl.split('').reduce((a, b) => {
-    a = ((a << 5) - a) + b.charCodeAt(0);
-    return a & a;
-  }, 0);
-  const serviceIndex = Math.abs(hash) % screenshotServices.length;
-  return screenshotServices[serviceIndex].url(targetUrl);
+  return `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`;
 };
 
 const projects: Project[] = [
