@@ -88,9 +88,10 @@ heroImage: "../../assets/images/work-one-month-reflection/hero-image.png"
 
 - ✅ **Automatic optimization**: Images are automatically converted to WebP format
 - ✅ **Size reduction**: Typical 95%+ compression (e.g., 1170kB → 18kB)
-- ✅ **Responsive images**: Multiple sizes generated automatically
+- ✅ **Responsive images**: Multiple sizes generated automatically with `experimentalLayout: 'responsive'`
 - ✅ **Lazy loading**: Images load only when needed
 - ✅ **SEO friendly**: Optimized for search engines
+- ✅ **Device adaptation**: Automatically selects best image size for each device
 
 ### Why These Sizes?
 
