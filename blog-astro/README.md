@@ -70,6 +70,20 @@ heroImage: "../../assets/images/work-one-month-reflection/hero-image.png"
 ---
 ```
 
+### Recommended Image Sizes
+
+**For HeroImage (article cover):**
+- **Size**: `1200 x 750px` (16:10 aspect ratio)
+- **Usage**: Homepage list display, article page header
+- **Format**: PNG or JPG
+- **File size**: Recommended < 2MB
+
+**For content images:**
+- **Size**: `800 x 600px` (4:3 ratio) or `800 x 450px` (16:9 ratio)
+- **Usage**: Images within article content
+- **Format**: PNG or JPG
+- **File size**: Recommended < 1MB
+
 ### Image Optimization
 
 - ✅ **Automatic optimization**: Images are automatically converted to WebP format
@@ -77,6 +91,18 @@ heroImage: "../../assets/images/work-one-month-reflection/hero-image.png"
 - ✅ **Responsive images**: Multiple sizes generated automatically
 - ✅ **Lazy loading**: Images load only when needed
 - ✅ **SEO friendly**: Optimized for search engines
+
+### Why These Sizes?
+
+**16:10 ratio (1200x750) benefits:**
+- ✅ **Matches homepage display** - Consistent with our `width={400} height={250}` ratio
+- ✅ **Modern screen friendly** - 16:10 is a common screen ratio
+- ✅ **Good visual effect** - Not too wide or too tall
+
+**4:3 or 16:9 ratio (800x600/800x450) benefits:**
+- ✅ **Suitable for content** - Doesn't take up too much vertical space
+- ✅ **Good reading experience** - Appropriate size that doesn't interrupt reading flow
+- ✅ **Responsive friendly** - Displays well on different screen sizes
 
 ### Static Assets
 
