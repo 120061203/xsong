@@ -4,45 +4,23 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import Image from 'next/image';
 
-// 緩存管理
-interface CacheItem {
-  url: string;
-  timestamp: number;
-  webpUrl?: string;
-}
-
-const CACHE_DURATION = 60 * 60 * 1000; // 1小時緩存
-
+// WebP 轉換緩存（僅存儲轉換後的 WebP URL，不檢查時間）
 const getCacheKey = (url: string) => `project_image_${btoa(url)}`;
 
-const getCachedImage = (url: string): string | null => {
+const getCachedWebP = (url: string): string | null => {
   try {
-    const cached = localStorage.getItem(getCacheKey(url));
-    if (cached) {
-      const item: CacheItem = JSON.parse(cached);
-      const now = Date.now();
-      if (now - item.timestamp < CACHE_DURATION) {
-        return item.webpUrl || item.url;
-      } else {
-        localStorage.removeItem(getCacheKey(url));
-      }
-    }
+    return localStorage.getItem(getCacheKey(url));
   } catch (error) {
-    console.warn('Failed to read cache:', error);
+    console.warn('Failed to read WebP cache:', error);
+    return null;
   }
-  return null;
 };
 
-const setCachedImage = (url: string, webpUrl: string) => {
+const setCachedWebP = (url: string, webpUrl: string) => {
   try {
-    const item: CacheItem = {
-      url,
-      timestamp: Date.now(),
-      webpUrl
-    };
-    localStorage.setItem(getCacheKey(url), JSON.stringify(item));
+    localStorage.setItem(getCacheKey(url), webpUrl);
   } catch (error) {
-    console.warn('Failed to save cache:', error);
+    console.warn('Failed to save WebP cache:', error);
   }
 };
 
@@ -278,10 +256,10 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 
     const loadOptimizedImage = async () => {
       try {
-        // 檢查緩存
-        const cachedImage = getCachedImage(src);
-        if (cachedImage) {
-          setOptimizedSrc(cachedImage);
+        // 檢查是否有已轉換的 WebP 緩存
+        const cachedWebP = getCachedWebP(src);
+        if (cachedWebP) {
+          setOptimizedSrc(cachedWebP);
           // 添加短暫延遲以顯示載入狀態
           setTimeout(() => setImageState('loaded'), 500);
           return;
@@ -309,7 +287,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         // 嘗試轉換為 WebP
         try {
           const webpUrl = await convertToWebP(currentSrc);
-          setCachedImage(src, webpUrl);
+          setCachedWebP(src, webpUrl);
           setOptimizedSrc(webpUrl);
           // 添加短暫延遲以顯示載入狀態
           setTimeout(() => setImageState('loaded'), 800);
