@@ -260,7 +260,6 @@ export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [showLoadingOverlay, setShowLoadingOverlay] = useState(true);
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
@@ -268,20 +267,11 @@ export default function ProjectsPage() {
 
   // 處理初始載入狀態
   useEffect(() => {
-    // 1.5 秒後隱藏載入覆蓋層，開始項目卡片淡入動畫
-    const loadingTimer = setTimeout(() => {
-      setShowLoadingOverlay(false);
-    }, 1500);
-
-    // 2.5 秒後停止所有動畫
-    const animationTimer = setTimeout(() => {
+    // 3 秒後停止動畫，給截圖 API 足夠時間載入
+    const timer = setTimeout(() => {
       setIsInitialLoad(false);
-    }, 2500);
-
-    return () => {
-      clearTimeout(loadingTimer);
-      clearTimeout(animationTimer);
-    };
+    }, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   // 預載入圖片
@@ -374,28 +364,14 @@ export default function ProjectsPage() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* 載入狀態覆蓋層 */}
-          {showLoadingOverlay && (
-            <div className="fixed inset-0 bg-gray-50 dark:bg-gray-900 bg-opacity-90 backdrop-blur-sm z-40 flex items-center justify-center">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  載入專案中...
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  正在獲取最新的專案截圖
-                </p>
-              </div>
-            </div>
-          )}
           {filteredProjects.map((project, index) => (
             <div
               key={project.id}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
               style={{ 
                 ...(isInitialLoad && {
-                  animationDelay: `${index * 200}ms`, // 增加間隔時間
-                  animation: 'fadeInUp 0.8s ease-out forwards'
+                  animationDelay: `${index * 150}ms`, // 每個卡片間隔 150ms
+                  animation: 'fadeInUp 1s ease-out forwards'
                 }),
                 transition: 'transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.5s ease-out'
               }}
