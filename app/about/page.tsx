@@ -42,6 +42,19 @@ export default function AboutPage() {
     window.addEventListener('scroll', handleScroll);
     handleScroll(); // 初始調用
 
+    // 處理 URL hash，自動滾動到對應區塊
+    const handleHashScroll = () => {
+      const hash = window.location.hash.substring(1);
+      if (hash && sections.some(section => section.id === hash)) {
+        setTimeout(() => {
+          scrollToSection(hash);
+        }, 100); // 稍微延遲確保頁面已載入
+      }
+    };
+
+    // 頁面載入時檢查 hash
+    handleHashScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

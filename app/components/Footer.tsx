@@ -22,7 +22,24 @@ export default function Footer() {
             
             {/* Contact Link */}
             <a 
-              href="/about#contact"
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
+                // 檢查是否在 About 頁面
+                if (window.location.pathname === '/about') {
+                  // 如果在 About 頁面，直接滾動到 Contact 區塊
+                  const contactElement = document.getElementById('contact');
+                  if (contactElement) {
+                    contactElement.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                  }
+                } else {
+                  // 如果不在 About 頁面，先跳轉再滾動
+                  window.location.href = '/about#contact';
+                }
+              }}
               className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               title="聯絡我"
             >
