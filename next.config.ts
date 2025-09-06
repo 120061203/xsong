@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // output: 'export', // 移除靜態導出以支援 API 路由
+  output: 'export', // 恢復靜態導出
   images: {
     unoptimized: true,
   },
@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   // 確保靜態檔案正確服務
   experimental: {
-    staticGenerationRetryCount: 0,
+    // staticGenerationRetryCount: 0, // 移除這個配置，可能是 Next.js 15 的 bug
   },
 };
 

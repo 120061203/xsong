@@ -74,9 +74,9 @@ interface Project {
   lastUpdated: string;
 }
 
-// 生成截圖 URL（使用本地代理 API）
+// 生成截圖 URL（直接使用 urlscan.io）
 const getScreenshotUrl = (targetUrl: string) => {
-  return `/api/screenshot?url=${encodeURIComponent(targetUrl)}`;
+  return `https://urlscan.io/liveshot/?width=1280&height=720&url=${encodeURIComponent(targetUrl)}`;
 };
 
 const projects: Project[] = [
