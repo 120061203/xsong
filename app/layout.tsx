@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   description: "小松的個人作品集，展示技術專案、演講經驗、教學內容和職涯發展。專精於前端開發、DevOps 和技術分享。",
   keywords: ["個人作品集", "前端開發", "DevOps", "技術分享", "演講", "教學", "React", "Next.js", "Astro", "TypeScript"],
-  authors: [{ name: "小松", email: "ccssll120061203@gmail.com" }],
+  authors: [{ name: "小松" }],
   creator: "小松",
   publisher: "xsong.us",
   robots: {
