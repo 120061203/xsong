@@ -1,11 +1,31 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from './Layout.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { 
+	currentSlug: string;
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, currentSlug } = Astro.props;
+
+// 獲取所有文章並排序
+const allPosts = await getCollection('blog').then(posts => 
+	posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+);
+
+// 找到當前文章的索引
+const currentIndex = allPosts.findIndex(post => post.id.replace(/\.(md|mdx)$/, '') === currentSlug);
+
+// 上一篇和下一篇文章
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+// 相關文章（排除當前文章，選擇最近的3篇）
+const relatedPosts = allPosts
+	.filter((_, index) => index !== currentIndex)
+	.slice(0, 3);
 ---
 
 <Layout title={title} description={description}>
@@ -74,6 +94,94 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					</div>
 				</div>
 			</article>
+
+			<!-- 上一篇/下一篇導航 -->
+			{(prevPost || nextPost) && (
+				<div class="mt-8 flex flex-col sm:flex-row gap-4">
+					{prevPost && (
+						<a 
+							href={`/blog/${prevPost.id.replace(/\.(md|mdx)$/, '')}`}
+							class="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group"
+						>
+							<div class="flex items-center">
+								<svg class="mr-3 w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+								<div>
+									<div class="text-sm text-gray-500 dark:text-gray-400 mb-1">上一篇</div>
+									<div class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors">
+										{prevPost.data.title}
+									</div>
+								</div>
+							</div>
+						</a>
+					)}
+					
+					{nextPost && (
+						<a 
+							href={`/blog/${nextPost.id.replace(/\.(md|mdx)$/, '')}`}
+							class="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group"
+						>
+							<div class="flex items-center justify-end">
+								<div class="text-right">
+									<div class="text-sm text-gray-500 dark:text-gray-400 mb-1">下一篇</div>
+									<div class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors">
+										{nextPost.data.title}
+									</div>
+								</div>
+								<svg class="ml-3 w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</div>
+						</a>
+					)}
+				</div>
+			)}
+
+			<!-- 相關文章 -->
+			{relatedPosts.length > 0 && (
+				<div class="mt-12">
+					<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">相關文章</h2>
+					<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+						{relatedPosts.map(post => {
+							const slug = post.id.replace(/\.(md|mdx)$/, '');
+							return (
+								<a 
+									href={`/blog/${slug}`}
+									class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group"
+								>
+									{post.data.heroImage && (
+										<div class="h-48 overflow-hidden">
+											<Image 
+												src={post.data.heroImage} 
+												alt={post.data.title}
+												width={400}
+												height={250}
+												class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+											/>
+										</div>
+									)}
+									<div class="p-6">
+										<div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+											{post.data.pubDate.toLocaleDateString('zh-TW', {
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric'
+											})}
+										</div>
+										<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors">
+											{post.data.title}
+										</h3>
+										<p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">
+											{post.data.description}
+										</p>
+									</div>
+								</a>
+							);
+						})}
+					</div>
+				</div>
+			)}
 				</div>
 
 				<!-- 右側目錄導航 -->
