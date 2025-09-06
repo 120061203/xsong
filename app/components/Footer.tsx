@@ -30,26 +30,29 @@ export default function Footer() {
                   // 如果在 About 頁面，直接滾動到 Contact 區塊
                   const contactElement = document.getElementById('contact');
                   if (contactElement) {
+                    console.log('Footer: 開始滾動到 contact'); // 調試信息
                     contactElement.scrollIntoView({ 
                       behavior: 'smooth',
                       block: 'start'
                     });
                     
-                    // 添加彈跳動畫效果
+                    // 使用更長的延遲時間，確保滾動完成
                     setTimeout(() => {
-                      contactElement.style.transition = 'transform 0.3s ease-out';
-                      contactElement.style.transform = 'scale(1.05)';
+                      console.log('Footer: 開始動畫 contact'); // 調試信息
+                      contactElement.style.display = 'block';
+                      contactElement.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                      contactElement.style.transform = 'scale(1.15)';
                       
                       setTimeout(() => {
                         contactElement.style.transform = 'scale(1)';
                         
-                        // 動畫完成後移除樣式
                         setTimeout(() => {
                           contactElement.style.transition = '';
                           contactElement.style.transform = '';
-                        }, 300);
-                      }, 150);
-                    }, 500);
+                          console.log('Footer: 動畫完成 contact'); // 調試信息
+                        }, 600);
+                      }, 300);
+                    }, 1500);
                   }
                 } else {
                   // 如果不在 About 頁面，使用 Next.js 路由跳轉
@@ -58,26 +61,29 @@ export default function Footer() {
                   setTimeout(() => {
                     const contactElement = document.getElementById('contact');
                     if (contactElement) {
+                      console.log('Footer: 跨頁面滾動到 contact'); // 調試信息
                       contactElement.scrollIntoView({ 
                         behavior: 'smooth',
                         block: 'start'
                       });
                       
-                      // 添加彈跳動畫效果
+                      // 使用更長的延遲時間，確保滾動完成
                       setTimeout(() => {
-                        contactElement.style.transition = 'transform 0.3s ease-out';
-                        contactElement.style.transform = 'scale(1.05)';
+                        console.log('Footer: 跨頁面開始動畫 contact'); // 調試信息
+                        contactElement.style.display = 'block';
+                        contactElement.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                        contactElement.style.transform = 'scale(1.15)';
                         
                         setTimeout(() => {
                           contactElement.style.transform = 'scale(1)';
                           
-                          // 動畫完成後移除樣式
                           setTimeout(() => {
                             contactElement.style.transition = '';
                             contactElement.style.transform = '';
-                          }, 300);
-                        }, 150);
-                      }, 500);
+                            console.log('Footer: 跨頁面動畫完成 contact'); // 調試信息
+                          }, 600);
+                        }, 300);
+                      }, 1500);
                     }
                   }, 500);
                 }

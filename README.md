@@ -15,6 +15,7 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 - **SEO Optimized**: Complete SEO setup with meta tags, structured data, and sitemaps
 - **RSS Feed**: Automatic RSS feed generation for blog posts
 - **Copy Functions**: Copy URL and email functionality for better UX
+- **Smooth Navigation**: Enhanced scroll-to-section with bounce animations
 
 ## 🛠️ Tech Stack
 
@@ -261,6 +262,14 @@ heroImage: "../../assets/images/your-post/your-image.png"
 - **Copy URL**: One-click article URL copying with visual feedback
 - **Copy Email**: Direct email copying with mailto functionality
 - **Visual Feedback**: Green checkmark confirmation with auto-revert
+
+### Smooth Navigation & Animations
+- **Scroll-to-Section**: Smooth scrolling to target sections with enhanced UX
+- **Bounce Animation**: Target sections animate with scale effect after scroll completion
+- **Cross-Page Navigation**: Seamless navigation from Footer Contact button to About page
+- **Animation Timing**: 1.5s delay ensures scroll completion before animation starts
+- **Visual Feedback**: 15% scale increase with cubic-bezier easing for smooth bounce effect
+- **Debug Support**: Console logging for animation trigger debugging
 
 ## 🌐 Development vs Production
 
