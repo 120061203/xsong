@@ -257,9 +257,11 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 
     const loadOptimizedImage = async () => {
       try {
+        console.log(`Loading image: ${src}`);
         // 檢查是否有已轉換的 WebP 緩存
         const cachedWebP = getCachedWebP(src);
         if (cachedWebP) {
+          console.log(`Using cached WebP for: ${src}`);
           setOptimizedSrc(cachedWebP);
           // 添加短暫延遲以顯示載入狀態
           setTimeout(() => {
@@ -287,10 +289,12 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         };
 
         const currentSrc = retryCount > 0 ? getFallbackUrl(src, retryCount) : src;
+        console.log(`Converting to WebP: ${currentSrc}`);
         
         // 嘗試轉換為 WebP
         try {
           const webpUrl = await convertToWebP(currentSrc);
+          console.log(`WebP conversion successful for: ${src}`);
           setCachedWebP(src, webpUrl);
           setOptimizedSrc(webpUrl);
           // 添加短暫延遲以顯示載入狀態
@@ -317,11 +321,14 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   }, [isVisible, src, retryCount]);
 
   const handleError = () => {
+    console.log(`Image error for ${src}, retry count: ${retryCount}`);
     if (retryCount < maxRetries) {
       setRetryCount(prev => prev + 1);
       setImageState('loading');
+      setShowLoading(true); // 重試時重新顯示載入狀態
     } else {
       setImageState('error');
+      setShowLoading(false);
     }
   };
 
