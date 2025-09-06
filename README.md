@@ -281,6 +281,14 @@ heroImage: "../../assets/images/your-post/your-image.png"
 - **Performance Optimization**: Reduced initial load time and bandwidth usage
 - **User Experience**: Smooth transitions and clear loading feedback
 
+### Project Page Animations
+- **Individual Card Fade-in**: Each project card animates independently from transparent to visible
+- **Upward Movement**: Cards slide up from 60px below their final position
+- **Staggered Animation**: 150ms delay between each card for visual hierarchy
+- **Extended Duration**: 3-second total animation time to accommodate screenshot API loading
+- **Smooth Transitions**: 1-second fade-in duration with ease-out timing
+- **No Overlay Interference**: Clean individual card appearance without loading screens
+
 ## 🌐 Development vs Production
 
 ### Development Environment
