@@ -994,6 +994,24 @@ export default function AboutPage() {
                     </a>
                     <button 
                       onClick={async (e) => {
+                        // 立即顯示視覺反饋
+                        const btn = e.currentTarget as HTMLButtonElement;
+                        if (!btn) return;
+                        
+                        const svg = btn.querySelector('svg');
+                        if (!svg) return;
+                        
+                        const originalIcon = svg.outerHTML;
+                        
+                        // 替換為勾選圖標
+                        svg.outerHTML = `
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                        `;
+                        btn.classList.add('text-green-600', 'dark:text-green-400');
+                        btn.classList.remove('text-gray-400');
+                        
                         try {
                           await navigator.clipboard.writeText('ccssll120061203@gmail.com');
                         } catch (err) {
@@ -1007,23 +1025,12 @@ export default function AboutPage() {
                           document.body.removeChild(textArea);
                         }
                         
-                        // 立即顯示視覺反饋
-                        const btn = e.currentTarget;
-                        const svg = btn.querySelector('svg');
-                        const originalIcon = svg.outerHTML;
-                        
-                        // 替換為勾選圖標
-                        svg.outerHTML = `
-                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                          </svg>
-                        `;
-                        btn.classList.add('text-green-600', 'dark:text-green-400');
-                        btn.classList.remove('text-gray-400');
-                        
                         // 2秒後恢復原狀
                         setTimeout(() => {
-                          btn.querySelector('svg').outerHTML = originalIcon;
+                          const currentSvg = btn.querySelector('svg');
+                          if (currentSvg) {
+                            currentSvg.outerHTML = originalIcon;
+                          }
                           btn.classList.remove('text-green-600', 'dark:text-green-400');
                           btn.classList.add('text-gray-400');
                         }, 2000);
