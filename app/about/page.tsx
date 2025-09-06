@@ -877,7 +877,7 @@ export default function AboutPage() {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">演講經驗</h2>
               <div className="flex gap-2">
                 <button 
-                  onClick={() => window.open('https://www.youtube.com/@csl0922', '_blank')}
+                  onClick={() => window.open('https://www.youtube.com/@xiaosong4456', '_blank')}
                   className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
