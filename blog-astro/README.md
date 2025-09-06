@@ -38,7 +38,49 @@ There's nothing special about `src/components/`, but that's where we like to put
 
 The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 📸 Image Management
+
+### Where to Place Images
+
+**For blog post images, place them in:**
+```
+src/assets/images/[post-slug]/
+```
+
+**Example:**
+```
+src/assets/images/work-one-month-reflection/
+├── work-one-month-reflection-1.png
+├── work-one-month-reflection-2.jpg
+└── ...
+```
+
+### How to Use Images
+
+**In Markdown files (blog posts):**
+```markdown
+![Image description](../../assets/images/work-one-month-reflection/image-name.png)
+```
+
+**In frontmatter (heroImage):**
+```yaml
+---
+title: "My Post"
+heroImage: "../../assets/images/work-one-month-reflection/hero-image.png"
+---
+```
+
+### Image Optimization
+
+- ✅ **Automatic optimization**: Images are automatically converted to WebP format
+- ✅ **Size reduction**: Typical 95%+ compression (e.g., 1170kB → 18kB)
+- ✅ **Responsive images**: Multiple sizes generated automatically
+- ✅ **Lazy loading**: Images load only when needed
+- ✅ **SEO friendly**: Optimized for search engines
+
+### Static Assets
+
+For other static assets (favicon, etc.), place them in the `public/` directory.
 
 ## 🧞 Commands
 
