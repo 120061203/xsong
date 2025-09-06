@@ -396,18 +396,55 @@ export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [preloadProgress, setPreloadProgress] = useState(0);
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
     : sortedProjects.filter(project => project.technologies.includes(selectedFilter));
 
-  // 處理初始載入狀態
+  // 預載入前6個專案的 WebP 圖片
   useEffect(() => {
-    // 3 秒後停止動畫，給截圖 API 足夠時間載入
-    const timer = setTimeout(() => {
+    const preloadFirstSixProjects = async () => {
+      const firstSixProjects = sortedProjects.slice(0, 6);
+      let completed = 0;
+      
+      console.log('開始預載入前6個專案圖片...');
+      
+      for (const project of firstSixProjects) {
+        try {
+          // 檢查是否已有緩存
+          const cachedWebP = getCachedWebP(project.image);
+          if (cachedWebP) {
+            console.log(`專案 ${project.title} 使用緩存 WebP`);
+            completed++;
+            setPreloadProgress((completed / firstSixProjects.length) * 100);
+            continue;
+          }
+          
+          // 轉換為 WebP 並緩存
+          console.log(`預載入專案 ${project.title} 的圖片...`);
+          const webpUrl = await convertToWebP(project.image);
+          setCachedWebP(project.image, webpUrl);
+          
+          completed++;
+          setPreloadProgress((completed / firstSixProjects.length) * 100);
+          console.log(`專案 ${project.title} 預載入完成 (${completed}/${firstSixProjects.length})`);
+          
+          // 添加小延遲避免過於頻繁的 API 調用
+          await new Promise(resolve => setTimeout(resolve, 200));
+          
+        } catch (error) {
+          console.warn(`專案 ${project.title} 預載入失敗:`, error);
+          completed++;
+          setPreloadProgress((completed / firstSixProjects.length) * 100);
+        }
+      }
+      
+      console.log('前6個專案預載入完成！');
       setIsInitialLoad(false);
-    }, 3000);
-    return () => clearTimeout(timer);
+    };
+    
+    preloadFirstSixProjects();
   }, []);
 
   // 預載入圖片
@@ -497,6 +534,26 @@ export default function ProjectsPage() {
             </button>
           ))}
         </div>
+
+        {/* 預載入進度指示器 */}
+        {isInitialLoad && (
+          <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                正在預載入專案圖片...
+              </span>
+              <span className="text-sm text-blue-600 dark:text-blue-400">
+                {Math.round(preloadProgress)}%
+              </span>
+            </div>
+            <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2">
+              <div 
+                className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${preloadProgress}%` }}
+              ></div>
+            </div>
+          </div>
+        )}
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
