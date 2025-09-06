@@ -83,7 +83,9 @@ function validateUrl(url: string): { isValid: boolean; error?: string } {
 export async function GET(request: NextRequest) {
   try {
     // 獲取客戶端 IP
-    const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+    const ip = request.headers.get('x-forwarded-for') || 
+               request.headers.get('x-real-ip') || 
+               'unknown';
     
     // 速率限制檢查
     if (!checkRateLimit(ip)) {
@@ -154,7 +156,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Screenshot API error:', error);
     
-    if (error.name === 'AbortError') {
+    if (error instanceof Error && error.name === 'AbortError') {
       return NextResponse.json(
         { error: 'Request timeout' }, 
         { status: 408 }
