@@ -51,7 +51,7 @@ const convertToWebP = async (imageUrl: string): Promise<string> => {
         } else {
           reject(new Error('Failed to convert to WebP'));
         }
-      }, 'image/webp', 0.8);
+      }, 'image/webp', 0.6);
     };
     
     img.onerror = () => reject(new Error('Failed to load image'));
