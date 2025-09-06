@@ -203,7 +203,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
           <div className="flex flex-col items-center space-y-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">載入截圖中...</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">努力調閱專案即時頁面</p>
           </div>
         </div>
       )}
