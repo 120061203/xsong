@@ -4,6 +4,83 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import Image from 'next/image';
 
+// 緩存管理
+interface CacheItem {
+  url: string;
+  timestamp: number;
+  webpUrl?: string;
+}
+
+const CACHE_DURATION = 60 * 60 * 1000; // 1小時緩存
+
+const getCacheKey = (url: string) => `project_image_${btoa(url)}`;
+
+const getCachedImage = (url: string): string | null => {
+  try {
+    const cached = localStorage.getItem(getCacheKey(url));
+    if (cached) {
+      const item: CacheItem = JSON.parse(cached);
+      const now = Date.now();
+      if (now - item.timestamp < CACHE_DURATION) {
+        return item.webpUrl || item.url;
+      } else {
+        localStorage.removeItem(getCacheKey(url));
+      }
+    }
+  } catch (error) {
+    console.warn('Failed to read cache:', error);
+  }
+  return null;
+};
+
+const setCachedImage = (url: string, webpUrl: string) => {
+  try {
+    const item: CacheItem = {
+      url,
+      timestamp: Date.now(),
+      webpUrl
+    };
+    localStorage.setItem(getCacheKey(url), JSON.stringify(item));
+  } catch (error) {
+    console.warn('Failed to save cache:', error);
+  }
+};
+
+// WebP 轉換函數
+const convertToWebP = async (imageUrl: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const img = new HTMLImageElement();
+    img.crossOrigin = 'anonymous';
+    
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (!ctx) {
+        reject(new Error('Canvas context not available'));
+        return;
+      }
+      
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      ctx.drawImage(img, 0, 0);
+      
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const webpUrl = URL.createObjectURL(blob);
+          resolve(webpUrl);
+        } else {
+          reject(new Error('Failed to convert to WebP'));
+        }
+      }, 'image/webp', 0.8);
+    };
+    
+    img.onerror = () => reject(new Error('Failed to load image'));
+    img.src = imageUrl;
+  });
+};
+
 interface Project {
   id: string;
   title: string;
@@ -165,6 +242,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const [retryCount, setRetryCount] = useState(0);
   const [isVisible, setIsVisible] = useState(priority);
+  const [optimizedSrc, setOptimizedSrc] = useState<string>(src);
   const maxRetries = 2;
 
   // 懶加載：使用 Intersection Observer
@@ -194,23 +272,58 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
     return () => observer.disconnect();
   }, [src, priority]);
 
-  // 生成備用圖片 URL（使用不同的截圖服務）
-  const getFallbackUrl = (originalUrl: string, retryIndex: number) => {
-    // 嘗試從 URL 中提取目標網址
-    const urlMatch = originalUrl.match(/url=([^&]+)/) || 
-                    originalUrl.match(/url=(.+)$/) ||
-                    originalUrl.match(/\/\/([^\/]+)/);
-    
-    if (!urlMatch) return originalUrl;
-    
-    const targetUrl = urlMatch[1];
-    const services = [
-      `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`,
-      `https://htmlcsstoimage.com/demo?url=${targetUrl}`
-    ];
-    
-    return services[retryIndex % services.length];
-  };
+  // 圖片優化和緩存處理
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const loadOptimizedImage = async () => {
+      try {
+        // 檢查緩存
+        const cachedImage = getCachedImage(src);
+        if (cachedImage) {
+          setOptimizedSrc(cachedImage);
+          setImageState('loaded');
+          return;
+        }
+
+        // 生成備用圖片 URL（使用不同的截圖服務）
+        const getFallbackUrl = (originalUrl: string, retryIndex: number) => {
+          const urlMatch = originalUrl.match(/url=([^&]+)/) || 
+                          originalUrl.match(/url=(.+)$/) ||
+                          originalUrl.match(/\/\/([^\/]+)/);
+          
+          if (!urlMatch) return originalUrl;
+          
+          const targetUrl = urlMatch[1];
+          const services = [
+            `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`,
+            `https://htmlcsstoimage.com/demo?url=${targetUrl}`
+          ];
+          
+          return services[retryIndex % services.length];
+        };
+
+        const currentSrc = retryCount > 0 ? getFallbackUrl(src, retryCount) : src;
+        
+        // 嘗試轉換為 WebP
+        try {
+          const webpUrl = await convertToWebP(currentSrc);
+          setCachedImage(src, webpUrl);
+          setOptimizedSrc(webpUrl);
+          setImageState('loaded');
+        } catch (webpError) {
+          console.warn('WebP conversion failed, using original:', webpError);
+          setOptimizedSrc(currentSrc);
+          setImageState('loaded');
+        }
+      } catch (error) {
+        console.error('Image loading failed:', error);
+        setImageState('error');
+      }
+    };
+
+    loadOptimizedImage();
+  }, [isVisible, src, retryCount]);
 
   const handleError = () => {
     if (retryCount < maxRetries) {
@@ -221,8 +334,6 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
     }
   };
 
-  const currentSrc = retryCount > 0 ? getFallbackUrl(src, retryCount) : src;
-
   return (
     <div className="relative w-full h-full" data-image-src={src}>
       {/* 載入狀態 */}
@@ -230,7 +341,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
           <div className="flex flex-col items-center space-y-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">努力調閱專案即時頁面</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">即時連線中</p>
           </div>
         </div>
       )}
@@ -267,7 +378,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
       {/* 實際圖片 */}
       {isVisible && (
         <Image
-          src={currentSrc}
+          src={optimizedSrc}
           alt={alt}
           fill={fill}
           width={width}
@@ -416,7 +527,7 @@ export default function ProjectsPage() {
                     alt={`${project.title} screenshot`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    priority={index < 3} // 前三個項目優先載入
+                    priority={index < 6} // 前六個項目優先載入
                   />
                 </div>
 

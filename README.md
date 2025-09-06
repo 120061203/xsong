@@ -301,6 +301,57 @@ heroImage: "../../assets/images/your-post/your-image.png"
 - **SEO Features**: All meta tags and structured data active
 - **Performance**: Optimized images and static generation
 
+## 🔧 Technical Implementation Details
+
+### Server-Side Rendering (SSR) Hydration Issues
+
+#### Problem: Hydration Mismatch
+When using Next.js with SSR, server-side and client-side rendering must produce identical HTML. Common causes of hydration errors:
+
+```typescript
+// ❌ Problematic: Random values differ between server and client
+const getRandomService = () => {
+  const randomIndex = Math.floor(Math.random() * services.length);
+  return services[randomIndex];
+};
+
+// Server: Math.random() → 0.3 → Service A
+// Client: Math.random() → 0.7 → Service B
+// Result: Hydration mismatch error
+```
+
+#### Solution: Deterministic Functions
+Use deterministic functions that produce the same output for the same input:
+
+```typescript
+// ✅ Correct: Deterministic hash-based selection
+const getScreenshotUrl = (targetUrl: string) => {
+  const hash = targetUrl.split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  const serviceIndex = Math.abs(hash) % screenshotServices.length;
+  return screenshotServices[serviceIndex].url(targetUrl);
+};
+
+// Server: hash("https://example.com") → 12345 → Service A
+// Client: hash("https://example.com") → 12345 → Service A
+// Result: Consistent rendering
+```
+
+#### Other Common Hydration Issues
+- **Date/Time**: `Date.now()` produces different values
+- **Browser APIs**: `window`, `navigator` not available on server
+- **User-specific data**: Locale, timezone differences
+- **External data**: APIs returning different data between requests
+
+#### Best Practices
+1. **Avoid random values** in SSR components
+2. **Use deterministic functions** for consistent output
+3. **Handle browser-specific code** with proper checks
+4. **Test hydration** in development mode
+5. **Use `useEffect`** for client-only operations
+
 ## 🤝 Contributing
 
 1. Fork the repository
