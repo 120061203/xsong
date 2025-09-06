@@ -221,6 +221,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   const [retryCount, setRetryCount] = useState(0);
   const [isVisible, setIsVisible] = useState(priority);
   const [optimizedSrc, setOptimizedSrc] = useState<string>(src);
+  const [showLoading, setShowLoading] = useState(true); // 新增：控制載入狀態顯示
   const maxRetries = 2;
 
   // 懶加載：使用 Intersection Observer
@@ -261,7 +262,10 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         if (cachedWebP) {
           setOptimizedSrc(cachedWebP);
           // 添加短暫延遲以顯示載入狀態
-          setTimeout(() => setImageState('loaded'), 500);
+          setTimeout(() => {
+            setImageState('loaded');
+            setShowLoading(false);
+          }, 500);
           return;
         }
 
@@ -290,12 +294,18 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
           setCachedWebP(src, webpUrl);
           setOptimizedSrc(webpUrl);
           // 添加短暫延遲以顯示載入狀態
-          setTimeout(() => setImageState('loaded'), 800);
+          setTimeout(() => {
+            setImageState('loaded');
+            setShowLoading(false);
+          }, 800);
         } catch (webpError) {
           console.warn('WebP conversion failed, using original:', webpError);
           setOptimizedSrc(currentSrc);
           // 添加短暫延遲以顯示載入狀態
-          setTimeout(() => setImageState('loaded'), 800);
+          setTimeout(() => {
+            setImageState('loaded');
+            setShowLoading(false);
+          }, 800);
         }
       } catch (error) {
         console.error('Image loading failed:', error);
@@ -318,7 +328,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   return (
     <div className="relative w-full h-full" data-image-src={src}>
       {/* 載入狀態 */}
-      {imageState === 'loading' && isVisible && (
+      {showLoading && isVisible && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
           <div className="flex flex-col items-center space-y-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -357,7 +367,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
       )}
       
       {/* 實際圖片 */}
-      {isVisible && (
+      {isVisible && !showLoading && (
         <Image
           src={optimizedSrc}
           alt={alt}
