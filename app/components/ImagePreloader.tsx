@@ -57,9 +57,9 @@ const convertToWebP = async (imageUrl: string): Promise<string> => {
   });
 };
 
-// 生成截圖 URL（使用 urlscan.io）
+// 生成截圖 URL（使用本地代理 API）
 const getScreenshotUrl = (targetUrl: string) => {
-  return `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`;
+  return `/api/screenshot?url=${encodeURIComponent(targetUrl)}`;
 };
 
 // 前6個專案的配置
@@ -123,8 +123,8 @@ export default function ImagePreloader() {
           setPreloadProgress((completed / firstSixProjects.length) * 100);
           console.log(`✅ 專案 ${project.title} 預載入完成 (${completed}/${firstSixProjects.length})`);
           
-          // 添加小延遲避免過於頻繁的 API 調用
-          await new Promise(resolve => setTimeout(resolve, 300));
+          // 添加延遲避免觸發速率限制
+          await new Promise(resolve => setTimeout(resolve, 2000));
           
         } catch (error) {
           console.warn(`❌ 專案 ${project.title} 預載入失敗:`, error);
