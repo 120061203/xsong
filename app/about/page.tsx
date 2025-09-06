@@ -986,9 +986,33 @@ export default function AboutPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 dark:text-white">Email</h3>
-                  <p className="text-gray-600 dark:text-gray-300">ccssll120061203@gmail.com</p>
+                  <div className="flex items-center space-x-2">
+                    <a href="mailto:ccssll120061203@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
+                      ccssll120061203@gmail.com
+                    </a>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText('ccssll120061203@gmail.com');
+                        // 簡單的視覺反饋
+                        const btn = event.target;
+                        const originalText = btn.textContent;
+                        btn.textContent = '已複製！';
+                        btn.classList.add('text-green-600', 'dark:text-green-400');
+                        setTimeout(() => {
+                          btn.textContent = originalText;
+                          btn.classList.remove('text-green-600', 'dark:text-green-400');
+                        }, 2000);
+                      }}
+                      className="ml-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 rounded"
+                      title="複製郵件地址"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
 
