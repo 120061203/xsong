@@ -34,6 +34,22 @@ export default function Footer() {
                       behavior: 'smooth',
                       block: 'start'
                     });
+                    
+                    // 添加彈跳動畫效果
+                    setTimeout(() => {
+                      contactElement.style.transition = 'transform 0.3s ease-out';
+                      contactElement.style.transform = 'scale(1.05)';
+                      
+                      setTimeout(() => {
+                        contactElement.style.transform = 'scale(1)';
+                        
+                        // 動畫完成後移除樣式
+                        setTimeout(() => {
+                          contactElement.style.transition = '';
+                          contactElement.style.transform = '';
+                        }, 300);
+                      }, 150);
+                    }, 500);
                   }
                 } else {
                   // 如果不在 About 頁面，使用 Next.js 路由跳轉
@@ -46,6 +62,22 @@ export default function Footer() {
                         behavior: 'smooth',
                         block: 'start'
                       });
+                      
+                      // 添加彈跳動畫效果
+                      setTimeout(() => {
+                        contactElement.style.transition = 'transform 0.3s ease-out';
+                        contactElement.style.transform = 'scale(1.05)';
+                        
+                        setTimeout(() => {
+                          contactElement.style.transform = 'scale(1)';
+                          
+                          // 動畫完成後移除樣式
+                          setTimeout(() => {
+                            contactElement.style.transition = '';
+                            contactElement.style.transform = '';
+                          }, 300);
+                        }, 150);
+                      }, 500);
                     }
                   }, 500);
                 }
