@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Breadcrumb from "./components/Breadcrumb";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import ImagePreloader from "./components/ImagePreloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -85,6 +86,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
         <ThemeProvider>
+          <ImagePreloader />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <Breadcrumb />
