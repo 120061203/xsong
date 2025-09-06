@@ -104,6 +104,29 @@ heroImage: "../../assets/images/work-one-month-reflection/hero-image.png"
 - ✅ **Good reading experience** - Appropriate size that doesn't interrupt reading flow
 - ✅ **Responsive friendly** - Displays well on different screen sizes
 
+### Automatic Base Path Detection
+
+The project automatically adjusts the base path based on the environment:
+
+**Development Environment:**
+- Base path: `/` (root)
+- Access URLs: `http://localhost:4321/work-one-month-reflection/`
+
+**Production Environment:**
+- Base path: `/blog`
+- Access URLs: `https://xsong.us/blog/work-one-month-reflection/`
+
+**Configuration:**
+```javascript
+// astro.config.mjs
+export default defineConfig({
+  base: process.env.NODE_ENV === 'development' ? '/' : '/blog',
+  // ... other config
+});
+```
+
+This ensures seamless development experience while maintaining correct production URLs.
+
 ### Static Assets
 
 For other static assets (favicon, etc.), place them in the `public/` directory.
