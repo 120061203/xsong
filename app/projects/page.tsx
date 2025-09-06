@@ -221,7 +221,8 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   const [retryCount, setRetryCount] = useState(0);
   const [isVisible, setIsVisible] = useState(priority);
   const [optimizedSrc, setOptimizedSrc] = useState<string>(src);
-  const [showLoading, setShowLoading] = useState(true); // 新增：控制載入狀態顯示
+  // 檢查是否有緩存，如果有緩存就不顯示載入狀態
+  const [showLoading, setShowLoading] = useState(() => !getCachedWebP(src));
   const maxRetries = 2;
 
   // 懶加載：使用 Intersection Observer
@@ -255,6 +256,15 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   useEffect(() => {
     if (!isVisible) return;
 
+    // 如果圖片已經有緩存，立即設置為載入完成
+    const cachedWebP = getCachedWebP(src);
+    if (cachedWebP) {
+      setOptimizedSrc(cachedWebP);
+      setImageState('loaded');
+      setShowLoading(false);
+      return;
+    }
+
     const loadOptimizedImage = async () => {
       try {
         console.log(`Loading image: ${src}`);
@@ -263,11 +273,9 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
         if (cachedWebP) {
           console.log(`Using cached WebP for: ${src}`);
           setOptimizedSrc(cachedWebP);
-          // 添加短暫延遲以顯示載入狀態
-          setTimeout(() => {
-            setImageState('loaded');
-            setShowLoading(false);
-          }, 500);
+          // 如果有緩存，立即顯示圖片，不需要載入狀態
+          setImageState('loaded');
+          setShowLoading(false);
           return;
         }
 
