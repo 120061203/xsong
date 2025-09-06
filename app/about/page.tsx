@@ -993,9 +993,21 @@ export default function AboutPage() {
                       ccssll120061203@gmail.com
                     </a>
                     <button 
-                      onClick={(e) => {
-                        navigator.clipboard.writeText('ccssll120061203@gmail.com');
-                        // 簡單的視覺反饋
+                      onClick={async (e) => {
+                        try {
+                          await navigator.clipboard.writeText('ccssll120061203@gmail.com');
+                        } catch (err) {
+                          console.error('複製失敗:', err);
+                          // 降級方案：使用舊的複製方法
+                          const textArea = document.createElement('textarea');
+                          textArea.value = 'ccssll120061203@gmail.com';
+                          document.body.appendChild(textArea);
+                          textArea.select();
+                          document.execCommand('copy');
+                          document.body.removeChild(textArea);
+                        }
+                        
+                        // 立即顯示視覺反饋
                         const btn = e.currentTarget;
                         const svg = btn.querySelector('svg');
                         const originalIcon = svg.outerHTML;
