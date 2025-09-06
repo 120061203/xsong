@@ -19,27 +19,15 @@ interface Project {
   lastUpdated: string;
 }
 
-// 截圖服務配置
+// 截圖服務配置（只使用最穩定的服務）
 const screenshotServices = [
   {
     name: 'urlscan',
     url: (targetUrl: string) => `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`
   },
   {
-    name: 'screenshotmachine',
-    url: (targetUrl: string) => `https://api.screenshotmachine.com?key=demo&url=${targetUrl}&dimension=1280x720`
-  },
-  {
-    name: 'mini-s-shot',
-    url: (targetUrl: string) => `https://mini.s-shot.ru/1280x720/PNG/1280/Z100/?${targetUrl}`
-  },
-  {
     name: 'htmlcsstoimage',
     url: (targetUrl: string) => `https://htmlcsstoimage.com/demo?url=${targetUrl}`
-  },
-  {
-    name: 'webshot',
-    url: (targetUrl: string) => `https://webshot.deam.io/?url=${targetUrl}&width=1280&height=720`
   }
 ];
 
@@ -213,10 +201,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
     const targetUrl = urlMatch[1];
     const services = [
       `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`,
-      `https://api.screenshotmachine.com?key=demo&url=${targetUrl}&dimension=1280x720`,
-      `https://mini.s-shot.ru/1280x720/PNG/1280/Z100/?${targetUrl}`,
-      `https://htmlcsstoimage.com/demo?url=${targetUrl}`,
-      `https://webshot.deam.io/?url=${targetUrl}&width=1280&height=720`
+      `https://htmlcsstoimage.com/demo?url=${targetUrl}`
     ];
     
     return services[retryIndex % services.length];
