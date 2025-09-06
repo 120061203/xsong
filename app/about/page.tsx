@@ -85,12 +85,17 @@ export default function AboutPage() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
+      console.log('開始滾動到:', sectionId); // 調試信息
       element.scrollIntoView({ behavior: 'smooth' });
       
-      // 添加彈跳動畫效果
+      // 使用更長的延遲時間，確保滾動完成
       setTimeout(() => {
-        element.style.transition = 'transform 0.3s ease-out';
-        element.style.transform = 'scale(1.05)';
+        console.log('開始動畫:', sectionId); // 調試信息
+        
+        // 確保元素可見
+        element.style.display = 'block';
+        element.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        element.style.transform = 'scale(1.15)'; // 更大的縮放
         
         setTimeout(() => {
           element.style.transform = 'scale(1)';
@@ -99,9 +104,10 @@ export default function AboutPage() {
           setTimeout(() => {
             element.style.transition = '';
             element.style.transform = '';
-          }, 300);
-        }, 150);
-      }, 500); // 等待滾動完成
+            console.log('動畫完成:', sectionId); // 調試信息
+          }, 600);
+        }, 300);
+      }, 1500); // 增加等待時間到 1.5 秒
     }
   };
 
