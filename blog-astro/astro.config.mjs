@@ -22,6 +22,9 @@ export default defineConfig({
   },
 
   image: {
-    experimentalLayout: 'responsive'
+    // Astro 5.x 的圖片優化配置
+    service: {
+      entrypoint: 'astro/assets/services/sharp'
+    }
   },
 });
