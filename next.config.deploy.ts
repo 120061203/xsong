@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: 'export', // 恢復靜態導出
   images: {
     unoptimized: true,
   },
