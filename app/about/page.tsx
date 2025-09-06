@@ -993,16 +993,27 @@ export default function AboutPage() {
                       ccssll120061203@gmail.com
                     </a>
                     <button 
-                      onClick={() => {
+                      onClick={(e) => {
                         navigator.clipboard.writeText('ccssll120061203@gmail.com');
                         // 簡單的視覺反饋
-                        const btn = event.target;
-                        const originalText = btn.textContent;
-                        btn.textContent = '已複製！';
+                        const btn = e.currentTarget;
+                        const svg = btn.querySelector('svg');
+                        const originalIcon = svg.outerHTML;
+                        
+                        // 替換為勾選圖標
+                        svg.outerHTML = `
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                        `;
                         btn.classList.add('text-green-600', 'dark:text-green-400');
+                        btn.classList.remove('text-gray-400');
+                        
+                        // 2秒後恢復原狀
                         setTimeout(() => {
-                          btn.textContent = originalText;
+                          btn.querySelector('svg').outerHTML = originalIcon;
                           btn.classList.remove('text-green-600', 'dark:text-green-400');
+                          btn.classList.add('text-gray-400');
                         }, 2000);
                       }}
                       className="ml-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 rounded"
