@@ -12,6 +12,9 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 - **Tools Section**: Interactive tools and utilities
 - **Short URL Redirect**: Custom 404 page with short URL redirection
 - **GitHub Pages Deployment**: Automated deployment via GitHub Actions
+- **SEO Optimized**: Complete SEO setup with meta tags, structured data, and sitemaps
+- **RSS Feed**: Automatic RSS feed generation for blog posts
+- **Copy Functions**: Copy URL and email functionality for better UX
 
 ## 🛠️ Tech Stack
 
@@ -164,11 +167,27 @@ if (urlMatch) {
    ---
    title: "Your Post Title"
    description: "Post description"
-   pubDate: 2025-01-21
+   pubDate: 2025-01-21T14:30:00+08:00
+   updatedDate: 2025-01-21T14:30:00+08:00
+   heroImage: "../../assets/images/your-post/your-image.png"
+   categories: ["技術分享", "部落格建立"]
+   tags: ["Astro", "Next.js", "技術寫作"]
    ---
    ```
 3. Write your content in Markdown
 4. Commit and push - GitHub Actions will automatically rebuild and deploy
+
+### Date Format Requirements
+
+**Important**: Use ISO 8601 format for dates to ensure correct time display:
+
+- ✅ **Correct**: `2025-01-21T14:30:00+08:00`
+- ❌ **Incorrect**: `2025-01-21` (will show as 00:00)
+
+**Format breakdown**:
+- `2025-01-21` - Date (YYYY-MM-DD)
+- `T14:30:00` - Time (HH:MM:SS)
+- `+08:00` - Timezone (Taiwan UTC+8)
 
 ### Blog Configuration
 
@@ -176,6 +195,84 @@ if (urlMatch) {
 - **Styling**: TailwindCSS with dark/light theme support
 - **Content**: Markdown with frontmatter support
 - **Images**: Optimized with Astro's image processing
+- **Navigation**: Previous/Next post navigation and related articles
+- **Copy URL**: One-click URL copying functionality
+- **Table of Contents**: Sticky TOC for easy navigation
+
+### Image Management
+
+#### Recommended Image Sizes
+- **Hero Images**: 1200x630px (16:9 ratio)
+- **Content Images**: 800x600px or similar
+- **Format**: PNG, JPG, or WebP
+
+#### Image Directory Structure
+```
+blog-astro/src/assets/images/
+├── your-post-name/
+│   ├── your-post-1.png
+│   ├── your-post-2.jpg
+│   └── ...
+```
+
+#### Image Usage in Markdown
+```markdown
+<!-- Hero Image (in frontmatter) -->
+heroImage: "../../assets/images/your-post/your-image.png"
+
+<!-- Content Image -->
+![Image Description](../../assets/images/your-post/your-image.png)
+```
+
+## 🔍 SEO & RSS Features
+
+### SEO Optimization
+
+#### Meta Tags
+- **Title**: Dynamic page titles with site branding
+- **Description**: Optimized meta descriptions
+- **Keywords**: Relevant keywords for each page
+- **Open Graph**: Social media sharing optimization
+- **Twitter Cards**: Enhanced Twitter sharing
+- **Canonical URLs**: Proper canonical link structure
+
+#### Structured Data (JSON-LD)
+- **Person Schema**: Author information for About page
+- **BlogPosting Schema**: Article metadata for blog posts
+- **Organization Schema**: Site publisher information
+
+#### Search Engine Files
+- **robots.txt**: Search engine crawler guidance
+- **sitemap.xml**: Main website sitemap
+- **Blog sitemap**: Automatic blog sitemap generation
+
+### RSS Feed
+- **Automatic Generation**: RSS feed auto-generated from blog posts
+- **Feed Location**: `/blog/rss.xml`
+- **RSS Page**: User-friendly RSS subscription page at `/rss`
+- **Content**: Includes title, description, publish date, and author
+- **Validation**: Valid RSS 2.0 format
+- **User Experience**: Friendly RSS page with subscription instructions and reader recommendations
+- **Copy Function**: One-click RSS URL copying with visual feedback
+- **Recent Posts Preview**: Clickable article previews (last 30 days)
+- **Date Format**: Proper ISO 8601 format for accurate time display
+
+### Copy Functions
+- **Copy URL**: One-click article URL copying with visual feedback
+- **Copy Email**: Direct email copying with mailto functionality
+- **Visual Feedback**: Green checkmark confirmation with auto-revert
+
+## 🌐 Development vs Production
+
+### Development Environment
+- **Main Site**: `http://localhost:3000` (Next.js)
+- **Blog Pages**: Use Astro dev server (`cd blog-astro && npm run dev`)
+- **Static Files**: May show 404 in development (normal behavior)
+
+### Production Environment
+- **All Pages**: Fully functional including blog routes
+- **SEO Features**: All meta tags and structured data active
+- **Performance**: Optimized images and static generation
 
 ## 🤝 Contributing
 
