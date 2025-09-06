@@ -1010,7 +1010,7 @@ export default function AboutPage() {
                           </svg>
                         `;
                         btn.classList.add('text-green-600', 'dark:text-green-400');
-                        btn.classList.remove('text-gray-400');
+                        btn.classList.remove('text-gray-400', 'hover:text-gray-600', 'dark:hover:text-gray-300');
                         
                         try {
                           await navigator.clipboard.writeText('ccssll120061203@gmail.com');
@@ -1032,7 +1032,7 @@ export default function AboutPage() {
                             currentSvg.outerHTML = originalIcon;
                           }
                           btn.classList.remove('text-green-600', 'dark:text-green-400');
-                          btn.classList.add('text-gray-400');
+                          btn.classList.add('text-gray-400', 'hover:text-gray-600', 'dark:hover:text-gray-300');
                         }, 2000);
                       }}
                       className="ml-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 rounded"
