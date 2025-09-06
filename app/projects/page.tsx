@@ -259,10 +259,21 @@ export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
     : sortedProjects.filter(project => project.technologies.includes(selectedFilter));
+
+  // 處理初始載入狀態
+  useEffect(() => {
+    if (isInitialLoad) {
+      const timer = setTimeout(() => {
+        setIsInitialLoad(false);
+      }, 1000); // 1秒後停止初始動畫
+      return () => clearTimeout(timer);
+    }
+  }, [isInitialLoad]);
 
   // 預載入圖片
   useEffect(() => {
@@ -359,8 +370,10 @@ export default function ProjectsPage() {
               key={project.id}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
               style={{ 
-                animationDelay: `${index * 100}ms`,
-                animation: 'fadeInUp 0.6s ease-out forwards',
+                ...(isInitialLoad && {
+                  animationDelay: `${index * 100}ms`,
+                  animation: 'fadeInUp 0.6s ease-out forwards'
+                }),
                 transition: 'transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.5s ease-out'
               }}
               onClick={() => setSelectedProject(project)}
