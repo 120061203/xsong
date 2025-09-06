@@ -86,6 +86,22 @@ export default function AboutPage() {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      
+      // 添加彈跳動畫效果
+      setTimeout(() => {
+        element.style.transition = 'transform 0.3s ease-out';
+        element.style.transform = 'scale(1.05)';
+        
+        setTimeout(() => {
+          element.style.transform = 'scale(1)';
+          
+          // 動畫完成後移除樣式
+          setTimeout(() => {
+            element.style.transition = '';
+            element.style.transform = '';
+          }, 300);
+        }, 150);
+      }, 500); // 等待滾動完成
     }
   };
 
