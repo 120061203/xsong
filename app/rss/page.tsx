@@ -56,14 +56,19 @@ export default function RSSPage() {
             歡迎將這個網址加入你的RSS閱讀器喔！
           </p>
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-8">
-            <div className="flex items-center justify-between">
-              <p className="text-blue-800 dark:text-blue-200 font-medium">
-                <i className="fas fa-link mr-2"></i>
-                RSS 網址：<code className="bg-blue-100 dark:bg-blue-800 px-2 py-1 rounded">https://xsong.us/blog/rss.xml</code>
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <p className="text-blue-800 dark:text-blue-200 font-medium mb-2 sm:mb-0">
+                  <i className="fas fa-link mr-2"></i>
+                  RSS 網址：
+                </p>
+                <code className="bg-blue-100 dark:bg-blue-800 px-2 py-1 rounded text-sm break-all">
+                  https://xsong.us/blog/rss.xml
+                </code>
+              </div>
               <button
                 onClick={copyRSSUrl}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                className={`flex items-center justify-center space-x-2 px-4 py-2 rounded-lg transition-colors w-full sm:w-auto ${
                   copied 
                     ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' 
                     : 'bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700'
