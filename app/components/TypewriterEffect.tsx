@@ -27,7 +27,7 @@ export default function TypewriterEffect({
     setIsComplete(false);
 
     let currentIndex = 0;
-    let timeoutId: number;
+    let timeoutId: NodeJS.Timeout | number;
 
     const startTyping = () => {
       const typeNextChar = () => {
