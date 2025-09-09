@@ -35,12 +35,14 @@ export default function Home() {
               text="Passionate about" 
               speed={80}
               delay={2000}
+              cursor={false}
             />
             <span className="text-blue-600 dark:text-teal-400 font-bold">
               <TypewriterEffect 
                 text=" Maker and Development" 
                 speed={80}
                 delay={3500}
+                cursor={true}
               />
             </span>
             <br/>
@@ -48,30 +50,35 @@ export default function Home() {
               text="Currently exploring " 
               speed={80}
               delay={5000}
+              cursor={false}
             />
             <span className="text-blue-600 dark:text-orange-400">
               <TypewriterEffect 
                 text="Devops" 
                 speed={80}
                 delay={6500}
+                cursor={false}
               />
             </span>
             <TypewriterEffect 
               text=" and " 
               speed={80}
               delay={7000}
+              cursor={false}
             />
             <span className="text-gray-600 dark:text-green-500">
               <TypewriterEffect 
                 text="AI" 
                 speed={80}
                 delay={7200}
+                cursor={false}
               />
             </span>
             <TypewriterEffect 
               text="." 
               speed={80}
               delay={7400}
+              cursor={true}
             />
           </p>
 
