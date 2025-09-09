@@ -1,4 +1,4 @@
-# xsong.us - Personal Website & Blog
+# xsong.us - 技術分享與作品集
 
 A modern personal website built with Next.js and Astro, featuring a blog system, project showcase, and tools section.
 
@@ -7,7 +7,7 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 ## 🚀 Features
 
 - **Modern Design**: Clean, responsive design with dark/light theme support
-- **Blog System**: Astro-based blog with Markdown support
+- **Blog System**: Astro-based blog with Markdown support for technical articles
 - **Project Showcase**: Display your projects with screenshots and descriptions
 - **Tools Section**: Interactive tools and utilities
 - **Short URL Redirect**: Custom 404 page with short URL redirection

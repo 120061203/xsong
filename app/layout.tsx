@@ -18,11 +18,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "xsong.us - 個人作品集",
+    default: "xsong.us - 技術分享與作品集",
     template: "%s | xsong.us"
   },
-  description: "小松的個人作品集，展示技術專案、演講經驗、教學內容和職涯發展。專精於前端開發、DevOps 和技術分享。",
-  keywords: ["個人作品集", "前端開發", "DevOps", "技術分享", "演講", "教學", "React", "Next.js", "Astro", "TypeScript"],
+  description: "小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。",
+  keywords: ["技術分享", "前端開發", "DevOps", "個人作品集", "演講", "教學", "React", "Next.js", "Astro", "TypeScript"],
   authors: [{ name: "小松" }],
   creator: "小松",
   publisher: "xsong.us",
@@ -42,21 +42,21 @@ export const metadata: Metadata = {
     locale: 'zh_TW',
     url: 'https://xsong.us',
     siteName: 'xsong.us',
-    title: 'xsong.us - 個人作品集',
-    description: '小松的個人作品集，展示技術專案、演講經驗、教學內容和職涯發展。',
+    title: 'xsong.us - 技術分享與作品集',
+    description: '小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。',
     images: [
       {
         url: 'https://xsong.us/avatar.png',
         width: 1200,
         height: 630,
-        alt: 'xsong.us 個人作品集',
+        alt: 'xsong.us 技術分享與作品集',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'xsong.us - 個人作品集',
-    description: '小松的個人作品集，展示技術專案、演講經驗、教學內容和職涯發展。',
+    title: 'xsong.us - 技術分享與作品集',
+    description: '小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。',
     images: ['https://xsong.us/avatar.png'],
   },
   verification: {

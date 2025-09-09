@@ -106,8 +106,8 @@ const projects: Project[] = [
   {
     id: 'xsong-personal-website',
     title: 'xsong.us',
-    description: '一個現代化的個人作品集網站，展示專案、工具和專業經驗。',
-    longDescription: '這個個人作品集網站使用 Next.js 建構，具有乾淨現代的設計，支援深色/淺色主題。包含專案展示、互動工具（如白板），以及跨所有裝置無縫運作的響應式佈局。網站展示了現代網頁開發實踐和各種技術技能。',
+    description: '一個現代化的技術分享與作品集網站，展示專案、工具和專業經驗。',
+    longDescription: '這個技術分享與作品集網站使用 Next.js 建構，具有乾淨現代的設計，支援深色/淺色主題。包含專案展示、技術文章、互動工具（如白板），以及跨所有裝置無縫運作的響應式佈局。網站展示了現代網頁開發實踐和各種技術技能。',
     image: getScreenshotUrl('https://xsong.us'),
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'React', 'Astro'],
     githubUrl: 'https://github.com/120061203/xsong',
