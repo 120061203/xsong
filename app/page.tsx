@@ -10,18 +10,18 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-[calc(100vh-200px)] flex flex-col md:flex-row items-center px-4 sm:px-6 lg:px-8 py-8">
+      <div className="min-h-[calc(100vh-200px)] flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
         
         {/* 左側：文字區塊 */}
-        <div className="flex-1 flex flex-col justify-center items-center md:items-start space-y-6 max-w-2xl md:ml-0 lg:ml-0 xl:ml-0">
-          <p className="text-lg md:text-2xl text-gray-600 dark:text-gray-300 text-center md:text-left">
+        <div className="flex-1 flex flex-col justify-center items-center space-y-6 max-w-2xl md:ml-20 lg:ml-32 xl:ml-40">
+          <p className="text-lg md:text-2xl text-gray-600 dark:text-gray-300 text-center">
             <TypewriterEffect 
               text="HI  !  I'm" 
               speed={150}
               delay={500}
             />
           </p>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-center">
             <span className="text-gray-900 dark:text-white">
               <TypewriterEffect 
                 text="小松 XiaoSong" 
@@ -30,7 +30,7 @@ export default function Home() {
               />
             </span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed text-center md:text-left">
+          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed text-center">
             <TypewriterEffect 
               text="Passionate about" 
               speed={80}
@@ -76,7 +76,7 @@ export default function Home() {
           </p>
 
           {/* 社交連結 */}
-          <div className="flex justify-center md:justify-start space-x-4 pt-4">
+          <div className="flex justify-center space-x-4 pt-4">
             <a
               href="https://github.com/120061203"
               target="_blank"
