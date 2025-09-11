@@ -338,7 +338,8 @@ const relatedPosts = allPosts
 						textElement.textContent = originalText;
 						// 移除所有可能的綠色類
 						btn.classList.remove('text-green-600', 'dark:text-green-400');
-						// 恢復原始灰色
+						// 強制恢復原始灰色，移除任何其他顏色類
+						btn.className = btn.className.replace(/text-\w+-\d+/g, '');
 						btn.classList.add('text-gray-500');
 					}, 2000);
 					
@@ -373,7 +374,8 @@ const relatedPosts = allPosts
 						textElement.textContent = originalText;
 						// 移除所有可能的綠色類
 						btn.classList.remove('text-green-600', 'dark:text-green-400');
-						// 恢復原始灰色
+						// 強制恢復原始灰色，移除任何其他顏色類
+						btn.className = btn.className.replace(/text-\w+-\d+/g, '');
 						btn.classList.add('text-gray-500');
 					}, 2000);
 				}
