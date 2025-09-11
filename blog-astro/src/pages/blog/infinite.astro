@@ -1,0 +1,135 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import InfiniteBlogScroll from '../../components/InfiniteBlogScroll.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${SITE_TITLE} - 無限滾動閱讀`} description="以無限滾動的方式瀏覽所有技術文章，享受流暢的閱讀體驗" />
+		<style>
+			.hero-section {
+				text-align: center;
+				padding: 3rem 2rem;
+				background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+				color: white;
+				margin-bottom: 2rem;
+			}
+
+			.hero-title {
+				font-size: 2.5rem;
+				margin-bottom: 1rem;
+				font-weight: 700;
+			}
+
+			.hero-description {
+				font-size: 1.2rem;
+				opacity: 0.9;
+				margin-bottom: 2rem;
+			}
+
+			.hero-instructions {
+				display: flex;
+				justify-content: center;
+				gap: 2rem;
+				flex-wrap: wrap;
+			}
+
+			.instruction-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 0.9rem;
+			}
+
+			.instruction-icon {
+				width: 20px;
+				height: 20px;
+				background: rgba(255, 255, 255, 0.2);
+				border-radius: 4px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 0.8rem;
+			}
+
+			.back-to-blog {
+				position: fixed;
+				top: 2rem;
+				left: 2rem;
+				background: rgba(var(--black), 0.8);
+				color: white;
+				padding: 0.8rem 1.5rem;
+				border-radius: 8px;
+				text-decoration: none;
+				font-size: 0.9rem;
+				transition: all 0.3s ease;
+				z-index: 1001;
+			}
+
+			.back-to-blog:hover {
+				background: rgba(var(--black), 1);
+				transform: translateY(-2px);
+			}
+
+			@media (max-width: 768px) {
+				.hero-title {
+					font-size: 2rem;
+				}
+				
+				.hero-description {
+					font-size: 1rem;
+				}
+				
+				.hero-instructions {
+					flex-direction: column;
+					gap: 1rem;
+				}
+				
+				.back-to-blog {
+					top: 1rem;
+					left: 1rem;
+					padding: 0.6rem 1rem;
+					font-size: 0.8rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<a href="/blog/" class="back-to-blog">← 返回 Blog 列表</a>
+		
+		<Header />
+		
+		<main>
+			<section class="hero-section">
+				<h1 class="hero-title">無限滾動閱讀</h1>
+				<p class="hero-description">
+					以全新的方式瀏覽技術文章，享受如社交媒體般的流暢閱讀體驗
+				</p>
+				<div class="hero-instructions">
+					<div class="instruction-item">
+						<div class="instruction-icon">🖱️</div>
+						<span>滑動滑鼠滾輪</span>
+					</div>
+					<div class="instruction-item">
+						<div class="instruction-icon">⌨️</div>
+						<span>使用方向鍵</span>
+					</div>
+					<div class="instruction-item">
+						<div class="instruction-icon">📱</div>
+						<span>觸控滑動</span>
+					</div>
+				</div>
+			</section>
+			
+			<section>
+				<InfiniteBlogScroll />
+			</section>
+		</main>
+		
+		<Footer />
+	</body>
+</html>

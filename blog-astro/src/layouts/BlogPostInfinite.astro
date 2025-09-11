@@ -1,0 +1,505 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import Layout from './Layout.astro';
+import { SITE_URL, AUTHOR_NAME } from '../consts';
+
+type Props = CollectionEntry<'blog'>['data'] & { 
+	currentSlug: string;
+};
+
+const { title, description, pubDate, updatedDate, heroImage, currentSlug } = Astro.props;
+
+// 獲取所有文章並排序
+const allPosts = await getCollection('blog').then(posts => 
+	posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+);
+
+// 找到當前文章的索引
+const currentIndex = allPosts.findIndex(post => post.id.replace(/\.(md|mdx)$/, '') === currentSlug);
+
+// 上一篇和下一篇文章
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+---
+
+<Layout title={title} description={description}>
+	<div class="infinite-blog-container">
+		<!-- 進度條 -->
+		<div class="progress-bar">
+			<div class="progress-fill" id="progress-fill"></div>
+		</div>
+
+		<!-- 所有文章 -->
+		{allPosts.map((post, index) => {
+			const isCurrent = post.id.replace(/\.(md|mdx)$/, '') === currentSlug;
+			const isNext = index === currentIndex + 1;
+			const isPrev = index === currentIndex - 1;
+			
+			return (
+				<article 
+					class:list={[
+						'blog-post',
+						{ 'active': isCurrent },
+						{ 'next': isNext },
+						{ 'prev': isPrev }
+					]}
+					data-slug={post.id.replace(/\.(md|mdx)$/, '')}
+					data-url={`/blog/${post.id.replace(/\.(md|mdx)$/, '')}`}
+					data-index={index}
+				>
+					<div class="max-w-4xl mx-auto px-4 py-8">
+						{isCurrent ? (
+							<!-- 當前文章完整內容 -->
+							<>
+								<!-- Back to Blog -->
+								<div class="mb-8">
+									<a 
+										href="/blog"
+										class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors"
+									>
+										<svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+										</svg>
+										返回部落格
+									</a>
+								</div>
+
+								<!-- Article -->
+								<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+									{post.data.heroImage && (
+										<div class="w-full h-64 md:h-96 overflow-hidden">
+											<Image 
+												width={1020} 
+												height={510} 
+												src={post.data.heroImage} 
+												alt={post.data.title}
+												class="w-full h-full object-cover"
+											/>
+										</div>
+									)}
+									
+									<div class="p-8">
+										<!-- Header -->
+										<header class="mb-8">
+											<div class="flex items-start justify-between">
+												<div class="flex-1">
+													<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+														{post.data.title}
+													</h1>
+													<div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+														<time dateTime={post.data.pubDate.toISOString()}>
+															{post.data.pubDate.toLocaleDateString('zh-TW', {
+																year: 'numeric',
+																month: 'long',
+																day: 'numeric'
+															})}
+														</time>
+														{post.data.updatedDate && (
+															<>
+																<span class="mx-2">•</span>
+																<span>更新於 {post.data.updatedDate.toLocaleDateString('zh-TW', {
+																	year: 'numeric',
+																	month: 'long',
+																	day: 'numeric'
+																})}</span>
+															</>
+														)}
+													</div>
+												</div>
+												
+												<!-- 複製網址按鈕 -->
+												<button 
+													id="copy-url-btn"
+													class="ml-4 flex items-center gap-2 px-4 py-2 text-sm text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+													title="複製文章網址"
+												>
+													<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+													</svg>
+													<span id="copy-text">複製網址</span>
+												</button>
+											</div>
+										</header>
+
+										<!-- Content -->
+										<div class="prose prose-lg max-w-none dark:prose-invert" id="article-content">
+											{isCurrent ? <slot /> : null}
+										</div>
+									</div>
+								</div>
+
+								<!-- 導航提示 -->
+								<div class="mt-8 text-center">
+									<div class="scroll-hint" id="scroll-hint">
+										<div class="flex items-center justify-center gap-2 text-gray-500 dark:text-gray-400">
+											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+											</svg>
+											<span>繼續滑動閱讀下一篇</span>
+										</div>
+									</div>
+								</div>
+							</>
+						) : (
+							<!-- 其他文章預覽 -->
+							<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+								{post.data.heroImage && (
+									<div class="w-full h-64 md:h-96 overflow-hidden">
+										<Image 
+											width={1020} 
+											height={510} 
+											src={post.data.heroImage} 
+											alt={post.data.title}
+											class="w-full h-full object-cover"
+										/>
+									</div>
+								)}
+								
+								<div class="p-8">
+									<header class="mb-8">
+										<div class="text-center">
+											<div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+												{isNext ? '下一篇' : isPrev ? '上一篇' : ''}
+											</div>
+											<h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+												{post.data.title}
+											</h2>
+											<div class="text-gray-500 dark:text-gray-400 text-sm">
+												<time dateTime={post.data.pubDate.toISOString()}>
+													{post.data.pubDate.toLocaleDateString('zh-TW', {
+														year: 'numeric',
+														month: 'long',
+														day: 'numeric'
+													})}
+												</time>
+											</div>
+										</div>
+									</header>
+
+									{post.data.description && (
+										<div class="prose prose-lg max-w-none dark:prose-invert text-center">
+											<p class="text-gray-600 dark:text-gray-300">{post.data.description}</p>
+										</div>
+									)}
+
+									<div class="mt-8 text-center">
+										<a 
+											href={`/blog/${post.id.replace(/\.(md|mdx)$/, '')}`}
+											class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 dark:bg-green-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-green-700 transition-colors"
+										>
+											{isPrev && (
+												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+												</svg>
+											)}
+											<span>閱讀完整文章</span>
+											{isNext && (
+												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+												</svg>
+											)}
+										</a>
+									</div>
+								</div>
+							</div>
+						)}
+					</div>
+				</article>
+			);
+		})}
+	</div>
+
+	<style>
+		.infinite-blog-container {
+			position: relative;
+			min-height: 100vh;
+		}
+
+		.blog-post {
+			min-height: 100vh;
+			opacity: 0;
+			transform: translateY(50px);
+			transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+			pointer-events: none;
+		}
+
+		.blog-post.active {
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+		}
+
+		.blog-post.next {
+			opacity: 0.3;
+			transform: translateY(20px);
+			pointer-events: none;
+		}
+
+		.blog-post.prev {
+			opacity: 0.3;
+			transform: translateY(-20px);
+			pointer-events: none;
+		}
+
+		.progress-bar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 3px;
+			background: rgba(156, 163, 175, 0.3);
+			z-index: 1000;
+		}
+
+		.progress-fill {
+			height: 100%;
+			background: linear-gradient(90deg, #3b82f6, #10b981);
+			width: 0%;
+			transition: width 0.3s ease;
+		}
+
+		.scroll-hint {
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.scroll-hint.show {
+			opacity: 1;
+		}
+
+		.scroll-hint svg {
+			animation: bounce 2s infinite;
+		}
+
+		@keyframes bounce {
+			0%, 20%, 50%, 80%, 100% {
+				transform: translateY(0);
+			}
+			40% {
+				transform: translateY(-10px);
+			}
+			60% {
+				transform: translateY(-5px);
+			}
+		}
+
+		@media (max-width: 768px) {
+			.blog-post {
+				min-height: auto;
+			}
+		}
+	</style>
+
+	<!-- 結構化數據 -->
+	<script type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"headline": title,
+		"description": description,
+		"url": `${SITE_URL}/blog/${currentSlug}/`,
+		"datePublished": pubDate.toISOString(),
+		"dateModified": updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+		"author": {
+			"@type": "Person",
+			"name": AUTHOR_NAME,
+			"url": SITE_URL
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "xsong.us",
+			"url": SITE_URL,
+			"logo": {
+				"@type": "ImageObject",
+				"url": `${SITE_URL}/avatar.png`
+			}
+		},
+		"mainEntityOfPage": {
+			"@type": "WebPage",
+			"@id": `${SITE_URL}/blog/${currentSlug}/`
+		},
+		...(heroImage && {
+			"image": {
+				"@type": "ImageObject",
+				"url": new URL(heroImage.src, SITE_URL).toString(),
+				"width": 1200,
+				"height": 630
+			}
+		})
+	})} />
+
+	<script>
+		// 複製網址功能
+		function initCopyUrl() {
+			const copyBtn = document.getElementById('copy-url-btn');
+			const copyText = document.getElementById('copy-text');
+			if (!copyBtn || !copyText) return;
+
+			copyBtn.addEventListener('click', async () => {
+				try {
+					await navigator.clipboard.writeText(window.location.href);
+					
+					// 顯示成功提示
+					const originalIcon = copyBtn.querySelector('svg').outerHTML;
+					const originalText = copyText.textContent;
+					
+					copyBtn.querySelector('svg').outerHTML = `
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`;
+					copyText.textContent = '已複製！';
+					copyBtn.classList.add('text-green-600', 'dark:text-green-400');
+					copyBtn.classList.remove('text-gray-500');
+					
+					// 2秒後恢復原狀
+					setTimeout(() => {
+						copyBtn.querySelector('svg').outerHTML = originalIcon;
+						copyText.textContent = originalText;
+						copyBtn.classList.remove('text-green-600', 'dark:text-green-400');
+						copyBtn.classList.add('text-gray-500');
+					}, 2000);
+					
+				} catch (err) {
+					console.error('複製失敗:', err);
+					// 降級方案：使用舊的複製方法
+					const textArea = document.createElement('textarea');
+					textArea.value = window.location.href;
+					document.body.appendChild(textArea);
+					textArea.select();
+					document.execCommand('copy');
+					document.body.removeChild(textArea);
+					
+					// 顯示成功提示
+					const originalIcon = copyBtn.querySelector('svg').outerHTML;
+					const originalText = copyText.textContent;
+					
+					copyBtn.querySelector('svg').outerHTML = `
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`;
+					copyText.textContent = '已複製！';
+					copyBtn.classList.add('text-green-600', 'dark:text-green-400');
+					copyBtn.classList.remove('text-gray-500');
+					
+					setTimeout(() => {
+						copyBtn.querySelector('svg').outerHTML = originalIcon;
+						copyText.textContent = originalText;
+						copyBtn.classList.remove('text-green-600', 'dark:text-green-400');
+						copyBtn.classList.add('text-gray-500');
+					}, 2000);
+				}
+			});
+		}
+
+		// 無限滾動功能
+		class InfiniteBlogScroll {
+			constructor() {
+				this.currentPost = document.querySelector('.blog-post.active');
+				this.nextPost = document.querySelector('.blog-post.next');
+				this.prevPost = document.querySelector('.blog-post.prev');
+				this.scrollHint = document.getElementById('scroll-hint');
+				this.progressFill = document.getElementById('progress-fill');
+				this.isScrolling = false;
+				this.scrollThreshold = 300; // 增加滾動閾值
+				this.lastScrollY = window.scrollY;
+				this.scrollTimeout = null;
+				
+				this.init();
+			}
+
+			init() {
+				this.setupScrollListener();
+				this.setupKeyboardListener();
+				this.updateProgress();
+				this.showScrollHint();
+			}
+
+			setupScrollListener() {
+				window.addEventListener('scroll', () => {
+					const currentScrollY = window.scrollY;
+					const scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
+					
+					if (this.isScrolling) return;
+
+					// 清除之前的計時器
+					if (this.scrollTimeout) {
+						clearTimeout(this.scrollTimeout);
+					}
+
+					// 設置新的計時器，延遲觸發
+					this.scrollTimeout = setTimeout(() => {
+						const scrollDelta = Math.abs(currentScrollY - this.lastScrollY);
+						
+						// 檢查是否滾動到頁面底部附近
+						const isNearBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100;
+						const isNearTop = window.scrollY < 100;
+						
+						if (scrollDirection === 'down' && isNearBottom && this.nextPost) {
+							this.goToNext();
+						} else if (scrollDirection === 'up' && isNearTop && this.prevPost) {
+							this.goToPrevious();
+						}
+						
+						this.lastScrollY = currentScrollY;
+					}, 150); // 150ms 延遲，避免頻繁觸發
+				});
+			}
+
+			setupKeyboardListener() {
+				document.addEventListener('keydown', (e) => {
+					if (this.isScrolling) return;
+
+					switch(e.key) {
+						case 'ArrowDown':
+						case 'PageDown':
+							e.preventDefault();
+							this.goToNext();
+							break;
+						case 'ArrowUp':
+						case 'PageUp':
+							e.preventDefault();
+							this.goToPrevious();
+							break;
+					}
+				});
+			}
+
+
+			goToNext() {
+				if (!this.nextPost) return;
+
+				const nextSlug = this.nextPost.dataset.slug;
+				window.location.href = `/blog/${nextSlug}/`;
+			}
+
+			goToPrevious() {
+				if (!this.prevPost) return;
+
+				const prevSlug = this.prevPost.dataset.slug;
+				window.location.href = `/blog/${prevSlug}/`;
+			}
+
+			updateProgress() {
+				const scrollTop = window.scrollY;
+				const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+				const progress = (scrollTop / docHeight) * 100;
+				this.progressFill.style.width = `${Math.min(progress, 100)}%`;
+			}
+
+			showScrollHint() {
+				setTimeout(() => {
+					this.scrollHint.classList.add('show');
+				}, 3000);
+			}
+		}
+
+		// 頁面載入完成後初始化
+		document.addEventListener('DOMContentLoaded', () => {
+			initCopyUrl();
+			new InfiniteBlogScroll();
+		});
+	</script>
+</Layout>

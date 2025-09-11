@@ -1,0 +1,439 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// 計算閱讀時間的函數
+function getReadingTime(content: string): number {
+  const wordsPerMinute = 250;
+  const cleanContent = content.replace(/[#*\`\[\]()]/g, '').replace(/---/g, '');
+  const words = cleanContent.length;
+  return Math.ceil(words / wordsPerMinute);
+}
+---
+
+<style>
+  .infinite-blog-container {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .blog-post {
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-post.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .blog-post.next {
+    opacity: 0.3;
+    transform: translateY(20px);
+  }
+
+  .blog-post.prev {
+    opacity: 0.3;
+    transform: translateY(-20px);
+  }
+
+  .blog-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .blog-image {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin: 0 auto 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .blog-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: rgb(var(--black));
+  }
+
+  .blog-meta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+  }
+
+  .blog-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgb(var(--gray-dark));
+    margin-bottom: 2rem;
+  }
+
+  .read-more-btn {
+    background: var(--accent);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .read-more-btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(35, 55, 255, 0.3);
+  }
+
+  .scroll-indicator {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-indicator.show {
+    opacity: 1;
+  }
+
+  .scroll-indicator::after {
+    content: '↓';
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(var(--gray-light), 0.3);
+    z-index: 1000;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  .keyboard-hint {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(var(--black), 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .keyboard-hint.show {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .blog-post {
+      padding: 1rem;
+    }
+    
+    .blog-title {
+      font-size: 2rem;
+    }
+    
+    .blog-image {
+      height: 200px;
+    }
+    
+    .keyboard-hint {
+      display: none;
+    }
+  }
+</style>
+
+<div class="infinite-blog-container">
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  {posts.map((post, index) => {
+    const readingTime = getReadingTime(post.body);
+    return (
+      <article class={`blog-post ${index === 0 ? 'active' : ''}`} data-index={index}>
+        <div class="blog-content">
+          {post.data.heroImage && (
+            <img 
+              src={post.data.heroImage} 
+              alt={post.data.title}
+              class="blog-image"
+            />
+          )}
+          
+          <h1 class="blog-title">{post.data.title}</h1>
+          
+          <div class="blog-meta">
+            <span class="date">
+              <FormattedDate date={post.data.pubDate} />
+            </span>
+            <span>•</span>
+            <span>{readingTime} 分鐘</span>
+            {post.data.categories && post.data.categories.length > 0 && (
+              <>
+                <span>•</span>
+                <span>{post.data.categories[0]}</span>
+              </>
+            )}
+          </div>
+
+          {post.data.description && (
+            <p class="blog-description">{post.data.description}</p>
+          )}
+
+          <a href={`/blog/${post.id}/`} class="read-more-btn">
+            閱讀完整文章 →
+          </a>
+        </div>
+      </article>
+    );
+  })}
+
+  <div class="scroll-indicator" id="scroll-indicator">
+    繼續滑動閱讀下一篇
+  </div>
+
+  <div class="keyboard-hint" id="keyboard-hint">
+    使用方向鍵或滾輪瀏覽
+  </div>
+</div>
+
+<script>
+  class InfiniteBlogScroll {
+    constructor() {
+      this.currentIndex = 0;
+      this.posts = document.querySelectorAll('.blog-post');
+      this.scrollIndicator = document.getElementById('scroll-indicator');
+      this.progressFill = document.getElementById('progress-fill');
+      this.keyboardHint = document.getElementById('keyboard-hint');
+      this.isScrolling = false;
+      this.scrollThreshold = 100; // 滑動多少像素觸發切換
+      this.lastScrollY = window.scrollY;
+      
+      this.init();
+    }
+
+    init() {
+      this.setupScrollListener();
+      this.setupKeyboardListener();
+      this.updateProgress();
+      this.showScrollIndicator();
+      this.showKeyboardHint();
+    }
+
+    setupScrollListener() {
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        const scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
+        
+        if (this.isScrolling) return;
+
+        const scrollDelta = Math.abs(currentScrollY - this.lastScrollY);
+        
+        if (scrollDelta > this.scrollThreshold) {
+          this.handleScroll(scrollDirection);
+          this.lastScrollY = currentScrollY;
+        }
+      });
+    }
+
+    setupKeyboardListener() {
+      document.addEventListener('keydown', (e) => {
+        if (this.isScrolling) return;
+
+        switch(e.key) {
+          case 'ArrowDown':
+          case 'PageDown':
+            e.preventDefault();
+            this.goToNext();
+            break;
+          case 'ArrowUp':
+          case 'PageUp':
+            e.preventDefault();
+            this.goToPrevious();
+            break;
+          case 'Home':
+            e.preventDefault();
+            this.goToFirst();
+            break;
+          case 'End':
+            e.preventDefault();
+            this.goToLast();
+            break;
+        }
+      });
+    }
+
+    handleScroll(direction) {
+      this.isScrolling = true;
+
+      if (direction === 'down' && this.currentIndex < this.posts.length - 1) {
+        this.goToNext();
+      } else if (direction === 'up' && this.currentIndex > 0) {
+        this.goToPrevious();
+      }
+
+      setTimeout(() => {
+        this.isScrolling = false;
+      }, 800);
+    }
+
+    goToNext() {
+      if (this.currentIndex >= this.posts.length - 1) return;
+
+      const currentPost = this.posts[this.currentIndex];
+      const nextPost = this.posts[this.currentIndex + 1];
+
+      // 動畫切換
+      currentPost.classList.remove('active');
+      currentPost.classList.add('prev');
+      
+      nextPost.classList.remove('next');
+      nextPost.classList.add('active');
+
+      this.currentIndex++;
+      this.updateProgress();
+      this.updateScrollIndicator();
+      this.scrollToPost(nextPost);
+    }
+
+    goToPrevious() {
+      if (this.currentIndex <= 0) return;
+
+      const currentPost = this.posts[this.currentIndex];
+      const prevPost = this.posts[this.currentIndex - 1];
+
+      // 動畫切換
+      currentPost.classList.remove('active');
+      currentPost.classList.add('next');
+      
+      prevPost.classList.remove('prev');
+      prevPost.classList.add('active');
+
+      this.currentIndex--;
+      this.updateProgress();
+      this.updateScrollIndicator();
+      this.scrollToPost(prevPost);
+    }
+
+    goToFirst() {
+      this.currentIndex = 0;
+      this.updateAllPosts();
+    }
+
+    goToLast() {
+      this.currentIndex = this.posts.length - 1;
+      this.updateAllPosts();
+    }
+
+    updateAllPosts() {
+      this.posts.forEach((post, index) => {
+        post.classList.remove('active', 'prev', 'next');
+        if (index === this.currentIndex) {
+          post.classList.add('active');
+        } else if (index < this.currentIndex) {
+          post.classList.add('prev');
+        } else {
+          post.classList.add('next');
+        }
+      });
+      this.updateProgress();
+      this.updateScrollIndicator();
+    }
+
+    scrollToPost(post) {
+      const postRect = post.getBoundingClientRect();
+      const scrollY = window.scrollY + postRect.top;
+      
+      window.scrollTo({
+        top: scrollY,
+        behavior: 'smooth'
+      });
+    }
+
+    updateProgress() {
+      const progress = ((this.currentIndex + 1) / this.posts.length) * 100;
+      this.progressFill.style.width = `${progress}%`;
+    }
+
+    updateScrollIndicator() {
+      if (this.currentIndex >= this.posts.length - 1) {
+        this.scrollIndicator.style.opacity = '0';
+      } else {
+        this.scrollIndicator.style.opacity = '1';
+      }
+    }
+
+    showScrollIndicator() {
+      setTimeout(() => {
+        this.scrollIndicator.classList.add('show');
+      }, 2000);
+    }
+
+    showKeyboardHint() {
+      setTimeout(() => {
+        this.keyboardHint.classList.add('show');
+      }, 3000);
+      
+      // 5秒後隱藏提示
+      setTimeout(() => {
+        this.keyboardHint.classList.remove('show');
+      }, 8000);
+    }
+  }
+
+  // 初始化無限滾動
+  document.addEventListener('DOMContentLoaded', () => {
+    new InfiniteBlogScroll();
+  });
+</script>
