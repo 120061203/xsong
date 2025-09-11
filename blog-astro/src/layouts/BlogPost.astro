@@ -319,8 +319,12 @@ const relatedPosts = allPosts
 					const originalIcon = btn.querySelector('svg').outerHTML;
 					const originalText = textElement.textContent;
 					
+					// 根據按鈕類型設置正確的 SVG 尺寸
+					const isMobile = btn.id === 'copy-url-btn';
+					const svgSize = isMobile ? 'w-3 h-3' : 'w-4 h-4';
+					
 					btn.querySelector('svg').outerHTML = `
-						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg class="${svgSize}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 						</svg>
 					`;
@@ -337,7 +341,6 @@ const relatedPosts = allPosts
 					}, 2000);
 					
 				} catch (err) {
-					console.error('複製失敗:', err);
 					// 降級方案：使用舊的複製方法
 					const textArea = document.createElement('textarea');
 					textArea.value = window.location.href;
@@ -350,8 +353,12 @@ const relatedPosts = allPosts
 					const originalIcon = btn.querySelector('svg').outerHTML;
 					const originalText = textElement.textContent;
 					
+					// 根據按鈕類型設置正確的 SVG 尺寸
+					const isMobile = btn.id === 'copy-url-btn';
+					const svgSize = isMobile ? 'w-3 h-3' : 'w-4 h-4';
+					
 					btn.querySelector('svg').outerHTML = `
-						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg class="${svgSize}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 						</svg>
 					`;
