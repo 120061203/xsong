@@ -214,33 +214,35 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 	<style>
 		.infinite-blog-container {
 			position: relative;
-			min-height: 100vh;
 		}
 
 		.blog-post {
-			min-height: 100vh;
 			opacity: 0;
-			transform: translateY(50px);
-			transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+			transform: translateY(0);
+			transition: opacity 0.3s ease, transform 0.3s ease;
 			pointer-events: none;
+			position: relative;
 		}
 
 		.blog-post.active {
 			opacity: 1;
 			transform: translateY(0);
 			pointer-events: auto;
+			z-index: 2;
 		}
 
 		.blog-post.next {
-			opacity: 0.3;
-			transform: translateY(20px);
+			opacity: 0;
+			transform: translateY(100vh);
 			pointer-events: none;
+			z-index: 1;
 		}
 
 		.blog-post.prev {
-			opacity: 0.3;
-			transform: translateY(-20px);
+			opacity: 0;
+			transform: translateY(-100vh);
 			pointer-events: none;
+			z-index: 1;
 		}
 
 		.progress-bar {
@@ -362,7 +364,6 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 					}, 2000);
 					
 				} catch (err) {
-					console.error('複製失敗:', err);
 					// 降級方案：使用舊的複製方法
 					const textArea = document.createElement('textarea');
 					textArea.value = window.location.href;
@@ -394,7 +395,7 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 			});
 		}
 
-		// 無限滾動功能
+		// 無限滾動功能 - 簡化實現
 		class InfiniteBlogScroll {
 			constructor() {
 				this.currentPost = document.querySelector('.blog-post.active');
@@ -403,9 +404,10 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 				this.scrollHint = document.getElementById('scroll-hint');
 				this.progressFill = document.getElementById('progress-fill');
 				this.isScrolling = false;
-				this.scrollThreshold = 300; // 增加滾動閾值
+				this.scrollThreshold = 100;
 				this.lastScrollY = window.scrollY;
 				this.scrollTimeout = null;
+				this.isTransitioning = false;
 				
 				this.init();
 			}
@@ -413,39 +415,79 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 			init() {
 				this.setupScrollListener();
 				this.setupKeyboardListener();
+				this.setupTouchListener();
 				this.updateProgress();
 				this.showScrollHint();
+				
+				// 延遲啟動滾動檢測，避免頁面載入時就觸發
+				setTimeout(() => {
+					this.isScrolling = false;
+				}, 1000);
 			}
 
 			setupScrollListener() {
-				window.addEventListener('scroll', () => {
-					const currentScrollY = window.scrollY;
-					const scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
-					
-					if (this.isScrolling) return;
-
-					// 清除之前的計時器
-					if (this.scrollTimeout) {
-						clearTimeout(this.scrollTimeout);
+				let ticking = false;
+				
+				const handleScroll = () => {
+					if (!ticking) {
+						requestAnimationFrame(() => {
+							this.processScroll();
+							ticking = false;
+						});
+						ticking = true;
 					}
+				};
 
-					// 設置新的計時器，延遲觸發
-					this.scrollTimeout = setTimeout(() => {
-						const scrollDelta = Math.abs(currentScrollY - this.lastScrollY);
-						
-						// 檢查是否滾動到頁面底部附近
-						const isNearBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100;
-						const isNearTop = window.scrollY < 100;
-						
-						if (scrollDirection === 'down' && isNearBottom && this.nextPost) {
+				window.addEventListener('scroll', handleScroll, { passive: true });
+			}
+
+			setupTouchListener() {
+				let startY = 0;
+				let startTime = 0;
+				
+				document.addEventListener('touchstart', (e) => {
+					startY = e.touches[0].clientY;
+					startTime = Date.now();
+				}, { passive: true });
+
+				document.addEventListener('touchend', (e) => {
+					const endY = e.changedTouches[0].clientY;
+					const endTime = Date.now();
+					const deltaY = startY - endY;
+					const deltaTime = endTime - startTime;
+					
+					// 快速滑動且距離足夠
+					if (deltaTime < 300 && Math.abs(deltaY) > 50) {
+						if (deltaY > 0 && this.nextPost) {
+							// 向上滑動，下一篇文章
 							this.goToNext();
-						} else if (scrollDirection === 'up' && isNearTop && this.prevPost) {
+						} else if (deltaY < 0 && this.prevPost) {
+							// 向下滑動，上一篇文章
 							this.goToPrevious();
 						}
-						
-						this.lastScrollY = currentScrollY;
-					}, 150); // 150ms 延遲，避免頻繁觸發
-				});
+					}
+				}, { passive: true });
+			}
+
+			processScroll() {
+				if (this.isTransitioning) return;
+
+				const currentScrollY = window.scrollY;
+				const scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
+				const scrollDelta = Math.abs(currentScrollY - this.lastScrollY);
+				
+				// 檢查是否滾動到頁面底部附近
+				const isNearBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100;
+				const isNearTop = window.scrollY < 100;
+				
+				// 簡化的切換邏輯
+				if (scrollDirection === 'down' && isNearBottom && this.nextPost && scrollDelta > 20) {
+					this.goToNext();
+				} else if (scrollDirection === 'up' && isNearTop && this.prevPost && scrollDelta > 20) {
+					this.goToPrevious();
+				}
+				
+				this.lastScrollY = currentScrollY;
 			}
 
 			setupKeyboardListener() {
@@ -469,17 +511,67 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 
 
 			goToNext() {
-				if (!this.nextPost) return;
-
-				const nextSlug = this.nextPost.dataset.slug;
-				window.location.href = `/blog/${nextSlug}/`;
+				if (!this.nextPost || this.isTransitioning) return;
+				
+				this.isTransitioning = true;
+				
+				// 切換到下一篇文章
+				this.currentPost.classList.remove('active');
+				this.currentPost.classList.add('prev');
+				
+				this.nextPost.classList.remove('next');
+				this.nextPost.classList.add('active');
+				
+				// 更新引用
+				this.currentPost = this.nextPost;
+				this.prevPost = this.currentPost.previousElementSibling;
+				this.nextPost = this.currentPost.nextElementSibling;
+				
+				// 更新進度條和 URL
+				this.updateProgress();
+				const nextSlug = this.currentPost.dataset.slug;
+				if (nextSlug) {
+					window.history.pushState({}, '', `/blog/${nextSlug}/`);
+				}
+				
+				// 滾動到頂部
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+				
+				setTimeout(() => {
+					this.isTransitioning = false;
+				}, 600);
 			}
 
 			goToPrevious() {
-				if (!this.prevPost) return;
-
-				const prevSlug = this.prevPost.dataset.slug;
-				window.location.href = `/blog/${prevSlug}/`;
+				if (!this.prevPost || this.isTransitioning) return;
+				
+				this.isTransitioning = true;
+				
+				// 切換到上一篇文章
+				this.currentPost.classList.remove('active');
+				this.currentPost.classList.add('next');
+				
+				this.prevPost.classList.remove('prev');
+				this.prevPost.classList.add('active');
+				
+				// 更新引用
+				this.currentPost = this.prevPost;
+				this.prevPost = this.currentPost.previousElementSibling;
+				this.nextPost = this.currentPost.nextElementSibling;
+				
+				// 更新進度條和 URL
+				this.updateProgress();
+				const prevSlug = this.currentPost.dataset.slug;
+				if (prevSlug) {
+					window.history.pushState({}, '', `/blog/${prevSlug}/`);
+				}
+				
+				// 滾動到頂部
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+				
+				setTimeout(() => {
+					this.isTransitioning = false;
+				}, 600);
 			}
 
 			updateProgress() {
