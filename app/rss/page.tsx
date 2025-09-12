@@ -11,7 +11,7 @@ export default function RSSPage() {
       await navigator.clipboard.writeText('https://xsong.us/blog/rss.xml');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = 'https://xsong.us/blog/rss.xml';

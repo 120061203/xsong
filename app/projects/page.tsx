@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
+// import { useTheme } from '../contexts/ThemeContext'; // 暫時未使用
 import { useAnalytics } from '../hooks/useAnalytics';
 import Image from 'next/image';
 
@@ -423,7 +423,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const { trackProjectView, trackButtonClick, trackLinkClick } = useAnalytics();
+  const { trackProjectView, trackLinkClick } = useAnalytics();
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 

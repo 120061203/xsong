@@ -432,7 +432,7 @@ export default function WhiteboardDisplayPage() {
         textDiv.classList.remove('animate-marquee');
       }
     }
-  }, [displayData, timeTick]);
+  }, [displayData, timeTick, getDisplayText, getAnimationDuration]);
 
   // 鍵盤快捷鍵處理
   useEffect(() => {

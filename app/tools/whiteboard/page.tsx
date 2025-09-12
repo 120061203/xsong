@@ -75,7 +75,7 @@ export default function WhiteboardPage() {
     color: '#00ff00',
     intensity: 10
   });
-  const [animationType, setAnimationType] = useState<'marquee' | 'bounce' | 'pulse' | 'fade'>('marquee');
+  const [animationType] = useState<'marquee' | 'bounce' | 'pulse' | 'fade'>('marquee');
   
   // 新增：Material Design 和玻璃風格效果
   const [glassEffect, setGlassEffect] = useState({
@@ -387,7 +387,7 @@ export default function WhiteboardPage() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning, openInNewWindow]);
+  }, [isPlaying, countdownTime, countupTime, isCountdownRunning, isCountupRunning, openInNewWindow, togglePlay]);
 
   // 處理模板變更
   const handleTemplateChange = (index: number) => {

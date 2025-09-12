@@ -20,7 +20,7 @@ export default function TypewriterEffect({
   onComplete
 }: TypewriterEffectProps) {
   const [displayedText, setDisplayedText] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
+  const [, setIsComplete] = useState(false);
 
   useEffect(() => {
     setDisplayedText('');
