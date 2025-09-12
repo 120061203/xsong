@@ -61,9 +61,7 @@ export const metadata: Metadata = {
     description: '小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。',
     images: ['https://xsong.us/avatar.png'],
   },
-  verification: {
-    google: 'your-google-verification-code', // 需要替換為實際的驗證碼
-  },
+  // Google 驗證已通過 DNS 自動驗證，無需在此處設置
   alternates: {
     canonical: 'https://xsong.us',
     types: {
