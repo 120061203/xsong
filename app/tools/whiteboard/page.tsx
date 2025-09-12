@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import html2canvas from 'html2canvas';
 
 interface Template {
@@ -204,9 +204,9 @@ export default function WhiteboardPage() {
   };
 
   // 切換播放狀態
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
   // 截圖功能
   const captureScreenshot = async () => {
@@ -233,7 +233,7 @@ export default function WhiteboardPage() {
   };
 
   // 另開視窗功能
-  const openInNewWindow = () => {
+  const openInNewWindow = useCallback(() => {
     console.log('🔍 openInNewWindow 被調用，當前狀態:', {
       text,
       backgroundColor,
@@ -306,7 +306,7 @@ export default function WhiteboardPage() {
         }
       }, 1000);
     }
-  };
+  }, [text, backgroundColor, textColor, selectedTemplate, glassEffect, materialElevation, speed, fontSize, currentMode, countdownHours, countdownMinutes, countdownSeconds, countdownTime, countupTime, isPlaying, isCountdownRunning, isCountupRunning, textShadow, textBorder, backgroundGradient, textGlow, animationType]);
 
   // 即時同步狀態到新視窗
   useEffect(() => {

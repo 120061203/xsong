@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+// import Link from 'next/link'; // 暫時未使用
 import { useState, useEffect } from 'react';
 import { PersonStructuredData } from '../components/StructuredData';
 
@@ -79,7 +79,7 @@ export default function AboutPage() {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleRouteChange);
     };
-  }, []);
+  }, [sections]);
 
   // 滾動到指定區塊
   const scrollToSection = (sectionId: string) => {

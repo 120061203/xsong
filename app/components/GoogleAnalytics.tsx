@@ -54,6 +54,6 @@ export const trackPageView = (url: string, title: string) => {
 // 聲明 gtag 全域變數
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
+    gtag: (...args: unknown[]) => void;
   }
 }

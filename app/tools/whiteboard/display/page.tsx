@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 export default function WhiteboardDisplayPage() {
   const [displayData, setDisplayData] = useState({
     text: '載入中...',
@@ -170,7 +170,7 @@ export default function WhiteboardDisplayPage() {
   }, []);
 
   // 計算動畫持續時間
-  const getAnimationDuration = (speedValue: number) => {
+  const getAnimationDuration = useCallback((speedValue: number) => {
     // 根據文字長度和字體大小計算更合適的動畫時間
     const textLength = displayData.text.length;
     const charWidth = displayData.fontSize * 0.6; // 估算每個字符的寬度
@@ -229,10 +229,10 @@ export default function WhiteboardDisplayPage() {
     });
     
     return Math.round(adjustedDuration);
-  };
+  }, [displayData.text, displayData.fontSize]);
 
   // 獲取顯示文字
-  const getDisplayText = () => {
+  const getDisplayText = useCallback(() => {
     if (displayData.currentMode === 'current-time') {
       // 實時獲取當前時間，依賴 timeTick 來強制更新
       const now = new Date();
@@ -268,7 +268,7 @@ export default function WhiteboardDisplayPage() {
       return `${formatTime(displayData.countupTime)}`;
     }
     return displayData.text;
-  };
+  }, [displayData.currentMode, displayData.countdownTime, displayData.countupTime, displayData.text, timeTick]);
 
   // 使用 useEffect 來完全替換頁面內容，繞過 Next.js layout
   useEffect(() => {
