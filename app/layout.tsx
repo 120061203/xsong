@@ -80,25 +80,38 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* 非同步載入 Font Awesome CSS - 消除渲染阻塞 */}
-        <link
-          rel="preload"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          as="style"
-          onLoad="this.onload=null;this.rel='stylesheet'"
+        {/* 預載入關鍵資源 */}
+        <link rel="preload" href="/avatar.png" as="image" />
+        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="//urlscan.io" />
+        <link rel="dns-prefetch" href="//images.unsplash.com" />
+        
+        {/* 非同步載入 Font Awesome CSS - 使用 script 方式 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var link = document.createElement('link');
+                link.rel = 'preload';
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+                link.as = 'style';
+                link.onload = function() {
+                  this.onload = null;
+                  this.rel = 'stylesheet';
+                };
+                document.head.appendChild(link);
+              })();
+            `,
+          }}
         />
+        
+        {/* 備用方案：noscript */}
         <noscript>
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           />
         </noscript>
-        
-        {/* 預載入關鍵資源 */}
-        <link rel="preload" href="/avatar.png" as="image" />
-        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
-        <link rel="dns-prefetch" href="//urlscan.io" />
-        <link rel="dns-prefetch" href="//images.unsplash.com" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
         <ThemeProvider>
