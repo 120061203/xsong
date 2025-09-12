@@ -9,7 +9,10 @@ const getCacheKey = (url: string) => `project_image_${btoa(url)}`;
 
 const getCachedWebP = (url: string): string | null => {
   try {
-    return localStorage.getItem(getCacheKey(url));
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(getCacheKey(url));
+    }
+    return null;
   } catch (error) {
     console.warn('Failed to read WebP cache:', error);
     return null;
@@ -18,7 +21,9 @@ const getCachedWebP = (url: string): string | null => {
 
 const setCachedWebP = (url: string, webpUrl: string) => {
   try {
-    localStorage.setItem(getCacheKey(url), webpUrl);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(getCacheKey(url), webpUrl);
+    }
   } catch (error) {
     console.warn('Failed to save WebP cache:', error);
   }
@@ -27,6 +32,11 @@ const setCachedWebP = (url: string, webpUrl: string) => {
 // WebP 轉換函數
 const convertToWebP = async (imageUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') {
+      reject(new Error('WebP conversion only available in browser'));
+      return;
+    }
+    
     const img = document.createElement('img');
     img.crossOrigin = 'anonymous';
     
@@ -80,6 +90,33 @@ const getScreenshotUrl = (targetUrl: string) => {
 };
 
 const projects: Project[] = [
+  {
+    id: 'app-hub',
+    title: 'App Hub - 企業級基礎設施管理',
+    description: '使用 Terraform 進行基礎設施即代碼管理的企業級專案，包含完整的 AWS 資源配置、VPC 網路設計和 CI/CD 流程。',
+    longDescription: '這是一個企業級的基礎設施管理專案，主要焦點在於使用 Terraform 進行基礎設施即代碼 (Infrastructure as Code) 的實踐。專案包含完整的 AWS 資源配置，包括 VPC 網路設計、ECR 容器倉庫管理、App Runner 服務部署等。採用微服務架構，使用 FastAPI 和 Rust 作為應用服務，但核心價值在於展示如何通過 Terraform 實現可重複、可維護的基礎設施管理。包含完整的團隊協作流程，Infrastructure Team 負責 Terraform 配置和 AWS 資源管理，Development Team 負責應用程式開發。',
+    image: getScreenshotUrl('https://ayfmhwarbk.us-east-2.awsapprunner.com/'),
+    technologies: ['Terraform', 'AWS', 'VPC', 'ECR', 'App Runner', '基礎設施即代碼IaC', '微服務架構', 'CI/CD', 'Bitbucket Pipelines', 'Docker', 'FastAPI', 'Rust'],
+    githubUrl: undefined, // 公司專案，不提供 GitHub 連結
+    liveUrl: 'https://ayfmhwarbk.us-east-2.awsapprunner.com/',
+    backgroundColor: 'bg-gradient-to-br from-slate-700 to-gray-800',
+    textColor: 'text-white',
+    lastUpdated: '2025-09-12',
+    features: [
+      'Terraform 基礎設施即代碼管理',
+      'AWS 資源完整配置與管理',
+      'VPC 網路架構設計與隔離',
+      'ECR 容器映像倉庫管理',
+      'App Runner 服務自動部署',
+      '環境隔離 (Dev/Prod) 配置',
+      'Bitbucket Pipelines CI/CD 整合',
+      '團隊協作開發流程設計',
+      '安全群組與 IAM 權限管理',
+      'DynamoDB 狀態鎖定配置',
+      'S3 存儲桶資源管理',
+      '企業級最佳實踐實施'
+    ]
+  },
   {
     id: 'go-shorturl',
     title: 'Go ShortURL',
@@ -481,6 +518,12 @@ export default function ProjectsPage() {
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
+                    {/* 公司專案標籤 */}
+                    {project.id === 'app-hub' && (
+                      <span className="px-3 py-1 bg-red-500 bg-opacity-90 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-100 hover:scale-105 border border-red-400 border-opacity-50 font-semibold">
+                        🏢 公司專案
+                      </span>
+                    )}
                     {project.technologies.slice(0, 2).map((tech, index) => (
                       <span
                         key={tech}
@@ -525,6 +568,12 @@ export default function ProjectsPage() {
                     {selectedProject.title}
                   </h2>
                   <div className="flex flex-wrap gap-2 mb-2">
+                    {/* 公司專案標籤 */}
+                    {selectedProject.id === 'app-hub' && (
+                      <span className="px-3 py-1 bg-red-500 text-white text-sm rounded-full border border-red-400 font-semibold">
+                        🏢 公司專案
+                      </span>
+                    )}
                     {selectedProject.technologies.map((tech) => (
                       <span
                         key={tech}
@@ -575,7 +624,7 @@ export default function ProjectsPage() {
                       </p>
 
                       {/* Links */}
-                      <div className="space-y-3">
+                      <div className="flex flex-col space-y-4">
                         {selectedProject.githubUrl && (
                           <a
                             href={selectedProject.githubUrl}
@@ -592,10 +641,21 @@ export default function ProjectsPage() {
                             href={selectedProject.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ml-3"
+                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                           >
                             <i className="fas fa-external-link-alt mr-2"></i>
                             Visit Website
+                          </a>
+                        )}
+                        {selectedProject.id === 'app-hub' && (
+                          <a
+                            href="https://ayfmhwarbk.us-east-2.awsapprunner.com/docs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                          >
+                            <i className="fas fa-code mr-2"></i>
+                            API Documentation
                           </a>
                         )}
                       </div>
