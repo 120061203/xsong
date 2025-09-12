@@ -9,13 +9,11 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: 'swap', // 字體優化：添加字體交換
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: 'swap', // 字體優化：添加字體交換
 });
 
 export const metadata: Metadata = {
@@ -80,25 +78,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* 非同步載入 Font Awesome CSS - 消除渲染阻塞 */}
         <link
-          rel="preload"
+          rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          as="style"
-          onLoad="this.onload=null;this.rel='stylesheet'"
         />
-        <noscript>
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          />
-        </noscript>
-        
-        {/* 預載入關鍵資源 */}
-        <link rel="preload" href="/avatar.png" as="image" />
-        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
-        <link rel="dns-prefetch" href="//urlscan.io" />
-        <link rel="dns-prefetch" href="//images.unsplash.com" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
         <ThemeProvider>

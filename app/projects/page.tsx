@@ -410,6 +410,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
           height={height}
           className={`${className} ${imageState === 'loaded' ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
           priority={priority}
+          loading={priority ? "eager" : "lazy"}
           onLoad={() => setImageState('loaded')}
           onError={handleError}
         />
@@ -493,7 +494,7 @@ export default function ProjectsPage() {
                     alt={`${project.title} screenshot`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    priority={index < 6} // 前六個項目優先載入
+                    priority={index < 3} // 前六個項目優先載入
                   />
                 </div>
 
