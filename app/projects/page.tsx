@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAnalytics } from '../hooks/useAnalytics';
 import Image from 'next/image';
 
 // WebP 轉換緩存（僅存儲轉換後的 WebP URL，不檢查時間）
@@ -422,6 +423,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { trackProjectView, trackButtonClick, trackLinkClick } = useAnalytics();
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
@@ -480,7 +482,10 @@ export default function ProjectsPage() {
                 animation: 'fadeInUp 1s ease-out forwards',
                 transition: 'transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.5s ease-out'
               }}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => {
+                setSelectedProject(project);
+                trackProjectView(project.title);
+              }}
             >
               {/* Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${project.backgroundColor} opacity-90`}></div>
@@ -631,6 +636,7 @@ export default function ProjectsPage() {
                             href={selectedProject.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackLinkClick('GitHub', selectedProject.githubUrl!)}
                             className="inline-flex items-center px-4 py-2 bg-gray-900 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
                           >
                             <i className="fab fa-github mr-2"></i>
@@ -642,6 +648,7 @@ export default function ProjectsPage() {
                             href={selectedProject.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackLinkClick('Visit Website', selectedProject.liveUrl!)}
                             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                           >
                             <i className="fas fa-external-link-alt mr-2"></i>
@@ -653,6 +660,7 @@ export default function ProjectsPage() {
                             href="https://ayfmhwarbk.us-east-2.awsapprunner.com/docs"
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackLinkClick('API Documentation', 'https://ayfmhwarbk.us-east-2.awsapprunner.com/docs')}
                             className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                           >
                             <i className="fas fa-code mr-2"></i>

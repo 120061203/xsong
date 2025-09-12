@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Breadcrumb from "./components/Breadcrumb";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,6 +113,11 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        )}
+        
         <ThemeProvider>
           <div className="flex flex-col min-h-screen">
             <Navbar />

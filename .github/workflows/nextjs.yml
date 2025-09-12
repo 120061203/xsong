@@ -82,6 +82,8 @@ jobs:
           npm run build
           echo "✅ Astro Blog 構建完成"
       - name: Build with Next.js
+        env:
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Copy 404.html
         run: cp public/404.html out/404.html
