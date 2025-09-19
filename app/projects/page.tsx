@@ -166,7 +166,7 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
   };
 
   return (
-    <div className="relative group">
+    <div className="relative group w-full h-full">
       <img
         src={getImageSrc(currentVersion)}
         alt={`${alt} - Version ${currentVersion}`}
@@ -175,22 +175,25 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
         style={{ 
           width: '100%', 
           height: '100%', 
-          objectFit: 'cover'
+          objectFit: 'cover',
+          position: 'absolute',
+          top: 0,
+          left: 0
         }}
       />
       {/* A/B 切換按鈕 */}
       <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <button
           onClick={switchVersion}
-          className="bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs hover:bg-opacity-70 transition-all duration-200"
+          className="bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs hover:bg-opacity-90 transition-all duration-200 font-medium shadow-lg"
           title={`切換到 Version ${currentVersion === 'A' ? 'B' : 'A'}`}
         >
           A/B
         </button>
       </div>
       {/* 版本標示 */}
-      <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span className="bg-blue-500 bg-opacity-80 text-white px-2 py-1 rounded text-xs">
+      <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span className="bg-blue-500 bg-opacity-90 text-white px-2 py-1 rounded text-xs font-medium shadow-lg">
           Version {currentVersion}
         </span>
       </div>
@@ -638,10 +641,7 @@ export default function ProjectsPage() {
                     <ABTestImage
                       projectId="aws-ab-testing"
                       alt={`${project.title} screenshot`}
-                      fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      priority={index < 3}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   ) : (
                     <SmartImage
@@ -767,10 +767,7 @@ export default function ProjectsPage() {
                         <ABTestImage
                           projectId="aws-ab-testing"
                           alt={`${selectedProject.title} screenshot`}
-                          fill
                           className="object-cover rounded-lg border border-gray-200 dark:border-gray-600"
-                          priority={true}
-                          sizes="(max-width: 768px) 100vw, 50vw"
                         />
                       ) : (
                         <SmartImage
