@@ -68,163 +68,163 @@
   }
 }
 
-/* 雲朵飄動動畫 - 隨機出現和消失，像真正的雲朵 */
+/* 雲朵飄動動畫 - 從消失到浮現，像真正的雲朵 */
 @keyframes cloud-drift-0 {
   0% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(100vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
-  8% {
-    transform: translateX(-15vw) translateY(-2px) rotate(0.5deg);
-    opacity: 0.4;
+  5% {
+    transform: translateX(85vw) translateY(-1px) rotate(0.2deg);
+    opacity: 0.2;
   }
-  18% {
-    transform: translateX(-35vw) translateY(3px) rotate(-0.3deg);
-    opacity: 0.8;
-  }
-  28% {
-    transform: translateX(-55vw) translateY(-1px) rotate(0.2deg);
-    opacity: 1;
-  }
-  35% {
-    transform: translateX(-70vw) translateY(2px) rotate(-0.1deg);
-    opacity: 0.9;
-  }
-  45% {
-    transform: translateX(-85vw) translateY(-1px) rotate(0.1deg);
+  15% {
+    transform: translateX(65vw) translateY(2px) rotate(-0.3deg);
     opacity: 0.6;
   }
-  55% {
-    transform: translateX(-100vw) translateY(0px) rotate(0deg);
-    opacity: 0.3;
+  25% {
+    transform: translateX(45vw) translateY(-1px) rotate(0.1deg);
+    opacity: 0.9;
+  }
+  35% {
+    transform: translateX(25vw) translateY(1px) rotate(-0.2deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 1;
   }
   65% {
-    transform: translateX(-115vw) translateY(1px) rotate(-0.2deg);
+    transform: translateX(-25vw) translateY(-1px) rotate(0.1deg);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translateX(-50vw) translateY(1px) rotate(-0.1deg);
+    opacity: 0.4;
+  }
+  90% {
+    transform: translateX(-75vw) translateY(0px) rotate(0deg);
     opacity: 0.1;
   }
-  75% {
-    transform: translateX(-130vw) translateY(-0.5px) rotate(0.1deg);
-    opacity: 0;
-  }
   100% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(-100vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
 }
 
 @keyframes cloud-drift-1 {
   0% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(120vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
-  12% {
-    transform: translateX(-20vw) translateY(2px) rotate(-0.4deg);
+  8% {
+    transform: translateX(95vw) translateY(1px) rotate(-0.3deg);
     opacity: 0.3;
   }
-  25% {
-    transform: translateX(-45vw) translateY(-1px) rotate(0.6deg);
+  20% {
+    transform: translateX(70vw) translateY(-1px) rotate(0.4deg);
     opacity: 0.7;
   }
-  38% {
-    transform: translateX(-65vw) translateY(1px) rotate(-0.2deg);
+  35% {
+    transform: translateX(45vw) translateY(2px) rotate(-0.2deg);
     opacity: 1;
   }
-  48% {
-    transform: translateX(-80vw) translateY(-2px) rotate(0.3deg);
+  50% {
+    transform: translateX(20vw) translateY(-1px) rotate(0.1deg);
+    opacity: 1;
+  }
+  65% {
+    transform: translateX(-5vw) translateY(1px) rotate(-0.1deg);
     opacity: 0.8;
   }
-  58% {
-    transform: translateX(-95vw) translateY(1px) rotate(-0.1deg);
-    opacity: 0.5;
+  80% {
+    transform: translateX(-30vw) translateY(-1px) rotate(0.2deg);
+    opacity: 0.4;
   }
-  68% {
-    transform: translateX(-110vw) translateY(-1px) rotate(0.2deg);
-    opacity: 0.2;
-  }
-  78% {
-    transform: translateX(-125vw) translateY(0px) rotate(0deg);
-    opacity: 0;
+  90% {
+    transform: translateX(-55vw) translateY(0px) rotate(0deg);
+    opacity: 0.1;
   }
   100% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(-80vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
 }
 
 @keyframes cloud-drift-2 {
   0% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(110vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
-  15% {
-    transform: translateX(-25vw) translateY(-1px) rotate(0.3deg);
-    opacity: 0.5;
-  }
-  30% {
-    transform: translateX(-50vw) translateY(2px) rotate(-0.4deg);
-    opacity: 0.9;
-  }
-  42% {
-    transform: translateX(-70vw) translateY(-1px) rotate(0.2deg);
-    opacity: 1;
-  }
-  52% {
-    transform: translateX(-85vw) translateY(1px) rotate(-0.1deg);
-    opacity: 0.7;
-  }
-  62% {
-    transform: translateX(-100vw) translateY(-1px) rotate(0.1deg);
+  10% {
+    transform: translateX(85vw) translateY(-1px) rotate(0.4deg);
     opacity: 0.4;
   }
-  72% {
-    transform: translateX(-115vw) translateY(0px) rotate(0deg);
+  25% {
+    transform: translateX(60vw) translateY(2px) rotate(-0.3deg);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translateX(35vw) translateY(-1px) rotate(0.2deg);
+    opacity: 1;
+  }
+  55% {
+    transform: translateX(10vw) translateY(1px) rotate(-0.1deg);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(-15vw) translateY(-1px) rotate(0.1deg);
+    opacity: 0.7;
+  }
+  85% {
+    transform: translateX(-40vw) translateY(1px) rotate(-0.2deg);
+    opacity: 0.3;
+  }
+  95% {
+    transform: translateX(-65vw) translateY(0px) rotate(0deg);
     opacity: 0.1;
   }
-  82% {
-    transform: translateX(-130vw) translateY(0px) rotate(0deg);
-    opacity: 0;
-  }
   100% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(-90vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
 }
 
 @keyframes cloud-drift-3 {
   0% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(130vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
-  20% {
-    transform: translateX(-30vw) translateY(1px) rotate(-0.5deg);
-    opacity: 0.6;
+  12% {
+    transform: translateX(105vw) translateY(1px) rotate(-0.4deg);
+    opacity: 0.5;
   }
-  35% {
-    transform: translateX(-55vw) translateY(-2px) rotate(0.4deg);
-    opacity: 1;
-  }
-  45% {
-    transform: translateX(-75vw) translateY(1px) rotate(-0.2deg);
+  28% {
+    transform: translateX(80vw) translateY(-1px) rotate(0.3deg);
     opacity: 0.9;
   }
-  55% {
-    transform: translateX(-90vw) translateY(-1px) rotate(0.1deg);
-    opacity: 0.6;
+  45% {
+    transform: translateX(55vw) translateY(2px) rotate(-0.2deg);
+    opacity: 1;
   }
-  65% {
-    transform: translateX(-105vw) translateY(1px) rotate(-0.1deg);
-    opacity: 0.3;
+  60% {
+    transform: translateX(30vw) translateY(-1px) rotate(0.1deg);
+    opacity: 1;
   }
   75% {
-    transform: translateX(-120vw) translateY(0px) rotate(0deg);
+    transform: translateX(5vw) translateY(1px) rotate(-0.1deg);
+    opacity: 0.6;
+  }
+  88% {
+    transform: translateX(-20vw) translateY(-1px) rotate(0.2deg);
+    opacity: 0.2;
+  }
+  95% {
+    transform: translateX(-45vw) translateY(0px) rotate(0deg);
     opacity: 0.1;
   }
-  85% {
-    transform: translateX(-135vw) translateY(0px) rotate(0deg);
-    opacity: 0;
-  }
   100% {
-    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    transform: translateX(-70vw) translateY(0px) rotate(0deg);
     opacity: 0;
   }
 }
@@ -276,78 +276,90 @@
 
   @keyframes cloud-drift-1 {
     0% {
-      transform: translateX(0%) translateY(0px) rotate(0deg);
-      opacity: 0.6;
+      transform: translateX(120%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
-    25% {
-      transform: translateX(-12%) translateY(1px) rotate(-0.2deg);
+    15% {
+      transform: translateX(80%) translateY(1px) rotate(-0.2deg);
+      opacity: 0.4;
+    }
+    35% {
+      transform: translateX(40%) translateY(-1px) rotate(0.3deg);
       opacity: 0.8;
     }
-    50% {
-      transform: translateX(-30%) translateY(-1px) rotate(0.3deg);
+    55% {
+      transform: translateX(0%) translateY(0.5px) rotate(-0.1deg);
       opacity: 1;
     }
     75% {
-      transform: translateX(-55%) translateY(0.5px) rotate(-0.1deg);
-      opacity: 0.9;
+      transform: translateX(-40%) translateY(-0.5px) rotate(0.1deg);
+      opacity: 0.7;
+    }
+    90% {
+      transform: translateX(-80%) translateY(0px) rotate(0deg);
+      opacity: 0.2;
     }
     100% {
-      transform: translateX(var(--disappear-position, -100vw)) translateY(0px) rotate(0deg);
-      opacity: 0.6;
+      transform: translateX(-120%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
   }
 
   @keyframes cloud-drift-2 {
     0% {
-      transform: translateX(100vw) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      transform: translateX(110%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
-    20% {
-      transform: translateX(60vw) translateY(-1px) rotate(0.3deg);
-      opacity: 1;
+    18% {
+      transform: translateX(70%) translateY(-1px) rotate(0.2deg);
+      opacity: 0.5;
     }
     40% {
-      transform: translateX(20vw) translateY(2px) rotate(-0.5deg);
-      opacity: 1;
+      transform: translateX(30%) translateY(1px) rotate(-0.3deg);
+      opacity: 0.9;
     }
     60% {
-      transform: translateX(-20vw) translateY(-0.5px) rotate(0.3deg);
+      transform: translateX(-10%) translateY(-0.5px) rotate(0.1deg);
       opacity: 1;
     }
     80% {
-      transform: translateX(-60vw) translateY(1px) rotate(-0.2deg);
-      opacity: 1;
+      transform: translateX(-50%) translateY(0.5px) rotate(-0.1deg);
+      opacity: 0.6;
+    }
+    95% {
+      transform: translateX(-90%) translateY(0px) rotate(0deg);
+      opacity: 0.1;
     }
     100% {
-      transform: translateX(var(--disappear-position, -100vw)) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      transform: translateX(-130%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
   }
 
   @keyframes cloud-drift-3 {
     0% {
-      transform: translateX(100vw) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      transform: translateX(130%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
-    20% {
-      transform: translateX(60vw) translateY(1px) rotate(-0.2deg);
+    22% {
+      transform: translateX(90%) translateY(1px) rotate(-0.3deg);
+      opacity: 0.6;
+    }
+    45% {
+      transform: translateX(50%) translateY(-1px) rotate(0.2deg);
       opacity: 1;
     }
-    40% {
-      transform: translateX(20vw) translateY(-2px) rotate(0.4deg);
+    67% {
+      transform: translateX(10%) translateY(0.5px) rotate(-0.1deg);
       opacity: 1;
     }
-    60% {
-      transform: translateX(-20vw) translateY(0.5px) rotate(-0.2deg);
-      opacity: 1;
-    }
-    80% {
-      transform: translateX(-60vw) translateY(-1px) rotate(0.3deg);
-      opacity: 1;
+    85% {
+      transform: translateX(-30%) translateY(-0.5px) rotate(0.1deg);
+      opacity: 0.5;
     }
     100% {
-      transform: translateX(var(--disappear-position, -100vw)) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      transform: translateX(-70%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
   }
 }

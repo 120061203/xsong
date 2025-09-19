@@ -561,24 +561,22 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   );
 }
 
-// 雲朵隨機出現 - 模擬真正的雲朵飄動
+// 震撼的標籤同時出現 - 營造視覺衝擊
 function calculateDelay(index: number, technologies: string[]): number {
   if (index === 0) return 0; // 第一個標籤立即開始
   
-  // 基礎延遲：每個標籤都有不同的延遲
-  const baseDelay = index * 0.8; // 基礎間隔增加到0.8秒
+  // 快速連續出現：前20個標籤在2秒內全部出現
+  if (index < 20) {
+    return index * 0.1; // 每0.1秒出現一個
+  }
   
-  // 隨機延遲：模擬雲朵的自然出現時間
-  const randomDelay = (index % 7) * 1.5; // 0-9秒的隨機延遲
+  // 後續標籤稍微延遲，但不會太久
+  const baseDelay = 2 + (index - 20) * 0.2; // 2秒後開始，每0.2秒一個
   
-  // 額外隨機：讓某些標籤延遲更久
-  const extraRandom = (index % 3 === 0) ? (index % 5) * 2.0 : 0;
+  // 隨機微調：讓標籤不會完全同步
+  const randomAdjustment = (index % 3) * 0.1; // 0-0.2秒的隨機調整
   
-  // 根據標籤長度微調
-  const currentTech = technologies[index];
-  const lengthAdjustment = currentTech.length * 0.05;
-  
-  return baseDelay + randomDelay + extraRandom + lengthAdjustment;
+  return baseDelay + randomAdjustment;
 }
 
 // 不再需要動態計算消失位置，使用固定的動畫路徑
@@ -641,7 +639,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* 技術標籤 - All Toggle 開關控制 */}
-          <div className="relative w-full min-h-[180px] pointer-events-none overflow-hidden">
+          <div className="relative w-full min-h-[220px] pointer-events-none overflow-hidden">
             {isAllToggleOn ? (
               // All Toggle 開啟：靜態顯示（任何標籤都不動）
               <div className="flex flex-wrap justify-center gap-3 px-4 pointer-events-auto">
@@ -671,9 +669,9 @@ export default function ProjectsPage() {
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                   }`}
                   style={{
-                    top: `${40 + (index % 3) * 45}px`, // 只有3行，每行間距45px，更緊湊
+                    top: `${30 + (index % 4) * 40}px`, // 4行分布，讓標籤更密集
                     left: '100vw', // 從螢幕最右側開始
-                    animation: `cloud-drift-${index % 4} ${15 + (index % 8) * 3}s ease-in-out infinite`,
+                    animation: `cloud-drift-${index % 4} ${8 + (index % 6) * 1.5}s ease-in-out infinite`,
                     animationDelay: `${calculateDelay(index, allTechnologies)}s`
                   } as React.CSSProperties}
                 >
