@@ -3,6 +3,8 @@ name: Update Badges
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'README.md'  # 忽略 README.md 的變更，避免循環觸發
   workflow_dispatch:
   schedule:
     # 每天 UTC 00:00 檢查一次
