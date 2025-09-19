@@ -564,7 +564,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isAllToggleOn, setIsAllToggleOn] = useState(true); // All 按鈕的 toggle 狀態
+  const [isAllToggleOn, setIsAllToggleOn] = useState(false); // All 按鈕的 toggle 狀態，初始為飄動模式
   const { trackProjectView, trackLinkClick } = useAnalytics();
 
   // 添加安全頭部
@@ -613,7 +613,7 @@ export default function ProjectsPage() {
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
               }`}
             >
-              All {isAllToggleOn ? '(靜止)' : '(飄動)'}
+              All
             </button>
           </div>
 
