@@ -86,9 +86,6 @@ interface Project {
 }
 
 // 生成截圖 URL（直接使用 urlscan.io）
-const getScreenshotUrl = (targetUrl: string) => {
-  return `https://urlscan.io/liveshot/?width=1280&height=720&url=${encodeURIComponent(targetUrl)}`;
-};
 
 // 生成專案圖片 URL（智能選擇最佳格式）
 const getProjectImageUrl = (projectId: string) => {
@@ -145,7 +142,7 @@ interface ABTestImageProps {
   sizes?: string;
 }
 
-function ABTestImage({ projectId, alt, className, fill, width, height, priority = false, sizes }: ABTestImageProps) {
+function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
   const [currentVersion, setCurrentVersion] = useState<'A' | 'B'>('A');
   
   const getImageSrc = (version: 'A' | 'B') => {
@@ -156,7 +153,7 @@ function ABTestImage({ projectId, alt, className, fill, width, height, priority 
     return `/images/projects/png/${projectId}-${version.toLowerCase()}.png`;
   };
 
-  const handleError = (e: any) => {
+  const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // 如果 WebP 載入失敗，回退到 PNG
     const target = e.target as HTMLImageElement;
     if (target.src.includes('.webp')) {
