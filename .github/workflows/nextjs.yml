@@ -73,6 +73,11 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Convert images to WebP
+        run: |
+          echo "🖼️ 開始轉換圖片為 WebP 格式..."
+          npm run convert:images
+          echo "✅ 圖片轉換完成"
       - name: Build Astro Blog
         run: |
           cd blog-astro
