@@ -17,7 +17,7 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-enabled-green?logo=github-actions&logoColor=white)
 
 ![Version](https://img.shields.io/badge/version-1.1.0-orange)
-![License](https://img.shields.io/badge/license-Apache-2.0-green)
+![License](https://img.shields.io/badge/license-Apache%202.0-green)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js&logoColor=white)
 
 ![WebP Optimization](https://img.shields.io/badge/WebP%20Optimization-enabled-green)
@@ -27,7 +27,7 @@
 
 ![Website](https://img.shields.io/badge/website-xsong.us-blue?logo=vercel&logoColor=white)
 ![Uptime](https://img.shields.io/badge/uptime-99.9%25-green)
-![Performance](https://img.shields.io/badge/performance-A-green)
+![Performance](https://img.shields.io/badge/performance-B-green)
 ![Build Status](https://img.shields.io/badge/build-passing-green)
 
 ## 🚀 主要功能

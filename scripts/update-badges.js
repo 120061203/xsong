@@ -131,8 +131,8 @@ async function updateBadges() {
     // 8. 更新授權 Badge
     readmeContent = updateBadge(
       readmeContent,
-      /license-MIT|license-Apache-2.0/g,
-      'license-Apache-2.0'
+      /license-MIT|license-Apache%202.0|license-Apache-2.0/g,
+      'license-Apache%202.0'
     );
     
     // 寫回 README.md
