@@ -636,7 +636,7 @@ export default function ProjectsPage() {
               {/* Content */}
               <div className="relative z-10 p-6 h-full flex flex-col">
                 {/* Project Image */}
-                <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20" style={{ height: '192px' }}>
+                <div className="relative w-full mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20" style={{ aspectRatio: '2/1', height: 'auto' }}>
                   {project.id === 'aws-deployment-strategies' ? (
                     <ABTestImage
                       projectId="aws-ab-testing"
@@ -765,7 +765,7 @@ export default function ProjectsPage() {
                 <div className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     {/* Project Image */}
-                    <div className="relative h-64" style={{ height: '256px' }}>
+                    <div className="relative" style={{ aspectRatio: '16/9', height: 'auto' }}>
                       {selectedProject.id === 'aws-deployment-strategies' ? (
                         <ABTestImage
                           projectId="aws-ab-testing"
