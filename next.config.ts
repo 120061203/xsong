@@ -21,9 +21,15 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [],
   // 在開發模式下跳過靜態檔案檢查
   skipTrailingSlashRedirect: true,
+  // 性能優化配置
+  compress: true, // 啟用 gzip 壓縮
+  poweredByHeader: false, // 移除 X-Powered-By 標頭
+  generateEtags: true, // 啟用 ETags
   // 確保靜態檔案正確服務
   experimental: {
     // staticGenerationRetryCount: 0, // 移除這個配置，可能是 Next.js 15 的 bug
+    optimizeCss: true, // 優化 CSS
+    optimizePackageImports: ['react', 'react-dom'], // 優化包導入
   },
 };
 

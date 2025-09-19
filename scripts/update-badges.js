@@ -111,9 +111,21 @@ async function updateBadges() {
     const actionsStatus = 'enabled';
     const actionsColor = 'green';
     
-    // 6. 更新性能分數
-    const performanceScore = websiteStatus.responseTime < 1000 ? 'A' : 'B';
-    const performanceColor = websiteStatus.responseTime < 1000 ? 'green' : 'orange';
+    // 6. 更新性能分數 (更精確的評分)
+    let performanceScore, performanceColor;
+    if (websiteStatus.responseTime < 500) {
+      performanceScore = 'A+';
+      performanceColor = 'green';
+    } else if (websiteStatus.responseTime < 1000) {
+      performanceScore = 'A';
+      performanceColor = 'green';
+    } else if (websiteStatus.responseTime < 2000) {
+      performanceScore = 'B';
+      performanceColor = 'orange';
+    } else {
+      performanceScore = 'C';
+      performanceColor = 'red';
+    }
     
     readmeContent = updateBadge(
       readmeContent,

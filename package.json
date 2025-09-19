@@ -11,6 +11,10 @@
     "create:blog-images": "node scripts/create-blog-image-folders.js",
     "convert:images": "node scripts/convert-images.js",
     "update:badges": "node scripts/update-badges.js",
+    "optimize:performance": "node scripts/optimize-performance.js",
+    "compress:images": "node scripts/compress-large-images.js",
+    "restore:images": "node scripts/restore-and-recompress.js",
+    "test:performance": "node scripts/comprehensive-performance-test.js",
     "start": "next start",
     "lint": "eslint"
   },
