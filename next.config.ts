@@ -31,6 +31,28 @@ const nextConfig: NextConfig = {
     optimizeCss: true, // 優化 CSS
     optimizePackageImports: ['react', 'react-dom'], // 優化包導入
   },
+  // 添加安全 HTTP 頭部配置
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          }
+        ]
+      }
+    ];
+  },
 };
 
 export default nextConfig;
