@@ -67,3 +67,55 @@
     transform: translateY(-6px) rotate(-1deg);
   }
 }
+
+/* 雲朵飄動動畫 */
+@keyframes cloud-drift-0 {
+  0% {
+    transform: translateX(100vw) translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-200px) translateY(-10px) rotate(5deg);
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-drift-1 {
+  0% {
+    transform: translateX(100vw) translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-200px) translateY(5px) rotate(-3deg);
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-drift-2 {
+  0% {
+    transform: translateX(100vw) translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-200px) translateY(-5px) rotate(2deg);
+    opacity: 1;
+  }
+}

@@ -564,6 +564,7 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isAllToggleOn, setIsAllToggleOn] = useState(true); // All 按鈕的 toggle 狀態
   const { trackProjectView, trackLinkClick } = useAnalytics();
 
   // 添加安全頭部
@@ -595,31 +596,69 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <button
-            onClick={() => setSelectedFilter('All')}
-            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-              selectedFilter === 'All'
-                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
-            }`}
-          >
-            All
-          </button>
-          {allTechnologies.map((tech) => (
+        {/* Filter Buttons - 雲朵飄動效果 */}
+        <div className="relative mb-16">
+          {/* All 按鈕 - Toggle 開關 */}
+          <div className="flex justify-center mb-6">
             <button
-              key={tech}
-              onClick={() => setSelectedFilter(tech)}
+              onClick={() => {
+                setIsAllToggleOn(!isAllToggleOn);
+                if (!isAllToggleOn) {
+                  setSelectedFilter('All');
+                }
+              }}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                selectedFilter === tech
+                isAllToggleOn
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
               }`}
             >
-              {tech}
+              All {isAllToggleOn ? '(靜止)' : '(飄動)'}
             </button>
-          ))}
+          </div>
+
+          {/* 技術標籤 - All Toggle 開關控制 */}
+          <div className="relative w-full min-h-[200px] pointer-events-none">
+            {isAllToggleOn ? (
+              // All Toggle 開啟：靜態顯示（任何標籤都不動）
+              <div className="flex flex-wrap justify-center gap-3 px-4 pointer-events-auto">
+                {allTechnologies.map((tech, index) => (
+                  <button
+                    key={`static-${tech}-${index}`}
+                    onClick={() => setSelectedFilter(tech)}
+                    className={`px-4 py-2 text-sm rounded-full transition-all duration-300 pointer-events-auto whitespace-nowrap ${
+                      selectedFilter === tech
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                    }`}
+                  >
+                    {tech}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              // All Toggle 關閉：所有標籤都會動（包括被選中的）
+              allTechnologies.map((tech, index) => (
+                <button
+                  key={`cloud-${tech}-${index}`}
+                  onClick={() => setSelectedFilter(tech)}
+                  className={`absolute px-4 py-2 text-sm rounded-full transition-all duration-300 pointer-events-auto whitespace-nowrap ${
+                    selectedFilter === tech
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                  }`}
+                  style={{
+                    top: `${10 + (index % 3) * 25}px`,
+                    left: '100vw', // 確保從右邊開始
+                    animation: `cloud-drift-${index % 3} ${20 + (index % 3)}s linear infinite`,
+                    animationDelay: `${index * 3}s`
+                  }}
+                >
+                  {tech}
+                </button>
+              ))
+            )}
+          </div>
         </div>
 
 
@@ -697,11 +736,9 @@ export default function ProjectsPage() {
                     {project.technologies.slice(0, 2).map((tech, index) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30 animate-pulse"
+                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30"
                         style={{ 
-                          transitionDelay: `${index * 50}ms`,
-                          animationDelay: `${index * 200}ms`,
-                          animation: `float-${index % 3} 7s ease-in-out infinite`
+                          transitionDelay: `${index * 50}ms`
                         }}
                       >
                         {tech}
@@ -709,11 +746,7 @@ export default function ProjectsPage() {
                     ))}
                     {project.technologies.length > 2 && (
                       <span 
-                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30 animate-pulse"
-                        style={{
-                          animationDelay: `${(project.technologies.length - 2) * 200}ms`,
-                          animation: `float-${(project.technologies.length - 2) % 3} 7s ease-in-out infinite`
-                        }}
+                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30"
                       >
                         +{project.technologies.length - 2}
                       </span>
@@ -757,10 +790,9 @@ export default function ProjectsPage() {
                     {selectedProject.technologies.map((tech, index) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 animate-pulse"
+                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
                         style={{
-                          animationDelay: `${index * 150}ms`,
-                          animation: `float-${index % 3} 8s ease-in-out infinite`
+                          transitionDelay: `${index * 50}ms`
                         }}
                       >
                         {tech}
