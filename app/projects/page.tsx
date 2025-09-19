@@ -133,6 +133,74 @@ function SmartImage({ projectId, alt, className, fill, width, height, priority =
   );
 }
 
+// A/B 測試圖片組件，展示兩個版本
+interface ABTestImageProps {
+  projectId: string;
+  alt: string;
+  className?: string;
+  fill?: boolean;
+  width?: number;
+  height?: number;
+  priority?: boolean;
+  sizes?: string;
+}
+
+function ABTestImage({ projectId, alt, className, fill, width, height, priority = false, sizes }: ABTestImageProps) {
+  const [currentVersion, setCurrentVersion] = useState<'A' | 'B'>('A');
+  
+  const getImageSrc = (version: 'A' | 'B') => {
+    return `/images/projects/webp/${projectId}-${version.toLowerCase()}.webp`;
+  };
+
+  const getFallbackSrc = (version: 'A' | 'B') => {
+    return `/images/projects/png/${projectId}-${version.toLowerCase()}.png`;
+  };
+
+  const handleError = (e: any) => {
+    // 如果 WebP 載入失敗，回退到 PNG
+    const target = e.target as HTMLImageElement;
+    if (target.src.includes('.webp')) {
+      target.src = getFallbackSrc(currentVersion);
+    }
+  };
+
+  const switchVersion = () => {
+    setCurrentVersion(currentVersion === 'A' ? 'B' : 'A');
+  };
+
+  return (
+    <div className="relative group">
+      <img
+        src={getImageSrc(currentVersion)}
+        alt={`${alt} - Version ${currentVersion}`}
+        className={className}
+        onError={handleError}
+        style={{ 
+          width: '100%', 
+          height: '100%', 
+          objectFit: 'cover'
+        }}
+      />
+      {/* A/B 切換按鈕 */}
+      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button
+          onClick={switchVersion}
+          className="bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs hover:bg-opacity-70 transition-all duration-200"
+          title={`切換到 Version ${currentVersion === 'A' ? 'B' : 'A'}`}
+        >
+          A/B
+        </button>
+      </div>
+      {/* 版本標示 */}
+      <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span className="bg-blue-500 bg-opacity-80 text-white px-2 py-1 rounded text-xs">
+          Version {currentVersion}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 const projects: Project[] = [
   {
     id: 'aws-deployment-strategies',
@@ -568,15 +636,26 @@ export default function ProjectsPage() {
               {/* Content */}
               <div className="relative z-10 p-6 h-full flex flex-col">
                 {/* Project Image */}
-                <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20">
-                  <SmartImage
-                    projectId={project.id}
-                    alt={`${project.title} screenshot`}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    priority={index < 3} // 前三個項目優先載入
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
+                <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20" style={{ height: '192px' }}>
+                  {project.id === 'aws-deployment-strategies' ? (
+                    <ABTestImage
+                      projectId="aws-ab-testing"
+                      alt={`${project.title} screenshot`}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      priority={index < 3}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <SmartImage
+                      projectId={project.id}
+                      alt={`${project.title} screenshot`}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      priority={index < 3} // 前三個項目優先載入
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  )}
                 </div>
 
                 {/* Project Info */}
@@ -686,15 +765,26 @@ export default function ProjectsPage() {
                 <div className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     {/* Project Image */}
-                    <div className="relative h-64">
-                      <SmartImage
-                        projectId={selectedProject.id}
-                        alt={`${selectedProject.title} screenshot`}
-                        fill
-                        className="object-cover rounded-lg border border-gray-200 dark:border-gray-600"
-                        priority={true}
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+                    <div className="relative h-64" style={{ height: '256px' }}>
+                      {selectedProject.id === 'aws-deployment-strategies' ? (
+                        <ABTestImage
+                          projectId="aws-ab-testing"
+                          alt={`${selectedProject.title} screenshot`}
+                          fill
+                          className="object-cover rounded-lg border border-gray-200 dark:border-gray-600"
+                          priority={true}
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      ) : (
+                        <SmartImage
+                          projectId={selectedProject.id}
+                          alt={`${selectedProject.title} screenshot`}
+                          fill
+                          className="object-cover rounded-lg border border-gray-200 dark:border-gray-600"
+                          priority={true}
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      )}
                     </div>
 
                     {/* Project Details */}
