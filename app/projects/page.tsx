@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 // import { useTheme } from '../contexts/ThemeContext'; // 暫時未使用
 import { useAnalytics } from '../hooks/useAnalytics';
 import Image from 'next/image';
@@ -565,6 +566,17 @@ export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { trackProjectView, trackLinkClick } = useAnalytics();
 
+  // 添加安全頭部
+  useEffect(() => {
+    // 設置安全頭部
+    if (typeof window !== 'undefined') {
+      // 防止點擊劫持
+      document.documentElement.style.setProperty('--frame-options', 'DENY');
+      document.documentElement.style.setProperty('--content-type-options', 'nosniff');
+      document.documentElement.style.setProperty('--referrer-policy', 'strict-origin-when-cross-origin');
+    }
+  }, []);
+
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
     : sortedProjects.filter(project => project.technologies.includes(selectedFilter));
@@ -685,14 +697,24 @@ export default function ProjectsPage() {
                     {project.technologies.slice(0, 2).map((tech, index) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30"
-                        style={{ transitionDelay: `${index * 50}ms` }}
+                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30 animate-pulse"
+                        style={{ 
+                          transitionDelay: `${index * 50}ms`,
+                          animationDelay: `${index * 200}ms`,
+                          animation: `float-${index % 3} 7s ease-in-out infinite`
+                        }}
                       >
                         {tech}
                       </span>
                     ))}
                     {project.technologies.length > 2 && (
-                      <span className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30">
+                      <span 
+                        className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-30 hover:scale-105 border border-white border-opacity-30 animate-pulse"
+                        style={{
+                          animationDelay: `${(project.technologies.length - 2) * 200}ms`,
+                          animation: `float-${(project.technologies.length - 2) % 3} 7s ease-in-out infinite`
+                        }}
+                      >
                         +{project.technologies.length - 2}
                       </span>
                     )}
@@ -732,10 +754,14 @@ export default function ProjectsPage() {
                         🔒 私人倉庫
                       </span>
                     )}
-                    {selectedProject.technologies.map((tech) => (
+                    {selectedProject.technologies.map((tech, index) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full border border-gray-300 dark:border-gray-600"
+                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 animate-pulse"
+                        style={{
+                          animationDelay: `${index * 150}ms`,
+                          animation: `float-${index % 3} 8s ease-in-out infinite`
+                        }}
                       >
                         {tech}
                       </span>
