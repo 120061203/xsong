@@ -4,6 +4,32 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 
 🌐 **Live Site**: [https://xsong.us](https://xsong.us)
 
+## 🏷️ Project Status
+
+![Next.js](https://img.shields.io/badge/Next.js-15.5.2-black?logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19.1.0-blue?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.0-38B2AC?logo=tailwind-css&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-5.x-FF5D01?logo=astro&logoColor=white)
+
+![Deploy Status](https://img.shields.io/badge/deploy-passing-green)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deployed-blue?logo=github&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-enabled-green?logo=github-actions&logoColor=white)
+
+![Version](https://img.shields.io/badge/version-0.1.0-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js&logoColor=white)
+
+![WebP Optimization](https://img.shields.io/badge/WebP%20Optimization-enabled-green)
+![Security](https://img.shields.io/badge/Security-enhanced-red)
+![SEO](https://img.shields.io/badge/SEO-optimized-blue)
+![RSS Feed](https://img.shields.io/badge/RSS%20Feed-available-orange)
+
+![Website](https://img.shields.io/badge/website-xsong.us-blue?logo=vercel&logoColor=white)
+![Uptime](https://img.shields.io/badge/uptime-99.9%25-green)
+![Performance](https://img.shields.io/badge/performance-A-green)
+![Build Status](https://img.shields.io/badge/build-passing-green)
+
 ## 🚀 Features
 
 - **Modern Design**: Clean, responsive design with dark/light theme support

@@ -1,0 +1,51 @@
+name: Update Badges
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    # 每天 UTC 00:00 檢查一次
+    - cron: '0 0 * * *'
+
+jobs:
+  update-badges:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Update all badges
+        run: |
+          echo "🔄 執行 Badge 更新腳本..."
+          npm run update:badges
+      
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          if git diff --quiet; then
+            echo "No changes to commit"
+          else
+            git add README.md
+            git commit -m "🤖 Auto-update badges
+
+            - Version: $(node -p "require('./package.json').version")
+            - Website: ${{ steps.website-status.outputs.status }}
+            - Uptime: ${{ steps.website-status.outputs.uptime }}
+            - Deploy: ${{ github.event_name }}"
+            
+            git push
+          fi

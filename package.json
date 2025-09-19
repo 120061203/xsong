@@ -9,6 +9,7 @@
     "build:blog": "node scripts/build-blog.js",
     "create:blog-images": "node scripts/create-blog-image-folders.js",
     "convert:images": "node scripts/convert-images.js",
+    "update:badges": "node scripts/update-badges.js",
     "start": "next start",
     "lint": "eslint"
   },
