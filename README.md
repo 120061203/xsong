@@ -17,7 +17,7 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-enabled-green?logo=github-actions&logoColor=white)
 
 ![Version](https://img.shields.io/badge/version-1.1.0-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-Apache-2.0-green)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js&logoColor=white)
 
 ![WebP Optimization](https://img.shields.io/badge/WebP%20Optimization-enabled-green)
@@ -234,7 +234,7 @@ blog-astro/src/assets/images/
 
 ## 📄 授權條款
 
-本專案採用 [MIT License](LICENSE) 開源授權。
+本專案採用 [Apache License 2.0](LICENSE) 開源授權。
 
 ---
 
