@@ -16,7 +16,7 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deployed-blue?logo=github&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-enabled-green?logo=github-actions&logoColor=white)
 
-![Version](https://img.shields.io/badge/version-0.1.0-orange)
+![Version](https://img.shields.io/badge/version-1.1.0-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js&logoColor=white)
 
