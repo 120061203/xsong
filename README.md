@@ -27,7 +27,7 @@
 
 ![Website](https://img.shields.io/badge/website-xsong.us-blue?logo=vercel&logoColor=white)
 ![Uptime](https://img.shields.io/badge/uptime-99.9%25-green)
-![Performance](https://img.shields.io/badge/performance-A-green)
+![Performance](https://img.shields.io/badge/performance-A+-green)
 ![Build Status](https://img.shields.io/badge/build-passing-green)
 
 ## 🚀 主要功能
