@@ -648,10 +648,10 @@ export default function ProjectsPage() {
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                   }`}
                   style={{
-                    top: `${10 + (index % 3) * 25}px`,
-                    left: '100vw', // 確保從右邊開始
-                    animation: `cloud-drift-${index % 3} ${20 + (index % 3)}s linear infinite`,
-                    animationDelay: `${index * 3}s`
+                    top: `${20 + (index % 4) * 40}px`,
+                    left: '100vw', // 從右邊開始
+                    animation: `cloud-drift-${index % 4} ${18 + (index % 3) * 2}s ease-in-out infinite`,
+                    animationDelay: `${index * 0.3}s`
                   }}
                 >
                   {tech}
