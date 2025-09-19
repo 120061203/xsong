@@ -1,10 +1,10 @@
 # xsong.us - 技術分享與作品集
 
-A modern personal website built with Next.js and Astro, featuring a blog system, project showcase, and tools section.
+一個使用 Next.js 和 Astro 構建的現代化個人網站，包含部落格系統、專案展示和工具區塊。
 
-🌐 **Live Site**: [https://xsong.us](https://xsong.us)
+🌐 **網站連結**: [https://xsong.us](https://xsong.us)
 
-## 🏷️ Project Status
+## 🏷️ 專案狀態
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.2-black?logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19.1.0-blue?logo=react&logoColor=white)
@@ -30,173 +30,153 @@ A modern personal website built with Next.js and Astro, featuring a blog system,
 ![Performance](https://img.shields.io/badge/performance-A-green)
 ![Build Status](https://img.shields.io/badge/build-passing-green)
 
-## 🚀 Features
+## 🚀 主要功能
 
-- **Modern Design**: Clean, responsive design with dark/light theme support
-- **Blog System**: Astro-based blog with Markdown support for technical articles
-- **Project Showcase**: Display your projects with screenshots and descriptions
-- **Tools Section**: Interactive tools and utilities
-- **Short URL Redirect**: Custom 404 page with short URL redirection
-- **GitHub Pages Deployment**: Automated deployment via GitHub Actions
-- **SEO Optimized**: Complete SEO setup with meta tags, structured data, and sitemaps
-- **RSS Feed**: Automatic RSS feed generation for blog posts
-- **Copy Functions**: Copy URL and email functionality for better UX
-- **Smooth Navigation**: Enhanced scroll-to-section with bounce animations
-- **Advanced Image Optimization**: WebP conversion, global preloading, and intelligent caching
-- **Security-First Screenshot API**: Protected proxy API with rate limiting and domain whitelisting
-- **Real-time Project Screenshots**: Dynamic website screenshots with error handling and retry mechanisms
+- **現代化設計**: 簡潔響應式設計，支援深色/淺色主題
+- **部落格系統**: 基於 Astro 的部落格，支援 Markdown 技術文章
+- **專案展示**: 展示專案截圖和詳細描述
+- **工具區塊**: 互動式工具和實用功能
+- **短網址重定向**: 自定義 404 頁面與短網址重定向
+- **GitHub Pages 部署**: 透過 GitHub Actions 自動化部署
+- **SEO 優化**: 完整的 SEO 設定，包含 meta 標籤、結構化數據和網站地圖
+- **RSS 訂閱**: 自動生成部落格文章的 RSS 訂閱源
+- **複製功能**: 一鍵複製網址和電子郵件功能，提升使用者體驗
+- **流暢導航**: 增強的滾動到區塊功能，帶有彈跳動畫效果
+- **進階圖片優化**: WebP 轉換、全域預載入和智能快取
+- **安全優先的截圖 API**: 受保護的代理 API，具備速率限制和網域白名單
+- **即時專案截圖**: 動態網站截圖，具備錯誤處理和重試機制
+- **A/B 測試展示**: 支援多版本圖片切換展示
+- **自動 Badge 更新**: 即時更新專案狀態和版本資訊
 
-## 🛠️ Tech Stack
+## 🛠️ 技術棧
 
-- **Frontend**: Next.js 14 (App Router)
-- **Blog**: Astro 5.x
-- **Styling**: TailwindCSS
-- **Deployment**: GitHub Pages
+- **前端框架**: Next.js 15.5.2 (App Router)
+- **部落格系統**: Astro 5.x
+- **樣式框架**: TailwindCSS 3.4.0
+- **部署平台**: GitHub Pages
 - **CI/CD**: GitHub Actions
+- **圖片處理**: Sharp (WebP 轉換)
+- **程式語言**: TypeScript 5.0
 
-## 📁 Project Structure
+## 📁 專案結構
 
 ```
 xsong.us/
-├── app/                    # Next.js app directory
-│   ├── components/         # React components
-│   ├── contexts/          # React contexts
-│   ├── globals.css        # Global styles
-│   └── layout.tsx         # Root layout
-├── blog-astro/            # Astro blog project
+├── app/                    # Next.js 應用程式目錄
+│   ├── components/         # React 組件
+│   ├── contexts/          # React 上下文
+│   ├── globals.css        # 全域樣式
+│   └── layout.tsx         # 根佈局
+├── blog-astro/            # Astro 部落格專案
 │   ├── src/
-│   │   ├── content/       # Blog content (Markdown)
-│   │   ├── layouts/       # Astro layouts
-│   │   └── pages/         # Astro pages
-│   └── astro.config.mjs   # Astro configuration
-├── public/                # Static assets
-├── .github/workflows/     # GitHub Actions
-└── scripts/              # Build scripts
+│   │   ├── content/       # 部落格內容 (Markdown)
+│   │   ├── layouts/       # Astro 佈局
+│   │   └── pages/         # Astro 頁面
+│   └── astro.config.mjs   # Astro 配置
+├── public/                # 靜態資源
+│   └── images/projects/   # 專案圖片 (PNG/WebP)
+├── .github/workflows/     # GitHub Actions 工作流程
+└── scripts/              # 建置腳本
+    ├── convert-images.js  # 圖片轉換腳本
+    └── update-badges.js   # Badge 更新腳本
 ```
 
-## 🚀 Getting Started
+## 🚀 快速開始
 
-### Prerequisites
+### 環境需求
 
 - Node.js 18+
 - npm/yarn/pnpm
 
-### Development
+### 開發環境設定
 
-1. **Clone the repository**
+1. **複製專案**
    ```bash
    git clone https://github.com/120061203/xsong.git
    cd xsong
    ```
 
-2. **Install dependencies**
+2. **安裝依賴套件**
    ```bash
    npm install
    cd blog-astro && npm install
    ```
 
-3. **Run development server**
+3. **啟動開發伺服器**
    ```bash
    npm run dev
    ```
 
-4. **Build Astro blog (optional)**
+4. **建置 Astro 部落格 (可選)**
    ```bash
    cd blog-astro
    npm run build
    ```
 
-## 🚀 Deployment
-
-This project uses GitHub Actions for automated deployment to GitHub Pages.
-
-### Deployment Process
-
-1. **Next.js Build**: Builds the main website
-2. **Astro Blog Build**: Builds the blog system
-3. **File Organization**: Copies files to correct locations
-4. **GitHub Pages**: Deploys to GitHub Pages
-
-### Key Configuration Files
-
-- `.github/workflows/nextjs.yml` - GitHub Actions workflow
-- `next.config.ts` - Next.js configuration
-- `blog-astro/astro.config.mjs` - Astro configuration
-
-## 🔧 Common Issues & Solutions
-
-### 1. Astro Blog Integration Issues
-
-**Problem**: Blog pages showing 404 errors or default Astro styles
-
-**Root Cause**: Astro's `base: '/blog'` configuration creates nested paths (`public/blog/blog/`)
-
-**Solution**: 
-- Modified GitHub Actions to handle double blog directory
-- Copy only article directories, not the entire `blog/` subdirectory
-- Ensure custom Layout.astro is used instead of default Astro layout
-
-**GitHub Actions Fix**:
+5. **轉換圖片為 WebP 格式**
 ```bash
-# Only copy article directories, not the entire blog subdirectory
-for dir in public/blog/blog/*/; do
-  if [ -d "$dir" ]; then
-    dirname=$(basename "$dir")
-    cp -r "$dir" "out/blog/"
-  fi
-done
-```
+   npm run convert:images
+   ```
 
-### 2. CSS Styling Issues
+6. **更新專案 Badges**
+   ```bash
+   npm run update:badges
+   ```
 
-**Problem**: Blog pages showing default Astro styles instead of custom design
+## 🚀 部署流程
 
-**Root Cause**: 
-- Default Astro layout overriding custom Layout.astro
-- CSS path issues due to `base: '/blog'` configuration
+本專案使用 GitHub Actions 自動化部署到 GitHub Pages。
 
-**Solution**:
-- Use TailwindCSS CDN in Layout.astro for reliable CSS loading
-- Ensure Layout.astro is properly imported in all pages
-- Clear build cache before deployment
+### 部署流程
 
-### 3. Short URL Redirect Conflicts
+1. **Next.js 建置**: 建置主要網站
+2. **Astro 部落格建置**: 建置部落格系統
+3. **圖片轉換**: 自動轉換 PNG 為 WebP 格式
+4. **檔案組織**: 複製檔案到正確位置
+5. **GitHub Pages 部署**: 部署到 GitHub Pages
+6. **Badge 更新**: 自動更新專案狀態 Badges
 
-**Problem**: Blog article pages being intercepted by short URL redirect system
+### 關鍵配置檔案
 
-**Root Cause**: Custom 404.html redirecting all 404s to short URL service
+- `.github/workflows/nextjs.yml` - GitHub Actions 工作流程
+- `.github/workflows/update-badges.yml` - Badge 自動更新工作流程
+- `next.config.ts` - Next.js 配置
+- `blog-astro/astro.config.mjs` - Astro 配置
+- `scripts/convert-images.js` - 圖片轉換腳本
+- `scripts/update-badges.js` - Badge 更新腳本
 
-**Solution**: Modified 404.html to only redirect `/url/xxxxx` paths:
-```javascript
-const urlMatch = currentPath.match(/^\/url\/(.+)$/);
-if (urlMatch) {
-  // Redirect to short URL service
-} else {
-  // Show standard 404 page
-}
-```
+## 🎯 最新功能 (v1.1.0)
 
-### 4. GitHub Actions Deployment Issues
+### ✨ 新增功能
+- **AWS 部署策略實驗平台**: 展示藍綠部署、金絲雀部署、A/B 測試等現代化部署策略
+- **A/B 測試圖片切換**: 支援多版本圖片展示，可即時切換不同版本
+- **自動 Badge 更新系統**: 即時更新專案狀態、版本號、網站狀態等資訊
+- **WebP 圖片優化**: 自動轉換 PNG/JPG 為 WebP 格式，減少 80-90% 檔案大小
+- **安全增強**: 多層安全保護，包含速率限制、網域白名單、URL 驗證
 
-**Problem**: Files not being deployed to correct locations
+### 🔧 技術改進
+- **智能圖片載入**: WebP 優先，PNG 備用，支援快取和預載入
+- **CORS 保護**: 伺服器端代理，消除跨域問題
+- **錯誤處理**: 優雅的錯誤處理和重試機制
+- **性能優化**: 優先載入和智能快取策略
 
-**Root Cause**: Complex file structure with Next.js + Astro integration
+### 🛡️ 安全特性
+- **網域白名單**: 只允許已核准的網域進行截圖
+- **協定限制**: 僅允許 HTTP/HTTPS，阻擋危險協定
+- **私人網路保護**: 防止存取內部 IP 範圍
+- **請求超時**: 30 秒超時防止資源耗盡
+- **檔案大小限制**: 10MB 最大值防止 DoS 攻擊
 
-**Solution**:
-- Clear build cache before each deployment
-- Add detailed logging and file existence checks
-- Ensure proper directory structure in deployment
+## 📝 部落格內容管理
 
-## 📝 Blog Content Management
+### 新增部落格文章
 
-### Adding New Blog Posts
-
-1. Create a new Markdown file in `blog-astro/src/content/blog/`
-2. Add frontmatter with required fields:
+1. 在 `blog-astro/src/content/blog/` 中建立新的 Markdown 檔案
+2. 添加必要的 frontmatter 欄位：
    ```markdown
    ---
-   title: "Your Post Title"
-   description: "Post description"
+   title: "文章標題"
+   description: "文章描述"
    pubDate: 2025-01-21T14:30:00+08:00
    updatedDate: 2025-01-21T14:30:00+08:00
    heroImage: "../../assets/images/your-post/your-image.png"
@@ -204,39 +184,17 @@ if (urlMatch) {
    tags: ["Astro", "Next.js", "技術寫作"]
    ---
    ```
-3. Write your content in Markdown
-4. Commit and push - GitHub Actions will automatically rebuild and deploy
+3. 使用 Markdown 撰寫內容
+4. 提交並推送 - GitHub Actions 會自動重建和部署
 
-### Date Format Requirements
+### 圖片管理
 
-**Important**: Use ISO 8601 format for dates to ensure correct time display:
+#### 建議圖片尺寸
+- **主圖**: 1200x630px (16:9 比例)
+- **內容圖片**: 800x600px 或類似尺寸
+- **格式**: PNG, JPG, 或 WebP
 
-- ✅ **Correct**: `2025-01-21T14:30:00+08:00`
-- ❌ **Incorrect**: `2025-01-21` (will show as 00:00)
-
-**Format breakdown**:
-- `2025-01-21` - Date (YYYY-MM-DD)
-- `T14:30:00` - Time (HH:MM:SS)
-- `+08:00` - Timezone (Taiwan UTC+8)
-
-### Blog Configuration
-
-- **Layout**: Custom Layout.astro with xsong.us branding
-- **Styling**: TailwindCSS with dark/light theme support
-- **Content**: Markdown with frontmatter support
-- **Images**: Optimized with Astro's image processing
-- **Navigation**: Previous/Next post navigation and related articles
-- **Copy URL**: One-click URL copying functionality
-- **Table of Contents**: Sticky TOC for easy navigation
-
-### Image Management
-
-#### Recommended Image Sizes
-- **Hero Images**: 1200x630px (16:9 ratio)
-- **Content Images**: 800x600px or similar
-- **Format**: PNG, JPG, or WebP
-
-#### Image Directory Structure
+#### 圖片目錄結構
 ```
 blog-astro/src/assets/images/
 ├── your-post-name/
@@ -245,348 +203,57 @@ blog-astro/src/assets/images/
 │   └── ...
 ```
 
-#### Image Usage in Markdown
-```markdown
-<!-- Hero Image (in frontmatter) -->
-heroImage: "../../assets/images/your-post/your-image.png"
+## 🔍 SEO 與 RSS 功能
 
-<!-- Content Image -->
-![Image Description](../../assets/images/your-post/your-image.png)
-```
+### SEO 優化
+- **Meta 標籤**: 動態頁面標題和描述
+- **結構化數據**: JSON-LD 格式的作者和文章資訊
+- **網站地圖**: 自動生成 sitemap.xml
+- **Open Graph**: 社群媒體分享優化
+- **Twitter Cards**: 增強 Twitter 分享
 
-## 🔍 SEO & RSS Features
+### RSS 訂閱
+- **自動生成**: 從部落格文章自動生成 RSS 訂閱源
+- **訂閱位置**: `/blog/rss.xml`
+- **使用者頁面**: `/rss` 友善的訂閱頁面
+- **一鍵複製**: RSS 網址複製功能
+- **文章預覽**: 最近 30 天的文章預覽
 
-### SEO Optimization
+### 使用者體驗
+- **一鍵複製**: 文章網址和電子郵件複製功能
+- **流暢導航**: 平滑滾動和彈跳動畫效果
+- **視覺回饋**: 綠色勾選確認和自動回復
 
-#### Meta Tags
-- **Title**: Dynamic page titles with site branding
-- **Description**: Optimized meta descriptions
-- **Keywords**: Relevant keywords for each page
-- **Open Graph**: Social media sharing optimization
-- **Twitter Cards**: Enhanced Twitter sharing
-- **Canonical URLs**: Proper canonical link structure
+## 🤝 貢獻指南
 
-#### Structured Data (JSON-LD)
-- **Person Schema**: Author information for About page
-- **BlogPosting Schema**: Article metadata for blog posts
-- **Organization Schema**: Site publisher information
+1. Fork 這個專案
+2. 建立功能分支
+3. 進行修改
+4. 本地測試
+5. 提交 Pull Request
 
-#### Search Engine Files
-- **robots.txt**: Search engine crawler guidance
-- **sitemap.xml**: Main website sitemap
-- **Blog sitemap**: Automatic blog sitemap generation
+## 📄 授權條款
 
-### RSS Feed
-- **Automatic Generation**: RSS feed auto-generated from blog posts
-- **Feed Location**: `/blog/rss.xml`
-- **RSS Page**: User-friendly RSS subscription page at `/rss`
-- **Content**: Includes title, description, publish date, and author
-- **Validation**: Valid RSS 2.0 format
-- **User Experience**: Friendly RSS page with subscription instructions and reader recommendations
-- **Copy Function**: One-click RSS URL copying with visual feedback
-- **Recent Posts Preview**: Clickable article previews (last 30 days)
-- **Date Format**: Proper ISO 8601 format for accurate time display
-
-### Copy Functions
-- **Copy URL**: One-click article URL copying with visual feedback
-- **Copy Email**: Direct email copying with mailto functionality
-- **Visual Feedback**: Green checkmark confirmation with auto-revert
-
-### Smooth Navigation & Animations
-- **Scroll-to-Section**: Smooth scrolling to target sections with enhanced UX
-- **Bounce Animation**: Target sections animate with scale effect after scroll completion
-- **Cross-Page Navigation**: Seamless navigation from Footer Contact button to About page
-- **Animation Timing**: 1.5s delay ensures scroll completion before animation starts
-- **Visual Feedback**: 15% scale increase with cubic-bezier easing for smooth bounce effect
-- **Debug Support**: Console logging for animation trigger debugging
-
-### Advanced Image Optimization & WebP Conversion
-
-#### WebP Conversion System
-- **Automatic Conversion**: All project screenshots automatically converted to WebP format
-- **Quality Optimization**: 60% quality setting for optimal file size vs quality balance
-- **Canvas-based Processing**: Client-side WebP conversion using HTML5 Canvas API
-- **Fallback Support**: Graceful fallback to original format if WebP conversion fails
-- **Performance Impact**: Typical 80-90% file size reduction (e.g., 1170kB → 18kB)
-
-#### Global Preloading System
-- **Background Preloading**: First 6 projects preloaded globally across all pages
-- **Smart Caching**: localStorage-based WebP cache with instant retrieval
-- **Progress Tracking**: Real-time preloading progress with visual indicators
-- **Rate Limiting**: 2-second delays between requests to prevent API abuse
-- **Error Recovery**: Automatic retry mechanism with exponential backoff
-
-#### Intelligent Loading States
-- **Immediate Display**: Cached images display instantly without loading states
-- **Progressive Loading**: Non-cached images show "即時連線中" (Real-time connecting) status
-- **Visual Feedback**: Spinning indicators and progress bars for user awareness
-- **Error Handling**: Clear error messages with retry buttons for failed loads
-
-#### Performance Optimizations
-- **Lazy Loading**: Images load only when entering viewport using Intersection Observer
-- **Priority Loading**: First 6 projects marked as priority for immediate loading
-- **Bandwidth Optimization**: WebP format reduces data usage by 80-90%
-- **Cache Strategy**: 1-hour browser cache with localStorage persistence
-
-### Security-First Screenshot API
-
-#### Multi-Layer Security Protection
-- **Domain Whitelist**: Only allows screenshots of approved domains (xsong.us, go-shorturl.vercel.app, etc.)
-- **URL Validation**: Comprehensive URL sanitization and validation
-- **Protocol Restrictions**: Only HTTP/HTTPS protocols allowed
-- **Dangerous Pattern Filtering**: Blocks local files, FTP, data URLs, JavaScript, mailto, tel protocols
-- **Private Network Protection**: Prevents access to internal IP ranges (192.168.x.x, 10.x.x.x, 172.16-31.x.x)
-- **URL Length Limits**: Maximum 2048 characters to prevent buffer overflow attacks
-
-#### Rate Limiting & Abuse Prevention
-- **IP-based Rate Limiting**: Maximum 10 requests per minute per IP address
-- **Request Timeout**: 30-second timeout to prevent resource exhaustion
-- **File Size Limits**: Maximum 10MB image size to prevent DoS attacks
-- **Request Logging**: Comprehensive logging of all API requests and security events
-- **Error Tracking**: Detailed error logging for security monitoring
-
-#### Security Headers
-- **X-Content-Type-Options**: `nosniff` prevents MIME type sniffing attacks
-- **X-Frame-Options**: `DENY` prevents clickjacking attacks
-- **Referrer-Policy**: `strict-origin-when-cross-origin` controls referrer information leakage
-- **Cache-Control**: Proper caching headers for performance and security
-
-#### CORS Protection
-- **Proxy Architecture**: Server-side proxy eliminates CORS issues
-- **No Direct External Calls**: All screenshot requests go through protected API
-- **User-Agent Spoofing**: Proper User-Agent headers to avoid blocking
-- **Error Handling**: Graceful handling of external API failures
-
-### Project Page Animations
-- **Individual Card Fade-in**: Each project card animates independently from transparent to visible
-- **Upward Movement**: Cards slide up from 60px below their final position
-- **Staggered Animation**: 150ms delay between each card for visual hierarchy
-- **Extended Duration**: 3-second total animation time to accommodate screenshot API loading
-- **Smooth Transitions**: 1-second fade-in duration with ease-out timing
-- **No Overlay Interference**: Clean individual card appearance without loading screens
-
-## 🌐 Development vs Production
-
-### Development Environment
-- **Main Site**: `http://localhost:3000` (Next.js)
-- **Blog Pages**: Use Astro dev server (`cd blog-astro && npm run dev`)
-- **Static Files**: May show 404 in development (normal behavior)
-
-### Production Environment
-- **All Pages**: Fully functional including blog routes
-- **SEO Features**: All meta tags and structured data active
-- **Performance**: Optimized images and static generation
-
-## 🔧 Technical Implementation Details
-
-### Server-Side Rendering (SSR) Hydration Issues
-
-#### Problem: Hydration Mismatch
-When using Next.js with SSR, server-side and client-side rendering must produce identical HTML. Common causes of hydration errors:
-
-```typescript
-// ❌ Problematic: Random values differ between server and client
-const getRandomService = () => {
-  const randomIndex = Math.floor(Math.random() * services.length);
-  return services[randomIndex];
-};
-
-// Server: Math.random() → 0.3 → Service A
-// Client: Math.random() → 0.7 → Service B
-// Result: Hydration mismatch error
-```
-
-#### Solution: Deterministic Functions
-Use deterministic functions that produce the same output for the same input:
-
-```typescript
-// ✅ Correct: Deterministic hash-based selection
-const getScreenshotUrl = (targetUrl: string) => {
-  const hash = targetUrl.split('').reduce((a, b) => {
-    a = ((a << 5) - a) + b.charCodeAt(0);
-    return a & a;
-  }, 0);
-  const serviceIndex = Math.abs(hash) % screenshotServices.length;
-  return screenshotServices[serviceIndex].url(targetUrl);
-};
-
-// Server: hash("https://example.com") → 12345 → Service A
-// Client: hash("https://example.com") → 12345 → Service A
-// Result: Consistent rendering
-```
-
-#### Other Common Hydration Issues
-- **Date/Time**: `Date.now()` produces different values
-- **Browser APIs**: `window`, `navigator` not available on server
-- **User-specific data**: Locale, timezone differences
-- **External data**: APIs returning different data between requests
-
-#### Best Practices
-1. **Avoid random values** in SSR components
-2. **Use deterministic functions** for consistent output
-3. **Handle browser-specific code** with proper checks
-4. **Test hydration** in development mode
-5. **Use `useEffect`** for client-only operations
-
-### WebP Conversion Implementation
-
-#### Canvas-based Conversion Process
-```typescript
-const convertToWebP = async (imageUrl: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const img = document.createElement('img');
-    img.crossOrigin = 'anonymous';
-    
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const webpUrl = URL.createObjectURL(blob);
-          resolve(webpUrl);
-        } else {
-          reject(new Error('Failed to convert to WebP'));
-        }
-      }, 'image/webp', 0.6); // 60% quality
-    };
-    
-    img.onerror = () => reject(new Error('Failed to load image'));
-    img.src = imageUrl;
-  });
-};
-```
-
-#### Caching Strategy
-```typescript
-// localStorage-based WebP cache
-const getCachedWebP = (url: string): string | null => {
-  try {
-    return localStorage.getItem(`project_image_${btoa(url)}`);
-  } catch (error) {
-    console.warn('Failed to read WebP cache:', error);
-    return null;
-  }
-};
-
-const setCachedWebP = (url: string, webpUrl: string) => {
-  try {
-    localStorage.setItem(`project_image_${btoa(url)}`, webpUrl);
-  } catch (error) {
-    console.warn('Failed to save WebP cache:', error);
-  }
-};
-```
-
-### Security Implementation Details
-
-#### URL Validation Function
-```typescript
-function validateUrl(url: string): { isValid: boolean; error?: string } {
-  try {
-    const parsedUrl = new URL(url);
-    
-    // Protocol validation
-    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
-      return { isValid: false, error: 'Only HTTP and HTTPS protocols are allowed' };
-    }
-    
-    // Dangerous pattern filtering
-    const DANGEROUS_PATTERNS = [
-      /^file:\/\//, /^ftp:\/\//, /^data:/, /^javascript:/,
-      /^mailto:/, /^tel:/, /^127\.0\.0\.1/, /^192\.168\./,
-      /^10\./, /^172\.(1[6-9]|2[0-9]|3[0-1])\./
-    ];
-    
-    for (const pattern of DANGEROUS_PATTERNS) {
-      if (pattern.test(url)) {
-        return { isValid: false, error: 'URL contains dangerous patterns' };
-      }
-    }
-    
-    // Domain whitelist validation
-    const ALLOWED_DOMAINS = ['xsong.us', 'go-shorturl.vercel.app', '120061203.github.io'];
-    const hostname = parsedUrl.hostname.toLowerCase();
-    const isAllowed = ALLOWED_DOMAINS.some(domain => 
-      hostname === domain || hostname.endsWith('.' + domain)
-    );
-    
-    if (!isAllowed) {
-      return { isValid: false, error: 'Domain not in allowed list' };
-    }
-    
-    return { isValid: true };
-  } catch (error) {
-    return { isValid: false, error: 'Invalid URL format' };
-  }
-}
-```
-
-#### Rate Limiting Implementation
-```typescript
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const limit = rateLimitMap.get(ip);
-  
-  if (!limit || now > limit.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + 60000 }); // 1 minute
-    return true;
-  }
-  
-  if (limit.count >= 10) {
-    return false; // Exceeded limit
-  }
-  
-  limit.count++;
-  return true;
-}
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test locally
-5. Submit a pull request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+本專案採用 [MIT License](LICENSE) 開源授權。
 
 ---
 
-**Version**: 2.0.0  
-**Last Updated**: January 2025
+**版本**: 1.1.0  
+**最後更新**: 2025年9月
 
-## 🆕 Recent Updates (v2.0.0)
+## 🆕 版本更新記錄
 
-### 🚀 Major Features Added
-- **WebP Image Optimization**: Automatic conversion with 80-90% file size reduction
-- **Global Image Preloading**: Background preloading of first 6 projects across all pages
-- **Security-First Screenshot API**: Enterprise-grade security with rate limiting and domain whitelisting
-- **Intelligent Caching**: localStorage-based WebP cache with instant retrieval
-- **CORS Protection**: Server-side proxy eliminates cross-origin issues
-- **Real-time Loading States**: Enhanced user feedback with "即時連線中" status
+### v1.1.0 (2025-09-19)
+- ✨ 新增 AWS 部署策略實驗平台
+- ✨ 新增 A/B 測試圖片切換功能
+- ✨ 新增自動 Badge 更新系統
+- 🔧 WebP 圖片優化 (減少 80-90% 檔案大小)
+- 🛡️ 安全增強 (速率限制、網域白名單)
+- 🚀 性能優化 (智能快取、優先載入)
 
-### 🔧 Technical Improvements
-- **Canvas-based WebP Conversion**: Client-side image processing with fallback support
-- **Rate Limiting**: IP-based protection against API abuse (10 requests/minute)
-- **URL Validation**: Comprehensive sanitization and dangerous pattern filtering
-- **Security Headers**: X-Content-Type-Options, X-Frame-Options, Referrer-Policy
-- **Error Handling**: Graceful degradation with retry mechanisms
-- **Performance Optimization**: Priority loading and intelligent caching strategies
-
-### 🛡️ Security Enhancements
-- **Domain Whitelist**: Only approved domains can be screenshotted
-- **Protocol Restrictions**: HTTP/HTTPS only, blocks dangerous protocols
-- **Private Network Protection**: Prevents access to internal IP ranges
-- **Request Timeout**: 30-second timeout prevents resource exhaustion
-- **File Size Limits**: 10MB maximum to prevent DoS attacks
-- **Comprehensive Logging**: Security event tracking and monitoring
+### v0.1.0 (初始版本)
+- 🎨 現代化設計和響應式佈局
+- 📝 Astro 部落格系統
+- 🖼️ 專案展示功能
+- 🔧 GitHub Actions 自動部署
+- 📱 SEO 優化和 RSS 訂閱
