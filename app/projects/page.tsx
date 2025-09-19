@@ -561,32 +561,34 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   );
 }
 
-// 平均分布標籤，避免空白和擠壓
+// 雲朵隨機出現 - 模擬真正的雲朵飄動
 function calculateDelay(index: number, technologies: string[]): number {
   if (index === 0) return 0; // 第一個標籤立即開始
   
-  // 計算平均間隔時間 - 加快速度
-  const totalTags = technologies.length;
-  const averageInterval = 1.2; // 平均每1.2秒一個標籤，加快速度
+  // 基礎延遲：每個標籤都有不同的延遲
+  const baseDelay = index * 0.8; // 基礎間隔增加到0.8秒
   
-  // 基礎延遲：平均分布
-  const baseDelay = index * averageInterval;
+  // 隨機延遲：模擬雲朵的自然出現時間
+  const randomDelay = (index % 7) * 1.5; // 0-9秒的隨機延遲
   
-  // 微調：根據標籤長度稍微調整
+  // 額外隨機：讓某些標籤延遲更久
+  const extraRandom = (index % 3 === 0) ? (index % 5) * 2.0 : 0;
+  
+  // 根據標籤長度微調
   const currentTech = technologies[index];
-  const lengthAdjustment = currentTech.length * 0.03; // 減少長度影響
+  const lengthAdjustment = currentTech.length * 0.05;
   
-  // 行數微調：避免同一行標籤太密集
-  const rowAdjustment = (index % 3) * 0.1;
-  
-  return baseDelay + lengthAdjustment + rowAdjustment;
+  return baseDelay + randomDelay + extraRandom + lengthAdjustment;
 }
+
+// 不再需要動態計算消失位置，使用固定的動畫路徑
 
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isAllToggleOn, setIsAllToggleOn] = useState(false); // All 按鈕的 toggle 狀態，初始為飄動模式
   const { trackProjectView, trackLinkClick } = useAnalytics();
+
 
   // 添加安全頭部
   useEffect(() => {
@@ -605,11 +607,11 @@ export default function ProjectsPage() {
 
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="text-center mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2">
             Projects
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -618,9 +620,9 @@ export default function ProjectsPage() {
         </div>
 
         {/* Filter Buttons - 雲朵飄動效果 */}
-        <div className="relative mb-16">
+        <div className="relative mb-8">
           {/* All 按鈕 - Toggle 開關 */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <button
               onClick={() => {
                 setIsAllToggleOn(!isAllToggleOn);
@@ -639,7 +641,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* 技術標籤 - All Toggle 開關控制 */}
-          <div className="relative w-full min-h-[200px] pointer-events-none overflow-hidden">
+          <div className="relative w-full min-h-[180px] pointer-events-none overflow-hidden">
             {isAllToggleOn ? (
               // All Toggle 開啟：靜態顯示（任何標籤都不動）
               <div className="flex flex-wrap justify-center gap-3 px-4 pointer-events-auto">
@@ -669,11 +671,11 @@ export default function ProjectsPage() {
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                   }`}
                   style={{
-                    top: `${20 + (index % 3) * 50}px`,
-                    left: '100%', // 從右邊開始，使用 100% 而不是 100vw
-                    animation: `cloud-drift-${index % 4} ${8 + (index % 2) * 0.5}s linear infinite`,
+                    top: `${40 + (index % 3) * 45}px`, // 只有3行，每行間距45px，更緊湊
+                    left: '100vw', // 從螢幕最右側開始
+                    animation: `cloud-drift-${index % 4} ${15 + (index % 8) * 3}s ease-in-out infinite`,
                     animationDelay: `${calculateDelay(index, allTechnologies)}s`
-                  }}
+                  } as React.CSSProperties}
                 >
                   {tech}
                 </button>

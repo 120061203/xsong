@@ -68,189 +68,285 @@
   }
 }
 
-/* 雲朵飄動動畫 - 勻速移動 */
+/* 雲朵飄動動畫 - 隨機出現和消失，像真正的雲朵 */
 @keyframes cloud-drift-0 {
   0% {
-    transform: translateX(0%) translateY(0px) rotate(0deg);
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    transform: translateX(-15vw) translateY(-2px) rotate(0.5deg);
+    opacity: 0.4;
+  }
+  18% {
+    transform: translateX(-35vw) translateY(3px) rotate(-0.3deg);
     opacity: 0.8;
   }
-  25% {
-    transform: translateX(-25%) translateY(-5px) rotate(1deg);
+  28% {
+    transform: translateX(-55vw) translateY(-1px) rotate(0.2deg);
     opacity: 1;
   }
-  50% {
-    transform: translateX(-50%) translateY(3px) rotate(-0.5deg);
-    opacity: 1;
+  35% {
+    transform: translateX(-70vw) translateY(2px) rotate(-0.1deg);
+    opacity: 0.9;
+  }
+  45% {
+    transform: translateX(-85vw) translateY(-1px) rotate(0.1deg);
+    opacity: 0.6;
+  }
+  55% {
+    transform: translateX(-100vw) translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  65% {
+    transform: translateX(-115vw) translateY(1px) rotate(-0.2deg);
+    opacity: 0.1;
   }
   75% {
-    transform: translateX(-75%) translateY(-2px) rotate(0.3deg);
-    opacity: 1;
+    transform: translateX(-130vw) translateY(-0.5px) rotate(0.1deg);
+    opacity: 0;
   }
   100% {
-    transform: translateX(-100%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
 }
 
 @keyframes cloud-drift-1 {
   0% {
-    transform: translateX(0%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    transform: translateX(-20vw) translateY(2px) rotate(-0.4deg);
+    opacity: 0.3;
   }
   25% {
-    transform: translateX(-25%) translateY(4px) rotate(-0.8deg);
+    transform: translateX(-45vw) translateY(-1px) rotate(0.6deg);
+    opacity: 0.7;
+  }
+  38% {
+    transform: translateX(-65vw) translateY(1px) rotate(-0.2deg);
     opacity: 1;
   }
-  50% {
-    transform: translateX(-50%) translateY(-3px) rotate(1deg);
-    opacity: 1;
+  48% {
+    transform: translateX(-80vw) translateY(-2px) rotate(0.3deg);
+    opacity: 0.8;
   }
-  75% {
-    transform: translateX(-75%) translateY(2px) rotate(-0.4deg);
-    opacity: 1;
+  58% {
+    transform: translateX(-95vw) translateY(1px) rotate(-0.1deg);
+    opacity: 0.5;
+  }
+  68% {
+    transform: translateX(-110vw) translateY(-1px) rotate(0.2deg);
+    opacity: 0.2;
+  }
+  78% {
+    transform: translateX(-125vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
   100% {
-    transform: translateX(-100%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
 }
 
 @keyframes cloud-drift-2 {
   0% {
-    transform: translateX(0%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
-  25% {
-    transform: translateX(-25%) translateY(-3px) rotate(0.6deg);
+  15% {
+    transform: translateX(-25vw) translateY(-1px) rotate(0.3deg);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateX(-50vw) translateY(2px) rotate(-0.4deg);
+    opacity: 0.9;
+  }
+  42% {
+    transform: translateX(-70vw) translateY(-1px) rotate(0.2deg);
     opacity: 1;
   }
-  50% {
-    transform: translateX(-50%) translateY(4px) rotate(-0.9deg);
-    opacity: 1;
+  52% {
+    transform: translateX(-85vw) translateY(1px) rotate(-0.1deg);
+    opacity: 0.7;
   }
-  75% {
-    transform: translateX(-75%) translateY(-1px) rotate(0.5deg);
-    opacity: 1;
+  62% {
+    transform: translateX(-100vw) translateY(-1px) rotate(0.1deg);
+    opacity: 0.4;
+  }
+  72% {
+    transform: translateX(-115vw) translateY(0px) rotate(0deg);
+    opacity: 0.1;
+  }
+  82% {
+    transform: translateX(-130vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
   100% {
-    transform: translateX(-100%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
 }
 
 @keyframes cloud-drift-3 {
   0% {
-    transform: translateX(0%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
-  25% {
-    transform: translateX(-25%) translateY(2px) rotate(-0.4deg);
+  20% {
+    transform: translateX(-30vw) translateY(1px) rotate(-0.5deg);
+    opacity: 0.6;
+  }
+  35% {
+    transform: translateX(-55vw) translateY(-2px) rotate(0.4deg);
     opacity: 1;
   }
-  50% {
-    transform: translateX(-50%) translateY(-4px) rotate(0.8deg);
-    opacity: 1;
+  45% {
+    transform: translateX(-75vw) translateY(1px) rotate(-0.2deg);
+    opacity: 0.9;
+  }
+  55% {
+    transform: translateX(-90vw) translateY(-1px) rotate(0.1deg);
+    opacity: 0.6;
+  }
+  65% {
+    transform: translateX(-105vw) translateY(1px) rotate(-0.1deg);
+    opacity: 0.3;
   }
   75% {
-    transform: translateX(-75%) translateY(1px) rotate(-0.3deg);
-    opacity: 1;
+    transform: translateX(-120vw) translateY(0px) rotate(0deg);
+    opacity: 0.1;
+  }
+  85% {
+    transform: translateX(-135vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
   100% {
-    transform: translateX(-100%) translateY(0px) rotate(0deg);
-    opacity: 0.8;
+    transform: translateX(0vw) translateY(0px) rotate(0deg);
+    opacity: 0;
   }
 }
 
-/* 手機版優化 - 勻速移動，減少移動範圍 */
+/* 手機版優化 - 從右側淡入，移動到左側淡出 */
 @media (max-width: 768px) {
   @keyframes cloud-drift-0 {
     0% {
+      transform: translateX(100vw) translateY(0px) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      transform: translateX(80vw) translateY(-1px) rotate(0.2deg);
+      opacity: 0.4;
+    }
+    20% {
+      transform: translateX(60vw) translateY(1px) rotate(-0.3deg);
+      opacity: 0.7;
+    }
+    30% {
+      transform: translateX(40vw) translateY(-0.5px) rotate(0.1deg);
+      opacity: 0.9;
+    }
+    40% {
       transform: translateX(0%) translateY(0px) rotate(0deg);
+      opacity: 1;
+    }
+    60% {
+      transform: translateX(-30%) translateY(1px) rotate(-0.2deg);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(-60%) translateY(-0.5px) rotate(0.1deg);
       opacity: 0.8;
     }
-    25% {
-      transform: translateX(-25%) translateY(-2px) rotate(0.5deg);
-      opacity: 1;
+    90% {
+      transform: translateX(-80%) translateY(0.5px) rotate(-0.05deg);
+      opacity: 0.4;
     }
-    50% {
-      transform: translateX(-50%) translateY(1px) rotate(-0.3deg);
-      opacity: 1;
-    }
-    75% {
-      transform: translateX(-75%) translateY(-1px) rotate(0.2deg);
-      opacity: 1;
+    95% {
+      transform: translateX(-100%) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
     100% {
-      transform: translateX(-100%) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      transform: translateX(100vw) translateY(0px) rotate(0deg);
+      opacity: 0;
     }
   }
 
   @keyframes cloud-drift-1 {
     0% {
       transform: translateX(0%) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      opacity: 0.6;
     }
     25% {
-      transform: translateX(-25%) translateY(2px) rotate(-0.4deg);
-      opacity: 1;
+      transform: translateX(-12%) translateY(1px) rotate(-0.2deg);
+      opacity: 0.8;
     }
     50% {
-      transform: translateX(-50%) translateY(-1px) rotate(0.5deg);
+      transform: translateX(-30%) translateY(-1px) rotate(0.3deg);
       opacity: 1;
     }
     75% {
-      transform: translateX(-75%) translateY(1px) rotate(-0.2deg);
-      opacity: 1;
+      transform: translateX(-55%) translateY(0.5px) rotate(-0.1deg);
+      opacity: 0.9;
     }
     100% {
-      transform: translateX(-100%) translateY(0px) rotate(0deg);
-      opacity: 0.8;
+      transform: translateX(var(--disappear-position, -100vw)) translateY(0px) rotate(0deg);
+      opacity: 0.6;
     }
   }
 
   @keyframes cloud-drift-2 {
     0% {
-      transform: translateX(0%) translateY(0px) rotate(0deg);
+      transform: translateX(100vw) translateY(0px) rotate(0deg);
       opacity: 0.8;
     }
-    25% {
-      transform: translateX(-25%) translateY(-1px) rotate(0.3deg);
+    20% {
+      transform: translateX(60vw) translateY(-1px) rotate(0.3deg);
       opacity: 1;
     }
-    50% {
-      transform: translateX(-50%) translateY(2px) rotate(-0.5deg);
+    40% {
+      transform: translateX(20vw) translateY(2px) rotate(-0.5deg);
       opacity: 1;
     }
-    75% {
-      transform: translateX(-75%) translateY(-0.5px) rotate(0.3deg);
+    60% {
+      transform: translateX(-20vw) translateY(-0.5px) rotate(0.3deg);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(-60vw) translateY(1px) rotate(-0.2deg);
       opacity: 1;
     }
     100% {
-      transform: translateX(-100%) translateY(0px) rotate(0deg);
+      transform: translateX(var(--disappear-position, -100vw)) translateY(0px) rotate(0deg);
       opacity: 0.8;
     }
   }
 
   @keyframes cloud-drift-3 {
     0% {
-      transform: translateX(0%) translateY(0px) rotate(0deg);
+      transform: translateX(100vw) translateY(0px) rotate(0deg);
       opacity: 0.8;
     }
-    25% {
-      transform: translateX(-25%) translateY(1px) rotate(-0.2deg);
+    20% {
+      transform: translateX(60vw) translateY(1px) rotate(-0.2deg);
       opacity: 1;
     }
-    50% {
-      transform: translateX(-50%) translateY(-2px) rotate(0.4deg);
+    40% {
+      transform: translateX(20vw) translateY(-2px) rotate(0.4deg);
       opacity: 1;
     }
-    75% {
-      transform: translateX(-75%) translateY(0.5px) rotate(-0.2deg);
+    60% {
+      transform: translateX(-20vw) translateY(0.5px) rotate(-0.2deg);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(-60vw) translateY(-1px) rotate(0.3deg);
       opacity: 1;
     }
     100% {
-      transform: translateX(-100%) translateY(0px) rotate(0deg);
+      transform: translateX(var(--disappear-position, -100vw)) translateY(0px) rotate(0deg);
       opacity: 0.8;
     }
   }
