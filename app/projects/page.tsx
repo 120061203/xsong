@@ -561,6 +561,27 @@ function OptimizedImage({ src, alt, className, fill, width, height, priority = f
   );
 }
 
+// 平均分布標籤，避免空白和擠壓
+function calculateDelay(index: number, technologies: string[]): number {
+  if (index === 0) return 0; // 第一個標籤立即開始
+  
+  // 計算平均間隔時間 - 加快速度
+  const totalTags = technologies.length;
+  const averageInterval = 1.2; // 平均每1.2秒一個標籤，加快速度
+  
+  // 基礎延遲：平均分布
+  const baseDelay = index * averageInterval;
+  
+  // 微調：根據標籤長度稍微調整
+  const currentTech = technologies[index];
+  const lengthAdjustment = currentTech.length * 0.03; // 減少長度影響
+  
+  // 行數微調：避免同一行標籤太密集
+  const rowAdjustment = (index % 3) * 0.1;
+  
+  return baseDelay + lengthAdjustment + rowAdjustment;
+}
+
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -618,7 +639,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* 技術標籤 - All Toggle 開關控制 */}
-          <div className="relative w-full min-h-[200px] pointer-events-none">
+          <div className="relative w-full min-h-[200px] pointer-events-none overflow-hidden">
             {isAllToggleOn ? (
               // All Toggle 開啟：靜態顯示（任何標籤都不動）
               <div className="flex flex-wrap justify-center gap-3 px-4 pointer-events-auto">
@@ -648,10 +669,10 @@ export default function ProjectsPage() {
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                   }`}
                   style={{
-                    top: `${20 + (index % 4) * 40}px`,
-                    left: '100vw', // 從右邊開始
-                    animation: `cloud-drift-${index % 4} ${18 + (index % 3) * 2}s ease-in-out infinite`,
-                    animationDelay: `${index * 0.3}s`
+                    top: `${20 + (index % 3) * 50}px`,
+                    left: '100%', // 從右邊開始，使用 100% 而不是 100vw
+                    animation: `cloud-drift-${index % 4} ${8 + (index % 2) * 0.5}s linear infinite`,
+                    animationDelay: `${calculateDelay(index, allTechnologies)}s`
                   }}
                 >
                   {tech}
@@ -767,7 +788,7 @@ export default function ProjectsPage() {
         {/* Project Modal */}
         {selectedProject && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50"
             onClick={() => setSelectedProject(null)}
           >
             <div 
@@ -775,22 +796,22 @@ export default function ProjectsPage() {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="flex justify-between items-start p-6 border-b-2 border-gray-200 dark:border-gray-700">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <div className="flex justify-between items-start p-4 sm:p-6 border-b-2 border-gray-200 dark:border-gray-700">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2 break-words">
                     {selectedProject.title}
                   </h2>
-                  <div className="flex flex-wrap gap-2 mb-2">
+                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-2">
                     {/* 私人倉庫標籤 */}
                     {(selectedProject.id === 'app-hub' || selectedProject.id === 'aws-deployment-strategies') && (
-                      <span className="px-3 py-1 bg-orange-500 text-white text-sm rounded-full border border-orange-400 font-semibold">
+                      <span className="px-2 sm:px-3 py-1 bg-orange-500 text-white text-xs sm:text-sm rounded-full border border-orange-400 font-semibold">
                         🔒 私人倉庫
                       </span>
                     )}
                     {selectedProject.technologies.map((tech, index) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
+                        className="px-2 sm:px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs sm:text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
                         style={{
                           transitionDelay: `${index * 50}ms`
                         }}
@@ -799,7 +820,7 @@ export default function ProjectsPage() {
                       </span>
                     ))}
                   </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     最後更新：{new Date(selectedProject.lastUpdated).toLocaleDateString('zh-TW', { 
                       year: 'numeric', 
                       month: 'long', 
@@ -809,7 +830,7 @@ export default function ProjectsPage() {
                 </div>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl sm:text-2xl p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex-shrink-0 ml-2"
                 >
                   <i className="fas fa-times"></i>
                 </button>
@@ -817,8 +838,8 @@ export default function ProjectsPage() {
 
               {/* Modal Content */}
               <div className="flex-1 overflow-y-auto">
-                <div className="p-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div className="p-3 sm:p-4 lg:p-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
                     {/* Project Image */}
                     <div className="relative" style={{ aspectRatio: '16/9', height: 'auto' }}>
                       {selectedProject.id === 'aws-deployment-strategies' ? (
@@ -840,23 +861,25 @@ export default function ProjectsPage() {
                     </div>
 
                     {/* Project Details */}
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                    <div className="min-w-0 w-full">
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3">
                         專案描述
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                        {selectedProject.longDescription}
-                      </p>
+                      <div className="w-full overflow-hidden">
+                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-6 leading-relaxed break-words" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+                          {selectedProject.longDescription}
+                        </p>
+                      </div>
 
                       {/* Links */}
-                      <div className="flex flex-col space-y-4">
+                      <div className="flex flex-col space-y-3 sm:space-y-4">
                         {selectedProject.githubUrl && (
                           <a
                             href={selectedProject.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackLinkClick('GitHub', selectedProject.githubUrl!)}
-                            className="inline-flex items-center px-4 py-2 bg-gray-900 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+                            className="inline-flex items-center px-3 sm:px-4 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm sm:text-base rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors break-all"
                           >
                             <i className="fab fa-github mr-2"></i>
                             View on GitHub
@@ -868,7 +891,7 @@ export default function ProjectsPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackLinkClick('Visit Website', selectedProject.liveUrl!)}
-                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-colors break-all"
                           >
                             <i className="fas fa-external-link-alt mr-2"></i>
                             Visit Website
@@ -880,7 +903,7 @@ export default function ProjectsPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackLinkClick('API Documentation', 'https://ayfmhwarbk.us-east-2.awsapprunner.com/docs')}
-                            className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                            className="inline-flex items-center px-3 sm:px-4 py-2 bg-green-600 text-white text-sm sm:text-base rounded-lg hover:bg-green-700 transition-colors break-all"
                           >
                             <i className="fas fa-code mr-2"></i>
                             API Documentation
@@ -892,17 +915,17 @@ export default function ProjectsPage() {
 
                   {/* Features */}
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
                       主要功能
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {selectedProject.features.map((feature, index) => (
                         <div
                           key={index}
-                          className="flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                          className="flex items-start p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                         >
-                          <i className="fas fa-check-circle text-green-500 mr-3"></i>
-                          <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                          <i className="fas fa-check-circle text-green-500 mr-3 mt-0.5 flex-shrink-0"></i>
+                          <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 break-words">{feature}</span>
                         </div>
                       ))}
                     </div>
