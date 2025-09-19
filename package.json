@@ -8,6 +8,7 @@
     "build:export": "next build && node scripts/copy-404.js",
     "build:blog": "node scripts/build-blog.js",
     "create:blog-images": "node scripts/create-blog-image-folders.js",
+    "convert:images": "node scripts/convert-images.js",
     "start": "next start",
     "lint": "eslint"
   },
@@ -16,7 +17,8 @@
     "next": "15.5.2",
     "qrcode": "^1.5.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "sharp": "^0.34.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

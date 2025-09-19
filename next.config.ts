@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // 恢復靜態導出
+  output: 'export', // 保持靜態導出
   images: {
-    unoptimized: true,
+    unoptimized: true, // 禁用圖片優化（與靜態導出相容）
   },
   trailingSlash: true,
   assetPrefix: '',

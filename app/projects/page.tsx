@@ -90,15 +90,87 @@ const getScreenshotUrl = (targetUrl: string) => {
   return `https://urlscan.io/liveshot/?width=1280&height=720&url=${encodeURIComponent(targetUrl)}`;
 };
 
+// 生成專案圖片 URL（智能選擇最佳格式）
+const getProjectImageUrl = (projectId: string) => {
+  return `/images/projects/${projectId}`;
+};
+
+// 智能圖片組件，自動選擇 WebP 或 PNG
+interface SmartImageProps {
+  projectId: string;
+  alt: string;
+  className?: string;
+  fill?: boolean;
+  width?: number;
+  height?: number;
+  priority?: boolean;
+  sizes?: string;
+}
+
+function SmartImage({ projectId, alt, className, fill, width, height, priority = false, sizes }: SmartImageProps) {
+  const [imageSrc, setImageSrc] = useState(`/images/projects/webp/${projectId}.webp`);
+  const [fallbackSrc] = useState(`/images/projects/png/${projectId}.png`);
+
+  const handleError = () => {
+    // 如果 WebP 載入失敗，回退到 PNG
+    if (imageSrc.includes('/webp/')) {
+      setImageSrc(fallbackSrc);
+    }
+  };
+
+  return (
+    <Image
+      src={imageSrc}
+      alt={alt}
+      fill={fill}
+      width={width}
+      height={height}
+      className={className}
+      priority={priority}
+      sizes={sizes}
+      onError={handleError}
+    />
+  );
+}
+
 const projects: Project[] = [
+  {
+    id: 'aws-deployment-strategies',
+    title: 'AWS 部署策略實驗平台',
+    description: '一個完整的 AWS 部署策略學習平台，實作藍綠部署、金絲雀部署、A/B 測試等多種現代化部署技術，透過 ALB 和 CodeDeploy 實現零停機部署。',
+    longDescription: '這是一個專為學習和實作現代化部署策略而設計的實驗平台。專案涵蓋了四種主要的部署策略：藍綠部署 (Blue-Green Deployment)、金絲雀部署 (Canary Deployment)、A/B 測試部署 (A/B Testing Deployment) 和符號連結回滾部署 (Symlink Rollback Deployment)。使用 AWS Application Load Balancer (ALB) 進行流量分配與路由，透過 CodeDeploy 服務實現自動化部署管理。整個架構包含 Blue/Green EC2 實例群、S3 儲存桶、Target Groups 等完整的 AWS 雲端環境。這個平台的核心價值在於提供零停機部署、風險控制、數據驅動決策和自動化流程，讓開發者能夠安全地學習和實作各種現代化的部署技術。',
+    image: getProjectImageUrl('aws-deployment-strategies'),
+    technologies: ['Terraform', 'AWS', 'ALB', 'CodeDeploy', 'EC2', 'S3', 'Target Groups', '藍綠部署', '金絲雀部署', 'A/B Testing', '零停機部署', '自動化部署', '雲端架構'],
+    githubUrl: 'https://github.com/120061203/codedeploy-terraform-ec2', // 私人倉庫
+    liveUrl: 'http://blue-green-canary-alb-873311364.us-west-2.elb.amazonaws.com/',
+    backgroundColor: 'bg-gradient-to-br from-blue-600 to-indigo-700',
+    textColor: 'text-white',
+    lastUpdated: '2025-09-19',
+    features: [
+      '藍綠部署 (Blue-Green Deployment) 實作',
+      '金絲雀部署 (Canary Deployment) 策略',
+      'A/B 測試部署 (A/B Testing Deployment)',
+      '符號連結回滾部署 (Symlink Rollback)',
+      'AWS Application Load Balancer 流量分配',
+      'CodeDeploy 自動化部署管理',
+      'EC2 實例群管理與切換',
+      'S3 儲存桶應用程式檔案管理',
+      'Target Groups 健康檢查與路由',
+      '零停機部署實現',
+      '風險控制與回滾機制',
+      '數據驅動的部署決策',
+      '完整的 AWS 雲端環境架構',
+      '部署策略學習與實驗平台'
+    ]
+  },
   {
     id: 'app-hub',
     title: 'App Hub - 企業級基礎設施管理',
     description: '使用 Terraform 進行基礎設施即代碼管理的企業級專案，包含完整的 AWS 資源配置、VPC 網路設計和 CI/CD 流程。',
     longDescription: '這是一個企業級的基礎設施管理專案，主要焦點在於使用 Terraform 進行基礎設施即代碼 (Infrastructure as Code) 的實踐。專案包含完整的 AWS 資源配置，包括 VPC 網路設計、ECR 容器倉庫管理、App Runner 服務部署等。採用微服務架構，使用 FastAPI 和 Rust 作為應用服務，但核心價值在於展示如何通過 Terraform 實現可重複、可維護的基礎設施管理。包含完整的團隊協作流程，Infrastructure Team 負責 Terraform 配置和 AWS 資源管理，Development Team 負責應用程式開發。',
-    image: getScreenshotUrl('https://ayfmhwarbk.us-east-2.awsapprunner.com/'),
+    image: getProjectImageUrl('app-hub'),
     technologies: ['Terraform', 'AWS', 'VPC', 'ECR', 'App Runner', '基礎設施即代碼IaC', '微服務架構', 'CI/CD', 'Bitbucket Pipelines', 'Docker', 'FastAPI', 'Rust'],
-    githubUrl: undefined, // 公司專案，不提供 GitHub 連結
+    githubUrl: 'https://github.com/120061203/app-hub', // 私人倉庫
     liveUrl: 'https://ayfmhwarbk.us-east-2.awsapprunner.com/',
     backgroundColor: 'bg-gradient-to-br from-slate-700 to-gray-800',
     textColor: 'text-white',
@@ -123,7 +195,7 @@ const projects: Project[] = [
     title: 'Go ShortURL',
     description: '使用 Go 和 Vue.js 實作的短網址服務，提供高效能的重定向和統計功能。',
     longDescription: '這是一個全端短網址服務，使用 Go 語言作為後端 API，Vue.js 作為前端框架。提供短網址生成、重定向、點擊統計等功能。後端使用 PostgreSQL 資料庫，支援高併發處理和即時統計。前端採用現代化設計，提供直觀的用戶介面。',
-    image: getScreenshotUrl('https://go-shorturl.vercel.app'),
+    image: getProjectImageUrl('go-shorturl'),
     technologies: ['Go', 'Vue.js', 'PostgreSQL', 'Supabase', 'RESTful API', 'Vercel', 'TypeScript', 'TailwindCSS'],
     githubUrl: 'https://github.com/120061203/go-shorturl',
     liveUrl: 'https://go-shorturl.vercel.app',
@@ -146,7 +218,7 @@ const projects: Project[] = [
     title: 'xsong.us',
     description: '一個現代化的技術分享與作品集網站，展示專案、工具和專業經驗。',
     longDescription: '這個技術分享與作品集網站使用 Next.js 建構，具有乾淨現代的設計，支援深色/淺色主題。包含專案展示、技術文章、互動工具（如白板），以及跨所有裝置無縫運作的響應式佈局。網站展示了現代網頁開發實踐和各種技術技能。',
-    image: getScreenshotUrl('https://xsong.us'),
+    image: getProjectImageUrl('xsong-personal-website'),
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'React', 'Astro'],
     githubUrl: 'https://github.com/120061203/xsong',
     liveUrl: 'https://xsong.us',
@@ -169,7 +241,7 @@ const projects: Project[] = [
     title: 'Calendar Todo App',
     description: '一個結合日曆和待辦事項管理的綜合應用程式，具有現代化 UI 和即時同步功能。',
     longDescription: '這個應用程式結合了日曆功能和任務管理，讓用戶可以直觀地組織行程和追蹤日常任務。使用 React 前端和 Material-UI 設計系統，提供美觀且易用的介面。支援拖放操作來管理事件和任務。',
-    image: getScreenshotUrl('https://120061203.github.io/calendar-todo-app'),
+    image: getProjectImageUrl('calendar-todo-app'),
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Supabase', 'Material-UI', 'FullCalendar', 'Jest', 'CRUD Operations', 'RESTful API', 'Real-time Sync'],
     githubUrl: 'https://github.com/120061203/calendar-todo-app',
     liveUrl: 'https://120061203.github.io/calendar-todo-app/',
@@ -195,7 +267,7 @@ const projects: Project[] = [
     title: 'Whiteboard Tool',
     description: '一個多功能白板應用程式，具有多種顯示模式、文字效果和即時自訂功能。',
     longDescription: '一個互動式白板工具，支援各種顯示模式，包括靜態文字、倒數計時器和跑馬燈效果。具有進階文字樣式功能，包括陰影、邊框、漸層和發光效果。非常適合簡報、公告和數位看板使用。',
-    image: getScreenshotUrl('https://xsong.us/tools/whiteboard'),
+    image: getProjectImageUrl('whiteboard'),
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'Canvas API', 'React'],
     githubUrl: 'https://github.com/120061203/xsong/tree/main/app/tools/whiteboard',
     liveUrl: 'https://xsong.us/tools/whiteboard',
@@ -479,7 +551,10 @@ export default function ProjectsPage() {
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
               style={{ 
                 animationDelay: `${index * 150}ms`, // 每個卡片間隔 150ms
-                animation: 'fadeInUp 1s ease-out forwards',
+                animationName: 'fadeInUp',
+                animationDuration: '1s',
+                animationTimingFunction: 'ease-out',
+                animationFillMode: 'forwards',
                 transition: 'transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.5s ease-out'
               }}
               onClick={() => {
@@ -494,12 +569,13 @@ export default function ProjectsPage() {
               <div className="relative z-10 p-6 h-full flex flex-col">
                 {/* Project Image */}
                 <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20">
-                  <OptimizedImage
-                    src={project.image}
+                  <SmartImage
+                    projectId={project.id}
                     alt={`${project.title} screenshot`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    priority={index < 3} // 前六個項目優先載入
+                    priority={index < 3} // 前三個項目優先載入
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
 
@@ -524,10 +600,10 @@ export default function ProjectsPage() {
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {/* 公司專案標籤 */}
-                    {project.id === 'app-hub' && (
-                      <span className="px-3 py-1 bg-red-500 bg-opacity-90 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-100 hover:scale-105 border border-red-400 border-opacity-50 font-semibold">
-                        🏢 公司專案
+                    {/* 私人倉庫標籤 */}
+                    {(project.id === 'app-hub' || project.id === 'aws-deployment-strategies') && (
+                      <span className="px-3 py-1 bg-orange-500 bg-opacity-90 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:bg-opacity-100 hover:scale-105 border border-orange-400 border-opacity-50 font-semibold">
+                        🔒 私人倉庫
                       </span>
                     )}
                     {project.technologies.slice(0, 2).map((tech, index) => (
@@ -574,10 +650,10 @@ export default function ProjectsPage() {
                     {selectedProject.title}
                   </h2>
                   <div className="flex flex-wrap gap-2 mb-2">
-                    {/* 公司專案標籤 */}
-                    {selectedProject.id === 'app-hub' && (
-                      <span className="px-3 py-1 bg-red-500 text-white text-sm rounded-full border border-red-400 font-semibold">
-                        🏢 公司專案
+                    {/* 私人倉庫標籤 */}
+                    {(selectedProject.id === 'app-hub' || selectedProject.id === 'aws-deployment-strategies') && (
+                      <span className="px-3 py-1 bg-orange-500 text-white text-sm rounded-full border border-orange-400 font-semibold">
+                        🔒 私人倉庫
                       </span>
                     )}
                     {selectedProject.technologies.map((tech) => (
@@ -611,12 +687,13 @@ export default function ProjectsPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     {/* Project Image */}
                     <div className="relative h-64">
-                      <OptimizedImage
-                        src={selectedProject.image}
+                      <SmartImage
+                        projectId={selectedProject.id}
                         alt={`${selectedProject.title} screenshot`}
                         fill
                         className="object-cover rounded-lg border border-gray-200 dark:border-gray-600"
                         priority={true}
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
 
