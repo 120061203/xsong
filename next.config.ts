@@ -31,6 +31,16 @@ const nextConfig: NextConfig = {
     optimizeCss: true, // 優化 CSS
     optimizePackageImports: ['react', 'react-dom'], // 優化包導入
   },
+  // 添加重定向配置
+  async redirects() {
+    return [
+      {
+        source: '/cv',
+        destination: '/songlinchen_20250505.pdf',
+        permanent: false,
+      },
+    ];
+  },
   // 添加安全 HTTP 頭部配置
   async headers() {
     return [
