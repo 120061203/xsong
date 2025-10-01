@@ -111,10 +111,14 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
 
-    if (isLeftSwipe && currentIndex < 2) {
-      setCurrentIndex(currentIndex + 1);
-    } else if (isRightSwipe && currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+    if (isLeftSwipe) {
+      // 左滑：到下一個，如果是最後一個則循環到第一個
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % socialMedias.length);
+    } else if (isRightSwipe) {
+      // 右滑：到上一個，如果是第一個則循環到最後一個
+      setCurrentIndex((prevIndex) => 
+        prevIndex === 0 ? socialMedias.length - 1 : prevIndex - 1
+      );
     }
 
     setTouchStart(null);
@@ -241,7 +245,7 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
 
         {/* 滑動提示 */}
         <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400">
-          ← 左右滑動切換社交媒體 →
+          ← 左右滑動切換社交媒體（可循環） →
         </div>
       </div>
     </div>
