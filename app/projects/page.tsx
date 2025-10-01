@@ -80,6 +80,7 @@ interface Project {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
+  pdfUrl?: string;
   features: string[];
   backgroundColor: string;
   textColor: string;
@@ -212,6 +213,7 @@ const projects: Project[] = [
     technologies: ['LaTeX', 'PDF', 'GitHub Pages', 'Makefile', '自動化編譯', '版本管理', '專業排版', '中英文混合', '響應式設計', '個人化模板', '時間戳記', '文件管理'],
     githubUrl: 'https://github.com/120061203/cv',
     liveUrl: 'https://120061203.github.io/cv/',
+    pdfUrl: 'https://github.com/120061203/cv/blob/main/output/songlinchen_resume_20250505.pdf',
     backgroundColor: 'bg-gradient-to-br from-red-600 to-pink-700',
     textColor: 'text-white',
     lastUpdated: '2025-10-01',
@@ -974,6 +976,18 @@ export default function ProjectsPage() {
                           >
                             <i className="fas fa-external-link-alt mr-2"></i>
                             Visit Website
+                          </a>
+                        )}
+                        {selectedProject.pdfUrl && (
+                          <a
+                            href={selectedProject.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackLinkClick('Download PDF', selectedProject.pdfUrl!)}
+                            className="inline-flex items-center px-3 sm:px-4 py-2 bg-red-600 text-white text-sm sm:text-base rounded-lg hover:bg-red-700 transition-colors break-all"
+                          >
+                            <i className="fas fa-file-pdf mr-2"></i>
+                            Download PDF
                           </a>
                         )}
                         {selectedProject.id === 'app-hub' && (
