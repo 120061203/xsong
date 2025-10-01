@@ -245,7 +245,7 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
 
         {/* 滑動提示 */}
         <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400">
-          ← 左右滑動切換社交媒體（可循環） →
+          ← 左右滑動切換社交媒體 →
         </div>
       </div>
     </div>
