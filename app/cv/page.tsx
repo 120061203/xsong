@@ -4,17 +4,18 @@ import { useEffect } from 'react';
 
 export default function CVPage() {
   useEffect(() => {
-    // 直接重定向到PDF，避免渲染
-    window.location.replace('/songlinchen_20250505.pdf');
+    // 直接下載PDF檔案，最快速度
+    const link = document.createElement('a');
+    link.href = '/songlinchen_20250505.pdf';
+    link.download = 'songlinchen_20250505.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // 立即重定向到首頁，避免停留在空白頁面
+    window.location.replace('/');
   }, []);
 
-  // 返回一個簡單的載入頁面，避免完整渲染
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-400">正在重定向到CV...</p>
-      </div>
-    </div>
-  );
+  // 返回null，完全不渲染任何內容
+  return null;
 }
