@@ -204,6 +204,33 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
 const projects: Project[] = [
   {
+    id: 'cv-latex',
+    title: '履歷自動編譯系統',
+    description: '專業的 LaTeX 履歷專案，專為 Song Lin Chen 設計，提供現代化、美觀且易於維護的履歷模板。專案支援多種格式輸出，並整合了自動化編譯系統和 GitHub Pages 部署。',
+    longDescription: '這是一個專業的 LaTeX 履歷專案，專為 Song Lin Chen 設計，提供現代化、美觀且易於維護的履歷模板。專案支援多種格式輸出，並整合了自動化編譯系統和 GitHub Pages 部署。專案特色包括現代化設計使用專業的 LaTeX 排版，支援中英文混合；響應式佈局優化的頁面佈局，適合各種閱讀環境；個人化標識文件名包含個人姓名和時間戳記；自動化編譯使用 Makefile 簡化編譯流程；清晰結構源文件和輸出文件分離管理；自動清理編譯後自動清理輔助文件。專案目標是為 Song Lin Chen 提供一個專業、美觀且易於維護的履歷模板，支援快速編譯和版本管理、個人化文件名格式、專業的排版效果、易於修改和擴展。',
+    image: getProjectImageUrl('cv-ui2'),
+    technologies: ['LaTeX', 'PDF', 'GitHub Pages', 'Makefile', '自動化編譯', '版本管理', '專業排版', '中英文混合', '響應式設計', '個人化模板', '時間戳記', '文件管理'],
+    githubUrl: 'https://github.com/120061203/cv',
+    liveUrl: 'https://120061203.github.io/cv/',
+    backgroundColor: 'bg-gradient-to-br from-red-600 to-pink-700',
+    textColor: 'text-white',
+    lastUpdated: '2025-10-01',
+    features: [
+      '現代化 LaTeX 排版設計，支援中英文混合',
+      '響應式佈局優化，適合各種閱讀環境',
+      '個人化標識：文件名包含個人姓名和時間戳記',
+      '自動化編譯：使用 Makefile 簡化編譯流程',
+      '清晰結構：源文件和輸出文件分離管理',
+      '自動清理：編譯後自動清理輔助文件',
+      'GitHub Pages 自動部署',
+      '專業的排版效果和視覺設計',
+      '易於修改和擴展的模板結構',
+      '快速編譯和版本管理',
+      '多種格式輸出支援',
+      '時間戳記自動生成'
+    ]
+  },
+  {
     id: 'gogoshop',
     title: 'GOGO茶飲 - 線上飲料店系統',
     description: '完整的線上飲料店電商系統，包含用戶端購物功能和管理員後台，支援飲料客製化選項（甜度、冰塊、配料）和完整的訂單管理流程。',
