@@ -666,6 +666,13 @@ export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isAllToggleOn, setIsAllToggleOn] = useState(false); // All 按鈕的 toggle 狀態，初始為飄動模式
+  const [tagProperties, setTagProperties] = useState<Array<{
+    opacity: number, 
+    transform: string, 
+    horizontalOffset: number, 
+    animationSpeed: number, 
+    animationDirection: number
+  }>>([]);
   const { trackProjectView, trackLinkClick } = useAnalytics();
 
   // 處理 tag 點擊的函數
@@ -678,6 +685,36 @@ export default function ProjectsPage() {
       setSelectedFilter(tech);
     }
   };
+
+  // 初始化標籤屬性，避免 hydration 錯誤
+  useEffect(() => {
+    const properties = allTechnologies.map((tech, index) => {
+      const shouldHaveOpacity = Math.random() < 0.4; // 減少透明度標籤
+      const randomOpacity = shouldHaveOpacity ? 0.5 + Math.random() * 0.3 : 1;
+      
+      // 根據標籤長度計算間距
+      const textLength = tech.length;
+      const baseSpacing = 80; // 基礎間距
+      const lengthMultiplier = Math.max(1, textLength / 8); // 根據文字長度調整
+      const horizontalOffset = (index * baseSpacing * lengthMultiplier) % 1200; // 使用固定寬度
+      
+      // 隨機垂直偏移，避免重疊
+      const verticalOffset = (Math.random() - 0.5) * 30;
+      
+      // 隨機動畫速度和方向
+      const animationSpeed = 8 + Math.random() * 8; // 8-16秒
+      const animationDirection = Math.random() > 0.5 ? 1 : -1; // 隨機方向
+      
+      return {
+        opacity: randomOpacity,
+        transform: `translateY(${verticalOffset}px)`,
+        horizontalOffset: horizontalOffset,
+        animationSpeed: animationSpeed,
+        animationDirection: animationDirection
+      };
+    });
+    setTagProperties(properties);
+  }, []);
 
   // 添加安全頭部
   useEffect(() => {
@@ -730,7 +767,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* 技術標籤 - All Toggle 開關控制 */}
-          <div className="relative w-full min-h-[220px] pointer-events-none overflow-hidden">
+          <div className="relative w-full min-h-[280px] pointer-events-none overflow-hidden">
             {isAllToggleOn ? (
               // All Toggle 開啟：靜態顯示（任何標籤都不動）
               <div className="flex flex-wrap justify-center gap-3 px-4 pointer-events-auto">
@@ -750,25 +787,45 @@ export default function ProjectsPage() {
               </div>
             ) : (
               // All Toggle 關閉：所有標籤都會動（包括被選中的）
-              allTechnologies.map((tech, index) => (
-                <button
-                  key={`cloud-${tech}-${index}`}
-                  onClick={() => handleTagClick(tech)}
-                  className={`absolute px-4 py-2 text-sm rounded-full transition-all duration-300 pointer-events-auto whitespace-nowrap ${
-                    selectedFilter === tech
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
-                  }`}
-                  style={{
-                    top: `${30 + (index % 4) * 40}px`, // 4行分布，讓標籤更密集
-                    left: '100vw', // 從螢幕最右側開始
-                    animation: `cloud-drift-${index % 4} ${8 + (index % 6) * 1.5}s ease-in-out infinite`,
-                    animationDelay: `${calculateDelay(index, allTechnologies)}s`
-                  } as React.CSSProperties}
-                >
-                  {tech}
-                </button>
-              ))
+              allTechnologies.map((tech, index) => {
+                // 使用預先計算的屬性，避免 hydration 錯誤
+                const tagProps = tagProperties[index] || { 
+                  opacity: 1, 
+                  transform: 'translateY(0px)',
+                  horizontalOffset: 0,
+                  animationSpeed: 12,
+                  animationDirection: 1
+                };
+                
+                // 計算行位置，避免重疊
+                const rowCount = 4;
+                const rowIndex = index % rowCount;
+                const baseTop = 20 + rowIndex * 60; // 基礎行位置
+                
+                return (
+                  <button
+                    key={`cloud-${tech}-${index}`}
+                    onClick={() => handleTagClick(tech)}
+                    className={`absolute px-4 py-2 text-sm rounded-full transition-all duration-300 pointer-events-auto whitespace-nowrap z-10 ${
+                      selectedFilter === tech
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                    }`}
+                    style={{
+                      top: `${baseTop}px`,
+                      left: `${tagProps.horizontalOffset}px`, // 使用計算的間距
+                      opacity: tagProps.opacity,
+                      animation: `cloud-drift-${rowIndex % 4} ${tagProps.animationSpeed}s ease-in-out infinite`,
+                      animationDelay: `${index * 0.2}s`, // 錯開出現時間
+                      transform: tagProps.transform,
+                      // 添加隨機的初始位置偏移
+                      marginLeft: `${(Math.random() - 0.5) * 40}px`
+                    } as React.CSSProperties}
+                  >
+                    {tech}
+                  </button>
+                );
+              })
             )}
           </div>
         </div>
