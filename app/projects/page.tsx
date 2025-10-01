@@ -213,7 +213,7 @@ const projects: Project[] = [
     technologies: ['LaTeX', 'PDF', 'GitHub Pages', 'Makefile', '自動化編譯', '版本管理', '專業排版', '中英文混合', '響應式設計', '個人化模板', '時間戳記', '文件管理'],
     githubUrl: 'https://github.com/120061203/cv',
     liveUrl: 'https://120061203.github.io/cv/',
-    pdfUrl: 'https://github.com/120061203/cv/blob/main/output/songlinchen_resume_20250505.pdf',
+    pdfUrl: 'https://github.com/120061203/cv/raw/main/output/songlinchen_resume_20250505.pdf',
     backgroundColor: 'bg-gradient-to-br from-red-600 to-pink-700',
     textColor: 'text-white',
     lastUpdated: '2025-10-01',
