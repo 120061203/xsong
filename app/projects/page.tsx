@@ -668,6 +668,16 @@ export default function ProjectsPage() {
   const [isAllToggleOn, setIsAllToggleOn] = useState(false); // All 按鈕的 toggle 狀態，初始為飄動模式
   const { trackProjectView, trackLinkClick } = useAnalytics();
 
+  // 處理 tag 點擊的函數
+  const handleTagClick = (tech: string) => {
+    if (selectedFilter === tech) {
+      // 如果點擊的是當前選中的 tag，則取消選中（回到 All）
+      setSelectedFilter('All');
+    } else {
+      // 否則選中該 tag
+      setSelectedFilter(tech);
+    }
+  };
 
   // 添加安全頭部
   useEffect(() => {
@@ -727,7 +737,7 @@ export default function ProjectsPage() {
                 {allTechnologies.map((tech, index) => (
                   <button
                     key={`static-${tech}-${index}`}
-                    onClick={() => setSelectedFilter(tech)}
+                    onClick={() => handleTagClick(tech)}
                     className={`px-4 py-2 text-sm rounded-full transition-all duration-300 pointer-events-auto whitespace-nowrap ${
                       selectedFilter === tech
                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
@@ -743,7 +753,7 @@ export default function ProjectsPage() {
               allTechnologies.map((tech, index) => (
                 <button
                   key={`cloud-${tech}-${index}`}
-                  onClick={() => setSelectedFilter(tech)}
+                  onClick={() => handleTagClick(tech)}
                   className={`absolute px-4 py-2 text-sm rounded-full transition-all duration-300 pointer-events-auto whitespace-nowrap ${
                     selectedFilter === tech
                       ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
