@@ -204,6 +204,34 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
 const projects: Project[] = [
   {
+    id: 'gogoshop',
+    title: 'GOGO茶飲 - 線上飲料店系統',
+    description: '完整的線上飲料店電商系統，包含用戶端購物功能和管理員後台，支援飲料客製化選項（甜度、冰塊、配料）和完整的訂單管理流程。',
+    longDescription: 'GOGO茶飲是一個專為飲料店設計的完整電商系統，採用PHP + MySQL技術架構。系統包含雙重身份管理，一般用戶可以註冊登入、瀏覽32種飲料商品、客製化選擇甜度冰塊配料、管理購物車和下單。管理員後台提供商品管理、會員管理、訂單處理等功能。系統特色包括完整的電商流程、客製化選項、響應式設計、訂單狀態追蹤，以及PHPMailer郵件發送和圖形驗證碼等安全功能。資料庫設計包含users、drinks、toppings、cart、orders等主要資料表，支援複雜的訂單明細管理。',
+    image: getProjectImageUrl('gogoshop'),
+    technologies: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript', 'SCSS', 'PHPMailer', '電商系統', 'B2C', '購物車', '訂單管理', '用戶管理', '管理員後台', '響應式設計', '圖形驗證碼'],
+    githubUrl: 'https://github.com/120061203/gogoshop',
+    backgroundColor: 'bg-gradient-to-br from-green-600 to-emerald-700',
+    textColor: 'text-white',
+    lastUpdated: '2025-01-15',
+    features: [
+      '完整的電商系統架構（用戶端 + 管理員後台）',
+      '用戶註冊/登入系統與忘記密碼功能',
+      '32種飲料商品展示與價格管理',
+      '購物車功能支援客製化選項',
+      '飲料客製化：甜度、冰塊、配料選擇',
+      '12種配料選項（珍珠、波霸、布丁等）',
+      '完整的訂單管理與狀態追蹤',
+      'MySQL資料庫設計與優化',
+      'PHPMailer郵件發送功能',
+      '圖形驗證碼安全驗證',
+      '響應式設計支援手機桌面版',
+      '雙重身份系統（用戶/管理員）',
+      '歷史訂單查看與管理',
+      '商品管理與庫存控制'
+    ]
+  },
+  {
     id: 'tab-library',
     title: 'Tab Library - Chrome 擴充功能',
     description: '基於 Chrome Extension API 開發的分頁管理工具，使用 Manifest V3 架構，整合 Chrome Tabs API 和 Windows API 實現分頁卡片化展示、即時搜尋與 JSON 序列化功能。',
