@@ -204,6 +204,30 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
 const projects: Project[] = [
   {
+    id: 'tab-library',
+    title: 'Tab Library - Chrome 擴充功能',
+    description: '基於 Chrome Extension API 開發的分頁管理工具，使用 Manifest V3 架構，整合 Chrome Tabs API 和 Windows API 實現分頁卡片化展示、即時搜尋與 JSON 序列化功能。',
+    longDescription: 'Tab Library 採用 Chrome Extension Manifest V3 架構開發，核心技術基於 Chrome Tabs API 和 Windows API 進行分頁狀態監控與管理。使用原生 JavaScript ES6+ 語法實現事件驅動架構，整合 Chrome Storage API 進行狀態持久化。前端採用響應式 CSS Grid 佈局與 Flexbox 排版，支援動態 DOM 操作與事件委派機制。搜尋功能基於正則表達式匹配演算法，支援標題、URL 和網域的多維度篩選。分組功能透過 Chrome Windows API 獲取視窗上下文，使用 Map 資料結構進行分頁分類。匯出/匯入功能採用 JSON 序列化與反序列化技術，整合 Chrome Downloads API 實現檔案下載。',
+    image: getProjectImageUrl('tab-library'),
+    technologies: ['Chrome Extension', 'Manifest V3', 'Chrome Tabs API', 'Chrome Windows API', 'JavaScript ES6+', 'DOM Manipulation', 'Event Delegation', 'CSS Grid', 'Flexbox', 'JSON Serialization', 'Regular Expressions', 'Map Data Structure', 'Event-Driven Architecture'],
+    githubUrl: 'https://github.com/120061203/TabLibrary-ChromeExtension',
+    liveUrl: 'https://chromewebstore.google.com/detail/tab-library/cfgmbkjbfjbkkgojnfnmlabjhbbpppnf',
+    backgroundColor: 'bg-gradient-to-br from-purple-600 to-indigo-700',
+    textColor: 'text-white',
+    lastUpdated: '2025-09-27',
+    features: [
+      'Chrome Extension Manifest V3 架構實作',
+      'Chrome Tabs API 與 Windows API 整合',
+      '事件驅動架構與 DOM 操作',
+      '正則表達式搜尋演算法',
+      'JSON 序列化與反序列化',
+      'CSS Grid 與 Flexbox 響應式佈局',
+      '事件委派機制優化效能',
+      'Map 資料結構分頁分類',
+      'Apache License 2.0 開源授權'
+    ]
+  },
+  {
     id: 'aws-deployment-strategies',
     title: 'AWS 部署策略實驗平台',
     description: '一個完整的 AWS 部署策略學習平台，實作藍綠部署、金絲雀部署、A/B 測試等多種現代化部署技術，透過 ALB 和 CodeDeploy 實現零停機部署。',
