@@ -213,7 +213,7 @@ const projects: Project[] = [
     githubUrl: 'https://github.com/120061203/gogoshop',
     backgroundColor: 'bg-gradient-to-br from-green-600 to-emerald-700',
     textColor: 'text-white',
-    lastUpdated: '2025-01-15',
+    lastUpdated: '2021-01-10',
     features: [
       '完整的電商系統架構（用戶端 + 管理員後台）',
       '用戶註冊/登入系統與忘記密碼功能',
