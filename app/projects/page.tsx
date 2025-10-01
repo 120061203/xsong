@@ -208,7 +208,7 @@ const projects: Project[] = [
     title: '履歷自動編譯系統',
     description: '專業的 LaTeX 履歷專案，專為 Song Lin Chen 設計，提供現代化、美觀且易於維護的履歷模板。專案支援多種格式輸出，並整合了自動化編譯系統和 GitHub Pages 部署。',
     longDescription: '這是一個專業的 LaTeX 履歷專案，專為 Song Lin Chen 設計，提供現代化、美觀且易於維護的履歷模板。專案支援多種格式輸出，並整合了自動化編譯系統和 GitHub Pages 部署。專案特色包括現代化設計使用專業的 LaTeX 排版，支援中英文混合；響應式佈局優化的頁面佈局，適合各種閱讀環境；個人化標識文件名包含個人姓名和時間戳記；自動化編譯使用 Makefile 簡化編譯流程；清晰結構源文件和輸出文件分離管理；自動清理編譯後自動清理輔助文件。專案目標是為 Song Lin Chen 提供一個專業、美觀且易於維護的履歷模板，支援快速編譯和版本管理、個人化文件名格式、專業的排版效果、易於修改和擴展。',
-    image: getProjectImageUrl('cv-ui2'),
+    image: getProjectImageUrl('cv-latex'),
     technologies: ['LaTeX', 'PDF', 'GitHub Pages', 'Makefile', '自動化編譯', '版本管理', '專業排版', '中英文混合', '響應式設計', '個人化模板', '時間戳記', '文件管理'],
     githubUrl: 'https://github.com/120061203/cv',
     liveUrl: 'https://120061203.github.io/cv/',
