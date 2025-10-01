@@ -1,15 +1,7 @@
 name: Update Badges
 
 on:
-  push:
-    branches: [ main ]
-    paths-ignore:
-      - 'README.md'  # 忽略 README.md 的變更，避免循環觸發
-      - '.github/workflows/update-badges.yml'  # 忽略自己的工作流程檔案
-  workflow_dispatch:
-  schedule:
-    # 每天 UTC 00:00 檢查一次
-    - cron: '0 0 * * *'
+  workflow_dispatch:  # 只允許手動觸發
 
 permissions:
   contents: write  # 允許寫入內容以更新 README
