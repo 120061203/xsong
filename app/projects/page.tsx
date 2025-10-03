@@ -682,8 +682,9 @@ export default function ProjectsPage() {
       // 如果點擊的是當前選中的 tag，則取消選中（回到 All）
       setSelectedFilter('All');
     } else {
-      // 否則選中該 tag
+      // 否則選中該 tag，但保持當前的顯示模式（靜態或移動）
       setSelectedFilter(tech);
+      // 不改變 showStaticTags 狀態，保持當前的顯示模式
     }
   };
 
@@ -757,10 +758,10 @@ export default function ProjectsPage() {
                     </button>
                   </div>
 
-          {/* 技術標籤 - 根據 All 按鈕狀態顯示不同效果 */}
+          {/* 技術標籤 - 根據顯示模式狀態顯示不同效果 */}
           <div className="px-4">
-            {selectedFilter === 'All' && showStaticTags ? (
-              /* All 模式：靜態展開所有標籤 */
+            {showStaticTags ? (
+              /* 靜態模式：展開所有標籤 */
               <div className="flex flex-wrap justify-center gap-3 py-4">
                 {allTechnologies.map((tech) => (
                   <button
@@ -777,7 +778,7 @@ export default function ProjectsPage() {
                 ))}
               </div>
             ) : (
-              /* 預設模式：LogoLoop 移動效果 */
+              /* 移動模式：LogoLoop 移動效果 */
               <LogoLoop
                 logos={allTechnologies.map((tech) => ({
                   node: (
