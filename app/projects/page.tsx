@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 // import { useTheme } from '../contexts/ThemeContext'; // 暫時未使用
 import { useAnalytics } from '../hooks/useAnalytics';
 import Image from 'next/image';
+import LogoLoop from '../../components/LogoLoop';
 
 // WebP 轉換緩存（僅存儲轉換後的 WebP URL，不檢查時間）
 const getCacheKey = (url: string) => `project_image_${btoa(url)}`;
@@ -744,21 +745,34 @@ export default function ProjectsPage() {
             </button>
           </div>
 
-          {/* 技術標籤 - 靜態網格佈局 */}
-          <div className="flex flex-wrap justify-center gap-3 px-4">
-            {allTechnologies.map((tech, index) => (
-              <button
-                key={`static-${tech}-${index}`}
-                onClick={() => handleTagClick(tech)}
-                className={`px-4 py-2 text-sm rounded-full transition-all duration-300 whitespace-nowrap ${
-                  selectedFilter === tech
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
-                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
-                }`}
-              >
-                {tech}
-              </button>
-            ))}
+          {/* 技術標籤 - LogoLoop 移動效果 */}
+          <div className="px-4">
+            <LogoLoop
+              logos={allTechnologies.map((tech) => ({
+                node: (
+                  <button
+                    onClick={() => handleTagClick(tech)}
+                    className={`px-4 py-2 text-sm rounded-full transition-all duration-300 whitespace-nowrap ${
+                      selectedFilter === tech
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                    }`}
+                  >
+                    {tech}
+                  </button>
+                ),
+                title: tech,
+                ariaLabel: `篩選 ${tech} 相關專案`
+              }))}
+              speed={100}
+              direction="left"
+              logoHeight={30}
+              gap={35}
+              pauseOnHover={true}
+              fadeOut={false}
+              scaleOnHover={true}
+              className="h-16"
+            />
           </div>
         </div>
 
