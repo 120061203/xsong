@@ -750,7 +750,9 @@ export default function ProjectsPage() {
                       onClick={handleAllClick}
                       className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                         selectedFilter === 'All'
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                          ? showStaticTags 
+                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'   // 靜態模式：藍色
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'   // 移動模式：和其他標籤一樣
                           : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                       }`}
                     >
