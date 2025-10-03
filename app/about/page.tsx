@@ -292,10 +292,30 @@ export default function AboutPage() {
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
                       設計了一個可穿戴 IoT 設備，用於即時生理監測，捕捉心率、體溫等指標。實現 Python Django 後端，並整合 Line Bot 提供即時健康警報通知。
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-3">
                       <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">IoT</span>
                       <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Python Django</span>
                       <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded">Line Bot</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <a 
+                        href="https://github.com/120061203/smartWatch" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                      >
+                        <i className="fab fa-github mr-2"></i>
+                        查看 GitHub
+                      </a>
+                      <a 
+                        href="https://www.youtube.com/watch?v=pxb9cMqjrr4" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1 text-sm bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                      >
+                        <i className="fab fa-youtube mr-2"></i>
+                        觀看影片
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -314,11 +334,20 @@ export default function AboutPage() {
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
                       建立了一個 IoT 解決方案，用於即時空氣品質監測和視覺化。使用 Python Flask 開發後端 API，採用 MQTT 協議進行輕量級數據通信。
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-3">
                       <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">IoT</span>
                       <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">Python Flask</span>
                       <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded">MQTT</span>
                     </div>
+                    <a 
+                      href="https://github.com/120061203/AirPocket0310" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                    >
+                      <i className="fab fa-github mr-2"></i>
+                      查看 GitHub
+                    </a>
                   </div>
                 </div>
 
@@ -336,10 +365,30 @@ export default function AboutPage() {
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
                       開發了一個太陽能優化的智能窗簾系統，最大化自然光照效率。使用 Arduino NodeMCU 開發控制系統，整合亮度感測器和馬達模組，實現即時太陽追蹤和自動調整。
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-3">
                       <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">Arduino</span>
                       <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">NodeMCU</span>
                       <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">IoT</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <a 
+                        href="https://github.com/120061203/SolarSmartBlinds" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                      >
+                        <i className="fab fa-github mr-2"></i>
+                        查看 GitHub
+                      </a>
+                      <a 
+                        href="https://www.youtube.com/watch?v=5qzH5zYsH84" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1 text-sm bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                      >
+                        <i className="fab fa-youtube mr-2"></i>
+                        觀看影片
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -358,11 +407,20 @@ export default function AboutPage() {
                     <p className="text-gray-600 dark:text-gray-300 mb-3">
                       開發了一個輕量級的線上食品訂購平台，使用 PHP 和 MySQL。設計了響應式 RWD 前端，支援產品管理和訂單處理。
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-3">
                       <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">PHP</span>
                       <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">MySQL</span>
                       <span className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded">RWD</span>
                     </div>
+                    <a 
+                      href="https://github.com/120061203/gogoshop" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                    >
+                      <i className="fab fa-github mr-2"></i>
+                      查看 GitHub
+                    </a>
                   </div>
                 </div>
               </div>
