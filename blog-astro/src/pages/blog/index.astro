@@ -51,20 +51,32 @@ function getReadingTime(content: string): number {
 			}
 			ul li:first-child img {
 				width: 100%;
+				height: 500px;
+				object-fit: cover;
+				object-position: center;
+				display: block;
+				margin: 0;
+				padding: 0;
+				flex-shrink: 0;
 			}
 			ul li:first-child .title {
 				font-size: 2.369rem;
 			}
 			ul li img {
-				margin-bottom: 0.5rem;
+				margin: 0;
+				padding: 0;
 				border-radius: 12px;
 				width: 100%;
-				height: auto;
+				height: 400px;
 				object-fit: cover;
+				object-position: center;
+				display: block;
+				flex-shrink: 0;
 			}
 			ul li a {
-				display: block;
-				padding: 1.5rem;
+				display: flex;
+				flex-direction: column;
+				padding: 0;
 				border-radius: 16px;
 				background: rgba(255, 255, 255, 0.05);
 				border: 1px solid rgba(255, 255, 255, 0.1);
@@ -97,6 +109,7 @@ function getReadingTime(content: string): number {
 			}
 			.title {
 				margin: 0;
+				padding: 1.5rem 1.5rem 0.5rem 1.5rem;
 				color: rgb(var(--black));
 				line-height: 1.2;
 				font-weight: 600;
@@ -107,7 +120,8 @@ function getReadingTime(content: string): number {
 				display: flex;
 				align-items: center;
 				gap: 1rem;
-				margin: 0.5rem 0;
+				margin: 0;
+				padding: 0 1.5rem;
 				font-size: 0.85em;
 				color: rgb(var(--gray));
 				position: relative;
@@ -121,7 +135,8 @@ function getReadingTime(content: string): number {
 				z-index: 1;
 			}
 			.excerpt {
-				margin: 0.75rem 0 0 0;
+				margin: 0;
+				padding: 0.75rem 1.5rem 0 1.5rem;
 				color: rgb(var(--gray));
 				font-size: 0.9em;
 				line-height: 1.5;
@@ -133,7 +148,8 @@ function getReadingTime(content: string): number {
 				overflow: hidden;
 			}
 			.read-more {
-				margin-top: 1rem;
+				margin: 0;
+				padding: 1rem 1.5rem 1.5rem 1.5rem;
 				color: rgb(var(--accent));
 				font-weight: 500;
 				font-size: 0.9em;
@@ -160,11 +176,29 @@ function getReadingTime(content: string): number {
 				ul li:first-child {
 					margin-bottom: 0;
 				}
+				ul li:first-child img {
+					height: 350px;
+				}
 				ul li:first-child .title {
 					font-size: 1.563em;
 				}
+				ul li img {
+					height: 300px;
+				}
 				ul li a {
-					padding: 1rem;
+					padding: 0;
+				}
+				.title {
+					padding: 1rem 1rem 0.5rem 1rem;
+				}
+				.meta {
+					padding: 0 1rem;
+				}
+				.excerpt {
+					padding: 0.75rem 1rem 0 1rem;
+				}
+				.read-more {
+					padding: 1rem 1rem 1rem 1rem;
 				}
 				.meta {
 					justify-content: center;
@@ -203,7 +237,7 @@ function getReadingTime(content: string): number {
 								<li>
 									<a href={`/blog/${post.id}/`}>
 										{post.data.heroImage && (
-											<Image width={720} height={360} src={post.data.heroImage} alt="" />
+											<Image width={720} height={450} src={post.data.heroImage} alt="" />
 										)}
 										<h4 class="title">{post.data.title}</h4>
 										<div class="meta">
