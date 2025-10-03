@@ -666,6 +666,7 @@ function calculateDelay(index: number, technologies: string[]): number {
 export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showStaticTags, setShowStaticTags] = useState(false);
   const [tagProperties, setTagProperties] = useState<Array<{
     opacity: number, 
     transform: string, 
@@ -683,6 +684,17 @@ export default function ProjectsPage() {
     } else {
       // 否則選中該 tag
       setSelectedFilter(tech);
+    }
+  };
+
+  const handleAllClick = () => {
+    if (selectedFilter === 'All') {
+      // 如果已經是 All，切換靜態/移動模式
+      setShowStaticTags(!showStaticTags);
+    } else {
+      // 如果選擇了特定標籤，回到 All 並顯示移動模式
+      setSelectedFilter('All');
+      setShowStaticTags(false);
     }
   };
 
@@ -732,25 +744,27 @@ export default function ProjectsPage() {
         {/* Filter Buttons - 靜態標籤佈局 */}
         <div className="relative mb-8">
           {/* All 按鈕 */}
-          <div className="flex justify-center mb-4">
-            <button
-              onClick={() => setSelectedFilter('All')}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                selectedFilter === 'All'
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
-              }`}
-            >
-              All
-            </button>
-          </div>
+                  <div className="flex justify-center mb-4">
+                    <button
+                      onClick={handleAllClick}
+                      className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                        selectedFilter === 'All'
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                          : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                      }`}
+                    >
+                      All
+                    </button>
+                  </div>
 
-          {/* 技術標籤 - LogoLoop 移動效果 */}
+          {/* 技術標籤 - 根據 All 按鈕狀態顯示不同效果 */}
           <div className="px-4">
-            <LogoLoop
-              logos={allTechnologies.map((tech) => ({
-                node: (
+            {selectedFilter === 'All' && showStaticTags ? (
+              /* All 模式：靜態展開所有標籤 */
+              <div className="flex flex-wrap justify-center gap-3 py-4">
+                {allTechnologies.map((tech) => (
                   <button
+                    key={tech}
                     onClick={() => handleTagClick(tech)}
                     className={`px-4 py-2 text-sm rounded-full transition-all duration-300 whitespace-nowrap ${
                       selectedFilter === tech
@@ -760,19 +774,37 @@ export default function ProjectsPage() {
                   >
                     {tech}
                   </button>
-                ),
-                title: tech,
-                ariaLabel: `篩選 ${tech} 相關專案`
-              }))}
-              speed={100}
-              direction="left"
-              logoHeight={30}
-              gap={35}
-              pauseOnHover={true}
-              fadeOut={false}
-              scaleOnHover={true}
-              className="h-16"
-            />
+                ))}
+              </div>
+            ) : (
+              /* 預設模式：LogoLoop 移動效果 */
+              <LogoLoop
+                logos={allTechnologies.map((tech) => ({
+                  node: (
+                    <button
+                      onClick={() => handleTagClick(tech)}
+                      className={`px-4 py-2 text-sm rounded-full transition-all duration-300 whitespace-nowrap ${
+                        selectedFilter === tech
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                          : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                      }`}
+                    >
+                      {tech}
+                    </button>
+                  ),
+                  title: tech,
+                  ariaLabel: `篩選 ${tech} 相關專案`
+                }))}
+                speed={100}
+                direction="left"
+                logoHeight={30}
+                gap={35}
+                pauseOnHover={true}
+                fadeOut={false}
+                scaleOnHover={true}
+                className="h-16"
+              />
+            )}
           </div>
         </div>
 
