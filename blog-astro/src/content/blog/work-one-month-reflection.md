@@ -1,6 +1,6 @@
 ---
-title: "工作一個月的心態"
-description: "記錄作為新鮮人工作一個月後的心得與反思，分享職場初體驗的酸甜苦辣。"
+title: "工作1個月的心態"
+description: "分享職場初體驗的酸甜苦辣"
 pubDate: 2025-09-05T14:07:00+08:00
 updatedDate: 2025-09-05T14:07:00+08:00
 heroImage: "../../assets/images/work-one-month-reflection/work-one-month-reflection-1.png"

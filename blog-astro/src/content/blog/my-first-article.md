@@ -1,6 +1,6 @@
 ---
-title: "我的第一篇技術文章"
-description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向。"
+title: "我的第一篇文章"
+description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向"
 pubDate: 2025-09-04T10:30:00+08:00
 updatedDate: 2025-09-04T10:30:00+08:00
 heroImage: "../../assets/images/my-first-article/my-first-article-1.png"
