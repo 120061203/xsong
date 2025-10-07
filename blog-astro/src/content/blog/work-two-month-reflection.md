@@ -37,8 +37,7 @@ tags: ["工作日記", "資安洩漏", "網路規劃", "大語言模型部署", 
 5. A/B 測試（A/B Testing Deployment）
     >概念：同時部署多個版本給不同使用者群體。
 
-    >A/B 測試 和 ALB 分配流量的表現形式很類似，但意義不同
-    > 如果想看看ALB流量分配，可以[點這裡](http://blue-green-canary-alb-873311364.us-west-2.elb.amazonaws.com)看Demo
+    >A/B 測試 和 ALB 分配流量的表現形式很類似，但意義不同，如果想看看ALB流量分配，可以[點這裡](http://blue-green-canary-alb-873311364.us-west-2.elb.amazonaws.com)看Demo
 6. 暗發佈（Shadow Deployment / Dark Launch）
     >概念：新版本接收真實流量，但結果不返回給使用者（僅觀察系統表現）
 
