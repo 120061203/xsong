@@ -11,6 +11,18 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
+// 為每個文章添加 frontmatter 數據
+const postsWithFrontmatter = await Promise.all(
+	posts.map(async (post) => {
+		const { render } = await import('astro:content');
+		const { Content } = await render(post);
+		return {
+			...post,
+			frontmatter: post.rendered?.metadata?.frontmatter || {}
+		};
+	})
+);
+
 // 計算閱讀時間的函數
 function getReadingTime(content: string): number {
 	const wordsPerMinute = 250;
@@ -231,7 +243,7 @@ function getReadingTime(content: string): number {
 				</div>
 				<ul>
 					{
-						posts.map((post) => {
+						postsWithFrontmatter.map((post) => {
 							const readingTime = getReadingTime(post.body);
 							return (
 								<li>
@@ -246,10 +258,10 @@ function getReadingTime(content: string): number {
 											</span>
 											<span>•</span>
 											<span>{readingTime} 分鐘</span>
-											{post.data.categories && post.data.categories.length > 0 && (
+											{post.frontmatter.categories && post.frontmatter.categories.length > 0 && (
 												<>
 													<span>•</span>
-													<span>{post.data.categories[0]}</span>
+													<span>{post.frontmatter.categories[0]}</span>
 												</>
 											)}
 										</div>
