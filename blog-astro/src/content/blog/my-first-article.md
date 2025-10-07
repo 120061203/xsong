@@ -22,7 +22,7 @@ tags: ["Astro", "Next.js", "技術寫作", "個人成長", "前端開發", "靜�
 
 在決定建立部落格時，我有幾個選擇：WordPress、Hugo、Next.js、Astro 等。雖然我最一開始的志願序是 WordPress > Next.js > Astro，但經過深入研究和比較後，我選擇了 Astro 作為我的部落格框架。
 
-<img src="../../assets/images/my-first-article/my-first-article-1.png" alt="技術部落格建立過程" width="600" style="max-width: 100%; height: auto; border-radius: 8px;">
+<img src="../../assets/images/my-first-article/my-first-article-1.webp" alt="技術部落格建立過程" width="600" style="max-width: 100%; height: auto; border-radius: 8px;">
 
 但我想要先澄清，這個部落格不只是寫技術文章！我的目標是建立一個全方位的技術分享平台，包含技術心得、演講內容、課程教學、以及個人成長記錄，類似於一個技術人的數位花園。
 
