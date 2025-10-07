@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+}
+
+const { src, alt, width = 800, height = 600, class: className = '' } = Astro.props;
+
+// 處理相對路徑
+const imageSrc = src.startsWith('../../assets/') 
+  ? src.replace('../../assets/', '/src/assets/')
+  : src;
+---
+
+<Image 
+  src={imageSrc}
+  alt={alt}
+  width={width}
+  height={height}
+  class={className}
+  format="webp"
+  quality={85}
+  loading="lazy"
+/>

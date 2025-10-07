@@ -25,6 +25,9 @@ export default defineConfig({
     // Astro 5.x 的圖片優化配置
     service: {
       entrypoint: 'astro/assets/services/sharp'
-    }
+    },
+    // 啟用自動格式轉換
+    domains: [],
+    remotePatterns: []
   },
 });
