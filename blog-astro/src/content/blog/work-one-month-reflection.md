@@ -4,8 +4,8 @@ description: "記錄作為新鮮人工作一個月後的心得與反思，分享
 pubDate: 2025-09-05T14:07:00+08:00
 updatedDate: 2025-09-05T14:07:00+08:00
 heroImage: "../../assets/images/work-one-month-reflection/work-one-month-reflection-1.png"
-categories: ["工作日記", "職涯發展"]
-tags: ["工作日記", "職涯", "新鮮人就業", "職場心得", "工作反思", "個人成長"]
+categories: ["工作日記"]
+tags: ["新鮮人就業", "職場心得"]
 ---
 
 7月7日是我拿到碩士畢業證書的日子，在隔週的7月15日是我離開研究所租屋，搭乘著搬家公司老闆的小貨車一路南下，回到台中，稍作整頓休息，在8月4日開始了工作。

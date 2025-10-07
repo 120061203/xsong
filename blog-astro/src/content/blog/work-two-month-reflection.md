@@ -4,8 +4,8 @@ description: "記錄作為新鮮人工作2個月後的心得與反思，本月�
 pubDate: 2025-10-04T21:00:00+08:00
 updatedDate: 2025-10-04T21:00:00+08:00
 heroImage: "../../assets/images/work-two-month-reflection/work-two-month-reflection-1.png"
-categories: ["工作日記", "職涯發展"]
-tags: ["工作日記", "資安洩漏", "網路規劃", "大語言模型部署", "工作反思", "個人成長"]
+categories: ["工作日記"]
+tags: [ "資安洩漏", "網路規劃", "大語言模型部署"]
 ---
 
 從第二個月開始，我開始逐漸熟悉使用 Terraform，開始嘗試規劃公司服務的網路並且開始了一些專案的部署。由於某些 Team 的專案需要使用大語言模型，因此我也了解到了一些建立 GPU 機器還有 Git LFS 大檔案的操作。

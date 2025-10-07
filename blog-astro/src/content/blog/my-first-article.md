@@ -4,8 +4,8 @@ description: "分享我建立這個技術部落格的初衷，以及未來想要
 pubDate: 2025-09-04T10:30:00+08:00
 updatedDate: 2025-09-04T10:30:00+08:00
 heroImage: "../../assets/images/my-first-article/my-first-article-1.png"
-categories: ["技術分享", "部落格建立"]
-tags: ["Astro", "Next.js", "技術寫作", "個人成長", "前端開發", "靜態網站", "GitHub Pages", "TypeScript", "TailwindCSS", "開發工具"]
+categories: ["技術分享"]
+tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
 ---
 
 # 前言
