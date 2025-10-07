@@ -155,12 +155,12 @@ function calculateReadingTime(content: string) {
 												{/* 分類和標籤 */}
 												<div class="flex flex-wrap items-center gap-2 mb-4">
 													{post.frontmatter.categories?.map(category => (
-														<span class="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
+														<span class="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 px-2 py-1 rounded category-tag" data-category={category}>
 															{category}
 														</span>
 													))}
 													{post.frontmatter.tags?.map(tag => (
-														<span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">
+														<span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded tag-tag" data-tag={tag}>
 															{tag}
 														</span>
 													))}
@@ -238,11 +238,14 @@ function calculateReadingTime(content: string) {
 			blogPosts.forEach(post => {
 				const title = post.querySelector('h2').textContent.toLowerCase();
 				const description = post.querySelector('p').textContent.toLowerCase();
-				const categories = Array.from(post.querySelectorAll('.text-xs')).map(tag => tag.textContent.toLowerCase());
+				
+				// 分別獲取分類和標籤
+				const categories = Array.from(post.querySelectorAll('.category-tag')).map(tag => tag.textContent.toLowerCase());
+				const tags = Array.from(post.querySelectorAll('.tag-tag')).map(tag => tag.textContent.toLowerCase());
 				
 				const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
 				const matchesCategory = currentCategory === 'all' || categories.includes(currentCategory.toLowerCase());
-				const matchesTags = currentTags.length === 0 || currentTags.some(tag => categories.includes(tag.toLowerCase()));
+				const matchesTags = currentTags.length === 0 || currentTags.some(tag => tags.includes(tag.toLowerCase()));
 				
 				if (matchesSearch && matchesCategory && matchesTags) {
 					post.closest('a').style.display = 'block';
