@@ -151,6 +151,16 @@ const relatedPosts = allPosts
 
 					<!-- Content -->
 					<div class="prose prose-lg max-w-none dark:prose-invert" id="article-content">
+						<style>
+							.prose img {
+								max-width: 600px !important;
+								width: 100% !important;
+								height: auto !important;
+								border-radius: 8px !important;
+								margin: 1rem auto !important;
+								display: block !important;
+							}
+						</style>
 						<slot />
 					</div>
 				</div>

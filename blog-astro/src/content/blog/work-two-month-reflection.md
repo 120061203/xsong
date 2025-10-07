@@ -12,7 +12,7 @@ tags: ["工作日記", "資安洩漏", "網路規劃", "大語言模型部署", 
 
 ## 資安洩漏事件
 在 9 月初的某一天，Team Lead 突然召集我們開了一個小會議，原因是客戶收到了一些其他公司的行銷訊息，不確定是不是我們的系統導致的資料外洩，但我們也需要去查明看看是否有資料外洩的管道，這也讓我了解到企業資安的重要性，然後在實戰中我也去追溯程式碼還有查看邏輯和可能的漏洞。
-<img src="../../assets/images/work-two-month-reflection/secret-leak.webp" alt="資安事件追查 - secret-leak" width="600" style="max-width: 100%; height: auto; border-radius: 8px;">
+![資安事件追查 - secret-leak](../../assets/images/work-two-month-reflection/secret-leak.png)
 
 > **心得**：雖然不確定客戶的資料洩漏是否真的與系統有關，也有可能是他被社交攻擊，但也學習到了一些 JWT (JSON Web Tokens) 相關的內容。這邊也找到一個 [jwt.io](https://www.jwt.io/) 用於 Decode 和 Encode 的網站。
 
@@ -20,7 +20,7 @@ tags: ["工作日記", "資安洩漏", "網路規劃", "大語言模型部署", 
 
 在部署專案的過程中，我也學習到了一些很重要的部署方式，但是否能夠根據專案需求調整部署策略也是身為專業的 DevOps 工程師應該要學會的技能。
 
-<img src="../../assets/images/work-two-month-reflection/deploy-strategy.webp" alt="部署策略總覽 - deploy-strategy" width="600" style="max-width: 100%; height: auto; border-radius: 8px;">
+![部署策略總覽 - deploy-strategy](../../assets/images/work-two-month-reflection/deploy-strategy.png)
 
 ### 部署策略的分類
 1. 傳統部署(Recreate Deployment)
@@ -64,7 +64,7 @@ tags: ["工作日記", "資安洩漏", "網路規劃", "大語言模型部署", 
 
 工作的任務介紹的差不多，大約在 9 月中，也就是我入職 1 個半月時，人資姊姊敲我說能不能聊聊，我記得那天約下午 15:15，然後最後我們大約聊到 16:50 左右，我直接聊完下班。內容大致上就是 OnBoard 這 1 個月以來是否還習慣，然後我也更了解目前公司的各 Team 組織架構，也聊了 Team Bonding 其他 Team 去哪裡玩，還有每季聚餐吃什麼，然後我也向她感謝了公司給了我一台新筆電，讓我覺得很開心。
 
-<img src="../../assets/images/work-two-month-reflection/massage.webp" alt="按摩服務體驗 - massage" width="600" style="max-width: 100%; height: auto; border-radius: 8px;">
+![按摩服務體驗 - massage](../../assets/images/work-two-month-reflection/massage.png)
 
 每 2 個月我們可以預約按摩服務，會有視障按摩師來公司駐點，作為一個新鮮人就預約了一次嘗試看看。我預約了 9/26 那週的週五，給自己一個 Happy Weekend，當天我準時抵達哺乳室門口（對，我們公司按摩是在哺乳室中 XD），按摩時間大約 30 分鐘，面朝下趴在一個按摩床上。原來按摩師也算是我們公司的員工之一，但是她也可以去服務其他公司。了解到原來按摩證照是只有視障者才可以考取，普通人不能考取，這是一個政府的保護政策，不得不說我們的按摩師力道很夠，而且可以按摩到穴位，按摩後的 1～2 天我還是會覺得有點酸痛，這和之前的按摩體驗不太一樣。
 
