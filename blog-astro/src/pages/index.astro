@@ -8,9 +8,21 @@ const posts = await getCollection('blog').then(posts =>
 	posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
 );
 
+// 為每個文章添加 frontmatter 數據
+const postsWithFrontmatter = await Promise.all(
+	posts.map(async (post) => {
+		const { render } = await import('astro:content');
+		const { Content } = await render(post);
+		return {
+			...post,
+			frontmatter: post.rendered?.metadata?.frontmatter || {}
+		};
+	})
+);
+
 // 提取所有分類和標籤
-const categories = [...new Set(posts.flatMap(post => post.data.categories || []))];
-const tags = [...new Set(posts.flatMap(post => post.data.tags || []))];
+const categories = [...new Set(postsWithFrontmatter.flatMap(post => post.frontmatter.categories || []))];
+const tags = [...new Set(postsWithFrontmatter.flatMap(post => post.frontmatter.tags || []))];
 
 // 計算閱讀時間（假設每分鐘 250 字）
 function calculateReadingTime(content: string) {
@@ -69,7 +81,7 @@ function calculateReadingTime(content: string) {
 										class="category-filter w-full text-left px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-green-900/20 transition-colors"
 										data-category={category}
 									>
-										{category} ({posts.filter(post => post.data.categories?.includes(category)).length})
+										{category} ({postsWithFrontmatter.filter(post => post.frontmatter.categories?.includes(category)).length})
 									</button>
 								))}
 							</div>
@@ -95,7 +107,7 @@ function calculateReadingTime(content: string) {
 				<!-- 右側文章列表 -->
 				<div class="lg:w-3/4">
 					<div class="space-y-6">
-						{posts.map(post => {
+						{postsWithFrontmatter.map(post => {
 							const slug = post.id.replace(/\.(md|mdx)$/, '');
 							const readingTime = calculateReadingTime(post.body);
 							return (
@@ -142,12 +154,12 @@ function calculateReadingTime(content: string) {
 												
 												{/* 分類和標籤 */}
 												<div class="flex flex-wrap items-center gap-2 mb-4">
-													{post.data.categories?.map(category => (
+													{post.frontmatter.categories?.map(category => (
 														<span class="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
 															{category}
 														</span>
 													))}
-													{post.data.tags?.map(tag => (
+													{post.frontmatter.tags?.map(tag => (
 														<span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">
 															{tag}
 														</span>
