@@ -9,7 +9,9 @@ type Props = CollectionEntry<'blog'>['data'] & {
 	currentSlug: string;
 };
 
-const { title, description, pubDate, updatedDate, heroImage, currentSlug } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, categories, tags, currentSlug } = Astro.props;
+
+
 
 // 獲取所有文章並排序
 const allPosts = await getCollection('blog').then(posts => 
@@ -85,6 +87,37 @@ const relatedPosts = allPosts
 									<span id="copy-text">複製</span>
 								</button>
 							</div>
+							
+							<!-- 分類和標籤 (手機版) -->
+							{(categories || tags) && (
+								<div class="mb-4">
+									{categories && categories.length > 0 && (
+										<div class="mb-2">
+											<span class="text-sm text-gray-600 dark:text-gray-400 mr-2">分類：</span>
+											<div class="inline-flex flex-wrap gap-2">
+												{categories.map(category => (
+													<span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full">
+														{category}
+													</span>
+												))}
+											</div>
+										</div>
+									)}
+									{tags && tags.length > 0 && (
+										<div>
+											<span class="text-sm text-gray-600 dark:text-gray-400 mr-2">標籤：</span>
+											<div class="inline-flex flex-wrap gap-2">
+												{tags.map(tag => (
+													<span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md">
+														{tag}
+													</span>
+												))}
+											</div>
+										</div>
+									)}
+								</div>
+							)}
+							
 							<!-- 日期獨占一行 -->
 							<div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4">
 								<time dateTime={pubDate.toISOString()}>
@@ -114,6 +147,37 @@ const relatedPosts = allPosts
 									<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
 										{title}
 									</h1>
+									
+									<!-- 分類和標籤 -->
+									{(categories || tags) && (
+										<div class="mb-4">
+											{categories && categories.length > 0 && (
+												<div class="mb-2">
+													<span class="text-sm text-gray-600 dark:text-gray-400 mr-2">分類：</span>
+													<div class="inline-flex flex-wrap gap-2">
+														{categories.map(category => (
+															<span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full">
+																{category}
+															</span>
+														))}
+													</div>
+												</div>
+											)}
+											{tags && tags.length > 0 && (
+												<div>
+													<span class="text-sm text-gray-600 dark:text-gray-400 mr-2">標籤：</span>
+													<div class="inline-flex flex-wrap gap-2">
+														{tags.map(tag => (
+															<span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md">
+																{tag}
+															</span>
+														))}
+													</div>
+												</div>
+											)}
+										</div>
+									)}
+									
 									<div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
 										<time dateTime={pubDate.toISOString()}>
 											{pubDate.toLocaleDateString('zh-TW', {

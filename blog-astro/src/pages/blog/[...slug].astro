@@ -13,8 +13,10 @@ type Props = CollectionEntry<'blog'> & { currentSlug: string };
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+
 ---
 
-<BlogPost {...post.data} currentSlug={post.currentSlug}>
+<BlogPost {...post.data} categories={post.rendered.metadata.frontmatter.categories} tags={post.rendered.metadata.frontmatter.tags} currentSlug={post.currentSlug}>
 	<Content />
 </BlogPost>
