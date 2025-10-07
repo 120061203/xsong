@@ -19,17 +19,10 @@ const allPosts = await getCollection('blog').then(posts =>
 // 找到當前文章的索引
 const currentIndex = allPosts.findIndex(post => post.id.replace(/\.(md|mdx)$/, '') === currentSlug);
 
-// 調試信息
-console.log('所有文章:', allPosts.map(p => ({ id: p.id, title: p.data.title, pubDate: p.data.pubDate })));
-console.log('當前文章索引:', currentIndex);
-console.log('當前文章:', currentSlug);
-
 // 上一篇和下一篇文章
 const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
-console.log('上一篇:', prevPost?.data.title);
-console.log('下一篇:', nextPost?.data.title);
 
 // 相關文章（排除當前文章，選擇最近的3篇）
 const relatedPosts = allPosts
