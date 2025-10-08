@@ -435,6 +435,38 @@ const projects: Project[] = [
       '快速存取的鍵盤快捷鍵',
       '玻璃擬態和現代 UI 效果'
     ]
+  },
+  {
+    id: 'jenkins-grafana',
+    title: 'Jenkins + Grafana Cloud 自動部署',
+    description: '完整的 DevOps 自動化流程，使用 Jenkins 自動部署 Grafana Dashboard 到 Grafana Cloud，並建立 24/7 網站監控系統。整合 Cloudflare Tunnel 暴露服務和 GitHub Webhook 觸發機制。',
+    longDescription: '這是一個完整的 CI/CD 專案，實現了 DevOps 自動化流程。使用 Jenkins 作為 CI/CD 工具，自動將 Grafana Dashboard 部署到 Grafana Cloud，並建立 24/7 網站監控系統。專案包含完整的自動化流程：GitHub Webhook 觸發 Jenkins 自動建置、Dashboard 自動上傳到 Grafana Cloud、部署結果自動檢查、告警自動發送到指定 email。整合了 Prometheus 監控、AlertManager 告警管理、Blackbox 外部監控等多種監控工具。使用 Cloudflare Tunnel 進行安全的服務暴露，提供完整的基礎設施監控解決方案。',
+    image: getProjectImageUrl('jenkins-grafana'),
+    technologies: ['Jenkins', 'Grafana Cloud', 'Prometheus', 'AlertManager', 'Blackbox', 'Docker', 'Terraform', 'MySQL', 'Nginx', 'Cloudflare Tunnel', 'GitHub Webhook', 'CI/CD', 'DevOps', '監控系統', '自動化部署', '告警系統'],
+    githubUrl: 'https://github.com/120061203/jenkins-grafana',
+    liveUrl: 'https://xsong.grafana.net/',
+    backgroundColor: 'bg-gradient-to-br from-blue-600 to-indigo-700',
+    textColor: 'text-white',
+    lastUpdated: '2025-10-08',
+    features: [
+      '✅ 自動觸發：GitHub Webhook → Jenkins 自動建置',
+      '✅ 自動部署：Dashboard 自動上傳到 Grafana Cloud',
+      '✅ 自動驗證：部署結果自動檢查',
+      '✅ 自動通知：告警發送到指定 email',
+      'Cloudflare Tunnel 安全服務暴露',
+      'GitHub Webhook 即時觸發機制',
+      'Jenkins Pipeline 自動化流程',
+      'Grafana Cloud Dashboard 管理',
+      'Prometheus 監控數據收集',
+      'AlertManager 告警規則配置',
+      'Blackbox 外部網站監控',
+      'Docker 容器化部署',
+      'Terraform 基礎設施管理',
+      'MySQL 數據庫監控',
+      'Nginx 反向代理配置',
+      '24/7 網站可用性監控',
+      '完整的 DevOps 最佳實踐'
+    ]
   }
 ];
 
