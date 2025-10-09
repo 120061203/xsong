@@ -501,7 +501,7 @@ const projects: Project[] = [
   },
   {
     id: 'smartWatch',
-    title: '智慧手錶專案 (Smart Watch)',
+    title: 'SmartWatch - 智慧手錶',
     description: '基於 ESP8266 的智慧手錶專案，整合多種感測器、MQTT 通訊協定、LINE Bot 聊天機器人和行事曆管理功能。即時監測生理數據和環境資訊，並透過 LINE Bot 提供互動式服務。',
     longDescription: '這是一個基於 ESP8266 的智慧手錶專案，整合了多種感測器、MQTT 通訊協定、LINE Bot 聊天機器人和行事曆管理功能。手錶能夠即時監測使用者的生理數據和環境資訊，並透過 LINE Bot 提供互動式服務。專案特色包括即時生理監測心率、體溫、濕度、海拔高度、OLED 顯示 128x64 像素螢幕支援時間顯示和感測器數據、MQTT 通訊即時數據傳輸和遠端控制、LINE Bot 整合透過 LINE 聊天機器人查詢數據和管理行事曆、行事曆管理新增查詢刪除個人行程、IoT Talk 整合支援 IoT Talk 平台數據交換。感測器支援包括 MAX30105 心率監測、HTU21DF 溫濕度感測、BMP085 氣壓和海拔測量、DHT11 溫濕度感測備用。',
     image: getProjectImageUrl('smartWatch'),
@@ -1191,11 +1191,18 @@ export default function ProjectsPage() {
                             href={selectedProject.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={() => trackLinkClick('Visit Website', selectedProject.liveUrl!)}
-                            className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-colors break-all"
+                            onClick={() => trackLinkClick(
+                              selectedProject.liveUrl!.includes('youtube.com') ? 'Watch on YouTube' : 'Visit Website', 
+                              selectedProject.liveUrl!
+                            )}
+                            className={`inline-flex items-center px-3 sm:px-4 py-2 text-white text-sm sm:text-base rounded-lg transition-colors break-all ${
+                              selectedProject.liveUrl.includes('youtube.com') 
+                                ? 'bg-red-600 hover:bg-red-700' 
+                                : 'bg-blue-600 hover:bg-blue-700'
+                            }`}
                           >
-                            <i className="fas fa-external-link-alt mr-2"></i>
-                            Visit Website
+                            <i className={`${selectedProject.liveUrl.includes('youtube.com') ? 'fab fa-youtube' : 'fas fa-external-link-alt'} mr-2`}></i>
+                            {selectedProject.liveUrl.includes('youtube.com') ? 'Watch on YouTube' : 'Visit Website'}
                           </a>
                         )}
                         {selectedProject.pdfUrl && (
