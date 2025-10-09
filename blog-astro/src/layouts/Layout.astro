@@ -327,6 +327,50 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			.prose pre + p {
 				margin-top: 1.5rem;
 			}
+
+			/* Footer 樣式 */
+			.footer-content {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1em;
+			}
+			.footer-links {
+				display: flex;
+				align-items: center;
+				gap: 1em;
+			}
+			.footer-link {
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				text-decoration: none;
+				color: rgb(107, 114, 128);
+				transition: color 0.3s ease;
+			}
+			.footer-link:hover {
+				color: rgb(31, 41, 55);
+			}
+			.dark .footer-link {
+				color: rgb(156, 163, 175);
+			}
+			.dark .footer-link:hover {
+				color: rgb(249, 250, 251);
+			}
+			.footer-link i {
+				font-size: 0.9em;
+			}
+			.separator {
+				color: rgb(107, 114, 128);
+				opacity: 0.6;
+			}
+			.dark .separator {
+				color: rgb(156, 163, 175);
+			}
+			.footer-copyright {
+				font-size: 0.9em;
+				opacity: 0.8;
+			}
 		</style>
 		<script is:inline>
 			tailwind.config = {
@@ -414,8 +458,21 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			<!-- Footer -->
 			<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
 				<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-					<div class="text-center text-gray-600 dark:text-gray-400">
-						<p>&copy; 2025 xsong.us. All rights reserved.</p>
+					<div class="footer-content">
+						<div class="footer-links">
+							<a href="/rss" class="footer-link">
+								<i class="fas fa-rss"></i>
+								RSS Feed
+							</a>
+							<span class="separator">|</span>
+							<a href="/about#contact" class="footer-link">
+								<i class="fas fa-envelope"></i>
+								Contact
+							</a>
+						</div>
+						<div class="footer-copyright">
+							&copy; 2025 xsong.us All Rights Reserved
+						</div>
 					</div>
 				</div>
 			</footer>
