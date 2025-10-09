@@ -978,7 +978,7 @@ export default function ProjectsPage() {
             <div
               key={project.id}
               id={`project-${project.id}`}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500 h-full flex flex-col"
               style={{ 
                 animationDelay: `${index * 150}ms`, // 每個卡片間隔 150ms
                 animationName: 'fadeInUp',
@@ -1063,7 +1063,7 @@ export default function ProjectsPage() {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-auto">
                     <span className="text-sm hover:underline cursor-pointer opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
                       View Details
                     </span>
