@@ -234,6 +234,30 @@ const projects: Project[] = [
     ]
   },
   {
+    id: 'gcp-terraform',
+    title: 'GCP Terraform 教學專案',
+    description: '完整的 GCP Terraform 教學專案，從基礎到生產環境的實作，涵蓋 VPC、Compute、GKE、Cloud SQL 與模組化最佳實踐。',
+    longDescription: '這是一個針對 Google Cloud Platform (GCP) 的 Terraform 教學專案，針對初學者到中級使用者設計，循序漸進地帶你從 Terraform 基礎到生產環境規劃。內容包含 VPC 網路、Compute Engine、GKE、Cloud SQL 與模組化設計等主題，並示範如何以 IaC 策略落地實作，最後提供環境分離與 CI/CD 整合的實戰案例。',
+    image: getProjectImageUrl('gcp-terraform'),
+    technologies: [
+      'Terraform', 'GCP', 'VPC', 'Compute Engine', 'GKE', 'Cloud SQL',
+      'Modules', 'IaC', 'CI/CD', 'gcloud', '安全最佳實踐'
+    ],
+    backgroundColor: 'bg-gradient-to-br from-sky-600 to-cyan-700',
+    textColor: 'text-white',
+    lastUpdated: '2025-09-15',
+    features: [
+      '第1章：Terraform 基礎、Provider 與 State 管理',
+      '第2章：VPC/子網/防火牆/路由配置',
+      '第3章：Compute Engine、磁碟、負載平衡與自動擴展',
+      '第4章：GKE 叢集、Node Pool、服務/Ingress 部署',
+      '第5章：Cloud SQL 建立、備份與高可用',
+      '第6章：模組化設計與版本管理',
+      '第7章：生產環境範例（dev/staging/prod）與變數管理',
+      '成本控管與清理腳本、實作練習與解答'
+    ]
+  },
+  {
     id: 'gogoshop',
     title: 'GOGO茶飲 - 線上飲料店系統',
     description: '完整的線上飲料店電商系統，包含用戶端購物功能和管理員後台，支援飲料客製化選項（甜度、冰塊、配料）和完整的訂單管理流程。',
