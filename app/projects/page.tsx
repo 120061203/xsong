@@ -633,7 +633,7 @@ const projects: Project[] = [
     liveUrl: 'https://120061203.github.io/timeManagerMaster/',
     backgroundColor: 'bg-[linear-gradient(135deg,#1e3a8a,#2563eb)]',
     textColor: 'text-white',
-    lastUpdated: '2025-10-09',
+    lastUpdated: '2024-06-17',
     features: [
       '指定數量切分：輸入目標數量 n，自動拆分批次（每批最多 n 個）',
       '彈性輸入：支援表單輸入或從既有資料來源貼上',
