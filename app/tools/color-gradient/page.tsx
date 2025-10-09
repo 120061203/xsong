@@ -26,6 +26,7 @@ export default function ColorToolPage() {
   const [dominant, setDominant] = useState<RGB | null>(null);
   const [fromHex, setFromHex] = useState<string>('#222222');
   const [toHex, setToHex] = useState<string>('#666666');
+  const [angleDeg, setAngleDeg] = useState<number>(135); // CSS 角度，預設右下（to bottom right）
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // 小型複製按鈕（成功後短暫變綠）
@@ -93,7 +94,7 @@ export default function ColorToolPage() {
     setToHex(rgbToHex(strongTo));
   }, [imageSrc, computeDominant]);
 
-  const gradientCss = useMemo(() => `linear-gradient(to bottom right, ${fromHex}, ${toHex})`, [fromHex, toHex]);
+  const gradientCss = useMemo(() => `linear-gradient(${angleDeg}deg, ${fromHex}, ${toHex})`, [fromHex, toHex, angleDeg]);
 
   const exportData = useMemo(() => {
     if (!dominant) return null;
@@ -104,11 +105,11 @@ export default function ColorToolPage() {
     return {
       dominant: { rgb: dominant, hex: domHex, cmyk },
       gradient: {
-        strong: { from: fromHex, to: toHex, twClass: `bg-[linear-gradient(to_bottom_right,${fromHex},${toHex})]` },
-        soft: { from: rgbToHex(softFrom), to: rgbToHex(softTo), twClass: `bg-[linear-gradient(to_bottom_right,${rgbToHex(softFrom)},${rgbToHex(softTo)})]` }
+        strong: { from: fromHex, to: toHex, angle: angleDeg, twClass: `bg-[linear-gradient(${angleDeg}deg,${fromHex},${toHex})]` },
+        soft: { from: rgbToHex(softFrom), to: rgbToHex(softTo), angle: angleDeg, twClass: `bg-[linear-gradient(${angleDeg}deg,${rgbToHex(softFrom)},${rgbToHex(softTo)})]` }
       }
     };
-  }, [dominant, fromHex, toHex]);
+  }, [dominant, fromHex, toHex, angleDeg]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -177,6 +178,34 @@ export default function ColorToolPage() {
           <input type="color" value={toHex} onChange={(e) => setToHex(e.target.value)} className="w-12 h-10 p-0 border rounded ml-2" />
           <span className="ml-3 text-sm">{toHex}</span>
           <CopyBtn text={toHex} title="複製 To HEX" />
+        </div>
+      </div>
+
+      {/* Angle editor */}
+      <div className="mb-6">
+        <label className="block text-sm mb-2">漸層角度：<span className="font-mono">{angleDeg}°</span></label>
+        <div className="flex items-center gap-3">
+          <input
+            type="range"
+            min={0}
+            max={360}
+            value={angleDeg}
+            onChange={(e) => setAngleDeg(Number(e.target.value))}
+            className="w-64"
+          />
+          <input
+            type="number"
+            min={0}
+            max={360}
+            value={angleDeg}
+            onChange={(e) => setAngleDeg(Math.max(0, Math.min(360, Number(e.target.value))))}
+            className="w-20 px-2 py-1 border rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+          />
+          <div className="flex flex-wrap gap-2 text-sm">
+            {[45, 90, 135, 180, 225, 270].map(a => (
+              <button key={a} onClick={() => setAngleDeg(a)} className={`px-2 py-1 rounded border ${angleDeg===a?'bg-blue-600 text-white border-blue-600':'bg-white/10 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600'}`}>{a}°</button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -253,7 +282,13 @@ export default function ColorToolPage() {
               c.width = w; c.height = h;
               const ctx = c.getContext('2d');
               if (!ctx) return;
-              const grad = ctx.createLinearGradient(0, 0, w, h);
+              // Canvas 方向與 CSS 角度定義不同，這裡將 CSS 角度轉為畫布向量
+              const rad = (Math.PI / 180) * (90 - angleDeg); // 將 0°(上) -> 90°(右) 轉成數學角度
+              const cx = w / 2; const cy = h / 2;
+              const rx = Math.cos(rad); const ry = Math.sin(rad);
+              const x0 = cx - rx * w; const y0 = cy + ry * h;
+              const x1 = cx + rx * w; const y1 = cy - ry * h;
+              const grad = ctx.createLinearGradient(x0, y0, x1, y1);
               grad.addColorStop(0, fromHex);
               grad.addColorStop(1, toHex);
               ctx.fillStyle = grad;
