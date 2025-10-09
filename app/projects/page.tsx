@@ -533,7 +533,7 @@ const projects: Project[] = [
     technologies: ['ESP8266', 'Arduino', 'C++', 'Python', 'Django', 'MQTT', 'LINE Bot API', 'OLED', 'MAX30105', 'HTU21DF', 'BMP085', 'DHT11', 'IoT', '物聯網', '嵌入式系統', '聊天機器人', 'SQLite', 'WiFi', 'I2C'],
     githubUrl: 'https://github.com/120061203/smartWatch',
     liveUrl: 'https://www.youtube.com/watch?v=pxb9cMqjrr4',
-    backgroundColor: 'bg-gradient-to-br from-purple-600 to-pink-700',
+    backgroundColor: 'bg-gradient-to-br from-teal-600 to-emerald-700',
     textColor: 'text-white',
     lastUpdated: '2022-06-19',
     features: [
