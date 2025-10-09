@@ -120,7 +120,7 @@ export default function ColorToolPage() {
       <div
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => { e.preventDefault(); onDrop(e.dataTransfer.files); }}
-        className="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center mb-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors min-h-[180px] flex items-center justify-center"
+        className="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center mb-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors h-64 flex items-center justify-center"
       >
         <input type="file" accept="image/*" className="hidden" id="file-input"
           onChange={(e) => onDrop(e.target.files)} />
@@ -134,15 +134,19 @@ export default function ColorToolPage() {
             拖放圖片到此處，或點擊選擇圖片
           </label>
         ) : (
-          <div className="relative inline-block">
+          <div className="relative w-full h-full">
             {/* 使用原生 img 便於即時載入 DataURL，此處預覽不參與 LCP */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageSrc} alt="preview" className="max-h-40 rounded border border-gray-200 dark:border-gray-700" />
-            {/* 移除圖片按鈕 */}
+            <img
+              src={imageSrc}
+              alt="preview"
+              className="absolute inset-0 m-auto max-h-full max-w-full object-contain rounded border border-gray-200 dark:border-gray-700"
+            />
+            {/* 移除圖片按鈕（固定在右上角） */}
             <button
               type="button"
               onClick={() => { setImageSrc(null); setDominant(null); }}
-              className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 shadow ring-1 ring-white/60"
+              className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 shadow ring-1 ring-white/60"
               aria-label="移除圖片"
               title="移除圖片"
             >
