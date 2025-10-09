@@ -81,6 +81,7 @@ interface Project {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
+  figmaUrl?: string;
   pdfUrl?: string;
   features: string[];
   backgroundColor: string;
@@ -628,9 +629,10 @@ const projects: Project[] = [
     description: '將任務依指定數量切分與分配，適合平均拆分待辦、依時段/人力/裝置容量進行批次處理。',
     longDescription: 'Time Manager Master 是一個可將一長串任務清單依指定數量 n 拆分為若干批次的工具。支援貼上或表單輸入、即時預覽切分結果，未來可擴充分享/導出等功能。適合將待辦分派給多人（每人 5 個）、依時段規劃批次（每時段 10 個），或按裝置/節點容量拆分（每台機器 100 個）。',
     image: getProjectImageUrl('time-manager-master'),
-    technologies: ['React', 'TypeScript', 'Create React App', 'Jest', 'React Testing Library', 'CSS', 'Node.js', 'npm'],
+    technologies: ['React', 'TypeScript', 'Create React App', 'Jest', 'React Testing Library', 'CSS', 'Node.js', 'npm', 'Figma', 'UI', 'Design'],
     githubUrl: 'https://github.com/120061203/timeManagerMaster',
     liveUrl: 'https://120061203.github.io/timeManagerMaster/',
+    figmaUrl: 'https://www.figma.com/proto/hhdYSyzxvzJwQqGfxHa8lZ/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E5%A4%A7%E5%B8%AB?node-id=1-2&starting-point-node-id=1%3A2',
     backgroundColor: 'bg-[linear-gradient(135deg,#1e3a8a,#2563eb)]',
     textColor: 'text-white',
     lastUpdated: '2024-06-17',
@@ -1353,6 +1355,18 @@ export default function ProjectsPage() {
                           >
                             <i className={`${selectedProject.liveUrl.includes('youtube.com') ? 'fab fa-youtube' : 'fas fa-external-link-alt'} mr-2`}></i>
                             {selectedProject.liveUrl.includes('youtube.com') ? 'Watch on YouTube' : 'Visit Website'}
+                          </a>
+                        )}
+                        {selectedProject.figmaUrl && (
+                          <a
+                            href={selectedProject.figmaUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackLinkClick('Figma Prototype', selectedProject.figmaUrl!)}
+                            className="inline-flex items-center px-3 sm:px-4 py-2 bg-purple-600 text-white text-sm sm:text-base rounded-lg hover:bg-purple-700 transition-colors break-all"
+                          >
+                            <i className="fab fa-figma mr-2"></i>
+                            View Figma Prototype
                           </a>
                         )}
                         {selectedProject.pdfUrl && (
