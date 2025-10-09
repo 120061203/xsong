@@ -597,6 +597,27 @@ const projects: Project[] = [
       '數據交換：支援 IoT Talk 平台數據交換'
     ]
   }
+  ,
+  {
+    id: 'solar-smart-blinds',
+    title: '太陽能智能百葉窗 (Solar Smart Blinds)',
+    description: '以物聯網結合太陽能供電與光感測，智慧調節百葉窗角度，降低室內溫度並提升能源效率。',
+    longDescription: '太陽能智能百葉窗是一個結合物聯網技術的創新解決方案，針對建築物西曬等高熱負載情境，透過 TSL2591 高精度光感測器偵測環境光線強度，結合太陽能板供電與 MG996R 伺服馬達的精準角度控制，自動調整百葉窗角度，有效降低室內溫度並節能。系統採用 ESP8266 (NodeMCU) 作為主控，內建 Web 介面與 WiFi 遠端控制，支援手動與自動雙模式。',
+    image: getProjectImageUrl('solar-smart-blinds'),
+    technologies: ['IoT', 'ESP8266', 'NodeMCU', 'TSL2591', 'MG996R', 'Arduino', 'Web Server', 'WiFi', 'Solar Power', 'Energy Saving'],
+    liveUrl: 'https://www.youtube.com/watch?v=5qzH5zYsH84',
+    backgroundColor: 'bg-[linear-gradient(135deg,#172f52,#214375)]',
+    textColor: 'text-white',
+    lastUpdated: '2020-07-01',
+    features: [
+      '太陽能供電：整合太陽能板，綠能自給自足',
+      '智能光感測：TSL2591 高精度感測環境光線',
+      '自動調節：依光強自動調整百葉窗角度',
+      '精準控制：MG996R 伺服馬達角度控制',
+      '物聯網控制：WiFi 遠端與內建 Web 介面',
+      '雙模式：自動/手動模式切換'
+    ]
+  }
 ];
 
 // 按更新日期排序（最新的在前）
