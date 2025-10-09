@@ -152,9 +152,9 @@ export default function ColorToolPage() {
         )}
       </div>
 
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-6">
         <button onClick={handleAnalyze} disabled={!imageSrc}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50">
+          className="w-full md:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50">
           擷取主色並生成漸層
         </button>
         {dominant && (
