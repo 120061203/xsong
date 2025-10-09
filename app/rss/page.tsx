@@ -54,20 +54,28 @@ export default function RSSPage() {
             // 使用預設數據
             setRecentPosts([
               {
-                title: "工作兩個月的心態反思",
+                title: "工作2個月心得-部署策略與資安洩漏",
                 slug: "work-two-month-reflection",
-                date: "2025-09-05 14:07",
-                description: "分享新鮮人進入職場兩個月的心得與反思，包含技術學習、團隊合作和職涯規劃...",
-                categories: ["職涯分享"],
-                tags: ["工作心得", "職涯發展"]
+                date: "2025-10-04 21:00",
+                description: "本月發生疑似資安洩漏事件與多種部署策略的講解",
+                categories: ["工作日記", "技術分享"],
+                tags: ["資安洩漏", "部署策略"]
               },
               {
-                title: "我的第一個技術部落格",
+                title: "工作1個月的心態",
+                slug: "work-one-month-reflection",
+                date: "2025-09-05 14:07",
+                description: "分享職場初體驗的酸甜苦辣",
+                categories: ["工作日記"],
+                tags: ["新鮮人就業", "職場心得"]
+              },
+              {
+                title: "我的第一篇文章",
                 slug: "my-first-article", 
                 date: "2025-09-04 10:30",
-                description: "記錄建立個人技術部落格的過程，從技術選型到部署上線的完整經驗分享...",
+                description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向",
                 categories: ["技術分享"],
-                tags: ["部落格", "技術選型"]
+                tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
               }
             ]);
           }
@@ -75,20 +83,28 @@ export default function RSSPage() {
           // 如果無法獲取，使用預設數據
           setRecentPosts([
             {
-              title: "工作兩個月的心態反思",
+              title: "工作2個月心得-部署策略與資安洩漏",
               slug: "work-two-month-reflection",
-              date: "2025-09-05 14:07",
-              description: "分享新鮮人進入職場兩個月的心得與反思，包含技術學習、團隊合作和職涯規劃...",
-              categories: ["職涯分享"],
-              tags: ["工作心得", "職涯發展"]
+              date: "2025-10-04 21:00",
+              description: "本月發生疑似資安洩漏事件與多種部署策略的講解",
+              categories: ["工作日記", "技術分享"],
+              tags: ["資安洩漏", "部署策略"]
             },
             {
-              title: "我的第一個技術部落格",
+              title: "工作1個月的心態",
+              slug: "work-one-month-reflection",
+              date: "2025-09-05 14:07",
+              description: "分享職場初體驗的酸甜苦辣",
+              categories: ["工作日記"],
+              tags: ["新鮮人就業", "職場心得"]
+            },
+            {
+              title: "我的第一篇文章",
               slug: "my-first-article", 
               date: "2025-09-04 10:30",
-              description: "記錄建立個人技術部落格的過程，從技術選型到部署上線的完整經驗分享...",
+              description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向",
               categories: ["技術分享"],
-              tags: ["部落格", "技術選型"]
+              tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
             }
           ]);
         }
@@ -97,20 +113,28 @@ export default function RSSPage() {
         // 使用預設數據
         setRecentPosts([
           {
-            title: "工作兩個月的心態反思",
+            title: "工作2個月心得-部署策略與資安洩漏",
             slug: "work-two-month-reflection",
-            date: "2025-09-05 14:07",
-            description: "分享新鮮人進入職場兩個月的心得與反思，包含技術學習、團隊合作和職涯規劃...",
-            categories: ["職涯分享"],
-            tags: ["工作心得", "職涯發展"]
+            date: "2025-10-04 21:00",
+            description: "本月發生疑似資安洩漏事件與多種部署策略的講解",
+            categories: ["工作日記", "技術分享"],
+            tags: ["資安洩漏", "部署策略"]
           },
           {
-            title: "我的第一個技術部落格",
+            title: "工作1個月的心態",
+            slug: "work-one-month-reflection",
+            date: "2025-09-05 14:07",
+            description: "分享職場初體驗的酸甜苦辣",
+            categories: ["工作日記"],
+            tags: ["新鮮人就業", "職場心得"]
+          },
+          {
+            title: "我的第一篇文章",
             slug: "my-first-article", 
             date: "2025-09-04 10:30",
-            description: "記錄建立個人技術部落格的過程，從技術選型到部署上線的完整經驗分享...",
+            description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向",
             categories: ["技術分享"],
-            tags: ["部落格", "技術選型"]
+            tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
           }
         ]);
       } finally {
