@@ -331,11 +331,12 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			/* Footer 樣式 */
 			.footer-content {
 				display: flex;
-				flex-direction: row; /* 同一行顯示 */
+				flex-direction: row;
 				align-items: center;
-				justify-content: center;
-				gap: 1.25em;
-				flex-wrap: wrap; /* 小螢幕時允許換行 */
+				justify-content: space-between; /* 左右兩側分佈 */
+				gap: 1em;
+				flex-wrap: wrap;
+				width: 100%;
 			}
 			.footer-links {
 				display: flex;
@@ -461,22 +462,22 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			<!-- Footer -->
 			<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
 				<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-					<div class="footer-content">
-						<div class="footer-links">
-							<a href="/rss" class="footer-link">
-								<i class="fas fa-rss"></i>
-								RSS Feed
-							</a>
-							<span class="separator">|</span>
-							<a href="/about#contact" class="footer-link">
-								<i class="fas fa-envelope"></i>
-								Contact
-							</a>
-						</div>
-						<div class="footer-copyright">
-							&copy; 2025 xsong.us All Rights Reserved
-						</div>
+				<div class="footer-content">
+					<div class="footer-copyright">
+						&copy; 2025 xsong.us All Rights Reserved
 					</div>
+					<div class="footer-links">
+						<a href="/rss" class="footer-link">
+							<i class="fas fa-rss"></i>
+							RSS Feed
+						</a>
+						<span class="separator">|</span>
+						<a href="/about#contact" class="footer-link">
+							<i class="fas fa-envelope"></i>
+							Contact
+						</a>
+					</div>
+				</div>
 				</div>
 			</footer>
 		</div>
