@@ -1022,7 +1022,7 @@ export default function ProjectsPage() {
                           : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                       }`}
                     >
-                      All
+                      All ({allTechnologies.length})
                     </button>
                   </div>
 
@@ -1041,7 +1041,7 @@ export default function ProjectsPage() {
                         : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                     }`}
                   >
-                    {tech}
+                    {tech} ({projects.filter(p => p.technologies.includes(tech)).length})
                   </button>
                 ))}
               </div>
@@ -1058,7 +1058,7 @@ export default function ProjectsPage() {
                           : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
                       }`}
                     >
-                      {tech}
+                      {tech} ({projects.filter(p => p.technologies.includes(tech)).length})
                     </button>
                   ),
                   title: tech,
