@@ -756,6 +756,43 @@ export default function ProjectsPage() {
     }
   }, []);
 
+  // 錨點檢測和自動打開專案
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#project-')) {
+        const projectId = hash.replace('#project-', '');
+        const project = projects.find(p => p.id === projectId);
+        if (project) {
+          // 滾動到對應專案
+          const element = document.getElementById(`project-${projectId}`);
+          if (element) {
+            element.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
+            
+            // 延遲打開專案詳情，讓滾動動畫完成
+            setTimeout(() => {
+              setSelectedProject(project);
+              trackProjectView(project.title);
+            }, 800);
+          }
+        }
+      }
+    };
+
+    // 頁面載入時檢查錨點
+    handleHashChange();
+
+    // 監聽 hash 變化
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
+
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 
     : sortedProjects.filter(project => project.technologies.includes(selectedFilter));
@@ -849,6 +886,7 @@ export default function ProjectsPage() {
           {filteredProjects.map((project, index) => (
             <div
               key={project.id}
+              id={`project-${project.id}`}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl cursor-pointer border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500"
               style={{ 
                 animationDelay: `${index * 150}ms`, // 每個卡片間隔 150ms
@@ -938,7 +976,37 @@ export default function ProjectsPage() {
                     <span className="text-sm hover:underline cursor-pointer opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
                       View Details
                     </span>
-                    <i className="fas fa-external-link-alt opacity-75 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"></i>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const projectUrl = `${window.location.origin}/projects#project-${project.id}`;
+                          navigator.clipboard.writeText(projectUrl);
+                          // 視覺反饋
+                          const button = e.currentTarget;
+                          const originalIcon = button.querySelector('svg').outerHTML;
+                          button.querySelector('svg').outerHTML = `
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                          `;
+                          button.classList.add('bg-green-500', 'text-green-100');
+                          button.classList.remove('bg-white', 'bg-opacity-20');
+                          setTimeout(() => {
+                            button.querySelector('svg').outerHTML = originalIcon;
+                            button.classList.remove('bg-green-500', 'text-green-100');
+                            button.classList.add('bg-white', 'bg-opacity-20');
+                          }, 2000);
+                        }}
+                        className="px-2 py-1 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 border border-white border-opacity-30"
+                        title="複製專案連結"
+                      >
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </button>
+                      <i className="fas fa-external-link-alt opacity-75 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"></i>
+                    </div>
                   </div>
                 </div>
               </div>
