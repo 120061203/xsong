@@ -1,0 +1,227 @@
+{
+  "AirPocket": {
+    "dominant": "#add982",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#79985b",
+        "to": "#add982",
+        "class": "bg-[linear-gradient(to_bottom_right,#79985b,#add982)]"
+      },
+      "gradientSoft": {
+        "from": "#93b86f",
+        "to": "#c7fa96",
+        "class": "bg-[linear-gradient(to_bottom_right,#93b86f,#c7fa96)]"
+      }
+    }
+  },
+  "app-hub": {
+    "dominant": "#979edb",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#6a6f99",
+        "to": "#979edb",
+        "class": "bg-[linear-gradient(to_bottom_right,#6a6f99,#979edb)]"
+      },
+      "gradientSoft": {
+        "from": "#8086ba",
+        "to": "#aeb6fc",
+        "class": "bg-[linear-gradient(to_bottom_right,#8086ba,#aeb6fc)]"
+      }
+    }
+  },
+  "aws-ab-testing-a": {
+    "dominant": "#bbbbdd",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#83839b",
+        "to": "#bbbbdd",
+        "class": "bg-[linear-gradient(to_bottom_right,#83839b,#bbbbdd)]"
+      },
+      "gradientSoft": {
+        "from": "#9f9fbc",
+        "to": "#d7d7fe",
+        "class": "bg-[linear-gradient(to_bottom_right,#9f9fbc,#d7d7fe)]"
+      }
+    }
+  },
+  "aws-ab-testing-b": {
+    "dominant": "#f5af9f",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#ac7a6f",
+        "to": "#f5af9f",
+        "class": "bg-[linear-gradient(to_bottom_right,#ac7a6f,#f5af9f)]"
+      },
+      "gradientSoft": {
+        "from": "#d09587",
+        "to": "#ffc9b7",
+        "class": "bg-[linear-gradient(to_bottom_right,#d09587,#ffc9b7)]"
+      }
+    }
+  },
+  "aws-deployment-strategies": {
+    "dominant": "#8c85ce",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#625d90",
+        "to": "#8c85ce",
+        "class": "bg-[linear-gradient(to_bottom_right,#625d90,#8c85ce)]"
+      },
+      "gradientSoft": {
+        "from": "#7771af",
+        "to": "#a199ed",
+        "class": "bg-[linear-gradient(to_bottom_right,#7771af,#a199ed)]"
+      }
+    }
+  },
+  "calendar-todo-app": {
+    "dominant": "#f8f9f9",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#aeaeae",
+        "to": "#f8f9f9",
+        "class": "bg-[linear-gradient(to_bottom_right,#aeaeae,#f8f9f9)]"
+      },
+      "gradientSoft": {
+        "from": "#d3d4d4",
+        "to": "#ffffff",
+        "class": "bg-[linear-gradient(to_bottom_right,#d3d4d4,#ffffff)]"
+      }
+    }
+  },
+  "cv-latex": {
+    "dominant": "#f4f4f4",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#ababab",
+        "to": "#f4f4f4",
+        "class": "bg-[linear-gradient(to_bottom_right,#ababab,#f4f4f4)]"
+      },
+      "gradientSoft": {
+        "from": "#cfcfcf",
+        "to": "#ffffff",
+        "class": "bg-[linear-gradient(to_bottom_right,#cfcfcf,#ffffff)]"
+      }
+    }
+  },
+  "gcp-terraform": {
+    "dominant": "#244d87",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#19365f",
+        "to": "#244d87",
+        "class": "bg-[linear-gradient(to_bottom_right,#19365f,#244d87)]"
+      },
+      "gradientSoft": {
+        "from": "#1f4173",
+        "to": "#29599b",
+        "class": "bg-[linear-gradient(to_bottom_right,#1f4173,#29599b)]"
+      }
+    }
+  },
+  "go-shorturl": {
+    "dominant": "#302b4b",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#221e35",
+        "to": "#302b4b",
+        "class": "bg-[linear-gradient(to_bottom_right,#221e35,#302b4b)]"
+      },
+      "gradientSoft": {
+        "from": "#292540",
+        "to": "#373156",
+        "class": "bg-[linear-gradient(to_bottom_right,#292540,#373156)]"
+      }
+    }
+  },
+  "gogoshop": {
+    "dominant": "#f0dbb4",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#a8997e",
+        "to": "#f0dbb4",
+        "class": "bg-[linear-gradient(to_bottom_right,#a8997e,#f0dbb4)]"
+      },
+      "gradientSoft": {
+        "from": "#ccba99",
+        "to": "#fffccf",
+        "class": "bg-[linear-gradient(to_bottom_right,#ccba99,#fffccf)]"
+      }
+    }
+  },
+  "jenkins-grafana": {
+    "dominant": "#fbfbfc",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#b0b0b0",
+        "to": "#fbfbfc",
+        "class": "bg-[linear-gradient(to_bottom_right,#b0b0b0,#fbfbfc)]"
+      },
+      "gradientSoft": {
+        "from": "#d5d5d6",
+        "to": "#ffffff",
+        "class": "bg-[linear-gradient(to_bottom_right,#d5d5d6,#ffffff)]"
+      }
+    }
+  },
+  "smartWatch": {
+    "dominant": "#1b253e",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#131a2b",
+        "to": "#1b253e",
+        "class": "bg-[linear-gradient(to_bottom_right,#131a2b,#1b253e)]"
+      },
+      "gradientSoft": {
+        "from": "#171f35",
+        "to": "#1f2b47",
+        "class": "bg-[linear-gradient(to_bottom_right,#171f35,#1f2b47)]"
+      }
+    }
+  },
+  "tab-library": {
+    "dominant": "#7a838a",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#555c61",
+        "to": "#7a838a",
+        "class": "bg-[linear-gradient(to_bottom_right,#555c61,#7a838a)]"
+      },
+      "gradientSoft": {
+        "from": "#686f75",
+        "to": "#8c979f",
+        "class": "bg-[linear-gradient(to_bottom_right,#686f75,#8c979f)]"
+      }
+    }
+  },
+  "whiteboard-tool": {
+    "dominant": "#4d5460",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#363b43",
+        "to": "#4d5460",
+        "class": "bg-[linear-gradient(to_bottom_right,#363b43,#4d5460)]"
+      },
+      "gradientSoft": {
+        "from": "#414752",
+        "to": "#59616e",
+        "class": "bg-[linear-gradient(to_bottom_right,#414752,#59616e)]"
+      }
+    }
+  },
+  "xsong-personal-website": {
+    "dominant": "#202836",
+    "suggestions": {
+      "gradientStrong": {
+        "from": "#161c26",
+        "to": "#202836",
+        "class": "bg-[linear-gradient(to_bottom_right,#161c26,#202836)]"
+      },
+      "gradientSoft": {
+        "from": "#1b222e",
+        "to": "#252e3e",
+        "class": "bg-[linear-gradient(to_bottom_right,#1b222e,#252e3e)]"
+      }
+    }
+  }
+}
