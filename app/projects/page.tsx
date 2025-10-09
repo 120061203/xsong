@@ -469,7 +469,7 @@ const projects: Project[] = [
     ]
   },
   {
-    id: 'airpocket',
+    id: 'AirPocket',
     title: 'AirPocket - 空氣口袋',
     description: '結合 IoT 裝置、Android 應用程式與後端服務的智慧空氣品質監測系統。整合 EPA 和 LASS 開放資料，提供即時空氣品質資訊與景點推薦功能。',
     longDescription: 'AirPocket（空氣口袋）是一個創新的空氣品質監測平台，透過自製的 IoT 感測器裝置、Android 行動應用程式，以及整合 EPA 和 LASS 開放資料，為使用者提供即時、準確的空氣品質資訊。系統不僅能監測空氣品質，還能推薦適合的旅遊景點，並提供社交功能讓使用者分享資訊。專案特色包括即時空氣品質監測整合 EPA 官方測站與 LASS 社群資料、IoT 裝置連接支援藍牙連接自製空氣品質感測器、智慧地圖顯示 Google Maps 整合視覺化顯示空氣品質數據、景點推薦系統基於空氣品質推薦適合的旅遊景點、社交功能好友系統與資料分享、個人化設定空汙警報閾值設定。',
