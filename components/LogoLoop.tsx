@@ -70,7 +70,7 @@ const useResizeObserver = (
     return () => {
       observers.forEach(observer => observer?.disconnect());
     };
-  }, [callback, elements, ...dependencies]);
+  }, [callback, elements]);
 };
 
 const useImageLoader = (
@@ -110,7 +110,7 @@ const useImageLoader = (
         img.removeEventListener('error', handleImageLoad);
       });
     };
-  }, [onLoad, seqRef, ...dependencies]);
+  }, [onLoad, seqRef]);
 };
 
 const useAnimationLoop = (
@@ -255,7 +255,6 @@ export const LogoLoop = React.memo<LogoLoopProps>(
       ) : (
         <Image
           src={item.src}
-          srcSet={item.srcSet}
           sizes={item.sizes}
           width={item.width}
           height={item.height}
