@@ -621,6 +621,26 @@ const projects: Project[] = [
       '雙模式：自動/手動模式切換'
     ]
   }
+  ,
+  {
+    id: 'time-manager-master',
+    title: 'Time Manager Master - 任務批次切分工具',
+    description: '將任務依指定數量切分與分配，適合平均拆分待辦、依時段/人力/裝置容量進行批次處理。',
+    longDescription: 'Time Manager Master 是一個可將一長串任務清單依指定數量 n 拆分為若干批次的工具。支援貼上或表單輸入、即時預覽切分結果，未來可擴充分享/導出等功能。適合將待辦分派給多人（每人 5 個）、依時段規劃批次（每時段 10 個），或按裝置/節點容量拆分（每台機器 100 個）。',
+    image: getProjectImageUrl('time-manager-master'),
+    technologies: ['React', 'TypeScript', 'Create React App', 'Jest', 'React Testing Library', 'CSS', 'Node.js', 'npm'],
+    githubUrl: 'https://github.com/120061203/timeManagerMaster',
+    liveUrl: 'https://120061203.github.io/timeManagerMaster/',
+    backgroundColor: 'bg-[linear-gradient(135deg,#1e3a8a,#2563eb)]',
+    textColor: 'text-white',
+    lastUpdated: '2025-10-09',
+    features: [
+      '指定數量切分：輸入目標數量 n，自動拆分批次（每批最多 n 個）',
+      '彈性輸入：支援表單輸入或從既有資料來源貼上',
+      '即時預覽：切分結果即時顯示，便於微調',
+      '分享/導出：可複製、下載或分享切分結果（可擴充）'
+    ]
+  }
 ];
 
 // 按更新日期排序（最新的在前）
