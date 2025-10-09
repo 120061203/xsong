@@ -444,7 +444,7 @@ const projects: Project[] = [
     image: getProjectImageUrl('jenkins-grafana'),
     technologies: ['Jenkins', 'Grafana Cloud', 'Prometheus', 'AlertManager', 'Blackbox', 'Docker', 'Terraform', 'MySQL', 'Nginx', 'Cloudflare Tunnel', 'GitHub Webhook', 'CI/CD', 'DevOps', '監控系統', '自動化部署', '告警系統'],
     githubUrl: 'https://github.com/120061203/jenkins-grafana',
-    liveUrl: 'https://xsong.grafana.net/',
+    liveUrl: 'https://xsong.grafana.net/a/grafana-synthetic-monitoring-app/checks',
     backgroundColor: 'bg-gradient-to-br from-blue-600 to-indigo-700',
     textColor: 'text-white',
     lastUpdated: '2025-10-08',
