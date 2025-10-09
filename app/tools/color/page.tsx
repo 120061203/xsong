@@ -7,10 +7,7 @@ type RGB = { r: number; g: number; b: number };
 function clamp(n: number, min = 0, max = 255) { return Math.max(min, Math.min(max, n)); }
 function toHex(n: number) { return n.toString(16).padStart(2, '0'); }
 function rgbToHex({ r, g, b }: RGB) { return `#${toHex(r)}${toHex(g)}${toHex(b)}`; }
-function hexToRgb(hex: string): RGB {
-  const h = hex.replace('#', '');
-  return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
-}
+// 保留如需之後擴充，先移除未使用函式以通過 ESLint
 function rgbToCmyk({ r, g, b }: RGB) {
   const rr = r / 255, gg = g / 255, bb = b / 255;
   const k = 1 - Math.max(rr, gg, bb);
@@ -133,6 +130,8 @@ export default function ColorToolPage() {
 
       {imageSrc && (
         <div className="mb-4">
+          {/* 使用原生 img 便於即時載入 DataURL，此處預覽不參與 LCP */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={imageSrc} alt="preview" className="max-h-60 rounded border border-gray-200 dark:border-gray-700" />
         </div>
       )}
