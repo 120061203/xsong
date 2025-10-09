@@ -650,6 +650,7 @@ const projects: Project[] = [
     image: getProjectImageUrl('seismic-Mini-Houses'),
     technologies: ['ESP32', 'MPU6050', 'MQTT', 'Node-RED', 'Arduino IDE', 'C++', 'STEM', 'IoT'],
     githubUrl: 'https://github.com/120061203/seismic-Mini-Houses',
+    liveUrl: 'https://docs.google.com/presentation/d/14juVDNWW6G2ekUi6InJelPNI09F7_nUu7zZbT7NLxyE/edit?usp=drive_link',
     backgroundColor: 'bg-[linear-gradient(135deg,#0f172a,#1e293b)]',
     textColor: 'text-white',
     lastUpdated: '2025-01-21',
