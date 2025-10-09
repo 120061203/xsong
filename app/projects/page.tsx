@@ -498,6 +498,41 @@ const projects: Project[] = [
       'MQTT 訊息傳遞',
       'HTTP API 整合'
     ]
+  },
+  {
+    id: 'smartWatch',
+    title: '智慧手錶專案 (Smart Watch)',
+    description: '基於 ESP8266 的智慧手錶專案，整合多種感測器、MQTT 通訊協定、LINE Bot 聊天機器人和行事曆管理功能。即時監測生理數據和環境資訊，並透過 LINE Bot 提供互動式服務。',
+    longDescription: '這是一個基於 ESP8266 的智慧手錶專案，整合了多種感測器、MQTT 通訊協定、LINE Bot 聊天機器人和行事曆管理功能。手錶能夠即時監測使用者的生理數據和環境資訊，並透過 LINE Bot 提供互動式服務。專案特色包括即時生理監測心率、體溫、濕度、海拔高度、OLED 顯示 128x64 像素螢幕支援時間顯示和感測器數據、MQTT 通訊即時數據傳輸和遠端控制、LINE Bot 整合透過 LINE 聊天機器人查詢數據和管理行事曆、行事曆管理新增查詢刪除個人行程、IoT Talk 整合支援 IoT Talk 平台數據交換。感測器支援包括 MAX30105 心率監測、HTU21DF 溫濕度感測、BMP085 氣壓和海拔測量、DHT11 溫濕度感測備用。',
+    image: getProjectImageUrl('smartWatch'),
+    technologies: ['ESP8266', 'Arduino', 'C++', 'Python', 'Django', 'MQTT', 'LINE Bot API', 'OLED', 'MAX30105', 'HTU21DF', 'BMP085', 'DHT11', 'IoT', '物聯網', '嵌入式系統', '聊天機器人', 'SQLite', 'WiFi', 'I2C'],
+    githubUrl: 'https://github.com/120061203/smartWatch',
+    liveUrl: 'https://www.youtube.com/watch?v=pxb9cMqjrr4',
+    backgroundColor: 'bg-gradient-to-br from-purple-600 to-pink-700',
+    textColor: 'text-white',
+    lastUpdated: '2022-06-19',
+    features: [
+      '🏆 2022數位聯網智動化創新應用競賽 - 佳作',
+      '即時生理監測：心率、體溫、濕度、海拔高度',
+      'OLED 顯示：128x64 像素螢幕，支援時間顯示和感測器數據',
+      'MQTT 通訊：即時數據傳輸和遠端控制',
+      'LINE Bot 整合：透過 LINE 聊天機器人查詢數據和管理行事曆',
+      '行事曆管理：新增、查詢、刪除個人行程',
+      'IoT Talk 整合：支援 IoT Talk 平台數據交換',
+      '感測器支援：MAX30105 心率監測、HTU21DF 溫濕度感測',
+      '氣壓測量：BMP085 氣壓和海拔測量',
+      '備用感測器：DHT11 溫濕度感測',
+      '系統架構：智慧手錶 → MQTT Broker → Django LINE Bot Server',
+      '硬體整合：ESP8266 開發板與多種感測器',
+      '軟體架構：Arduino 程式碼 + Python Django 後端',
+      '通訊協定：WiFi、MQTT、HTTP、I2C',
+      '資料庫：SQLite 儲存使用者資料和行事曆',
+      '顯示技術：SSD1306 OLED 顯示器',
+      '登山救援：專為登山救援設計的智慧手錶',
+      '即時監控：24/7 生理數據監測',
+      '遠端控制：透過 LINE Bot 遠端管理手錶功能',
+      '數據交換：支援 IoT Talk 平台數據交換'
+    ]
   }
 ];
 
