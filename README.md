@@ -310,3 +310,22 @@ npm run img:webp && npm run gen:colors
 ```
 
 小提醒：若新增了新的 `<projectId>.png`，記得更新 `app/projects/page.tsx` 中的專案條目與 `lastUpdated`。
+
+### 原理說明（顏色萃取與漸層生成）
+
+工具的核心步驟如下：
+
+- 影像降採樣：使用 `sharp` 將圖片縮小至 16×16，以降低運算成本並去除高頻雜訊。
+- 取得像素資料：以 RAW 格式讀出所有像素的 R/G/B 值。
+- 主色估計（dominant）：逐像素分別加總 R/G/B 後取平均，得到一個代表性顏色（快速近似）。
+- 亮度微調：
+  - 深色1：主色 × 0.70（clamp 到 0–255）
+  - 深色2：主色 × 0.85
+  - 亮色：主色 × 1.15
+- 轉為 HEX：將上述 RGB 轉為 `#rrggbb`。
+- 漸層建議：
+  - strong：`深色1 → 主色`
+  - soft：`深色2 → 亮色`
+- Tailwind 類別：輸出 `bg-[linear-gradient(to_bottom_right,#xxxxxx,#yyyyyy)]`。由於任意類別可能被 Purge 掃掉，程式會在渲染時自動把它轉成 inline `background-image`。
+
+備註：此方法簡單、快速且對大多數封面圖已有不錯效果；若需更精準，可改用色彩聚類（如 k-means / MMCQ）、忽略透明/邊緣區域或只對主體區域取樣。
