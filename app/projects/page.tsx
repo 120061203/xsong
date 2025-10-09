@@ -641,6 +641,26 @@ const projects: Project[] = [
       '分享/導出：可複製、下載或分享切分結果（可擴充）'
     ]
   }
+  ,
+  {
+    id: 'seismic-Mini-Houses',
+    title: 'Seismic Mini Houses - 耐震迷你屋 (ESP32 MQTT 加速度感測)',
+    description: '以 ESP32 + MPU6050 蒐集 XYZ 加速度，透過 MQTT 傳至 Node-RED 即時視覺化，模擬耐震結構測試的 STEM 教育專案。',
+    longDescription: '本專案為 STEM 教育活動：使用 ESP32 與 MPU6050 蒐集三軸加速度資料，經由 MQTT (PubSubClient) 上傳至 Node-RED 進行即時處理與視覺化，協助學生理解耐震結構與資料串流。提供 ESP32 範例程式、Node-RED flow 匯入與分組 topic 規劃示例，支援 VS Code/PlatformIO 或 Arduino IDE。',
+    image: getProjectImageUrl('seismic-Mini-Houses'),
+    technologies: ['ESP32', 'MPU6050', 'MQTT', 'Node-RED', 'Arduino IDE', 'C++', 'STEM', 'IoT'],
+    githubUrl: 'https://github.com/120061203/seismic-Mini-Houses',
+    backgroundColor: 'bg-[linear-gradient(135deg,#0f172a,#1e293b)]',
+    textColor: 'text-white',
+    lastUpdated: '2025-01-21',
+    features: [
+      'ESP32 + MPU6050：蒐集 XYZ 三軸加速度',
+      'MQTT 傳輸：PubSubClient 上傳即時資料',
+      'Node-RED 流程：匯入 JSON 即可視覺化',
+      '分組題材：支援多 topic（/group1/acc、/group2/acc）',
+      '教學友善：提供上傳步驟與函式庫清單'
+    ]
+  }
 ];
 
 // 按更新日期排序（最新的在前）
