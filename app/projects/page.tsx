@@ -129,8 +129,8 @@ function shouldApplyDarkOverlay(backgroundSpec: string): boolean {
     .map(rgb => relativeLuminance(rgb as { r: number; g: number; b: number }));
   if (luminances.length === 0) return false;
   const avg = luminances.reduce((a, b) => a + b, 0) / luminances.length;
-  // Threshold: if background is bright (avg luminance high), add dark overlay to improve contrast
-  return avg > 0.7; // empirically chosen; 0 (black) .. 1 (white)
+  // If background is bright (avg luminance high), add dark overlay to improve contrast
+  return avg > 0.6; // lower threshold for better safety
 }
 
 // 智能圖片組件，自動選擇 WebP 或 PNG
