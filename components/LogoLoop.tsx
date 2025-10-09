@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 import './LogoLoop.css';
 
 export type LogoItem =
@@ -69,7 +70,7 @@ const useResizeObserver = (
     return () => {
       observers.forEach(observer => observer?.disconnect());
     };
-  }, dependencies);
+  }, [callback, elements, ...dependencies]);
 };
 
 const useImageLoader = (
@@ -109,7 +110,7 @@ const useImageLoader = (
         img.removeEventListener('error', handleImageLoad);
       });
     };
-  }, dependencies);
+  }, [onLoad, seqRef, ...dependencies]);
 };
 
 const useAnimationLoop = (
@@ -167,7 +168,7 @@ const useAnimationLoop = (
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, isHovered, pauseOnHover]);
+  }, [targetVelocity, seqWidth, isHovered, pauseOnHover, trackRef]);
 };
 
 export const LogoLoop = React.memo<LogoLoopProps>(
@@ -252,7 +253,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
           {item.node}
         </span>
       ) : (
-        <img
+        <Image
           src={item.src}
           srcSet={item.srcSet}
           sizes={item.sizes}

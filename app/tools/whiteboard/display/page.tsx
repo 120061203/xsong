@@ -268,7 +268,7 @@ export default function WhiteboardDisplayPage() {
       return `${formatTime(displayData.countupTime)}`;
     }
     return displayData.text;
-  }, [displayData.currentMode, displayData.countdownTime, displayData.countupTime, displayData.text, timeTick]);
+  }, [displayData.currentMode, displayData.countdownTime, displayData.countupTime, displayData.text]);
 
   // 使用 useEffect 來完全替換頁面內容，繞過 Next.js layout
   useEffect(() => {
@@ -342,7 +342,7 @@ export default function WhiteboardDisplayPage() {
         textDiv.classList.remove('animate-marquee');
       }
     }
-  }, []); // 只在組件掛載時運行一次
+  }, [displayData.fontSize, displayData.isPlaying, displayData.speed, displayData.textColor, getAnimationDuration, getDisplayText]); // 包含所有依賴
 
   // 專門處理狀態更新的 useEffect
   useEffect(() => {
