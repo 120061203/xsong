@@ -984,19 +984,25 @@ export default function ProjectsPage() {
                           navigator.clipboard.writeText(projectUrl);
                           // 視覺反饋
                           const button = e.currentTarget;
-                          const originalIcon = button.querySelector('svg').outerHTML;
-                          button.querySelector('svg').outerHTML = `
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                          `;
-                          button.classList.add('bg-green-500', 'text-green-100');
-                          button.classList.remove('bg-white', 'bg-opacity-20');
-                          setTimeout(() => {
-                            button.querySelector('svg').outerHTML = originalIcon;
-                            button.classList.remove('bg-green-500', 'text-green-100');
-                            button.classList.add('bg-white', 'bg-opacity-20');
-                          }, 2000);
+                          const svgElement = button.querySelector('svg');
+                          if (svgElement) {
+                            const originalIcon = svgElement.outerHTML;
+                            svgElement.outerHTML = `
+                              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                              </svg>
+                            `;
+                            button.classList.add('bg-green-500', 'text-green-100');
+                            button.classList.remove('bg-white', 'bg-opacity-20');
+                            setTimeout(() => {
+                              const newSvgElement = button.querySelector('svg');
+                              if (newSvgElement) {
+                                newSvgElement.outerHTML = originalIcon;
+                              }
+                              button.classList.remove('bg-green-500', 'text-green-100');
+                              button.classList.add('bg-white', 'bg-opacity-20');
+                            }, 2000);
+                          }
                         }}
                         className="px-2 py-1 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105 border border-white border-opacity-30"
                         title="複製專案連結"
