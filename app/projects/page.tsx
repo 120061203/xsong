@@ -600,7 +600,7 @@ const projects: Project[] = [
   ,
   {
     id: 'solar-smart-blinds',
-    title: '太陽能智能百葉窗 (Solar Smart Blinds)',
+    title: 'Solar Smart Blinds - 太陽能智能百葉窗',
     description: '以物聯網結合太陽能供電與光感測，智慧調節百葉窗角度，降低室內溫度並提升能源效率。',
     longDescription: '太陽能智能百葉窗是一個結合物聯網技術的創新解決方案，針對建築物西曬等高熱負載情境，透過 TSL2591 高精度光感測器偵測環境光線強度，結合太陽能板供電與 MG996R 伺服馬達的精準角度控制，自動調整百葉窗角度，有效降低室內溫度並節能。系統採用 ESP8266 (NodeMCU) 作為主控，內建 Web 介面與 WiFi 遠端控制，支援手動與自動雙模式。',
     image: getProjectImageUrl('solar-smart-blinds'),
