@@ -993,7 +993,20 @@ export default function ProjectsPage() {
               }}
             >
               {/* Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.backgroundColor} opacity-90`}></div>
+              {(() => {
+                const isArbitrary = project.backgroundColor.startsWith('bg-[');
+                const style = isArbitrary
+                  ? {
+                      backgroundImage: project.backgroundColor
+                        .slice(3, -1) // remove 'bg[' and trailing ']'
+                        .replaceAll('_', ' '), // to_bottom_right -> to bottom right
+                    }
+                  : undefined;
+                const className = isArbitrary
+                  ? 'absolute inset-0 opacity-90'
+                  : `absolute inset-0 bg-gradient-to-br ${project.backgroundColor} opacity-90`;
+                return <div className={className} style={style as React.CSSProperties}></div>;
+              })()}
               
               {/* Content */}
               <div className="relative z-10 p-6 h-full flex flex-col">
