@@ -257,3 +257,56 @@ blog-astro/src/assets/images/
 - 🖼️ 專案展示功能
 - 🔧 GitHub Actions 自動部署
 - 📱 SEO 優化和 RSS 訂閱
+
+## 🎨 專案卡片顏色與圖片優化工作流
+
+為了讓 Projects 卡片的背景能自動貼近封面圖片的主色，本專案提供兩個腳本：
+
+- 轉圖片為 WebP：`scripts/convert-images.js`
+- 萃取主色並產生漸層建議：`scripts/generate-project-colors.js`
+
+### 使用步驟
+
+1. 放入專案封面圖
+   - 路徑：`public/images/projects/png/<projectId>.png`
+
+2. 產生 WebP（瀏覽器將優先載入 WebP，失敗時回退 PNG）
+   ```bash
+   node scripts/convert-images.js
+   ```
+   - 產物：`public/images/projects/webp/<projectId>.webp`
+
+3. 產生顏色建議
+   ```bash
+   node scripts/generate-project-colors.js
+   ```
+   - 產物：`scripts/output/project-color-suggestions.json`
+   - 每個專案會有：
+     - `dominant`: 主色（HEX）
+     - `suggestions.gradientStrong`: `{ from, to, class }`（建議的強烈漸層）
+     - `suggestions.gradientSoft`: `{ from, to, class }`（較柔和漸層）
+
+4. 套用到專案卡片
+   - 在 `app/projects/page.tsx` 該專案物件的 `backgroundColor` 使用 `gradientStrong.class`（例如）：
+   ```ts
+   backgroundColor: 'bg-[linear-gradient(to_bottom_right,#131a2b,#1b253e)]'
+   ```
+   - 本專案已自動將此任意類別轉為 inline `background-image`，避免 Tailwind Purge 掃掉，無需額外設定。
+
+### 可選：加入 npm script 快速執行
+
+在 `package.json` 增加：
+```json
+{
+  "scripts": {
+    "img:webp": "node scripts/convert-images.js",
+    "gen:colors": "node scripts/generate-project-colors.js"
+  }
+}
+```
+一次執行：
+```bash
+npm run img:webp && npm run gen:colors
+```
+
+小提醒：若新增了新的 `<projectId>.png`，記得更新 `app/projects/page.tsx` 中的專案條目與 `lastUpdated`。
