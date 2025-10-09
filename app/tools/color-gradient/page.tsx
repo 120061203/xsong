@@ -220,7 +220,7 @@ export default function ColorToolPage() {
           </div>
           <div>
             <label className="block mb-1">單位</label>
-            <select value={unit} onChange={(e) => setUnit(e.target.value as any)} className="px-2 py-1 border rounded">
+            <select value={unit} onChange={(e) => setUnit(e.target.value as 'px' | 'cm' | 'mm')} className="px-2 py-1 border rounded">
               <option value="px">px</option>
               <option value="cm">cm</option>
               <option value="mm">mm</option>

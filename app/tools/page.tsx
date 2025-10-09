@@ -27,7 +27,7 @@ export default function ToolsPage() {
             拖放圖片以擷取主色、自動生成漸層，調整後匯出 RGB/HEX/CMYK。
           </p>
           <Link 
-            href="/tools/color"
+            href="/tools/color-gradient"
             className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             開始使用
