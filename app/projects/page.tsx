@@ -1067,7 +1067,7 @@ export default function ProjectsPage() {
                     <span className="text-sm hover:underline cursor-pointer opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
                       View Details
                     </span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 transition-transform duration-300 group-hover:translate-x-1">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
