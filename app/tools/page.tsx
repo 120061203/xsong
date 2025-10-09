@@ -22,7 +22,7 @@ export default function ToolsPage() {
 
         {/* 漸層產生器：gradient-color */}
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-          <h2 className="text-xl font-semibold mb-3">gradient-color 漸層產生器</h2>
+          <h2 className="text-xl font-semibold mb-3">漸層產生器</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             拖放圖片以擷取主色、自動生成漸層，調整後匯出 RGB/HEX/CMYK。
           </p>
