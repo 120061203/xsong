@@ -27,19 +27,50 @@ export default function RSSPage() {
           const data = await response.json();
           const posts = data.entries || [];
           
-          // 轉換格式並限制為最近的文章
-          const formattedPosts = posts
-            .slice(0, 6) // 只取最新的 6 篇文章
-            .map((post: any) => ({
-              title: post.title || '無標題',
-              slug: post.id?.replace(/\.(md|mdx)$/, '') || '',
-              date: post.pubDate ? new Date(post.pubDate).toLocaleString('zh-TW') : '未知日期',
-              description: post.description || '無描述',
-              categories: post.categories || [],
-              tags: post.tags || []
-            }));
-          
-          setRecentPosts(formattedPosts);
+          // 確保 posts 是數組
+          if (Array.isArray(posts)) {
+            // 轉換格式並限制為最近的文章
+            const formattedPosts = posts
+              .slice(0, 6) // 只取最新的 6 篇文章
+              .map((post: {
+                title?: string;
+                id?: string;
+                pubDate?: string;
+                description?: string;
+                categories?: string[];
+                tags?: string[];
+              }) => ({
+                title: post.title || '無標題',
+                slug: post.id?.replace(/\.(md|mdx)$/, '') || '',
+                date: post.pubDate ? new Date(post.pubDate).toLocaleString('zh-TW') : '未知日期',
+                description: post.description || '無描述',
+                categories: post.categories || [],
+                tags: post.tags || []
+              }));
+            
+            setRecentPosts(formattedPosts);
+          } else {
+            console.warn('posts 不是數組格式:', posts);
+            // 使用預設數據
+            setRecentPosts([
+              {
+                title: "工作兩個月的心態反思",
+                slug: "work-two-month-reflection",
+                date: "2025-09-05 14:07",
+                description: "分享新鮮人進入職場兩個月的心得與反思，包含技術學習、團隊合作和職涯規劃...",
+                categories: ["職涯分享"],
+                tags: ["工作心得", "職涯發展"]
+              },
+              {
+                title: "我的第一個技術部落格",
+                slug: "my-first-article", 
+                date: "2025-09-04 10:30",
+                description: "記錄建立個人技術部落格的過程，從技術選型到部署上線的完整經驗分享...",
+                categories: ["技術分享"],
+                tags: ["部落格", "技術選型"]
+              }
+            ]);
+          }
         } else {
           // 如果無法獲取，使用預設數據
           setRecentPosts([
