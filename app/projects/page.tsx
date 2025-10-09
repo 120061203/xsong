@@ -243,6 +243,7 @@ const projects: Project[] = [
       'Terraform', 'GCP', 'VPC', 'Compute Engine', 'GKE', 'Cloud SQL',
       'Modules', 'IaC', 'CI/CD', 'gcloud', '安全最佳實踐'
     ],
+    githubUrl: 'https://github.com/120061203/terraform-gcp',
     backgroundColor: 'bg-gradient-to-br from-sky-600 to-cyan-700',
     textColor: 'text-white',
     lastUpdated: '2025-09-15',
