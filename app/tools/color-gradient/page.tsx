@@ -123,16 +123,30 @@ export default function ColorToolPage() {
       >
         <input type="file" accept="image/*" className="hidden" id="file-input"
           onChange={(e) => onDrop(e.target.files)} />
-        <label htmlFor="file-input" className="cursor-pointer">
+        <label htmlFor="file-input" className="cursor-pointer inline-flex items-center gap-2 text-gray-700 dark:text-gray-200">
+          {/* 手型圖示 */}
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 11V5a2 2 0 114 0v6m0-4a2 2 0 114 0v4m0-2a2 2 0 114 0v2m-8 0a2 2 0 11-4 0v-1m0 0a2 2 0 10-4 0v2a8 8 0 008 8h2a8 8 0 008-8v-3"/>
+          </svg>
           {imageSrc ? '重新選擇圖片' : '拖放圖片到此處，或點擊選擇圖片'}
         </label>
       </div>
 
       {imageSrc && (
-        <div className="mb-4">
+        <div className="mb-4 relative inline-block">
           {/* 使用原生 img 便於即時載入 DataURL，此處預覽不參與 LCP */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={imageSrc} alt="preview" className="max-h-60 rounded border border-gray-200 dark:border-gray-700" />
+          {/* 移除圖片按鈕 */}
+          <button
+            type="button"
+            onClick={() => { setImageSrc(null); setDominant(null); }}
+            className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80"
+            aria-label="移除圖片"
+            title="移除圖片"
+          >
+            ×
+          </button>
         </div>
       )}
 
