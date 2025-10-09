@@ -95,6 +95,44 @@ const getProjectImageUrl = (projectId: string) => {
   return `/images/projects/${projectId}`;
 };
 
+// ---- Color utilities for contrast handling on light backgrounds ----
+function hexToRgbInt(hex: string): { r: number; g: number; b: number } | null {
+  const m = hex.match(/^#?([0-9a-fA-F]{6})$/);
+  if (!m) return null;
+  const num = parseInt(m[1], 16);
+  return {
+    r: (num >> 16) & 0xff,
+    g: (num >> 8) & 0xff,
+    b: num & 0xff,
+  };
+}
+
+function relativeLuminance({ r, g, b }: { r: number; g: number; b: number }): number {
+  // WCAG relative luminance
+  const toLin = (v: number) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  const R = toLin(r);
+  const G = toLin(g);
+  const B = toLin(b);
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+}
+
+function shouldApplyDarkOverlay(backgroundSpec: string): boolean {
+  // Extract hex colors from arbitrary tailwind class like bg-[linear-gradient(...#xxxxxx,#yyyyyy)]
+  const hexes = backgroundSpec.match(/#[0-9a-fA-F]{6}/g);
+  if (!hexes || hexes.length === 0) return false;
+  const luminances = hexes
+    .map(h => hexToRgbInt(h))
+    .filter(Boolean)
+    .map(rgb => relativeLuminance(rgb as { r: number; g: number; b: number }));
+  if (luminances.length === 0) return false;
+  const avg = luminances.reduce((a, b) => a + b, 0) / luminances.length;
+  // Threshold: if background is bright (avg luminance high), add dark overlay to improve contrast
+  return avg > 0.7; // empirically chosen; 0 (black) .. 1 (white)
+}
+
 // 智能圖片組件，自動選擇 WebP 或 PNG
 interface SmartImageProps {
   projectId: string;
@@ -992,7 +1030,7 @@ export default function ProjectsPage() {
                 trackProjectView(project.title);
               }}
             >
-              {/* Background Gradient */}
+              {/* Background Gradient + adaptive contrast overlay for light backgrounds */}
               {(() => {
                 const isArbitrary = project.backgroundColor.startsWith('bg-[');
                 const style = isArbitrary
@@ -1005,7 +1043,15 @@ export default function ProjectsPage() {
                 const className = isArbitrary
                   ? 'absolute inset-0 opacity-90'
                   : `absolute inset-0 bg-gradient-to-br ${project.backgroundColor} opacity-90`;
-                return <div className={className} style={style as React.CSSProperties}></div>;
+                const needOverlay = isArbitrary && shouldApplyDarkOverlay(project.backgroundColor);
+                return (
+                  <>
+                    <div className={className} style={style as React.CSSProperties}></div>
+                    {needOverlay && (
+                      <div className="absolute inset-0 bg-black/35" aria-hidden="true"></div>
+                    )}
+                  </>
+                );
               })()}
               
               {/* Content */}
