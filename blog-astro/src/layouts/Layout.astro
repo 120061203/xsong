@@ -331,14 +331,16 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			/* Footer 樣式 */
 			.footer-content {
 				display: flex;
-				flex-direction: column;
+				flex-direction: row; /* 同一行顯示 */
 				align-items: center;
-				gap: 1em;
+				justify-content: center;
+				gap: 1.25em;
+				flex-wrap: wrap; /* 小螢幕時允許換行 */
 			}
 			.footer-links {
 				display: flex;
 				align-items: center;
-				gap: 1em;
+				gap: 0.75em;
 			}
 			.footer-link {
 				display: flex;
@@ -363,6 +365,7 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 			.separator {
 				color: rgb(107, 114, 128);
 				opacity: 0.6;
+				margin: 0 0.5em;
 			}
 			.dark .separator {
 				color: rgb(156, 163, 175);
