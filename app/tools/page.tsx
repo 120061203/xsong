@@ -28,7 +28,7 @@ export default function ToolsPage() {
           </p>
           <Link 
             href="/tools/color-gradient"
-            className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             開始使用
           </Link>
