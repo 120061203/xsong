@@ -651,6 +651,7 @@ const projects: Project[] = [
     technologies: ['ESP32', 'MPU6050', 'MQTT', 'Node-RED', 'Arduino IDE', 'C++', 'STEM', 'IoT'],
     githubUrl: 'https://github.com/120061203/seismic-Mini-Houses',
     liveUrl: 'https://docs.google.com/presentation/d/14juVDNWW6G2ekUi6InJelPNI09F7_nUu7zZbT7NLxyE/edit?usp=drive_link',
+    pdfUrl: 'https://raw.githubusercontent.com/120061203/seismic-Mini-Houses/main/%E8%AB%96%E6%96%87/0~5_STEM%E8%80%90%E9%9C%87%E8%BF%B7%E4%BD%A0%E5%B1%8B%E4%B9%8B6E%E6%95%99%E5%AD%B8%E8%A8%AD%E8%A8%88%E8%88%87%E5%AD%B8%E7%BF%92%E6%88%90%E6%95%88%E6%8E%A2%E8%A8%8E.pdf',
     backgroundColor: 'bg-[linear-gradient(135deg,#0f172a,#1e293b)]',
     textColor: 'text-white',
     lastUpdated: '2025-01-21',
