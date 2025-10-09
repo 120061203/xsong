@@ -998,7 +998,7 @@ export default function ProjectsPage() {
                 const style = isArbitrary
                   ? {
                       backgroundImage: project.backgroundColor
-                        .slice(3, -1) // remove 'bg[' and trailing ']'
+                        .slice(4, -1) // remove 'bg-[' and trailing ']'
                         .replaceAll('_', ' '), // to_bottom_right -> to bottom right
                     }
                   : undefined;
