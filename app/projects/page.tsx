@@ -1338,25 +1338,25 @@ export default function ProjectsPage() {
                             View on GitHub
                           </a>
                         )}
-                        {selectedProject.liveUrl && (
-                          <a
-                            href={selectedProject.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => trackLinkClick(
-                              selectedProject.liveUrl!.includes('youtube.com') ? 'Watch on YouTube' : 'Visit Website', 
-                              selectedProject.liveUrl!
-                            )}
-                            className={`inline-flex items-center px-3 sm:px-4 py-2 text-white text-sm sm:text-base rounded-lg transition-colors break-all ${
-                              selectedProject.liveUrl.includes('youtube.com') 
-                                ? 'bg-red-600 hover:bg-red-700' 
-                                : 'bg-blue-600 hover:bg-blue-700'
-                            }`}
-                          >
-                            <i className={`${selectedProject.liveUrl.includes('youtube.com') ? 'fab fa-youtube' : 'fas fa-external-link-alt'} mr-2`}></i>
-                            {selectedProject.liveUrl.includes('youtube.com') ? 'Watch on YouTube' : 'Visit Website'}
-                          </a>
-                        )}
+                        {selectedProject.liveUrl && (() => {
+                          const isYouTube = selectedProject.liveUrl!.includes('youtube.com');
+                          const isSlides = selectedProject.id === 'seismic-Mini-Houses';
+                          const label = isYouTube ? 'Watch on YouTube' : (isSlides ? 'Visit Slides' : 'Visit Website');
+                          const iconClass = isYouTube ? 'fab fa-youtube' : (isSlides ? 'fas fa-file-powerpoint' : 'fas fa-external-link-alt');
+                          const colorClass = isYouTube ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700';
+                          return (
+                            <a
+                              href={selectedProject.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => trackLinkClick(label, selectedProject.liveUrl!)}
+                              className={`inline-flex items-center px-3 sm:px-4 py-2 text-white text-sm sm:text-base rounded-lg transition-colors break-all ${colorClass}`}
+                            >
+                              <i className={`${iconClass} mr-2`}></i>
+                              {label}
+                            </a>
+                          );
+                        })()}
                         {selectedProject.figmaUrl && (
                           <a
                             href={selectedProject.figmaUrl}
