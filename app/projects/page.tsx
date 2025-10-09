@@ -215,7 +215,7 @@ const projects: Project[] = [
     githubUrl: 'https://github.com/120061203/cv',
     liveUrl: 'https://120061203.github.io/cv/',
     pdfUrl: 'https://github.com/120061203/cv/raw/main/output/songlinchen_resume_20250505.pdf',
-    backgroundColor: 'bg-gradient-to-br from-red-600 to-pink-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#ababab,#f4f4f4)]',
     textColor: 'text-white',
     lastUpdated: '2025-10-01',
     features: [
@@ -244,7 +244,7 @@ const projects: Project[] = [
       'Modules', 'IaC', 'CI/CD', 'gcloud', '安全最佳實踐'
     ],
     githubUrl: 'https://github.com/120061203/terraform-gcp',
-    backgroundColor: 'bg-gradient-to-br from-sky-600 to-cyan-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#19365f,#244d87)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-15',
     features: [
@@ -266,7 +266,7 @@ const projects: Project[] = [
     image: getProjectImageUrl('gogoshop'),
     technologies: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript', 'SCSS', 'PHPMailer', '電商系統', 'B2C', '購物車', '訂單管理', '用戶管理', '管理員後台', '響應式設計', '圖形驗證碼'],
     githubUrl: 'https://github.com/120061203/gogoshop',
-    backgroundColor: 'bg-gradient-to-br from-green-600 to-emerald-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#a8997e,#f0dbb4)]',
     textColor: 'text-white',
     lastUpdated: '2021-01-10',
     features: [
@@ -295,7 +295,7 @@ const projects: Project[] = [
     technologies: ['Chrome Extension', 'Manifest V3', 'Chrome Tabs API', 'Chrome Windows API', 'JavaScript ES6+', 'DOM Manipulation', 'Event Delegation', 'CSS Grid', 'Flexbox', 'JSON Serialization', 'Regular Expressions', 'Map Data Structure', 'Event-Driven Architecture'],
     githubUrl: 'https://github.com/120061203/TabLibrary-ChromeExtension',
     liveUrl: 'https://chromewebstore.google.com/detail/tab-library/cfgmbkjbfjbkkgojnfnmlabjhbbpppnf',
-    backgroundColor: 'bg-gradient-to-br from-purple-600 to-indigo-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#555c61,#7a838a)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-27',
     features: [
@@ -319,7 +319,7 @@ const projects: Project[] = [
     technologies: ['Terraform', 'AWS', 'ALB', 'CodeDeploy', 'EC2', 'S3', 'Target Groups', '藍綠部署', '金絲雀部署', 'A/B Testing', '零停機部署', '自動化部署', '雲端架構'],
     githubUrl: 'https://github.com/120061203/codedeploy-terraform-ec2', // 私人倉庫
     liveUrl: 'http://blue-green-canary-alb-873311364.us-west-2.elb.amazonaws.com/',
-    backgroundColor: 'bg-gradient-to-br from-blue-600 to-indigo-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#625d90,#8c85ce)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-19',
     features: [
@@ -348,7 +348,7 @@ const projects: Project[] = [
     technologies: ['Terraform', 'AWS', 'VPC', 'ECR', 'App Runner', '基礎設施即代碼IaC', '微服務架構', 'CI/CD', 'Bitbucket Pipelines', 'Docker', 'FastAPI', 'Rust'],
     githubUrl: 'https://github.com/120061203/app-hub', // 私人倉庫
     liveUrl: 'https://ayfmhwarbk.us-east-2.awsapprunner.com/',
-    backgroundColor: 'bg-gradient-to-br from-slate-700 to-gray-800',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#6a6f99,#979edb)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-12',
     features: [
@@ -375,7 +375,7 @@ const projects: Project[] = [
     technologies: ['Go', 'Vue.js', 'PostgreSQL', 'Supabase', 'RESTful API', 'Vercel', 'TypeScript', 'TailwindCSS'],
     githubUrl: 'https://github.com/120061203/go-shorturl',
     liveUrl: 'https://go-shorturl.vercel.app',
-    backgroundColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#221e35,#302b4b)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-02',
     features: [
@@ -398,7 +398,7 @@ const projects: Project[] = [
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'React', 'Astro'],
     githubUrl: 'https://github.com/120061203/xsong',
     liveUrl: 'https://xsong.us',
-    backgroundColor: 'bg-gradient-to-br from-slate-600 to-gray-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#161c26,#202836)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-02',
     features: [
@@ -421,7 +421,7 @@ const projects: Project[] = [
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Supabase', 'Material-UI', 'FullCalendar', 'Jest', 'CRUD Operations', 'RESTful API', 'Real-time Sync'],
     githubUrl: 'https://github.com/120061203/calendar-todo-app',
     liveUrl: 'https://120061203.github.io/calendar-todo-app/',
-    backgroundColor: 'bg-gradient-to-br from-indigo-500 to-blue-600',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#aeaeae,#f8f9f9)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-02',
     features: [
@@ -447,7 +447,7 @@ const projects: Project[] = [
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'Canvas API', 'React'],
     githubUrl: 'https://github.com/120061203/xsong/tree/main/app/tools/whiteboard',
     liveUrl: 'https://xsong.us/tools/whiteboard',
-    backgroundColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#363b43,#4d5460)]',
     textColor: 'text-white',
     lastUpdated: '2025-09-02',
     features: [
@@ -470,7 +470,7 @@ const projects: Project[] = [
     technologies: ['Jenkins', 'Grafana Cloud', 'Prometheus', 'AlertManager', 'Blackbox', 'Docker', 'Terraform', 'MySQL', 'Nginx', 'Cloudflare Tunnel', 'GitHub Webhook', 'CI/CD', 'DevOps', '監控系統', '自動化部署', '告警系統'],
     githubUrl: 'https://github.com/120061203/jenkins-grafana',
     liveUrl: 'https://xsong.grafana.net/a/grafana-synthetic-monitoring-app/checks',
-    backgroundColor: 'bg-gradient-to-br from-blue-600 to-indigo-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#b0b0b0,#fbfbfc)]',
     textColor: 'text-white',
     lastUpdated: '2025-10-08',
     features: [
@@ -501,7 +501,7 @@ const projects: Project[] = [
     image: getProjectImageUrl('AirPocket'),
     technologies: ['Android', 'Java', 'Python', 'Flask', 'MySQL', 'ESP32', 'IoT', 'Bluetooth', 'MQTT', 'Google Maps API', 'EPA API', 'LASS API', '空氣品質監測', '智慧推薦', '社交功能'],
     githubUrl: 'https://github.com/120061203/AirPocket0310',
-    backgroundColor: 'bg-gradient-to-br from-green-600 to-teal-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#79985b,#add982)]',
     textColor: 'text-white',
     lastUpdated: '2021-12-10',
     features: [
@@ -533,7 +533,7 @@ const projects: Project[] = [
     technologies: ['ESP8266', 'Arduino', 'C++', 'Python', 'Django', 'MQTT', 'LINE Bot API', 'OLED', 'MAX30105', 'HTU21DF', 'BMP085', 'DHT11', 'IoT', '物聯網', '嵌入式系統', '聊天機器人', 'SQLite', 'WiFi', 'I2C'],
     githubUrl: 'https://github.com/120061203/smartWatch',
     liveUrl: 'https://www.youtube.com/watch?v=pxb9cMqjrr4',
-    backgroundColor: 'bg-gradient-to-br from-teal-600 to-emerald-700',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#131a2b,#1b253e)]',
     textColor: 'text-white',
     lastUpdated: '2022-06-19',
     features: [
