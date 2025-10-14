@@ -16,7 +16,7 @@
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deployed-blue?logo=github&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-enabled-green?logo=github-actions&logoColor=white)
 
-![Version](https://img.shields.io/badge/version-1.1.0-orange)
+![Version](https://img.shields.io/badge/version-1.2.0-orange)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js&logoColor=white)
 
@@ -145,7 +145,19 @@ xsong.us/
 - `scripts/convert-images.js` - 圖片轉換腳本
 - `scripts/update-badges.js` - Badge 更新腳本
 
-## 🎯 最新功能 (v1.1.0)
+## 🎯 最新功能 (v1.2.0)
+
+### ✨ 新增與改進
+- 完善 Project Tag 系統
+- 完善 Blog 系統的篩選功能
+- 加入 GA4（Google Analytics 4）
+- WebP 壓縮效能優化
+- 新增 RSS 功能
+- Projects 頁面新增自動漸層顏色產生功能
+
+---
+
+## 先前版本
 
 ### ✨ 新增功能
 - **AWS 部署策略實驗平台**: 展示藍綠部署、金絲雀部署、A/B 測試等現代化部署策略
@@ -238,10 +250,18 @@ blog-astro/src/assets/images/
 
 ---
 
-**版本**: 1.1.0  
-**最後更新**: 2025年9月
+**版本**: 1.2.0  
+**最後更新**: 2025年10月
 
 ## 🆕 版本更新記錄
+
+### v1.2.0 (2025-10-14)
+- 完善 Project Tag 系統
+- 完善 Blog 系統的篩選功能
+- 加入 GA4（Google Analytics 4）
+- WebP 壓縮效能優化
+- 新增 RSS 功能
+- Projects 頁面新增自動漸層顏色產生功能
 
 ### v1.1.0 (2025-09-19)
 - ✨ 新增 AWS 部署策略實驗平台
