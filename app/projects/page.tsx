@@ -1373,9 +1373,10 @@ export default function ProjectsPage() {
                         {selectedProject.liveUrl && (() => {
                           const isYouTube = selectedProject.liveUrl!.includes('youtube.com');
                           const isSlides = selectedProject.id === 'seismic-Mini-Houses';
-                          const label = isYouTube ? 'Watch on YouTube' : (isSlides ? 'Visit Slides' : 'Visit Website');
-                          const iconClass = isYouTube ? 'fab fa-youtube' : (isSlides ? 'fas fa-file-powerpoint' : 'fas fa-external-link-alt');
-                          const colorClass = isYouTube ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700';
+                          const isGrafana = selectedProject.id === 'jenkins-grafana';
+                          const label = isYouTube ? 'Watch on YouTube' : (isSlides ? 'Visit Slides' : (isGrafana ? 'View Grafana Dashboard' : 'Visit Website'));
+                          const iconClass = isYouTube ? 'fab fa-youtube' : (isSlides ? 'fas fa-file-powerpoint' : (isGrafana ? 'fas fa-chart-line' : 'fas fa-external-link-alt'));
+                          const colorClass = isYouTube ? 'bg-red-600 hover:bg-red-700' : (isGrafana ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-600 hover:bg-blue-700');
                           return (
                             <a
                               href={selectedProject.liveUrl}
