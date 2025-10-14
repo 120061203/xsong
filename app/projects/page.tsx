@@ -245,6 +245,38 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
 const projects: Project[] = [
   {
+    id: 'ansible-tutorial',
+    title: 'Ansible 基礎設施自動部署',
+    description: '專業級 Ansible 自動化部署解決方案，展示企業級 DevOps 實踐與安全最佳實踐。包含 Ansible Vault 安全加密、SSH 金鑰認證、Nginx 自動化部署等完整功能。',
+    longDescription: '這是一個展示專業 Ansible 技能的完整自動化部署專案，專為企業級 DevOps 實踐設計。專案包含 Ansible Vault 安全加密保護敏感資訊、SSH 金鑰認證實現無密碼自動化部署、安全最佳實踐的 Git 安全與敏感資訊管理、Nginx 自動化部署提供完整的 Web 伺服器配置，以及模組化設計的可擴展基礎架構代碼。專案架構包含 inventory 主機清單管理、playbooks 自動化劇本、roles 可重用角色、vault.yml 加密敏感資訊、.gitignore Git 安全配置等完整結構。技術涵蓋 Ansible 2.19+ 自動化部署引擎、Python 3.12+ 運行環境、Ubuntu 22.04+ 目標作業系統、Nginx Web 伺服器、SSH 安全連接、Git 版本控制等現代化技術。',
+    image: getProjectImageUrl('ansible-tutorial'),
+    technologies: ['Ansible', 'Python', 'Ubuntu', 'Nginx', 'SSH', 'Git', 'Vault', 'DevOps', 'IaC', '自動化部署', '安全最佳實踐', '基礎設施即代碼'],
+    githubUrl: 'https://github.com/120061203/ansible-tutorial',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#1a1a1a,#2d2d2d)]',
+    textColor: 'text-white',
+    lastUpdated: '2025-10-14',
+    features: [
+      'Ansible Vault 安全加密 - 企業級敏感資訊保護',
+      'SSH 金鑰認證 - 無密碼自動化部署',
+      '安全最佳實踐 - Git 安全與敏感資訊管理',
+      'Nginx 自動化部署 - 完整的 Web 伺服器配置',
+      '模組化設計 - 可擴展的基礎架構代碼',
+      'Inventory 主機清單管理',
+      'Playbooks 自動化劇本設計',
+      'Roles 可重用角色架構',
+      'Vault 敏感資訊加密管理',
+      '一鍵部署解決方案',
+      'Infrastructure as Code 實踐',
+      '版本控制最佳實踐',
+      '企業級安全標準',
+      '自動化部署流程',
+      '完整的專案文檔',
+      '環境變數配置支援',
+      '多環境支援 (Dev/Staging/Prod)',
+      '學習資源與最佳實踐指南'
+    ]
+  },
+  {
     id: 'cv-latex',
     title: '履歷自動編譯系統',
     description: '專業的 LaTeX 履歷專案，專為 Song Lin Chen 設計，提供現代化、美觀且易於維護的履歷模板。專案支援多種格式輸出，並整合了自動化編譯系統和 GitHub Pages 部署。',
