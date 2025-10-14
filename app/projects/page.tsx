@@ -147,8 +147,8 @@ interface SmartImageProps {
 }
 
 function SmartImage({ projectId, alt, className, fill, width, height, priority = false, sizes }: SmartImageProps) {
-  const [imageSrc, setImageSrc] = useState(`/images/projects/webp/${projectId}.webp`);
-  const [fallbackSrc] = useState(`/images/projects/png/${projectId}.png`);
+  const [imageSrc, setImageSrc] = useState(`/images/projects/webp/${projectId}.webp?v=${Date.now()}`);
+  const [fallbackSrc] = useState(`/images/projects/png/${projectId}.png?v=${Date.now()}`);
 
   const handleError = () => {
     // 如果 WebP 載入失敗，回退到 PNG
