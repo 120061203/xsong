@@ -13,9 +13,22 @@ const { title, description, pubDate, updatedDate, heroImage, categories, tags, c
 
 
 
-// 獲取所有文章並排序
+// 獲取所有文章並排序，過濾掉私有文章
 const allPosts = await getCollection('blog').then(posts => 
-	posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+	posts
+		.filter(post => {
+			// 檢查 frontmatter 原始內容
+			const frontmatter = post.body.split('---')[1];
+			const privateFlag = 'private: true';
+			const hasPrivateTrue = frontmatter && frontmatter.includes(privateFlag);
+			
+			// 過濾掉私有文章
+			if (hasPrivateTrue) {
+				return false;
+			}
+			return true;
+		})
+		.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
 );
 
 // 找到當前文章的索引

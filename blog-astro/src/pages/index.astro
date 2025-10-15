@@ -3,10 +3,28 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 
-// 獲取所有文章
-const posts = await getCollection('blog').then(posts => 
-	posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
-);
+// 獲取所有文章，過濾掉私有文章
+const allPosts = await getCollection('blog');
+// 調試信息已移除
+
+const posts = allPosts
+	.filter(post => {
+		// 檢查 frontmatter 原始內容
+		const frontmatter = post.body.split('---')[1];
+		const privateFlag = 'private: true';
+		const hasPrivateTrue = frontmatter && frontmatter.includes(privateFlag);
+		
+		// 調試信息已移除
+		
+		// 過濾掉私有文章
+		if (hasPrivateTrue) {
+		return false;
+	}
+		return true;
+	})
+	.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+// 調試信息已移除
 
 // 為每個文章添加 frontmatter 數據
 const postsWithFrontmatter = await Promise.all(
@@ -20,9 +38,24 @@ const postsWithFrontmatter = await Promise.all(
 	})
 );
 
-// 提取所有分類和標籤
+// 提取所有分類和標籤（只從公開文章中提取）
 const categories = [...new Set(postsWithFrontmatter.flatMap(post => post.frontmatter.categories || []))];
 const tags = [...new Set(postsWithFrontmatter.flatMap(post => post.frontmatter.tags || []))];
+
+// 過濾掉私有相關的分類和標籤
+const filteredCategories = categories.filter(cat =>
+	cat !== '私有文章' &&
+	cat !== 'Private Articles' &&
+	cat !== 'private'
+);
+
+const filteredTags = tags.filter(tag =>
+	tag !== '私有' &&
+	tag !== 'private' &&
+	tag !== '範例'
+);
+
+// 調試信息已移除
 
 // 計算閱讀時間（假設每分鐘 250 字）
 function calculateReadingTime(content: string) {
@@ -76,7 +109,7 @@ function calculateReadingTime(content: string) {
 								>
 									全部 ({posts.length})
 								</button>
-								{categories.map(category => (
+								{filteredCategories.map(category => (
 									<button 
 										class="category-filter w-full text-left px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-green-900/20 transition-colors"
 										data-category={category}
@@ -91,7 +124,7 @@ function calculateReadingTime(content: string) {
 						<div class="mb-6">
 							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">標籤</h3>
 							<div class="flex flex-wrap gap-2">
-								{tags.map(tag => (
+								{filteredTags.map(tag => (
 									<button 
 										class="tag-filter px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-blue-100 dark:hover:bg-green-900/20 transition-colors"
 										data-tag={tag}
@@ -248,10 +281,7 @@ function calculateReadingTime(content: string) {
 				const matchesTags = currentTags.length === 0 || currentTags.some(tag => tags.includes(tag.trim().toLowerCase()));
 				
 				// 調試信息
-				console.log('文章標題:', title);
-				console.log('文章標籤:', tags);
-				console.log('當前選中的標籤:', currentTags);
-				console.log('標籤匹配:', matchesTags);
+				// 調試信息已移除
 				
 				if (matchesSearch && matchesCategory && matchesTags) {
 					post.closest('a').style.display = 'block';

@@ -10,6 +10,8 @@ const blog = defineCollection({
 		heroImage: z.string().optional(),
 		categories: z.array(z.string()).optional(),
 		tags: z.array(z.string()).optional(),
+		// 私有文章控制
+		private: z.boolean().default(false),
 	}),
 });
 

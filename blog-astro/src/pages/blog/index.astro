@@ -7,9 +7,26 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// 獲取所有文章，過濾掉私有文章
+const allPosts = await getCollection('blog');
+// 調試信息已移除
+
+const posts = allPosts
+	.filter(post => {
+		// 檢查 frontmatter 原始內容
+		const frontmatter = post.body.split('---')[1];
+		const privateFlag = 'private: true';
+		const hasPrivateTrue = frontmatter && frontmatter.includes(privateFlag);
+		
+		// 過濾掉私有文章
+		if (hasPrivateTrue) {
+			return false;
+		}
+		return true;
+	})
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// 調試信息已移除
 
 // 為每個文章添加 frontmatter 數據
 const postsWithFrontmatter = await Promise.all(

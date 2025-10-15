@@ -3,7 +3,21 @@ import rss from '@astrojs/rss';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 export async function GET(context) {
-	const posts = await getCollection('blog');
+	const allPosts = await getCollection('blog');
+	
+	// 過濾掉私有文章
+	const posts = allPosts.filter(post => {
+		// 檢查 frontmatter 原始內容
+		const frontmatter = post.body.split('---')[1];
+		const privateFlag = 'private: true';
+		const hasPrivateTrue = frontmatter && frontmatter.includes(privateFlag);
+		
+		// 過濾掉私有文章
+		if (hasPrivateTrue) {
+			return false;
+		}
+		return true;
+	});
 	
 	// 按發布日期排序，最新的在前
 	const sortedPosts = posts.sort((a, b) => 

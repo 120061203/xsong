@@ -2,9 +2,21 @@
 import { getCollection } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(post => {
+    // 檢查 frontmatter 原始內容
+    const frontmatter = post.body.split('---')[1];
+    const privateFlag = 'private: true';
+    const hasPrivateTrue = frontmatter && frontmatter.includes(privateFlag);
+    
+    // 過濾掉私有文章
+    if (hasPrivateTrue) {
+      return false;
+    }
+    return true;
+  })
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // 計算閱讀時間的函數
 function getReadingTime(content: string): number {
