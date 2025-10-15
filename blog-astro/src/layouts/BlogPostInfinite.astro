@@ -17,8 +17,7 @@ const allPosts = await getCollection('blog').then(posts =>
 		.filter(post => {
 			// 檢查 frontmatter 原始內容
 			const frontmatter = post.body.split('---')[1];
-			const privateFlag = 'private: true';
-			const hasPrivateTrue = frontmatter && frontmatter.includes(privateFlag);
+			const hasPrivateTrue = frontmatter && frontmatter.includes('private: true');
 			
 			// 過濾掉私有文章
 			if (hasPrivateTrue) {
