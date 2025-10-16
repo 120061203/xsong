@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="這是一個文章的範例2，展示私有文章功能"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.13.5"><title>文章2</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><!-- 自定義部落格樣式 --><style>
+			/* 部落格文章樣式 */
+			.prose {
+				/* 基礎排版 */
+				line-height: 1.8;
+				color: #374151;
+			}
+
+			.dark .prose {
+				color: #d1d5db;
+			}
+
+			/* 標題樣式 */
+			.prose h1 {
+				font-size: 2.25rem;
+				font-weight: 700;
+				line-height: 1.2;
+				margin-top: 2.5rem;
+				margin-bottom: 1.5rem;
+				color: #111827;
+				border-bottom: 2px solid #e5e7eb;
+				padding-bottom: 0.5rem;
+			}
+
+			.dark .prose h1 {
+				color: #f9fafb;
+				border-bottom-color: #374151;
+			}
+
+			.prose h2 {
+				font-size: 1.875rem;
+				font-weight: 600;
+				line-height: 1.3;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				color: #111827;
+				border-left: 4px solid #3b82f6;
+				padding-left: 1rem;
+			}
+
+			.dark .prose h2 {
+				color: #f9fafb;
+				border-left-color: #10b981;
+			}
+
+			.prose h3 {
+				font-size: 1.5rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.75rem;
+				margin-bottom: 0.75rem;
+				color: #111827;
+			}
+
+			.dark .prose h3 {
+				color: #f9fafb;
+			}
+
+			.prose h4 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+				color: #111827;
+			}
+
+			.dark .prose h4 {
+				color: #f9fafb;
+			}
+
+			/* 段落樣式 */
+			.prose p {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				line-height: 1.8;
+				font-size: 1.125rem;
+			}
+
+			/* 列表樣式 */
+			.prose ul, .prose ol {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				padding-left: 1.5rem;
+			}
+
+			.prose li {
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				line-height: 1.7;
+			}
+
+			.prose ul li {
+				list-style-type: disc;
+			}
+
+			.prose ol li {
+				list-style-type: decimal;
+			}
+
+			/* 引用塊樣式 */
+			.prose blockquote {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+				border-left: 4px solid #3b82f6;
+				border-radius: 0.5rem;
+				font-style: italic;
+				position: relative;
+			}
+
+			.dark .prose blockquote {
+				background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+				border-left-color: #10b981;
+			}
+
+			.prose blockquote::before {
+				content: '"';
+				font-size: 3rem;
+				color: #3b82f6;
+				position: absolute;
+				top: -0.5rem;
+				left: 1rem;
+				font-family: serif;
+			}
+
+			.dark .prose blockquote::before {
+				color: #10b981;
+			}
+
+			.prose blockquote p {
+				margin: 0;
+				font-size: 1.125rem;
+				line-height: 1.7;
+			}
+
+			/* 程式碼樣式 */
+			.prose code {
+				background-color: #f3f4f6;
+				color: #dc2626;
+				padding: 0.25rem 0.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.dark .prose code {
+				background-color: #374151;
+				color: #f87171;
+			}
+
+			.prose pre {
+				background-color: #1f2937;
+				color: #f9fafb;
+				padding: 1.5rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				margin: 2rem 0;
+				border: 1px solid #374151;
+			}
+
+			.prose pre code {
+				background-color: transparent;
+				color: inherit;
+				padding: 0;
+				border-radius: 0;
+				font-size: 0.875rem;
+			}
+
+			/* 連結樣式 */
+			.prose a {
+				color: #3b82f6;
+				text-decoration: underline;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 2px;
+				transition: color 0.2s ease;
+			}
+
+			.dark .prose a {
+				color: #10b981;
+			}
+
+			.prose a:hover {
+				color: #2563eb;
+			}
+
+			.dark .prose a:hover {
+				color: #059669;
+			}
+
+			/* 表格樣式 */
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 2rem 0;
+				border-radius: 0.5rem;
+				overflow: hidden;
+				border: 1px solid #e5e7eb;
+			}
+
+			.dark .prose table {
+				border-color: #374151;
+			}
+
+			.prose th {
+				background-color: #f9fafb;
+				color: #111827;
+				font-weight: 600;
+				padding: 0.75rem 1rem;
+				text-align: left;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose th {
+				background-color: #374151;
+				color: #f9fafb;
+				border-bottom-color: #4b5563;
+			}
+
+			.prose td {
+				padding: 0.75rem 1rem;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose td {
+				border-bottom-color: #4b5563;
+			}
+
+			/* 水平線樣式 */
+			.prose hr {
+				margin: 3rem 0;
+				border: none;
+				height: 1px;
+				background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+			}
+
+			.dark .prose hr {
+				background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+			}
+
+			/* 圖片樣式 */
+			.prose img {
+				border-radius: 0.5rem;
+				margin: 2rem 0;
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			}
+
+			/* 強調文字 */
+			.prose strong {
+				font-weight: 600;
+				color: #111827;
+			}
+
+			.dark .prose strong {
+				color: #f9fafb;
+			}
+
+			/* 斜體文字 */
+			.prose em {
+				font-style: italic;
+				color: #6b7280;
+			}
+
+			.dark .prose em {
+				color: #9ca3af;
+			}
+
+			/* 特殊標記 */
+			.prose mark {
+				background-color: #fef3c7;
+				color: #92400e;
+				padding: 0.125rem 0.25rem;
+				border-radius: 0.25rem;
+			}
+
+			.dark .prose mark {
+				background-color: #451a03;
+				color: #fbbf24;
+			}
+
+			/* 段落間距優化 */
+			.prose > * + * {
+				margin-top: 1.5rem;
+			}
+
+			.prose > * + h1,
+			.prose > * + h2,
+			.prose > * + h3,
+			.prose > * + h4 {
+				margin-top: 2.5rem;
+			}
+
+			/* 列表間距 */
+			.prose ul + p,
+			.prose ol + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 引用塊間距 */
+			.prose blockquote + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 程式碼塊間距 */
+			.prose pre + p {
+				margin-top: 1.5rem;
+			}
+
+			/* Footer 樣式 */
+			.footer-content {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between; /* 左右兩側分佈 */
+				gap: 1em;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+			.footer-links {
+				display: flex;
+				align-items: center;
+				gap: 0.75em;
+			}
+			.footer-link {
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				text-decoration: none;
+				color: rgb(107, 114, 128);
+				transition: color 0.3s ease;
+			}
+			.footer-link:hover {
+				color: rgb(31, 41, 55);
+			}
+			.dark .footer-link {
+				color: rgb(156, 163, 175);
+			}
+			.dark .footer-link:hover {
+				color: rgb(249, 250, 251);
+			}
+			.footer-link i {
+				font-size: 0.9em;
+			}
+			.separator {
+				color: rgb(107, 114, 128);
+				opacity: 0.6;
+				margin: 0 0.5em;
+			}
+			.dark .separator {
+				color: rgb(156, 163, 175);
+			}
+			.footer-copyright {
+				font-size: 0.9em;
+				opacity: 0.8;
+			}
+		</style><script>
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {}
+				}
+			}
+		</script><style>.prose[data-astro-cid-bvzihdzo] img[data-astro-cid-bvzihdzo]{max-width:600px!important;width:100%!important;height:auto!important;border-radius:8px!important;margin:1rem auto!important;display:block!important}
+</style></head> <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white"> <div class="flex flex-col min-h-screen"> <!-- Navigation --> <nav class="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex justify-between items-center h-16"> <!-- Logo --> <a href="/" class="text-2xl md:text-3xl font-bold text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 transition-colors">
+xsong.us
+</a> <!-- Desktop Navigation --> <div class="hidden md:flex items-center space-x-8"> <a href="/about" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+About
+</a> <a href="/blog" class="text-lg font-medium text-blue-600 dark:text-green-400">
+Blog
+</a> <a href="/projects" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+Projects
+</a> <a href="/tools" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+Tools
+</a> </div> <!-- Theme Toggle and Mobile Menu Button --> <div class="flex items-center space-x-2"> <!-- Theme Toggle --> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> <!-- Mobile Menu Button --> <button id="mobile-menu-button" class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle mobile menu"> <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i> </button> </div> </div> <!-- Mobile Navigation Menu --> <div id="mobile-menu" class="md:hidden hidden"> <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"> <a href="/about" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+About
+</a> <a href="/blog" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-green-400 bg-blue-50 dark:bg-green-900/20 rounded-md">
+Blog
+</a> <a href="/projects" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Projects
+</a> <a href="/tools" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Tools
+</a> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-astro-cid-bvzihdzo> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-astro-cid-bvzihdzo> <div class="flex flex-col lg:flex-row gap-8" data-astro-cid-bvzihdzo> <!-- 主要內容區域 --> <div class="lg:w-3/4" data-astro-cid-bvzihdzo> <!-- Back to Blog --> <div class="mb-8" data-astro-cid-bvzihdzo> <a href="/blog" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors" data-astro-cid-bvzihdzo> <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-bvzihdzo></path> </svg>
+返回部落格
+</a> </div> <!-- Article --> <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700" data-astro-cid-bvzihdzo> <div class="w-full h-64 md:h-96 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/work-one-month-reflection-1.CkRbiLGO_GChgh.webp" alt="文章2" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="1020" height="510" class="w-full h-full object-cover"> </div> <div class="p-8" data-astro-cid-bvzihdzo> <!-- Header --> <header class="mb-8" data-astro-cid-bvzihdzo> <!-- 手機版：標題和按鈕分開顯示 --> <div class="block md:hidden" data-astro-cid-bvzihdzo> <!-- 標題和複製按鈕在同一行 --> <div class="flex items-start justify-between mb-4" data-astro-cid-bvzihdzo> <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex-1 min-w-0" data-astro-cid-bvzihdzo> 文章2 </h1> <!-- 複製網址按鈕 --> <button id="copy-url-btn" class="flex items-center gap-1 px-2 py-1 text-xs text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0 ml-3" title="複製文章網址" data-astro-cid-bvzihdzo> <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" data-astro-cid-bvzihdzo></path> </svg> <span id="copy-text" data-astro-cid-bvzihdzo>複製</span> </button> </div> <!-- 分類和標籤 (手機版) --> <div class="mb-4" data-astro-cid-bvzihdzo> <div class="mb-2" data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>分類：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full" data-astro-cid-bvzihdzo> Hi </span> </div> </div> <div data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>標籤：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> test </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> 測試 </span> </div> </div> </div> <!-- 日期獨占一行 --> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4" data-astro-cid-bvzihdzo> <time dateTime="2025-01-22T08:00:00.000Z" data-astro-cid-bvzihdzo> 2025年1月22日 </time>  <span class="mx-2" data-astro-cid-bvzihdzo>•</span> <span data-astro-cid-bvzihdzo>更新於 2025年1月22日</span>  </div> </div> <!-- 桌面版：標題和按鈕並排顯示 --> <div class="hidden md:block" data-astro-cid-bvzihdzo> <div class="flex items-start justify-between" data-astro-cid-bvzihdzo> <div class="flex-1" data-astro-cid-bvzihdzo> <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-astro-cid-bvzihdzo> 文章2 </h1> <!-- 分類和標籤 --> <div class="mb-4" data-astro-cid-bvzihdzo> <div class="mb-2" data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>分類：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full" data-astro-cid-bvzihdzo> Hi </span> </div> </div> <div data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>標籤：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> test </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> 測試 </span> </div> </div> </div> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm" data-astro-cid-bvzihdzo> <time dateTime="2025-01-22T08:00:00.000Z" data-astro-cid-bvzihdzo> 2025年1月22日 </time>  <span class="mx-2" data-astro-cid-bvzihdzo>•</span> <span data-astro-cid-bvzihdzo>更新於 2025年1月22日</span>  </div> </div> <!-- 複製網址按鈕 --> <button id="copy-url-btn-desktop" class="ml-4 flex items-center gap-2 px-4 py-2 text-sm text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="複製文章網址" data-astro-cid-bvzihdzo> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" data-astro-cid-bvzihdzo></path> </svg> <span id="copy-text-desktop" data-astro-cid-bvzihdzo>複製網址</span> </button> </div> </div> </header> <!-- Content --> <div class="prose prose-lg max-w-none dark:prose-invert" id="article-content" data-astro-cid-bvzihdzo>   <h1 id="私有文章範例">私有文章範例</h1>
+<p>這是一篇私有文章，只有知道正確 URL 的人才能存取。</p>
+<h2 id="私有文章功能">私有文章功能</h2>
+<h3 id="特點">特點</h3>
+<ul>
+<li>✅ 不會顯示在公開的文章列表中</li>
+<li>✅ 不會出現在分類和標籤篩選器中</li>
+<li>✅ 不會包含在 RSS 訂閱中</li>
+<li>✅ 只有知道 URL 的人才能存取</li>
+</ul>
+<h3 id="使用方法">使用方法</h3>
+<ol>
+<li>
+<p><strong>設定文章為私有</strong>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#B392F0">---</span></span>
+<span class="line"><span style="color:#85E89D">title</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"文章標題"</span></span>
+<span class="line"><span style="color:#85E89D">private</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#B392F0">---</span></span></code></pre>
+</li>
+<li>
+<p><strong>分享私有連結</strong>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>https://xsong.us/blog/private-example-2</span></span></code></pre>
+</li>
+</ol>
+<h3 id="安全注意事項">安全注意事項</h3>
+<ul>
+<li>請妥善保管私有文章的 URL</li>
+<li>不要將 URL 分享給不信任的人</li>
+<li>定期檢查私有文章的存取權限</li>
+</ul>
+<h2 id="功能特色">功能特色</h2>
+<ul>
+<li>🔒 <strong>完全隱私</strong>：不會出現在任何公開列表中</li>
+<li>🎯 <strong>精確控制</strong>：只有知道 URL 的人才能存取</li>
+<li>🚀 <strong>簡單易用</strong>：只需在 frontmatter 中設定 <code>private: true</code></li>
+<li>📱 <strong>響應式設計</strong>：在所有設備上都能正常顯示</li>
+</ul>
+<h2 id="總結">總結</h2>
+<p>私有文章功能為您的部落格提供了強大的內容管理能力，讓您可以：</p>
+<ol>
+<li><strong>保護敏感內容</strong>：確保只有授權用戶才能存取</li>
+<li><strong>靈活管理</strong>：根據需要控制文章的可見性</li>
+<li><strong>專業體驗</strong>：提供企業級的內容管理功能</li>
+</ol>
+<p>這個功能特別適合：</p>
+<ul>
+<li>個人部落格作者</li>
+<li>企業內部文檔</li>
+<li>技術團隊協作</li>
+<li>內容創作者</li>
+</ul>
+<hr>
+<p><strong>注意</strong>：這篇文章是私有的，只有知道正確 URL 的人才能存取。請妥善保管您的存取連結！</p>  </div> </div> </article> <!-- 上一篇/下一篇導航 --> <div class="mt-8 flex flex-col sm:flex-row gap-4" data-astro-cid-bvzihdzo>  <a href="/blog/work-two-month-reflection" class="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group" data-astro-cid-bvzihdzo> <div class="flex items-center justify-end" data-astro-cid-bvzihdzo> <div class="text-right" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-1" data-astro-cid-bvzihdzo>下一篇</div> <div class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 工作2個月心得-部署策略與資安洩漏 </div> </div> <svg class="ml-3 w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-astro-cid-bvzihdzo></path> </svg> </div> </a> </div> <!-- 相關文章 --> <div class="mt-12" data-astro-cid-bvzihdzo> <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6" data-astro-cid-bvzihdzo>相關文章</h2> <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-astro-cid-bvzihdzo> <a href="/blog/work-two-month-reflection" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/work-two-month-reflection-1.DSco0Uvy_Z1jJc0n.webp" alt="工作2個月心得-部署策略與資安洩漏" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2025年10月4日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 工作2個月心得-部署策略與資安洩漏 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 本月發生疑似資安洩漏事件與多種部署策略的講解 </p> </div> </a><a href="/blog/work-one-month-reflection" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/work-one-month-reflection-1.CkRbiLGO_kPTwA.webp" alt="工作1個月的心態" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2025年9月5日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 工作1個月的心態 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 分享職場初體驗的酸甜苦辣 </p> </div> </a><a href="/blog/my-first-article" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/my-first-article-1.B2hsdhKS_1Gz1rv.webp" alt="我的第一篇文章" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2025年9月4日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 我的第一篇文章 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向 </p> </div> </a> </div> </div> </div> <!-- 右側目錄導航 --> <div class="lg:w-1/4" data-astro-cid-bvzihdzo> <div class="sticky top-24" data-astro-cid-bvzihdzo> <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700" data-astro-cid-bvzihdzo> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4" data-astro-cid-bvzihdzo>目錄</h3> <nav id="table-of-contents" class="space-y-2" data-astro-cid-bvzihdzo> <!-- 目錄項目將由 JavaScript 動態生成 --> </nav> </div> </div> </div> </div> </div> </div>  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"文章2","description":"這是一個文章的範例2，展示私有文章功能","url":"https://xsong.us/blog/private-example-2/","datePublished":"2025-01-22T08:00:00.000Z","dateModified":"2025-01-22T08:00:00.000Z","author":{"@type":"Person","name":"小松","url":"https://xsong.us"},"publisher":{"@type":"Organization","name":"xsong.us","url":"https://xsong.us","logo":{"@type":"ImageObject","url":"https://xsong.us/avatar.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://xsong.us/blog/private-example-2/"},"image":{"@type":"ImageObject","url":"https://xsong.us/blog/_astro/work-one-month-reflection-1.CkRbiLGO.png","width":1200,"height":630}}</script> <script type="module">function y(){const c=document.getElementById("copy-url-btn"),a=document.getElementById("copy-text"),r=document.getElementById("copy-url-btn-desktop"),i=document.getElementById("copy-text-desktop");async function d(e,n){if(!(!e||!n))try{await navigator.clipboard.writeText(window.location.href);const o=e.querySelector("svg").outerHTML,t=n.textContent,l=e.id==="copy-url-btn"?"w-3 h-3":"w-4 h-4";e.querySelector("svg").outerHTML=`
+						<svg class="${l}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`,n.textContent="已複製！",e.classList.add("text-green-600","dark:text-green-400"),e.classList.remove("text-gray-500"),setTimeout(()=>{e.querySelector("svg").outerHTML=o,n.textContent=t,e.classList.remove("text-green-600","dark:text-green-400"),e.className=e.className.replace(/text-\w+-\d+/g,""),e.classList.add("text-gray-500")},2e3)}catch{const t=document.createElement("textarea");t.value=window.location.href,document.body.appendChild(t),t.select(),document.execCommand("copy"),document.body.removeChild(t);const s=e.querySelector("svg").outerHTML,l=n.textContent,u=e.id==="copy-url-btn"?"w-3 h-3":"w-4 h-4";e.querySelector("svg").outerHTML=`
+						<svg class="${u}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`,n.textContent="已複製！",e.classList.add("text-green-600","dark:text-green-400"),e.classList.remove("text-gray-500"),setTimeout(()=>{e.querySelector("svg").outerHTML=s,n.textContent=l,e.classList.remove("text-green-600","dark:text-green-400"),e.className=e.className.replace(/text-\w+-\d+/g,""),e.classList.add("text-gray-500")},2e3)}}c&&a&&c.addEventListener("click",()=>d(c,a)),r&&i&&r.addEventListener("click",()=>d(r,i))}function x(){const c=document.getElementById("article-content"),a=document.getElementById("table-of-contents");if(!c||!a)return;const r=c.querySelectorAll("h1, h2, h3, h4"),i=[];r.forEach((e,n)=>{const o=`heading-${n}`;e.id=o;const t=document.createElement("a");t.href=`#${o}`,t.textContent=e.textContent,t.className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-green-400 transition-colors py-1 px-2 rounded cursor-pointer",t.addEventListener("click",l=>{l.preventDefault();const g=document.getElementById(o);g&&g.scrollIntoView({behavior:"smooth",block:"start"})});const s=parseInt(e.tagName.charAt(1));t.style.paddingLeft=`${(s-1)*12+8}px`,a.appendChild(t),i.push({element:t,id:o})});function d(){let e=null,n=1/0;r.forEach(o=>{const t=o.getBoundingClientRect(),s=Math.abs(t.top);s<n&&t.top<=150&&(n=s,e=o.id)}),!e&&r.length>0&&(e=r[0].id),i.forEach(({element:o,id:t})=>{t===e?(o.classList.add("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),o.classList.remove("text-gray-600","dark:text-gray-400")):(o.classList.remove("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),o.classList.add("text-gray-600","dark:text-gray-400"))})}window.addEventListener("scroll",d),d()}document.addEventListener("DOMContentLoaded",()=>{y(),x()});</script>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8"> <div class="footer-content text-center"> <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full"> <p class="text-gray-600 dark:text-gray-400 text-sm m-0">
+&copy; 2025 xsong.us All Rights Reserved
+</p> <span class="hidden sm:block text-gray-400 dark:text-gray-500">|</span> <div class="flex items-center gap-4 sm:gap-6"> <a href="/rss" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors footer-link"> <i class="fas fa-rss"></i> <span class="text-xs sm:text-sm font-medium">RSS Feed</span> </a> <span class="text-gray-400 dark:text-gray-500">|</span> <a href="/about#contact" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors footer-link"> <i class="fas fa-envelope"></i> <span class="text-xs sm:text-sm font-medium">Contact</span> </a> </div> </div> </div> </div> </footer> </div> <script type="module">const o=document.getElementById("theme-toggle"),a=document.getElementById("theme-icon"),s=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu"),n=document.getElementById("mobile-menu-icon"),l=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",l==="dark");c();o.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),c()});s.addEventListener("click",()=>{const e=t.classList.toggle("hidden");n.className=`fas ${e?"fa-bars":"fa-times"} text-xl`});document.addEventListener("click",e=>{!s.contains(e.target)&&!t.contains(e.target)&&(t.classList.add("hidden"),n.className="fas fa-bars text-xl")});const m=t.querySelectorAll("a");m.forEach(e=>{e.addEventListener("click",()=>{t.classList.add("hidden"),n.className="fas fa-bars text-xl"})});function c(){const e=document.documentElement.classList.contains("dark");a.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}</script> </body> </html>

@@ -4,6 +4,8 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
+	// 為所有文章（包括私有文章）生成靜態路徑
+	// 私有文章仍然可以通過直接 URL 訪問，但不會出現在列表中
 	return posts.map((post) => ({
 		params: { slug: post.id.replace(/\.(md|mdx)$/, '') },
 		props: { ...post, currentSlug: post.id.replace(/\.(md|mdx)$/, '') },
