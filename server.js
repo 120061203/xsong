@@ -1,6 +1,7 @@
 import { execSync } from "child_process";
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,7 +25,7 @@ if (process.env.ZEABUR === "true") {
       const indexPath = path.join(blogPath, 'index.html');
       
       // 如果文件存在，直接返回
-      if (require('fs').existsSync(indexPath)) {
+      if (fs.existsSync(indexPath)) {
         return res.sendFile(indexPath);
       }
       
@@ -32,7 +33,7 @@ if (process.env.ZEABUR === "true") {
       const pathWithSlash = req.path.endsWith('/') ? req.path : req.path + '/';
       const indexPathWithSlash = path.join(__dirname, 'out', pathWithSlash, 'index.html');
       
-      if (require('fs').existsSync(indexPathWithSlash)) {
+      if (fs.existsSync(indexPathWithSlash)) {
         return res.redirect(301, pathWithSlash);
       }
     }
