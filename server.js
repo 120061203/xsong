@@ -18,27 +18,39 @@ if (process.env.ZEABUR === "true") {
   
   // 處理 SPA 路由 - 所有未匹配的路由都返回 index.html
   app.get('*', (req, res) => {
+    console.log(`🔍 請求路徑: ${req.path}`);
+    
     // 檢查是否是 blog 路由
     if (req.path.startsWith('/blog/')) {
       // 對於 blog 路由，嘗試找到對應的 HTML 文件
-      const blogPath = path.join(__dirname, 'out', req.path);
+      // 由於 Astro 的 base: '/blog' 配置，實際文件在 /out/blog/blog/ 下
+      const blogPath = path.join(__dirname, 'out', 'blog', req.path);
       const indexPath = path.join(blogPath, 'index.html');
+      
+      console.log(`📁 檢查文件: ${indexPath}`);
       
       // 如果文件存在，直接返回
       if (fs.existsSync(indexPath)) {
+        console.log(`✅ 找到文件: ${indexPath}`);
         return res.sendFile(indexPath);
       }
       
       // 如果不存在，嘗試添加 trailing slash
       const pathWithSlash = req.path.endsWith('/') ? req.path : req.path + '/';
-      const indexPathWithSlash = path.join(__dirname, 'out', pathWithSlash, 'index.html');
+      const indexPathWithSlash = path.join(__dirname, 'out', 'blog', pathWithSlash, 'index.html');
+      
+      console.log(`📁 檢查文件 (with slash): ${indexPathWithSlash}`);
       
       if (fs.existsSync(indexPathWithSlash)) {
+        console.log(`🔄 重定向到: ${pathWithSlash}`);
         return res.redirect(301, pathWithSlash);
       }
+      
+      console.log(`❌ 找不到 blog 文件: ${req.path}`);
     }
     
     // 對於其他路由，返回主頁
+    console.log(`🏠 返回主頁: ${req.path}`);
     res.sendFile(path.join(__dirname, 'out', 'index.html'));
   });
   
