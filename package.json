@@ -1,6 +1,6 @@
 {
   "name": "xsong",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -15,7 +15,7 @@
     "compress:images": "node scripts/compress-large-images.js",
     "restore:images": "node scripts/restore-and-recompress.js",
     "test:performance": "node scripts/comprehensive-performance-test.js",
-    "start": "next start",
+    "start": "node server.js",
     "lint": "eslint"
   },
   "dependencies": {
