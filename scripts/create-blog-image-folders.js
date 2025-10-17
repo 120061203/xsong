@@ -19,32 +19,46 @@ try {
     console.log('✅ 創建 src/assets/images 主目錄');
   }
   
-  // 讀取所有 blog 文章
-  const files = fs.readdirSync(blogDir);
-  const mdFiles = files.filter(file => file.endsWith('.md'));
-  
-  console.log(`📄 找到 ${mdFiles.length} 篇 blog 文章`);
-  
-  mdFiles.forEach(file => {
-    // 移除 .md 副檔名作為資料夾名稱
-    const folderName = file.replace(/\.md$/, '');
-    const publicFolderPath = path.join(publicImagesDir, folderName);
-    const assetsFolderPath = path.join(assetsImagesDir, folderName);
-    
-    // 創建 public/images 資料夾
+  // 遞迴讀取所有 .md 文章（支援巢狀目錄，如 2025/10/*.md）
+  const findMarkdownFiles = (dir) => {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    const results = [];
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        results.push(...findMarkdownFiles(fullPath));
+      } else if (entry.isFile() && entry.name.endsWith('.md')) {
+        results.push(fullPath);
+      }
+    }
+    return results;
+  };
+
+  const mdFilePaths = findMarkdownFiles(blogDir);
+  console.log(`📄 找到 ${mdFilePaths.length} 篇 blog 文章`);
+
+  mdFilePaths.forEach((absFilePath) => {
+    // 取得相對於 blogDir 的路徑，並移除副檔名，作為圖片資料夾路徑
+    const relativePath = path.relative(blogDir, absFilePath);
+    const folderPathWithoutExt = relativePath.replace(/\.md$/, '');
+
+    const publicFolderPath = path.join(publicImagesDir, folderPathWithoutExt);
+    const assetsFolderPath = path.join(assetsImagesDir, folderPathWithoutExt);
+
+    // 創建 public/images 對應巢狀資料夾
     if (!fs.existsSync(publicFolderPath)) {
       fs.mkdirSync(publicFolderPath, { recursive: true });
-      console.log(`✅ 創建 public/images/${folderName} 資料夾`);
+      console.log(`✅ 創建 public/images/${folderPathWithoutExt} 資料夾`);
     } else {
-      console.log(`📁 public/images/${folderName} 資料夾已存在`);
+      console.log(`📁 public/images/${folderPathWithoutExt} 資料夾已存在`);
     }
-    
-    // 創建 src/assets/images 資料夾
+
+    // 創建 src/assets/images 對應巢狀資料夾
     if (!fs.existsSync(assetsFolderPath)) {
       fs.mkdirSync(assetsFolderPath, { recursive: true });
-      console.log(`✅ 創建 src/assets/images/${folderName} 資料夾`);
+      console.log(`✅ 創建 src/assets/images/${folderPathWithoutExt} 資料夾`);
     } else {
-      console.log(`📁 src/assets/images/${folderName} 資料夾已存在`);
+      console.log(`📁 src/assets/images/${folderPathWithoutExt} 資料夾已存在`);
     }
   });
   
