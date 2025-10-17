@@ -12,17 +12,7 @@ const allPosts = await getCollection('blog');
 // 調試信息已移除
 
 const posts = allPosts
-	.filter(post => {
-		// 檢查 frontmatter 原始內容
-		const frontmatter = post.body.split('---')[1];
-		const hasPrivateTrue = frontmatter && frontmatter.includes('private: true');
-		
-		// 過濾掉私有文章
-		if (hasPrivateTrue) {
-			return false;
-		}
-		return true;
-	})
+	.filter(post => !post.data.private)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // 調試信息已移除

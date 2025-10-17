@@ -6,17 +6,7 @@ export async function GET(context) {
 	const allPosts = await getCollection('blog');
 	
 	// 過濾掉私有文章
-	const posts = allPosts.filter(post => {
-		// 檢查 frontmatter 原始內容
-		const frontmatter = post.body.split('---')[1];
-		const hasPrivateTrue = frontmatter && frontmatter.includes('private: true');
-		
-		// 過濾掉私有文章
-		if (hasPrivateTrue) {
-			return false;
-		}
-		return true;
-	});
+	const posts = allPosts.filter(post => !post.data.private);
 	
 	// 按發布日期排序，最新的在前
 	const sortedPosts = posts.sort((a, b) => 
