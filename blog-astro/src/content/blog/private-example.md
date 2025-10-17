@@ -3,7 +3,7 @@ title: "私有文章範例"
 description: "這是一個私有文章的範例，展示私有文章功能"
 pubDate: 2025-01-21T16:00:00+08:00
 updatedDate: 2025-01-21T16:00:00+08:00
-heroImage: "../../assets/images/private-example/private-example-1.png"
+heroImage: "../../assets/images/private-example-1/private-example-1.png"
 categories: ["私有文章"]
 tags: ["範例", "私有"]
 private: true
