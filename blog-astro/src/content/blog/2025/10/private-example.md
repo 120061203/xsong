@@ -1,9 +1,9 @@
 ---
 title: "私有文章範例"
 description: "這是一個私有文章的範例，展示私有文章功能"
-pubDate: 2025-01-21T16:00:00+08:00
-updatedDate: 2025-01-21T16:00:00+08:00
-heroImage: "../../../../assets/images/2025/01/private-example-1/private-example-1.png"
+pubDate: 2025-10-16T16:00:00+08:00
+updatedDate: 2025-10-16T16:00:00+08:00
+heroImage: "../../../../assets/images/2025/10/private-example-1/private-example-1.png"
 categories: ["私有文章"]
 tags: ["範例", "私有"]
 private: true
@@ -33,7 +33,7 @@ private: true
 
 2. **分享私有連結**：
    ```
-   https://xsong.us/blog/private-example
+   https://xsong.us/blog/2025/10/private-example
    ```
 
 ### 安全注意事項
