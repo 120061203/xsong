@@ -7,7 +7,7 @@ updatedDate: 2025-10-17T16:00:00+08:00
 heroImage: "../../../../assets/images/2025/10/2025-10-17-milestone-first-RD-meeting/2025-10-17-milestone-first-RD-meeting-1.png"
 categories: ["工作日記"]
 tags: ["Terraform", "職場心得"]
-private: true
+private: false
 ---
 
 # 驚心動魄RD大會議
