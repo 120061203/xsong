@@ -17,97 +17,35 @@ export default function RSSPage() {
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 從 Astro 部落格獲取最新文章
+  // 從 Astro 部落格獲取最新文章（改為解析 RSS）
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        // 嘗試從 Astro 部落格 API 獲取文章
-        const response = await fetch('/blog/data-store.json');
-        if (response.ok) {
-          const data = await response.json();
-          const posts = data.entries || [];
-          
-          // 確保 posts 是數組
-          if (Array.isArray(posts)) {
-            // 轉換格式並限制為最近的文章
-            const formattedPosts = posts
-              .slice(0, 6) // 只取最新的 6 篇文章
-              .map((post: {
-                title?: string;
-                id?: string;
-                pubDate?: string;
-                description?: string;
-                categories?: string[];
-                tags?: string[];
-              }) => ({
-                title: post.title || '無標題',
-                slug: post.id?.replace(/\.(md|mdx)$/, '') || '',
-                date: post.pubDate ? new Date(post.pubDate).toLocaleString('zh-TW') : '未知日期',
-                description: post.description || '無描述',
-                categories: post.categories || [],
-                tags: post.tags || []
-              }));
-            
-            setRecentPosts(formattedPosts);
-          } else {
-            console.warn('posts 不是數組格式:', posts);
-            // 使用預設數據
-            setRecentPosts([
-              {
-                title: "工作2個月心得-部署策略與資安洩漏",
-                slug: "work-two-month-reflection",
-                date: "2025-10-04 21:00",
-                description: "本月發生疑似資安洩漏事件與多種部署策略的講解",
-                categories: ["工作日記", "技術分享"],
-                tags: ["資安洩漏", "部署策略"]
-              },
-              {
-                title: "工作1個月的心態",
-                slug: "work-one-month-reflection",
-                date: "2025-09-05 14:07",
-                description: "分享職場初體驗的酸甜苦辣",
-                categories: ["工作日記"],
-                tags: ["新鮮人就業", "職場心得"]
-              },
-              {
-                title: "我的第一篇文章",
-                slug: "my-first-article", 
-                date: "2025-09-04 10:30",
-                description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向",
-                categories: ["技術分享"],
-                tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
-              }
-            ]);
-          }
-        } else {
-          // 如果無法獲取，使用預設數據
-          setRecentPosts([
-            {
-              title: "工作2個月心得-部署策略與資安洩漏",
-              slug: "work-two-month-reflection",
-              date: "2025-10-04 21:00",
-              description: "本月發生疑似資安洩漏事件與多種部署策略的講解",
-              categories: ["工作日記", "技術分享"],
-              tags: ["資安洩漏", "部署策略"]
-            },
-            {
-              title: "工作1個月的心態",
-              slug: "work-one-month-reflection",
-              date: "2025-09-05 14:07",
-              description: "分享職場初體驗的酸甜苦辣",
-              categories: ["工作日記"],
-              tags: ["新鮮人就業", "職場心得"]
-            },
-            {
-              title: "我的第一篇文章",
-              slug: "my-first-article", 
-              date: "2025-09-04 10:30",
-              description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向",
-              categories: ["技術分享"],
-              tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
-            }
-          ]);
-        }
+        // 直接解析 RSS Feed
+        const response = await fetch('/blog/rss.xml', { cache: 'no-store' });
+        if (!response.ok) throw new Error('RSS 讀取失敗');
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, 'application/xml');
+        const items = Array.from(xml.querySelectorAll('item'));
+
+        const formattedPosts: BlogPost[] = items.slice(0, 6).map((item) => {
+          const title = item.querySelector('title')?.textContent || '無標題';
+          const link = item.querySelector('link')?.textContent || '';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          const description = item.querySelector('description')?.textContent || '無描述';
+          const url = new URL(link, window.location.origin);
+          // 期望形如 /blog/<slug>
+          const slug = url.pathname.replace(/^\/blog\//, '').replace(/\/$/, '');
+          return {
+            title,
+            slug,
+            date: pubDate ? new Date(pubDate).toLocaleString('zh-TW') : '未知日期',
+            description,
+          };
+        });
+
+        setRecentPosts(formattedPosts);
       } catch (error) {
         console.error('獲取文章數據失敗:', error);
         // 使用預設數據
