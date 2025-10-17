@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 // import { useTheme } from '../contexts/ThemeContext'; // 暫時未使用
 import { useAnalytics } from '../hooks/useAnalytics';
@@ -1223,14 +1224,14 @@ export default function ProjectsPage() {
                     )}
                   </div>
                   <div className="flex items-center justify-between mt-auto">
-                    <span className="text-sm hover:underline cursor-pointer opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
+                    <Link href={`/projects/${project.id}`} className="text-sm hover:underline cursor-pointer opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
                       View Details
-                    </span>
+                    </Link>
                     <div className="flex items-center gap-2 transition-transform duration-300 group-hover:translate-x-1">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          const projectUrl = `${window.location.origin}/projects#project-${project.id}`;
+                          const projectUrl = `${window.location.origin}/projects/${project.id}`;
                           navigator.clipboard.writeText(projectUrl);
                           // 視覺反饋
                           const button = e.currentTarget;
