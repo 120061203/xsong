@@ -1,8 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>xsong.us - 技術分享與作品集</title><description>小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。</description><link>https://xsong.us/</link><item><title>工作2個月心得-部署策略與資安洩漏</title><link>https://xsong.us/blog/work-two-month-reflection/</link><guid isPermaLink="true">https://xsong.us/blog/work-two-month-reflection/</guid><description>本月發生疑似資安洩漏事件與多種部署策略的講解</description><pubDate>Sat, 04 Oct 2025 13:00:00 GMT</pubDate><content:encoded>從第二個月開始，我開始逐漸熟悉使用 Terraform，開始嘗試規劃公司服務的網路並且開始了一些專案的部署。由於某些 Team 的專案需要使用大語言模型，因此我也了解到了一些建立 GPU 機器還有 Git LFS 大檔案的操作。
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>xsong.us - 技術分享與作品集</title><description>小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。</description><link>https://xsong.us/</link><item><title>解鎖成就-第一次RD會議</title><link>https://xsong.us/blog/2025/10/2025-10-17-milestone-first-rd-meeting/</link><guid isPermaLink="true">https://xsong.us/blog/2025/10/2025-10-17-milestone-first-rd-meeting/</guid><description>當著30位RD、老闆和顧問的面報告 Terraform的部署計劃</description><pubDate>Fri, 17 Oct 2025 08:00:00 GMT</pubDate><content:encoded># 驚心動魄RD大會議
+
+10月17日，是我第一次當著所有RD工程師面前來進行報告，在座的也有公司的老闆和顧問，讓人覺得既緊張又興奮。
+
+## 源起
+
+### 新人的第一場試煉
+我大約在2週前，10/3那天，Team Lead說是不是能有機會在每週的會議上，去報告我在部署基礎設施時，使用的Terraform。目前進入公司以來我還都是在Team中小試身手，還沒有在所有RD面前報告自己的研究，因此當天我也先進入會議室，來聽聽看會議的形式，好讓我了解下下週的會議流程。
+
+在聆聽過會議內容後，了解了會議形式，也了解到我將會和同Team的另一位夥伴一起報告，雖然內容不同，不過至少有夥伴的感覺，心裡多了一些安心。
+
+### 連續假期
+
+由於收到要參加會議的隔週是連續的10/6中秋和10/10雙十連假，感覺時間很快就過了，我也將自己的Demo程式碼整理在Bitbucket中，我為這個專案取名為[App-Hub](https://xsong.us/projects#project-app-hub)，具體的內容我已經放在Projects頁面當中了，簡單來說這是一個用來建立 AWS 雲端基礎設施的範例，希望能夠建立高可用性的自動化部署環境，由原本傳統的人工手動複雜而繁瑣的建立，改由可被版本控制的自動化部署方式，增加效率，減少出錯。
+
+### 組內試講
+
+10/13 連假回來的第一天，我在Devops Team組內試講，試講後加入了來龍去脈，並稍微調整了一下講解順序，讓不了解這個領域的人可以更直觀地了解這個專案的目的與作用。
+
+由於我對自己的內容非常了解，再加上自己之前演講的經驗，我覺得一場簡單的20分鐘報告，對我來說還是非常簡單的。
+
+## RD大會議當天
+
+10/17 當天有約30人在Zoom會議中，大部分人開啟鏡頭，並在我之前有7組人需要報告，而我被安排在了壓軸，我從9:30進入會議室，大約到11:25輪到我，我順利的按照脈絡與思路流程的講解完了，而在會議後，也收到了來自其他RD Team的稱讚，這算是對自己莫大的鼓勵。
+![被稱讚了](../../../../assets/images/2025/10/2025-10-17-milestone-first-RD-meeting/meeting-good.png)
+
+## 總結
+
+職場菜鳥的第一場報告就這樣結束了，在順暢以及簡潔的流程中度過了一個上午，在會後也有人主動來詢問我這個專案後續如何與他的專案自動化串接，我覺得非常開心。在會議中我也會觀察其他人製作的報告，我看到一個有趣的手繪風格流程圖 [excalidraw](https://excalidraw.com/) ,在會後我也去請教了其他RD，了解到原來是用這個網站建立的，非常有趣，互相吸取彼此的經驗的感覺。</content:encoded><category>工作日記</category></item><item><title>工作2個月心得-部署策略與資安洩漏</title><link>https://xsong.us/blog/2025/10/work-two-month-reflection/</link><guid isPermaLink="true">https://xsong.us/blog/2025/10/work-two-month-reflection/</guid><description>本月發生疑似資安洩漏事件與多種部署策略的講解</description><pubDate>Sat, 04 Oct 2025 13:00:00 GMT</pubDate><content:encoded>從第二個月開始，我開始逐漸熟悉使用 Terraform，開始嘗試規劃公司服務的網路並且開始了一些專案的部署。由於某些 Team 的專案需要使用大語言模型，因此我也了解到了一些建立 GPU 機器還有 Git LFS 大檔案的操作。
 
 ## 資安洩漏事件
 在 9 月初的某一天，Team Lead 突然召集我們開了一個小會議，原因是客戶收到了一些其他公司的行銷訊息，不確定是不是我們的系統導致的資料外洩，但我們也需要去查明看看是否有資料外洩的管道，這也讓我了解到企業資安的重要性，然後在實戰中我也去追溯程式碼還有查看邏輯和可能的漏洞。
-![資安事件追查 - secret-leak](../../assets/images/work-two-month-reflection/secret-leak.png)
+![資安事件追查 - secret-leak](../../../../assets/images/2025/10/work-two-month-reflection/secret-leak.png)
 
 &gt; **心得**：雖然不確定客戶的資料洩漏是否真的與系統有關，也有可能是他被社交攻擊，但也學習到了一些 JWT (JSON Web Tokens) 相關的內容。這邊也找到一個 [jwt.io](https://www.jwt.io/) 用於 Decode 和 Encode 的網站。
 
@@ -10,7 +38,7 @@
 
 在部署專案的過程中，我也學習到了一些很重要的部署方式，但是否能夠根據專案需求調整部署策略也是身為專業的 DevOps 工程師應該要學會的技能。
 
-![部署策略總覽 - deploy-strategy](../../assets/images/work-two-month-reflection/deploy-strategy.png)
+![部署策略總覽 - deploy-strategy](../../../../assets/images/2025/10/work-two-month-reflection/deploy-strategy.png)
 
 ### 部署策略的分類
 1. 傳統部署(Recreate Deployment)
@@ -53,17 +81,17 @@
 
 工作的任務介紹的差不多，大約在 9 月中，也就是我入職 1 個半月時，人資姊姊敲我說能不能聊聊，我記得那天約下午 15:15，然後最後我們大約聊到 16:50 左右，我直接聊完下班。內容大致上就是 OnBoard 這 1 個月以來是否還習慣，然後我也更了解目前公司的各 Team 組織架構，也聊了 Team Bonding 其他 Team 去哪裡玩，還有每季聚餐吃什麼，然後我也向她感謝了公司給了我一台新筆電，讓我覺得很開心。
 
-![按摩服務體驗 - massage](../../assets/images/work-two-month-reflection/massage.png)
+![按摩服務體驗 - massage](../../../../assets/images/2025/10/work-two-month-reflection/massage.png)
 
 每 2 個月我們可以預約按摩服務，會有視障按摩師來公司駐點，作為一個新鮮人就預約了一次嘗試看看。我預約了 9/26 那週的週五，給自己一個 Happy Weekend，當天我準時抵達哺乳室門口（對，我們公司按摩是在哺乳室中 XD），按摩時間大約 30 分鐘，面朝下趴在一個按摩床上。原來按摩師也算是我們公司的員工之一，但是她也可以去服務其他公司。了解到原來按摩證照是只有視障者才可以考取，普通人不能考取，這是一個政府的保護政策，不得不說我們的按摩師力道很夠，而且可以按摩到穴位，按摩後的 1～2 天我還是會覺得有點酸痛，這和之前的按摩體驗不太一樣。
 
 ## 總結
-來公司 2 個月，我覺得挺開心的，每週的手搖杯已經喝到有點怕，開始帶回家給家人品嚐，上班體驗按摩服務還蠻有趣的，這應該不是所有公司都有提供。作為新鮮人上班可以離家很近，回家騎腳踏車也很快，這真是一個其他公司比不了的大福利。</content:encoded></item><item><title>工作1個月的心態</title><link>https://xsong.us/blog/work-one-month-reflection/</link><guid isPermaLink="true">https://xsong.us/blog/work-one-month-reflection/</guid><description>分享職場初體驗的酸甜苦辣</description><pubDate>Fri, 05 Sep 2025 06:07:00 GMT</pubDate><content:encoded>7月7日是我拿到碩士畢業證書的日子，在隔週的7月15日是我離開研究所租屋，搭乘著搬家公司老闆的小貨車一路南下，回到台中，稍作整頓休息，在8月4日開始了工作。
+來公司 2 個月，我覺得挺開心的，每週的手搖杯已經喝到有點怕，開始帶回家給家人品嚐，上班體驗按摩服務還蠻有趣的，這應該不是所有公司都有提供。作為新鮮人上班可以離家很近，回家騎腳踏車也很快，這真是一個其他公司比不了的大福利。</content:encoded><category>工作日記</category><category>技術分享</category></item><item><title>工作1個月的心態</title><link>https://xsong.us/blog/2025/09/work-one-month-reflection/</link><guid isPermaLink="true">https://xsong.us/blog/2025/09/work-one-month-reflection/</guid><description>分享職場初體驗的酸甜苦辣</description><pubDate>Fri, 05 Sep 2025 06:07:00 GMT</pubDate><content:encoded>7月7日是我拿到碩士畢業證書的日子，在隔週的7月15日是我離開研究所租屋，搭乘著搬家公司老闆的小貨車一路南下，回到台中，稍作整頓休息，在8月4日開始了工作。
 
 ## 工作第一天
 8月4日，雨，和人資約9:00到公司，但沒想到第一天到公司，樓下電梯大廳排了很長的人，人潮就像吃buffet排隊的人流，每條隊伍大約15人以上，大約分4條隊伍，而我在16樓，只有唯一一條可以排隊，我在樓下拿了電梯卡，準備前往公司。
 
-![工作第一天 - 電梯大廳排隊](../../assets/images/work-one-month-reflection/work-one-month-reflection-1.png)
+![工作第一天 - 電梯大廳排隊](../../../../assets/images/2025/09/work-one-month-reflection/work-one-month-reflection-1.png)
 
 抵達公司，剛好尾隨一位同樣晚到的同事，她幫我找了人資，還記得人資向我招了招手，示意我進去一個透明玻璃的會議室，她讓我登入一台Macbook電腦，並告訴我Google帳號密碼，領取我的Badge和電梯卡，並告訴我公司的簡單事項，包含上班彈性時間從8:00～9:00，自己往後加9小時，並讓我打卡，我還記得我第一天打卡是9:18，她說一般超過15分需要請假半小時，但第一天她就比較彈性，我只要18:18以後下班就可以了，我內心覺得也還蠻正常的。
 
@@ -106,7 +134,7 @@
 
 ---
 
-*如果你也是職場新鮮人，歡迎分享你的工作心得！*</content:encoded></item><item><title>我的第一篇文章</title><link>https://xsong.us/blog/my-first-article/</link><guid isPermaLink="true">https://xsong.us/blog/my-first-article/</guid><description>分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向</description><pubDate>Thu, 04 Sep 2025 02:30:00 GMT</pubDate><content:encoded># 前言
+*如果你也是職場新鮮人，歡迎分享你的工作心得！*</content:encoded><category>工作日記</category></item><item><title>我的第一篇文章</title><link>https://xsong.us/blog/2025/09/my-first-article/</link><guid isPermaLink="true">https://xsong.us/blog/2025/09/my-first-article/</guid><description>分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向</description><pubDate>Thu, 04 Sep 2025 02:30:00 GMT</pubDate><content:encoded># 前言
 
 自 2025 年 8 月開始建立這個技術部落格至今，已經過了一段時間，卻還沒好好寫下建立部落格的初衷和未來規劃…，看來是時候該寫下這篇文章了 XD。
 
@@ -120,7 +148,7 @@
 
 在決定建立部落格時，我有幾個選擇：WordPress、Hugo、Next.js、Astro 等。雖然我最一開始的志願序是 WordPress &gt; Next.js &gt; Astro，但經過深入研究和比較後，我選擇了 Astro 作為我的部落格框架。
 
-![技術部落格建立過程](../../assets/images/my-first-article/my-first-article-1.png)
+![技術部落格建立過程](../../../../assets/images/2025/09/my-first-article/my-first-article-1.png)
 
 但我想要先澄清，這個部落格不只是寫技術文章！我的目標是建立一個全方位的技術分享平台，包含技術心得、演講內容、課程教學、以及個人成長記錄，類似於一個技術人的數位花園。
 
@@ -208,4 +236,4 @@ Astro 最吸引我的地方就是「零 JavaScript 預設」的設計理念。�
 
 ---
 
-*這篇文章標誌著我技術分享之旅的開始！期待在這裡與大家分享更多技術的大小事，以及演講和課程的內容。*</content:encoded></item></channel></rss>
+*這篇文章標誌著我技術分享之旅的開始！期待在這裡與大家分享更多技術的大小事，以及演講和課程的內容。*</content:encoded><category>技術分享</category></item></channel></rss>

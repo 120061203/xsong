@@ -45,6 +45,22 @@
         "heroImage": {
           "type": "string"
         },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "private": {
+          "type": "boolean",
+          "default": false
+        },
         "$schema": {
           "type": "string"
         }

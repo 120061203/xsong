@@ -32,12 +32,15 @@ const today = new Date();
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1em;
+		gap: 0.5rem; /* reduce vertical spacing */
+		max-width: 80rem;
+		margin: 0 auto;
+		padding: 0 1rem;
 	}
 	.footer-links {
 		display: flex;
 		align-items: center;
-		gap: 1em;
+		gap: 1rem;
 	}
 	.footer-link {
 		display: flex;
@@ -56,9 +59,20 @@ const today = new Date();
 	.separator {
 		color: rgb(var(--gray));
 		opacity: 0.6;
+		display: none; /* only show on wider screens */
 	}
 	.footer-copyright {
 		font-size: 0.9em;
 		opacity: 0.8;
+	}
+
+	/* On small screens show compact column; on >=640px, align to one row like Next.js footer */
+	@media (min-width: 640px) {
+		.footer-content {
+			flex-direction: row;
+			justify-content: center;
+			gap: 1.5rem;
+		}
+		.separator { display: inline; }
 	}
 </style>
