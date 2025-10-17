@@ -4,7 +4,7 @@ description: "當著30位RD、老闆和顧問的面報告
 Terraform的部署計劃"
 pubDate: 2025-10-17T16:00:00+08:00
 updatedDate: 2025-10-17T16:00:00+08:00
-heroImage: "../../assets/images/2025-10-17-milestone-first-RD-meeting/2025-10-17-milestone-first-RD-meeting-1.png"
+heroImage: "../../../../assets/images/2025/10/2025-10-17-milestone-first-RD-meeting/2025-10-17-milestone-first-RD-meeting-1.png"
 categories: ["工作日記"]
 tags: ["Terraform", "職場心得"]
 private: true
@@ -34,7 +34,7 @@ private: true
 ## RD大會議當天
 
 10/17 當天有約30人在Zoom會議中，大部分人開啟鏡頭，並在我之前有7組人需要報告，而我被安排在了壓軸，我從9:30進入會議室，大約到11:25輪到我，我順利的按照脈絡與思路流程的講解完了，而在會議後，也收到了來自其他RD Team的稱讚，這算是對自己莫大的鼓勵。
-![被稱讚了](../../assets/images/2025-10-17-milestone-first-RD-meeting/meeting-good.png)
+![被稱讚了](../../../../assets/images/2025/10/2025-10-17-milestone-first-RD-meeting/meeting-good.png)
 
 ## 總結
 

@@ -3,7 +3,7 @@ title: "我的第一篇文章"
 description: "分享我建立這個技術部落格的初衷，以及未來想要分享的內容方向"
 pubDate: 2025-09-04T10:30:00+08:00
 updatedDate: 2025-09-04T10:30:00+08:00
-heroImage: "../../assets/images/my-first-article/my-first-article-1.png"
+heroImage: "../../../../assets/images/2025/09/my-first-article/my-first-article-1.png"
 categories: ["技術分享"]
 tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
 ---
@@ -22,7 +22,7 @@ tags: ["Astro", "Next.js", "前端", "GitHub Pages"]
 
 在決定建立部落格時，我有幾個選擇：WordPress、Hugo、Next.js、Astro 等。雖然我最一開始的志願序是 WordPress > Next.js > Astro，但經過深入研究和比較後，我選擇了 Astro 作為我的部落格框架。
 
-![技術部落格建立過程](../../assets/images/my-first-article/my-first-article-1.png)
+![技術部落格建立過程](../../../../assets/images/2025/09/my-first-article/my-first-article-1.png)
 
 但我想要先澄清，這個部落格不只是寫技術文章！我的目標是建立一個全方位的技術分享平台，包含技術心得、演講內容、課程教學、以及個人成長記錄，類似於一個技術人的數位花園。
 
