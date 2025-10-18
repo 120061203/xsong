@@ -768,23 +768,33 @@ export default function ProjectsPage() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash && hash.startsWith('#project-')) {
-        const projectId = hash.replace('#project-', '');
-        const project = projects.find(p => p.id === projectId);
-        if (project) {
-          // 滾動到對應專案
-          const element = document.getElementById(`project-${projectId}`);
-          if (element) {
-            element.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'center' 
-            });
-            
-            // 延遲打開專案詳情，讓滾動動畫完成
-            setTimeout(() => {
-              setSelectedProject(project);
-              trackProjectView(project.title);
-            }, 800);
+      if (hash) {
+        let projectId = '';
+        
+        // 支援兩種格式：#project-xxx 和 #xxx
+        if (hash.startsWith('#project-')) {
+          projectId = hash.replace('#project-', '');
+        } else if (hash.startsWith('#')) {
+          projectId = hash.substring(1); // 移除 # 符號
+        }
+        
+        if (projectId) {
+          const project = projects.find(p => p.id === projectId);
+          if (project) {
+            // 滾動到對應專案
+            const element = document.getElementById(`project-${projectId}`);
+            if (element) {
+              element.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+              });
+              
+              // 延遲打開專案詳情，讓滾動動畫完成
+              setTimeout(() => {
+                setSelectedProject(project);
+                trackProjectView(project.title);
+              }, 800);
+            }
           }
         }
       }
