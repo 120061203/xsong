@@ -22,7 +22,7 @@ export const PROJECTS: ProjectMeta[] = [
     description: 'CI/CD 自動將 Dashboard 部署到 Grafana Cloud。',
     fullDescription: '這是一個完整的 CI/CD 自動化部署解決方案，整合 Jenkins 與 Grafana Cloud，實現 Dashboard 的自動化部署與監控。透過 Jenkins Pipeline，當程式碼更新時自動觸發部署流程，將最新的 Dashboard 配置部署到 Grafana Cloud，並提供完整的監控與告警機制。',
     technologies: ['Jenkins', 'Grafana Cloud', 'Docker', 'YAML', 'JSON', 'CI/CD', 'Pipeline', 'Monitoring'],
-    date: '2024-08',
+    date: '2025-10-08',
     features: [
       '自動化 Dashboard 部署流程',
       'Jenkins Pipeline 整合',
@@ -56,7 +56,7 @@ export const PROJECTS: ProjectMeta[] = [
     description: '專業級 Ansible 自動化部署解決方案，展示企業級 DevOps 實踐與安全最佳實踐。',
     fullDescription: '這是一個全面的 Ansible 自動化部署教學專案，涵蓋從基礎到進階的企業級應用場景。包含多種部署策略、安全最佳實踐、以及與各種雲端平台的整合。',
     technologies: ['Ansible', 'YAML', 'Docker', 'AWS', 'Terraform', 'Security', 'DevOps'],
-    date: '2024-07',
+    date: '2025-10-14',
     features: [
       '多環境自動化部署',
       '安全配置管理',
@@ -83,7 +83,7 @@ export const PROJECTS: ProjectMeta[] = [
     description: '專業的 LaTeX 履歷專案，支援自動化編譯與 GitHub Pages 部署。',
     fullDescription: '使用 LaTeX 建立專業履歷模板，整合 GitHub Actions 實現自動化編譯與部署，支援多種格式輸出。',
     technologies: ['LaTeX', 'GitHub Actions', 'PDF', 'Automation'],
-    date: '2024-06',
+    date: '2025-10-01',
     features: [
       'LaTeX 模板設計',
       '自動化編譯',
