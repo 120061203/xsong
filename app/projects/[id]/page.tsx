@@ -7,11 +7,12 @@ export async function generateStaticParams() {
   return PROJECTS.map(p => ({ id: p.id }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const meta = getProjectMeta(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const meta = getProjectMeta(id);
   const siteUrl = 'https://xsong.us';
-  const pageUrl = `${siteUrl}/projects/${params.id}`;
-  const ogImage = `${siteUrl}/images/projects/png/${params.id}.png`;
+  const pageUrl = `${siteUrl}/projects/${id}`;
+  const ogImage = `${siteUrl}/images/projects/png/${id}.png`;
   const title = meta ? `${meta.title} - xsong.us` : 'Project - xsong.us';
   const description = meta?.description || 'Project details on xsong.us';
 
@@ -35,8 +36,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
-  const meta = getProjectMeta(params.id);
+export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const meta = getProjectMeta(id);
   if (!meta) {
     return (
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10">
@@ -54,7 +56,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <Link href="/projects" className="text-blue-600 dark:text-blue-400 hover:underline">← 返回 Projects</Link>
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mt-4 mb-6">{meta.title}</h1>
         <div className="relative w-full rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 mb-6" style={{ aspectRatio: '16/9' }}>
-          <Image src={`/images/projects/png/${meta.id}.png`} alt={`${meta.title} og image`} fill className="object-cover" />
+          <Image src={`/images/projects/png/${id}.png`} alt={`${meta.title} og image`} fill className="object-cover" />
         </div>
         <p className="text-gray-700 dark:text-gray-300 text-lg">{meta.description}</p>
       </div>

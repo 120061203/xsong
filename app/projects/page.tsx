@@ -210,18 +210,14 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
   return (
     <div className="relative group w-full h-full">
-      <img
+      <Image
         src={getImageSrc(currentVersion)}
         alt={`${alt} - Version ${currentVersion}`}
+        fill
         className={className}
         onError={handleError}
         style={{ 
-          width: '100%', 
-          height: '100%', 
-          objectFit: 'cover',
-          position: 'absolute',
-          top: 0,
-          left: 0
+          objectFit: 'cover'
         }}
       />
       {/* A/B 切換按鈕 */}
@@ -721,207 +717,7 @@ interface OptimizedImageProps {
   priority?: boolean;
 }
 
-function OptimizedImage({ src, alt, className, fill, width, height, priority = false }: OptimizedImageProps) {
-  const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
-  const [retryCount, setRetryCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(priority);
-  const [optimizedSrc, setOptimizedSrc] = useState<string>(src);
-  // 檢查是否有緩存，如果有緩存就不顯示載入狀態
-  const [showLoading, setShowLoading] = useState(() => !getCachedWebP(src));
-  const maxRetries = 2;
-
-  // 懶加載：使用 Intersection Observer
-  useEffect(() => {
-    if (priority) return; // 優先載入的圖片不需要懶加載
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        rootMargin: '50px', // 提前 50px 開始載入
-        threshold: 0.1
-      }
-    );
-
-    const currentElement = document.querySelector(`[data-image-src="${src}"]`);
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
-
-    return () => observer.disconnect();
-  }, [src, priority]);
-
-  // 圖片優化和緩存處理
-  useEffect(() => {
-    if (!isVisible) return;
-
-    // 如果圖片已經有緩存，立即設置為載入完成
-    const cachedWebP = getCachedWebP(src);
-    if (cachedWebP) {
-      setOptimizedSrc(cachedWebP);
-      setImageState('loaded');
-      setShowLoading(false);
-      return;
-    }
-
-    const loadOptimizedImage = async () => {
-      try {
-        console.log(`Loading image: ${src}`);
-        // 檢查是否有已轉換的 WebP 緩存
-        const cachedWebP = getCachedWebP(src);
-        if (cachedWebP) {
-          console.log(`Using cached WebP for: ${src}`);
-          setOptimizedSrc(cachedWebP);
-          // 如果有緩存，立即顯示圖片，不需要載入狀態
-          setImageState('loaded');
-          setShowLoading(false);
-          return;
-        }
-
-        // 生成備用圖片 URL（使用不同的截圖服務）
-        const getFallbackUrl = (originalUrl: string, retryIndex: number) => {
-          const urlMatch = originalUrl.match(/url=([^&]+)/) || 
-                          originalUrl.match(/url=(.+)$/) ||
-                          originalUrl.match(/\/\/([^\/]+)/);
-          
-          if (!urlMatch) return originalUrl;
-          
-          const targetUrl = urlMatch[1];
-          const services = [
-            `https://urlscan.io/liveshot/?width=1280&height=720&url=${targetUrl}`,
-            `https://htmlcsstoimage.com/demo?url=${targetUrl}`
-          ];
-          
-          return services[retryIndex % services.length];
-        };
-
-        const currentSrc = retryCount > 0 ? getFallbackUrl(src, retryCount) : src;
-        console.log(`Converting to WebP: ${currentSrc}`);
-        
-        // 嘗試轉換為 WebP
-        try {
-          const webpUrl = await convertToWebP(currentSrc);
-          console.log(`WebP conversion successful for: ${src}`);
-          setCachedWebP(src, webpUrl);
-          setOptimizedSrc(webpUrl);
-          // 添加短暫延遲以顯示載入狀態
-          setTimeout(() => {
-            setImageState('loaded');
-            setShowLoading(false);
-          }, 800);
-        } catch (webpError) {
-          console.warn('WebP conversion failed, using original:', webpError);
-          setOptimizedSrc(currentSrc);
-          // 添加短暫延遲以顯示載入狀態
-          setTimeout(() => {
-            setImageState('loaded');
-            setShowLoading(false);
-          }, 800);
-        }
-      } catch (error) {
-        console.error('Image loading failed:', error);
-        setImageState('error');
-      }
-    };
-
-    loadOptimizedImage();
-  }, [isVisible, src, retryCount]);
-
-  const handleError = () => {
-    console.log(`Image error for ${src}, retry count: ${retryCount}`);
-    if (retryCount < maxRetries) {
-      setRetryCount(prev => prev + 1);
-      setImageState('loading');
-      setShowLoading(true); // 重試時重新顯示載入狀態
-    } else {
-      setImageState('error');
-      setShowLoading(false);
-    }
-  };
-
-  return (
-    <div className="relative w-full h-full" data-image-src={src}>
-      {/* 載入狀態 */}
-      {showLoading && isVisible && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-          <div className="flex flex-col items-center space-y-3">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">即時連線中</p>
-          </div>
-        </div>
-      )}
-      
-      {/* 錯誤狀態 */}
-      {imageState === 'error' && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-          <div className="text-center">
-            <i className="fas fa-image text-4xl text-gray-400 mb-2"></i>
-            <p className="text-sm text-gray-500 dark:text-gray-400">截圖載入失敗</p>
-            <button 
-              onClick={() => {
-                setRetryCount(0);
-                setImageState('loading');
-              }}
-              className="mt-2 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-            >
-              重試
-            </button>
-          </div>
-        </div>
-      )}
-      
-      {/* 佔位符（未載入時） */}
-      {!isVisible && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-          <div className="text-center">
-            <i className="fas fa-image text-4xl text-gray-300 dark:text-gray-600 mb-2"></i>
-            <p className="text-sm text-gray-400 dark:text-gray-500">準備載入...</p>
-          </div>
-        </div>
-      )}
-      
-      {/* 實際圖片 */}
-      {isVisible && !showLoading && (
-        <Image
-          src={optimizedSrc}
-          alt={alt}
-          fill={fill}
-          width={width}
-          height={height}
-          className={`${className} ${imageState === 'loaded' ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
-          priority={priority}
-          loading={priority ? "eager" : "lazy"}
-          onLoad={() => setImageState('loaded')}
-          onError={handleError}
-        />
-      )}
-    </div>
-  );
-}
-
-// 震撼的標籤同時出現 - 營造視覺衝擊
-function calculateDelay(index: number, technologies: string[]): number {
-  if (index === 0) return 0; // 第一個標籤立即開始
-  
-  // 快速連續出現：前20個標籤在2秒內全部出現
-  if (index < 20) {
-    return index * 0.1; // 每0.1秒出現一個
-  }
-  
-  // 後續標籤稍微延遲，但不會太久
-  const baseDelay = 2 + (index - 20) * 0.2; // 2秒後開始，每0.2秒一個
-  
-  // 隨機微調：讓標籤不會完全同步
-  const randomAdjustment = (index % 3) * 0.1; // 0-0.2秒的隨機調整
-  
-  return baseDelay + randomAdjustment;
-}
+// Removed unused functions
 
 // 不再需要動態計算消失位置，使用固定的動畫路徑
 
@@ -929,13 +725,7 @@ export default function ProjectsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showStaticTags, setShowStaticTags] = useState(false);
-  const [tagProperties, setTagProperties] = useState<Array<{
-    opacity: number, 
-    transform: string, 
-    horizontalOffset: number, 
-    animationSpeed: number, 
-    animationDirection: number
-  }>>([]);
+  // Removed unused tagProperties state
   const { trackProjectView, trackLinkClick } = useAnalytics();
 
   // 處理 tag 點擊的函數
@@ -961,19 +751,7 @@ export default function ProjectsPage() {
     }
   };
 
-  // 初始化標籤屬性
-  useEffect(() => {
-    const properties = allTechnologies.map((tech, index) => {
-      return {
-        opacity: 1,
-        transform: 'translateY(0px)',
-        horizontalOffset: 0,
-        animationSpeed: 12,
-        animationDirection: 1
-      };
-    });
-    setTagProperties(properties);
-  }, []);
+  // Removed tag properties initialization
 
   // 添加安全頭部
   useEffect(() => {
@@ -1021,7 +799,7 @@ export default function ProjectsPage() {
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
     };
-  }, []);
+  }, [trackProjectView]);
 
   const filteredProjects = selectedFilter === 'All' 
     ? sortedProjects 

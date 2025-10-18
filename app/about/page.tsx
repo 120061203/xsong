@@ -1,7 +1,8 @@
 'use client';
 
 // import Link from 'next/link'; // 暫時未使用
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import { PersonStructuredData } from '../components/StructuredData';
 
 export default function AboutPage() {
@@ -9,7 +10,7 @@ export default function AboutPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // 目錄項目
-  const sections = [
+  const sections = useMemo(() => [
     { id: 'personal-info', title: '個人簡介' },
     { id: 'education', title: '學經歷' },
     { id: 'awards', title: '得獎經驗' },
@@ -17,7 +18,7 @@ export default function AboutPage() {
     { id: 'teaching', title: '教學經驗' },
     { id: 'speeches', title: '演講經驗' },
     { id: 'contact', title: '聯絡方式' }
-  ];
+  ], []);
 
   // 滾動監聽
   useEffect(() => {
@@ -127,9 +128,11 @@ export default function AboutPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="w-32 h-32 mx-auto mb-8">
-            <img
+            <Image
               src="/avatar.png"
               alt="小松"
+              width={128}
+              height={128}
               className="w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg"
             />
           </div>
