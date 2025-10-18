@@ -151,7 +151,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                     <p className="text-gray-900 dark:text-white">{meta.date}</p>
                   </div>
                   <div>
-                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">技術棧</span>
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">技術</span>
                     <div className="flex flex-wrap gap-1 mt-1">
                       {meta.technologies.map((tech) => (
                         <span key={tech} className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">
