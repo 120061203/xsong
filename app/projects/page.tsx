@@ -193,7 +193,7 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
   };
 
   const getFallbackSrc = (version: 'A' | 'B') => {
-    return `/images/projects/webp/${projectId}-${version.toLowerCase()}.webp`;
+    return `/images/projects/png/${projectId}-${version.toLowerCase()}.png`;
   };
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -957,7 +957,19 @@ export default function ProjectsPage() {
 
                 {/* Project Info */}
                 <div className="flex-1 flex flex-col">
-                  <h3 className={`text-xl font-bold mb-2 ${project.textColor}`}>
+                  <h3 className={`text-xl font-bold mb-2 ${project.textColor} flex items-center gap-2`}>
+                    {/* 得獎作品皇冠圖標 */}
+                    {(() => {
+                      const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds'];
+                      if (awardWinningProjects.includes(project.id)) {
+                        return (
+                          <span className="text-yellow-400 text-lg" title="得獎作品">
+                            👑
+                          </span>
+                        );
+                      }
+                      return null;
+                    })()}
                     {project.title}
                   </h3>
                   <p className={`text-sm mb-3 ${project.textColor} opacity-90 line-clamp-3`}>
@@ -974,6 +986,22 @@ export default function ProjectsPage() {
                       })}
                     </span>
                   </div>
+                  
+                  {/* 得獎作品特殊標籤 */}
+                  {(() => {
+                    const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds'];
+                    if (awardWinningProjects.includes(project.id)) {
+                      return (
+                        <div className="mb-3">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 shadow-sm">
+                            <span className="mr-1">👑</span>
+                            得獎作品
+                          </span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
                   
                   <div className="flex flex-wrap gap-2 mb-4">
                     {/* 私人倉庫標籤 */}

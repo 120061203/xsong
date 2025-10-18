@@ -63,7 +63,21 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
         {/* 專案標題與基本資訊 */}
         <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">{meta.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
+            {/* 得獎作品皇冠圖標 */}
+            {(() => {
+              const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds'];
+              if (awardWinningProjects.includes(id)) {
+                return (
+                  <span className="text-yellow-500 text-3xl" title="得獎作品">
+                    👑
+                  </span>
+                );
+              }
+              return null;
+            })()}
+            {meta.title}
+          </h1>
           <div className="flex flex-wrap items-center gap-4 mb-6">
             <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
               {meta.date}
