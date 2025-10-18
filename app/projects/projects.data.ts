@@ -21,7 +21,7 @@ export const PROJECTS: ProjectMeta[] = [
     title: 'Jenkins + Grafana Cloud 自動部署', 
     description: 'CI/CD 自動將 Dashboard 部署到 Grafana Cloud。',
     fullDescription: '這是一個完整的 CI/CD 自動化部署解決方案，整合 Jenkins 與 Grafana Cloud，實現 Dashboard 的自動化部署與監控。透過 Jenkins Pipeline，當程式碼更新時自動觸發部署流程，將最新的 Dashboard 配置部署到 Grafana Cloud，並提供完整的監控與告警機制。',
-    technologies: ['Jenkins', 'Grafana Cloud', 'Docker', 'YAML', 'JSON', 'CI/CD', 'Pipeline', 'Monitoring'],
+    technologies: ['Jenkins', 'Grafana Cloud', 'Prometheus', 'AlertManager', 'Blackbox', 'Docker', 'Terraform', 'MySQL', 'Nginx', 'Cloudflare Tunnel', 'GitHub Webhook', 'CI/CD', 'DevOps', '監控系統', '自動化部署', '告警系統'],
     date: '2025-10-08',
     features: [
       '✅ 自動觸發：GitHub Webhook → Jenkins 自動建置',
@@ -66,7 +66,7 @@ export const PROJECTS: ProjectMeta[] = [
     title: 'Ansible 基礎設施自動部署', 
     description: '專業級 Ansible 自動化部署解決方案，展示企業級 DevOps 實踐與安全最佳實踐。',
     fullDescription: '這是一個全面的 Ansible 自動化部署教學專案，涵蓋從基礎到進階的企業級應用場景。包含多種部署策略、安全最佳實踐、以及與各種雲端平台的整合。',
-    technologies: ['Ansible', 'YAML', 'Docker', 'AWS', 'Terraform', 'Security', 'DevOps'],
+    technologies: ['Ansible', 'Python', 'Ubuntu', 'Nginx', 'SSH', 'Git', 'Vault', 'DevOps', 'IaC', '自動化部署', '安全最佳實踐', '基礎設施即代碼'],
     date: '2025-10-14',
     features: [
       'Ansible Vault 安全加密 - 企業級敏感資訊保護',
@@ -106,7 +106,7 @@ export const PROJECTS: ProjectMeta[] = [
     title: '履歷自動編譯系統', 
     description: '專業的 LaTeX 履歷專案，支援自動化編譯與 GitHub Pages 部署。',
     fullDescription: '使用 LaTeX 建立專業履歷模板，整合 GitHub Actions 實現自動化編譯與部署，支援多種格式輸出。',
-    technologies: ['LaTeX', 'GitHub Actions', 'PDF', 'Automation'],
+    technologies: ['LaTeX', 'PDF', 'GitHub Pages', 'Makefile', '自動化編譯', '版本管理', '專業排版', '中英文混合', '響應式設計', '個人化模板', '時間戳記', '文件管理'],
     date: '2025-10-01',
     features: [
       '現代化 LaTeX 排版設計，支援中英文混合',
@@ -143,7 +143,7 @@ export const PROJECTS: ProjectMeta[] = [
     title: 'GCP Terraform 教學專案', 
     description: '從基礎到生產環境的 GCP Terraform 實作教學。',
     fullDescription: '這是一個全面的 GCP Terraform 教學專案，涵蓋從基礎到生產環境的完整實作。包含基礎設施即代碼、資源管理、模組化設計等進階概念。',
-    technologies: ['Terraform', 'GCP', 'Infrastructure as Code', 'DevOps'],
+    technologies: ['Terraform', 'GCP', 'VPC', 'Compute Engine', 'GKE', 'Cloud SQL', 'Modules', 'IaC', 'CI/CD', 'gcloud', '安全最佳實踐'],
     date: '2025-09-15',
     features: [
       '第1章：Terraform 基礎、Provider 與 State 管理',
