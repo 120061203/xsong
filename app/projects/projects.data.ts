@@ -24,12 +24,23 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Jenkins', 'Grafana Cloud', 'Docker', 'YAML', 'JSON', 'CI/CD', 'Pipeline', 'Monitoring'],
     date: '2025-10-08',
     features: [
-      '自動化 Dashboard 部署流程',
-      'Jenkins Pipeline 整合',
-      'Grafana Cloud API 整合',
-      '版本控制與回滾機制',
-      '監控告警設定',
-      '多環境部署支援'
+      '✅ 自動觸發：GitHub Webhook → Jenkins 自動建置',
+      '✅ 自動部署：Dashboard 自動上傳到 Grafana Cloud',
+      '✅ 自動驗證：部署結果自動檢查',
+      '✅ 自動通知：告警發送到指定 email',
+      'Cloudflare Tunnel 安全服務暴露',
+      'GitHub Webhook 即時觸發機制',
+      'Jenkins Pipeline 自動化流程',
+      'Grafana Cloud Dashboard 管理',
+      'Prometheus 監控數據收集',
+      'AlertManager 告警規則配置',
+      'Blackbox 外部網站監控',
+      'Docker 容器化部署',
+      'Terraform 基礎設施管理',
+      'MySQL 數據庫監控',
+      'Nginx 反向代理配置',
+      '24/7 網站可用性監控',
+      '完整的 DevOps 最佳實踐'
     ],
     challenges: [
       'Grafana API 認證與權限管理',
@@ -58,11 +69,21 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Ansible', 'YAML', 'Docker', 'AWS', 'Terraform', 'Security', 'DevOps'],
     date: '2025-10-14',
     features: [
-      '多環境自動化部署',
-      '安全配置管理',
-      '雲端平台整合',
-      '監控與日誌收集',
-      '災難恢復機制'
+      'Ansible Vault 安全加密 - 企業級敏感資訊保護',
+      'SSH 金鑰認證 - 無密碼自動化部署',
+      '安全最佳實踐 - Git 安全與敏感資訊管理',
+      'Nginx 自動化部署 - 完整的 Web 伺服器配置',
+      '模組化設計 - 可擴展的基礎架構代碼',
+      'Inventory 主機清單管理',
+      'Playbooks 自動化劇本設計',
+      'Roles 可重用角色架構',
+      'Vault 敏感資訊加密管理',
+      '一鍵部署解決方案',
+      'Infrastructure as Code 實踐',
+      '版本控制最佳實踐',
+      '企業級安全標準',
+      '自動化部署流程',
+      '完整的專案文檔'
     ],
     challenges: [
       '複雜環境配置管理',
@@ -88,10 +109,18 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['LaTeX', 'GitHub Actions', 'PDF', 'Automation'],
     date: '2025-10-01',
     features: [
-      'LaTeX 模板設計',
-      '自動化編譯',
-      '多格式輸出',
-      '版本控制整合'
+      '現代化 LaTeX 排版設計，支援中英文混合',
+      '響應式佈局優化，適合各種閱讀環境',
+      '個人化標識：文件名包含個人姓名和時間戳記',
+      '自動化編譯：使用 Makefile 簡化編譯流程',
+      '清晰結構：源文件和輸出文件分離管理',
+      '自動清理：編譯後自動清理輔助文件',
+      'GitHub Pages 自動部署',
+      '專業的排版效果和視覺設計',
+      '易於修改和擴展的模板結構',
+      '快速編譯和版本管理',
+      '多種格式輸出支援',
+      '時間戳記自動生成'
     ],
     challenges: [
       'LaTeX 格式調整',
@@ -117,10 +146,14 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Terraform', 'GCP', 'Infrastructure as Code', 'DevOps'],
     date: '2025-09-15',
     features: [
-      '基礎設施即代碼',
-      '模組化設計',
-      '環境管理',
-      '資源最佳化'
+      '第1章：Terraform 基礎、Provider 與 State 管理',
+      '第2章：VPC/子網/防火牆/路由配置',
+      '第3章：Compute Engine、磁碟、負載平衡與自動擴展',
+      '第4章：GKE 叢集、Node Pool、服務/Ingress 部署',
+      '第5章：Cloud SQL 建立、備份與高可用',
+      '第6章：模組化設計與版本管理',
+      '第7章：生產環境範例（dev/staging/prod）與變數管理',
+      '成本控管與清理腳本、實作練習與解答'
     ],
     challenges: [
       '複雜的 GCP 服務整合',
@@ -146,10 +179,20 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript', '電商系統'],
     date: '2021-01-10',
     features: [
-      '飲料客製化功能',
-      '購物車系統',
-      '訂單管理',
-      '用戶管理系統'
+      '完整的電商系統架構（用戶端 + 管理員後台）',
+      '用戶註冊/登入系統與忘記密碼功能',
+      '32種飲料商品展示與價格管理',
+      '購物車功能支援客製化選項',
+      '飲料客製化：甜度、冰塊、配料選擇',
+      '12種配料選項（珍珠、波霸、布丁等）',
+      '完整的訂單管理與狀態追蹤',
+      'MySQL資料庫設計與優化',
+      'PHPMailer郵件發送功能',
+      '圖形驗證碼安全驗證',
+      '響應式設計支援手機桌面版',
+      '雙重身份系統（用戶/管理員）',
+      '歷史訂單查看與管理',
+      '商品管理與庫存控制'
     ],
     challenges: [
       '複雜的訂單流程',
@@ -175,10 +218,15 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Chrome Extension', 'JavaScript', 'Chrome APIs', 'DOM Manipulation'],
     date: '2025-09-27',
     features: [
-      '分頁搜尋功能',
-      '分頁序列化',
-      '群組管理',
-      '快速存取'
+      'Chrome Extension Manifest V3 架構實作',
+      'Chrome Tabs API 與 Windows API 整合',
+      '事件驅動架構與 DOM 操作',
+      '正則表達式搜尋演算法',
+      'JSON 序列化與反序列化',
+      'CSS Grid 與 Flexbox 響應式佈局',
+      '事件委派機制優化效能',
+      'Map 資料結構分頁分類',
+      'Apache License 2.0 開源授權'
     ],
     challenges: [
       'Chrome API 限制',
@@ -205,10 +253,20 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['AWS', 'Terraform', 'ALB', 'CodeDeploy', 'EC2', '藍綠部署'],
     date: '2025-09-19',
     features: [
-      '藍綠部署策略',
-      '金絲雀部署',
-      'A/B 測試',
-      '零停機部署'
+      '藍綠部署 (Blue-Green Deployment) 實作',
+      '金絲雀部署 (Canary Deployment) 策略',
+      'A/B 測試部署 (A/B Testing Deployment)',
+      '符號連結回滾部署 (Symlink Rollback)',
+      'AWS Application Load Balancer 流量分配',
+      'CodeDeploy 自動化部署管理',
+      'EC2 實例群管理與切換',
+      'S3 儲存桶應用程式檔案管理',
+      'Target Groups 健康檢查與路由',
+      '零停機部署實現',
+      '風險控制與回滾機制',
+      '數據驅動的部署決策',
+      '完整的 AWS 雲端環境架構',
+      '部署策略學習與實驗平台'
     ],
     challenges: [
       '複雜的 AWS 服務整合',
@@ -235,10 +293,18 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Terraform', 'AWS', 'VPC', 'ECR', 'App Runner', '微服務'],
     date: '2025-09-12',
     features: [
-      '基礎設施即代碼',
-      '微服務架構',
-      'CI/CD 整合',
-      '容器化部署'
+      'Terraform 基礎設施即代碼管理',
+      'AWS 資源完整配置與管理',
+      'VPC 網路架構設計與隔離',
+      'ECR 容器映像倉庫管理',
+      'App Runner 服務自動部署',
+      '環境隔離 (Dev/Prod) 配置',
+      'Bitbucket Pipelines CI/CD 整合',
+      '團隊協作開發流程設計',
+      '安全群組與 IAM 權限管理',
+      'DynamoDB 狀態鎖定配置',
+      'S3 存儲桶資源管理',
+      '企業級最佳實踐實施'
     ],
     challenges: [
       '複雜的基礎設施設計',
@@ -265,10 +331,14 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Go', 'Vue.js', 'PostgreSQL', 'Supabase', 'RESTful API'],
     date: '2025-09-02',
     features: [
-      'URL 縮短功能',
-      '統計分析',
-      '用戶管理',
-      'API 服務'
+      '高效能 Go 後端 API',
+      '現代化 Vue.js 前端介面',
+      '短網址生成與重定向',
+      '點擊統計與分析',
+      'PostgreSQL 資料持久化',
+      'Vercel 部署與 CDN',
+      'RESTful API 設計',
+      '高併發處理能力'
     ],
     challenges: [
       'Go 後端開發',
@@ -295,10 +365,14 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'React', 'Astro'],
     date: '2025-09-02',
     features: [
-      '響應式設計',
-      '作品集展示',
-      '部落格系統',
-      '工具集合'
+      '現代響應式設計，支援深色/淺色主題',
+      '互動式專案展示與篩選功能',
+      '內建工具（白板）',
+      '乾淨專業的 UI/UX 設計',
+      '使用 Next.js 進行 SEO 優化',
+      '快速載入與優化圖片',
+      '行動優先的響應式設計',
+      '無障礙導航與互動'
     ],
     challenges: [
       '多框架整合',
@@ -325,10 +399,17 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Supabase', 'Material-UI'],
     date: '2025-09-02',
     features: [
-      '日曆視圖',
-      '待辦事項管理',
-      '任務分類',
-      '即時同步'
+      '互動式日曆，支援拖放事件',
+      '完整的 CRUD 操作（創建、讀取、更新、刪除）',
+      'Supabase 後端即時資料庫',
+      '任務管理，具有優先級設定',
+      '跨裝置即時同步',
+      'RESTful API 設計',
+      '所有螢幕尺寸的響應式設計',
+      '使用 PostgreSQL 進行資料持久化',
+      '清潔架構實作',
+      '全面測試（87+ 個測試案例）',
+      '使用 Winston 的專業日誌系統'
     ],
     challenges: [
       '複雜的 UI 設計',
@@ -355,10 +436,14 @@ export const PROJECTS: ProjectMeta[] = [
     technologies: ['Next.js', 'TypeScript', 'TailwindCSS', 'Canvas API'],
     date: '2025-09-02',
     features: [
-      '跑馬燈模式',
-      '倒數計時',
-      '文字顯示',
-      '多模式切換'
+      '多種顯示模式（靜態文字、倒數計時、跑馬燈）',
+      '進階文字效果（陰影、邊框、漸層、發光）',
+      '即時自訂顏色和字體',
+      '內建模板和主題',
+      '截圖和全螢幕功能',
+      '所有裝置的響應式設計',
+      '快速存取的鍵盤快捷鍵',
+      '玻璃擬態和現代 UI 效果'
     ],
     challenges: [
       'Canvas API 使用',
