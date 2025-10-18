@@ -2,7 +2,7 @@ export default function Head() {
   const siteUrl = 'https://xsong.us';
   const pageUrl = `${siteUrl}/projects`;
   // 使用現有專案圖片作為預覽縮圖（PNG，適合社群分享）
-  const ogImage = `${siteUrl}/images/projects/png/xsong-personal-website.png`;
+  const ogImage = `${siteUrl}/images/projects/webp/xsong-personal-website.webp`;
 
   const title = 'Projects - xsong.us';
   const description = '探索我的專案作品，從全端應用到互動工具，每個專案都展現了不同的技術挑戰和解決方案。';

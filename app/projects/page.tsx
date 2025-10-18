@@ -193,7 +193,7 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
   };
 
   const getFallbackSrc = (version: 'A' | 'B') => {
-    return `/images/projects/png/${projectId}-${version.toLowerCase()}.png`;
+    return `/images/projects/webp/${projectId}-${version.toLowerCase()}.webp`;
   };
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {

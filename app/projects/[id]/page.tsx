@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const meta = getProjectMeta(id);
   const siteUrl = 'https://xsong.us';
   const pageUrl = `${siteUrl}/projects/${id}`;
-  const ogImage = `${siteUrl}/images/projects/png/${id}.png`;
+  const ogImage = `${siteUrl}/images/projects/webp/${id}.webp`;
   const title = meta ? `${meta.title} - xsong.us` : 'Project - xsong.us';
   const description = meta?.description || 'Project details on xsong.us';
 
@@ -80,7 +80,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
         {/* 專案圖片 */}
         <div className="relative w-full rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 mb-8" style={{ aspectRatio: '16/9' }}>
-          <Image src={`/images/projects/png/${id}.png`} alt={`${meta.title} og image`} fill className="object-cover" />
+          <Image src={`/images/projects/webp/${id}.webp`} alt={`${meta.title} og image`} fill className="object-cover" />
         </div>
 
         {/* 專案描述 */}
