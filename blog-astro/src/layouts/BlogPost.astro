@@ -45,7 +45,13 @@ const relatedPosts = allPosts
             if (heroImage) {
                 try {
                     // @ts-ignore - heroImage 可能是字串或含 src 的物件
-                    const src = typeof heroImage === 'string' ? heroImage : heroImage.src;
+                    let src = typeof heroImage === 'string' ? heroImage : heroImage.src;
+                    
+                    // 將 PNG 路徑轉換為 WebP 路徑
+                    if (src.includes('.png')) {
+                        src = src.replace('.png', '.webp');
+                    }
+                    
                     ogImage = new URL(src, SITE_URL).toString();
                 } catch {}
             }
