@@ -1193,6 +1193,16 @@ export default function ProjectsPage() {
                             Download PDF
                           </a>
                         )}
+                        
+                        {/* 查看詳情按鈕 */}
+                        <Link
+                          href={`/projects/${selectedProject.id}`}
+                          onClick={() => trackLinkClick('View Details', `/projects/${selectedProject.id}`)}
+                          className="inline-flex items-center px-3 sm:px-4 py-2 bg-green-600 text-white text-sm sm:text-base rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                          <i className="fas fa-info-circle mr-2"></i>
+                          查看專案詳情
+                        </Link>
                         {selectedProject.id === 'app-hub' && (
                           <a
                             href="https://ayfmhwarbk.us-east-2.awsapprunner.com/docs"
