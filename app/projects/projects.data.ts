@@ -201,6 +201,7 @@ export const PROJECTS: ProjectMeta[] = [
       '用戶體驗優化'
     ],
     results: [
+      '🏆 網頁程式設計課程第一名',
       '完整的電商功能',
       '提升用戶體驗',
       '自動化訂單處理',

@@ -66,7 +66,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
             {/* 得獎作品皇冠圖標 */}
             {(() => {
-              const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds'];
+              const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds', 'gogoshop'];
               if (awardWinningProjects.includes(id)) {
                 return (
                   <span className="text-yellow-500 text-3xl" title="得獎作品">

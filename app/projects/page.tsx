@@ -960,7 +960,7 @@ export default function ProjectsPage() {
                   <h3 className={`text-xl font-bold mb-2 ${project.textColor} flex items-center gap-2`}>
                     {/* 得獎作品皇冠圖標 */}
                     {(() => {
-                      const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds'];
+                      const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds', 'gogoshop'];
                       if (awardWinningProjects.includes(project.id)) {
                         return (
                           <span className="text-yellow-400 text-lg" title="得獎作品">
@@ -989,7 +989,7 @@ export default function ProjectsPage() {
                   
                   {/* 得獎作品特殊標籤 */}
                   {(() => {
-                    const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds'];
+                    const awardWinningProjects = ['AirPocket', 'smartWatch', 'solar-smart-blinds', 'gogoshop'];
                     if (awardWinningProjects.includes(project.id)) {
                       return (
                         <div className="mb-3">
