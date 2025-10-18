@@ -91,6 +91,26 @@ function getReadingTime(content: string): number {
 				display: block;
 				flex-shrink: 0;
 			}
+			.blog-card {
+				position: relative;
+				height: 100%;
+			}
+			
+			.blog-link {
+				display: flex;
+				flex-direction: column;
+				padding: 0;
+				border-radius: 16px;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+				height: 100%;
+				box-sizing: border-box;
+			}
+			
 			ul li a {
 				display: flex;
 				flex-direction: column;
@@ -253,29 +273,69 @@ function getReadingTime(content: string): number {
 							const readingTime = getReadingTime(post.body);
 							return (
 								<li>
-									<a href={`/blog/${post.id}/`}>
-										{post.data.heroImage && (
-											<Image width={720} height={450} src={post.data.heroImage} alt="" />
-										)}
-										<h4 class="title">{post.data.title}</h4>
-										<div class="meta">
-											<span class="date">
-												<FormattedDate date={post.data.pubDate} />
-											</span>
-											<span>•</span>
-											<span>{readingTime} 分鐘</span>
-											{post.frontmatter.categories && post.frontmatter.categories.length > 0 && (
-												<>
-													<span>•</span>
-													<span>{post.frontmatter.categories[0]}</span>
-												</>
+									<div class="blog-card">
+										<a href={`/blog/${post.id}/`} class="blog-link">
+											{post.data.heroImage && (
+												<Image width={720} height={450} src={post.data.heroImage} alt="" />
 											)}
-										</div>
-										{post.data.description && (
-											<p class="excerpt">{post.data.description}</p>
-										)}
-										<div class="read-more">閱讀更多 →</div>
-									</a>
+											<h4 class="title">{post.data.title}</h4>
+											<div class="meta">
+												<span class="date">
+													<FormattedDate date={post.data.pubDate} />
+												</span>
+												<span>•</span>
+												<span>{readingTime} 分鐘</span>
+												{post.frontmatter.categories && post.frontmatter.categories.length > 0 && (
+													<>
+														<span>•</span>
+														<span>{post.frontmatter.categories[0]}</span>
+													</>
+												)}
+											</div>
+											{post.data.description && (
+												<p class="excerpt">{post.data.description}</p>
+											)}
+											<div class="read-more">閱讀更多 →</div>
+										</a>
+										
+										{/* 複製連結按鈕 */}
+										<button
+											onclick={(e) => {
+												e.preventDefault();
+												e.stopPropagation();
+												const blogUrl = `${window.location.origin}/blog/${post.id}/`;
+												navigator.clipboard.writeText(blogUrl);
+												
+												// 視覺反饋
+												const button = e.currentTarget;
+												const svgElement = button.querySelector('svg');
+												if (svgElement) {
+													const originalIcon = svgElement.outerHTML;
+													svgElement.outerHTML = `
+														<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+														</svg>
+													`;
+													button.classList.add('bg-green-500', 'text-white');
+													button.classList.remove('bg-white', 'bg-opacity-20', 'text-white');
+													setTimeout(() => {
+														const newSvgElement = button.querySelector('svg');
+														if (newSvgElement) {
+															newSvgElement.outerHTML = originalIcon;
+														}
+														button.classList.remove('bg-green-500', 'text-white');
+														button.classList.add('bg-white', 'bg-opacity-20', 'text-white');
+													}, 2000);
+												}
+											}}
+											class="absolute top-4 right-4 px-3 py-1 bg-white bg-opacity-20 text-white text-xs rounded-full hover:bg-opacity-30 transition-all duration-300 hover:scale-105 backdrop-blur-sm border border-white border-opacity-30"
+											title="複製文章連結"
+										>
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+											</svg>
+										</button>
+									</div>
 								</li>
 							);
 						})
