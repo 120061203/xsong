@@ -461,6 +461,195 @@ export const PROJECTS: ProjectMeta[] = [
       github: 'https://github.com/120061203/xsong/tree/main/app/tools/whiteboard',
       demo: 'https://xsong.us/tools/whiteboard'
     }
+  },
+  { 
+    id: 'AirPocket', 
+    title: 'AirPocket - 空氣口袋', 
+    description: '結合 IoT 裝置、Android 應用程式與後端服務的智慧空氣品質監測系統。整合 EPA 和 LASS 開放資料，提供即時空氣品質資訊與景點推薦功能。',
+    fullDescription: 'AirPocket（空氣口袋）是一個創新的空氣品質監測平台，透過自製的 IoT 感測器裝置、Android 行動應用程式，以及整合 EPA 和 LASS 開放資料，為使用者提供即時、準確的空氣品質資訊。系統不僅能監測空氣品質，還能推薦適合的旅遊景點，並提供社交功能讓使用者分享資訊。',
+    technologies: ['Android', 'Java', 'Python', 'Flask', 'MySQL', 'ESP32', 'IoT', 'Bluetooth', 'MQTT', 'Google Maps API', 'EPA API', 'LASS API', '空氣品質監測', '智慧推薦', '社交功能'],
+    date: '2021-12-10',
+    features: [
+      '🏆 資訊工程學系畢業專題競賽佳作',
+      '🏆 廠商獎 - 業界認可',
+      '即時空氣品質監測：整合 EPA 官方測站與 LASS 社群資料',
+      'IoT 裝置連接：支援藍牙連接自製空氣品質感測器',
+      '智慧地圖顯示：Google Maps 整合，視覺化顯示空氣品質數據',
+      '景點推薦系統：基於空氣品質推薦適合的旅遊景點',
+      '社交功能：好友系統與資料分享',
+      '個人化設定：空汙警報閾值設定',
+      '視覺化設計：直觀的小樹狀態指示器',
+      '創新整合：結合 IoT 硬體、行動應用與開放資料',
+      '智慧推薦：基於空氣品質的景點推薦系統',
+      'Android 原生應用程式開發',
+      'Python Flask 後端服務',
+      'ESP32 空氣品質感測器',
+      'Bluetooth 通訊協定',
+      'MQTT 訊息傳遞'
+    ],
+    challenges: [
+      '多平台整合：Android、IoT 裝置、後端服務',
+      '即時數據處理：大量感測器數據的即時處理',
+      'API 整合：EPA 和 LASS 開放資料整合',
+      '藍牙通訊穩定性',
+      '使用者體驗設計'
+    ],
+    results: [
+      '獲得畢業專題競賽佳作獎',
+      '獲得廠商獎業界認可',
+      '成功整合多個技術平台',
+      '提供完整的空氣品質監測解決方案',
+      '建立創新的景點推薦系統'
+    ],
+    links: {
+      github: 'https://github.com/120061203/AirPocket0310'
+    }
+  },
+  { 
+    id: 'smartWatch', 
+    title: 'Smart Watch - 智慧手錶', 
+    description: '基於 ESP8266 的智慧手錶專案，整合多種感測器、MQTT 通訊協定、LINE Bot 聊天機器人和行事曆管理功能。即時監測生理數據和環境資訊，並透過 LINE Bot 提供互動式服務。',
+    fullDescription: '這是一個基於 ESP8266 的智慧手錶專案，整合了多種感測器、MQTT 通訊協定、LINE Bot 聊天機器人和行事曆管理功能。手錶能夠即時監測使用者的生理數據和環境資訊，並透過 LINE Bot 提供互動式服務。',
+    technologies: ['ESP8266', 'Arduino', 'C++', 'Python', 'Django', 'MQTT', 'LINE Bot API', 'OLED', 'MAX30105', 'HTU21DF', 'BMP085', 'DHT11', 'IoT', '物聯網', '嵌入式系統', '聊天機器人', 'SQLite', 'WiFi', 'I2C'],
+    date: '2022-06-19',
+    features: [
+      '🏆 2022數位聯網智動化創新應用競賽 - 佳作',
+      '即時生理監測：心率、體溫、濕度、海拔高度',
+      'OLED 顯示：128x64 像素螢幕，支援時間顯示和感測器數據',
+      'MQTT 通訊：即時數據傳輸和遠端控制',
+      'LINE Bot 整合：透過 LINE 聊天機器人查詢數據和管理行事曆',
+      '行事曆管理：新增、查詢、刪除個人行程',
+      'IoT Talk 整合：支援 IoT Talk 平台數據交換',
+      '感測器支援：MAX30105 心率監測、HTU21DF 溫濕度感測',
+      '氣壓測量：BMP085 氣壓和海拔測量',
+      '備用感測器：DHT11 溫濕度感測',
+      '系統架構：智慧手錶 → MQTT Broker → Django LINE Bot Server',
+      '硬體整合：ESP8266 開發板與多種感測器',
+      '軟體架構：Arduino 程式碼 + Python Django 後端',
+      '通訊協定：WiFi、MQTT、HTTP、I2C',
+      '資料庫：SQLite 儲存使用者資料和行事曆'
+    ],
+    challenges: [
+      '多感測器整合：MAX30105、HTU21DF、BMP085、DHT11',
+      'MQTT 通訊穩定性',
+      'LINE Bot 開發與整合',
+      '嵌入式系統資源限制',
+      '即時數據處理'
+    ],
+    results: [
+      '獲得數位聯網智動化創新應用競賽佳作',
+      '成功整合多種感測器',
+      '建立完整的 IoT 系統架構',
+      '實現 LINE Bot 互動功能',
+      '提供完整的生理監測解決方案'
+    ],
+    links: {
+      github: 'https://github.com/120061203/smartWatch',
+      demo: 'https://www.youtube.com/watch?v=pxb9cMqjrr4'
+    }
+  },
+  { 
+    id: 'solar-smart-blinds', 
+    title: 'Solar Smart Blinds - 太陽能智能百葉窗', 
+    description: '以物聯網結合太陽能供電與光感測，智慧調節百葉窗角度，降低室內溫度並提升能源效率。',
+    fullDescription: '太陽能智能百葉窗是一個結合物聯網技術的創新解決方案，針對建築物西曬等高熱負載情境，透過 TSL2591 高精度光感測器偵測環境光線強度，結合太陽能板供電與 MG996R 伺服馬達的精準角度控制，自動調整百葉窗角度，有效降低室內溫度並節能。',
+    technologies: ['IoT', 'ESP8266', 'NodeMCU', 'TSL2591', 'MG996R', 'Arduino', 'Web Server', 'WiFi', 'Solar Power', 'Energy Saving'],
+    date: '2020-07-01',
+    features: [
+      '🏆 台灣潔能科技創意實作競賽 - 全國20強',
+      '🥈 第九屆激發學生創意競賽 - 第二名',
+      '太陽能供電：整合太陽能板，綠能自給自足',
+      '智能光感測：TSL2591 高精度感測環境光線',
+      '自動調節：依光強自動調整百葉窗角度',
+      '精準控制：MG996R 伺服馬達角度控制',
+      '物聯網控制：WiFi 遠端與內建 Web 介面',
+      '雙模式：自動/手動模式切換'
+    ],
+    challenges: [
+      '太陽能供電系統設計',
+      '光感測器精度調校',
+      '伺服馬達精準控制',
+      '物聯網通訊穩定性',
+      '能源效率優化'
+    ],
+    results: [
+      '獲得台灣潔能科技創意實作競賽全國20強',
+      '獲得第九屆激發學生創意競賽第二名',
+      '成功實現太陽能供電',
+      '建立智能光感測系統',
+      '提供完整的節能解決方案'
+    ],
+    links: {
+      github: 'https://github.com/120061203/SolarSmartBlinds',
+      demo: 'https://www.youtube.com/watch?v=5qzH5zYsH84'
+    }
+  },
+  { 
+    id: 'time-manager-master', 
+    title: 'Time Manager Master - 任務批次切分工具', 
+    description: '將任務依指定數量切分與分配，適合平均拆分待辦、依時段/人力/裝置容量進行批次處理。',
+    fullDescription: 'Time Manager Master 是一個可將一長串任務清單依指定數量 n 拆分為若干批次的工具。支援貼上或表單輸入、即時預覽切分結果，未來可擴充分享/導出等功能。適合將待辦分派給多人（每人 5 個）、依時段規劃批次（每時段 10 個），或按裝置/節點容量拆分（每台機器 100 個）。',
+    technologies: ['React', 'TypeScript', 'Create React App', 'Jest', 'React Testing Library', 'CSS', 'Node.js', 'npm', 'Figma', 'UI', 'Design'],
+    date: '2024-06-17',
+    features: [
+      '指定數量切分：輸入目標數量 n，自動拆分批次（每批最多 n 個）',
+      '彈性輸入：支援表單輸入或從既有資料來源貼上',
+      '即時預覽：切分結果即時顯示，便於微調',
+      '分享/導出：可複製、下載或分享切分結果（可擴充）'
+    ],
+    challenges: [
+      '批次切分演算法設計',
+      '即時預覽功能實現',
+      '使用者介面設計',
+      '資料處理效能',
+      '擴展性設計'
+    ],
+    results: [
+      '成功實現任務批次切分功能',
+      '提供直觀的使用者介面',
+      '支援多種輸入方式',
+      '建立完整的測試覆蓋',
+      '提供實用的任務管理工具'
+    ],
+    links: {
+      github: 'https://github.com/120061203/timeManagerMaster',
+      demo: 'https://120061203.github.io/timeManagerMaster/',
+      documentation: 'https://www.figma.com/proto/hhdYSyzxvzJwQqGfxHa8lZ/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E5%A4%A7%E5%B8%AB?node-id=1-2&starting-point-node-id=1%3A2'
+    }
+  },
+  { 
+    id: 'seismic-Mini-Houses', 
+    title: 'Seismic Mini Houses - 耐震迷你屋 (ESP32 MQTT 加速度感測)', 
+    description: '以 ESP32 + MPU6050 蒐集 XYZ 加速度，透過 MQTT 傳至 Node-RED 即時視覺化，模擬耐震結構測試的 STEM 教育專案。',
+    fullDescription: '本專案為 STEM 教育活動：使用 ESP32 與 MPU6050 蒐集三軸加速度資料，經由 MQTT (PubSubClient) 上傳至 Node-RED 進行即時處理與視覺化，協助學生理解耐震結構與資料串流。提供 ESP32 範例程式、Node-RED flow 匯入與分組 topic 規劃示例，支援 VS Code/PlatformIO 或 Arduino IDE。',
+    technologies: ['ESP32', 'MPU6050', 'MQTT', 'Node-RED', 'Arduino IDE', 'C++', 'STEM', 'IoT'],
+    date: '2025-01-21',
+    features: [
+      'ESP32 + MPU6050：蒐集 XYZ 三軸加速度',
+      'MQTT 傳輸：PubSubClient 上傳即時資料',
+      'Node-RED 流程：匯入 JSON 即可視覺化',
+      '分組題材：支援多 topic（/group1/acc、/group2/acc）',
+      '教學友善：提供上傳步驟與函式庫清單'
+    ],
+    challenges: [
+      '加速度感測器校準',
+      'MQTT 通訊穩定性',
+      'Node-RED 流程設計',
+      'STEM 教學內容設計',
+      '多組別資料管理'
+    ],
+    results: [
+      '成功建立 STEM 教育專案',
+      '提供完整的教學資源',
+      '實現即時數據視覺化',
+      '支援多組別實驗',
+      '建立耐震結構測試平台'
+    ],
+    links: {
+      github: 'https://github.com/120061203/seismic-Mini-Houses',
+      demo: 'https://docs.google.com/presentation/d/14juVDNWW6G2ekUi6InJelPNI09F7_nUu7zZbT7NLxyE/edit?usp=drive_link',
+      documentation: 'https://raw.githubusercontent.com/120061203/seismic-Mini-Houses/main/%E8%AB%96%E6%96%87/0~5_STEM%E8%80%90%E9%9C%87%E8%BF%B7%E4%BD%A0%E5%B1%8B%E4%B9%8B6E%E6%95%99%E5%AD%B8%E8%A8%AD%E8%A8%88%E8%88%87%E5%AD%B8%E7%BF%92%E6%88%90%E6%95%88%E6%8E%A2%E8%A8%8E.pdf'
+    }
   }
 ];
 
