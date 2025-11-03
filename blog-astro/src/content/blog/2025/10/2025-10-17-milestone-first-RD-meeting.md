@@ -1,6 +1,6 @@
 ---
 title: "解鎖成就-第一次RD會議"
-description: "當著30位RD、老闆和顧問的面報告
+description: "當著30位RD、老闆和顧問的面報告"
 Terraform的部署計劃"
 pubDate: 2025-10-17T16:00:00+08:00
 updatedDate: 2025-10-17T16:00:00+08:00
