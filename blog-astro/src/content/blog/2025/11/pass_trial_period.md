@@ -4,7 +4,7 @@ description: "分享我3個月的付出與收穫"
 Terraform的部署計劃"
 pubDate: 2025-11-03T16:00:00+08:00
 updatedDate: 2025-11-03T16:00:00+08:00
-heroImage: "../../../../assets/images/2025/11/pass_trial_period/pass_trial_period.png"
+heroImage: "../../../../assets/images/2025/11/pass_trial_period/pass_trial_period-1.webp"
 categories: ["工作日記"]
 tags: ["部署流程"]
 private: false
