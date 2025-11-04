@@ -1,7 +1,6 @@
 ---
 title: "通過試用期-我規定了公司的標準部署流程"
 description: "分享我3個月的付出與收穫"
-Terraform的部署計劃"
 pubDate: 2025-11-03T16:00:00+08:00
 updatedDate: 2025-11-03T16:00:00+08:00
 heroImage: "../../../../assets/images/2025/11/pass_trial_period/pass_trial_period-1.webp"
