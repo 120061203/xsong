@@ -7,13 +7,14 @@
     <meta name="description" content="xsong.us - 技術分享與作品集網站">
     <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="32x32">
     <script>
-        // 立即檢查並預加載目標頁面（在頁面渲染前）
+        // 立即檢查並重定向（在頁面渲染前，最快速度）
         (function() {
             const currentPath = window.location.pathname;
             const urlMatch = currentPath.match(/^\/url\/(.+)$/);
             if (urlMatch) {
                 const shortCode = urlMatch[1];
                 const redirectUrl = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                
                 // 使用 dns-prefetch 和 preconnect 加速連接
                 const dnsLink = document.createElement('link');
                 dnsLink.rel = 'dns-prefetch';
@@ -24,6 +25,12 @@
                 preconnectLink.rel = 'preconnect';
                 preconnectLink.href = 'https://go-shorturl.vercel.app';
                 document.head.appendChild(preconnectLink);
+                
+                // 立即重定向，不等待頁面渲染（最快速度）
+                // 使用微任務確保在當前執行棧完成後立即執行
+                Promise.resolve().then(() => {
+                    window.location.replace(redirectUrl);
+                });
             }
         })();
     </script>
@@ -229,18 +236,20 @@
                 link.href = redirectUrl;
                 document.head.appendChild(link);
                 
-                // 顯示重定向內容
-                document.getElementById('redirect-content').style.display = 'block';
-                document.getElementById('error-content').style.display = 'none';
-                document.getElementById('redirect-url').textContent = redirectUrl;
+                // 顯示重定向內容（如果頁面已經開始渲染）
+                if (document.getElementById('redirect-content')) {
+                    document.getElementById('redirect-content').style.display = 'block';
+                    document.getElementById('error-content').style.display = 'none';
+                    document.getElementById('redirect-url').textContent = redirectUrl;
+                }
                 
-                // 使用 requestAnimationFrame 確保在下一帧執行，減少延遲
-                requestAnimationFrame(() => {
-                    // 減少延遲時間到 300ms，讓用戶看到重定向信息但不會等待太久
-                    setTimeout(() => {
+                // 使用最短延遲（50ms），幾乎立即重定向
+                // 如果 head 中的 script 已經觸發重定向，這裡作為備用
+                setTimeout(() => {
+                    if (window.location.href.indexOf('go-shorturl.vercel.app') === -1) {
                         window.location.replace(redirectUrl);
-                    }, 300);
-                });
+                    }
+                }, 50);
                 return;
             }
             
