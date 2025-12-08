@@ -4,7 +4,7 @@ description: "靠一張簡報硬抗的閃電秀與開發者們的交流"
 pubDate: 2025-12-08T16:00:00+08:00
 updatedDate: 2025-12-08T16:00:00+08:00
 heroImage: "../../../../assets/images/2025/12/devfest_changhua/1206devfest-1.webp"
-categories: ["年會"]
+categories: ["技術分享"]
 tags: ["SDD","GDG","Antigravity","AI","軟體開發"]
 private: false
 ---
