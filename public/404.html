@@ -29,10 +29,17 @@
     <link rel="canonical" href="https://xsong.us" id="canonical-url" />
     <script>
         // 獲取目標網站的 OG metadata（通過代理服務）
-        async function fetchOGMetadata(targetUrl) {
+        async function fetchOGMetadata(targetUrl, retryCount = 0) {
             try {
                 // 使用 CORS 代理服務獲取目標網站的 HTML
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                // 嘗試多個代理服務作為備用
+                const proxies = [
+                    `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
+                    `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
+                ];
+                
+                const proxyUrl = proxies[retryCount] || proxies[0];
                 
                 const response = await fetch(proxyUrl, {
                     method: 'GET',
@@ -42,13 +49,28 @@
                 });
                 
                 if (!response.ok) {
+                    // 如果失敗且還有備用代理，嘗試下一個
+                    if (retryCount < proxies.length - 1) {
+                        return fetchOGMetadata(targetUrl, retryCount + 1);
+                    }
                     throw new Error('無法獲取目標網站內容');
                 }
                 
-                const data = await response.json();
-                const html = data.contents;
+                let html;
+                if (proxyUrl.includes('allorigins.win')) {
+                    const data = await response.json();
+                    html = data.contents;
+                } else if (proxyUrl.includes('corsproxy.io')) {
+                    html = await response.text();
+                } else {
+                    html = await response.text();
+                }
                 
                 if (!html) {
+                    // 如果內容為空且還有備用代理，嘗試下一個
+                    if (retryCount < proxies.length - 1) {
+                        return fetchOGMetadata(targetUrl, retryCount + 1);
+                    }
                     throw new Error('目標網站內容為空');
                 }
                 
@@ -92,6 +114,10 @@
                 return { ogTitle, ogDescription, ogImage, ogUrl };
             } catch (error) {
                 console.log('無法獲取 OG metadata:', error);
+                // 如果失敗且還有備用代理，嘗試下一個
+                if (retryCount < 2) {
+                    return fetchOGMetadata(targetUrl, retryCount + 1);
+                }
                 return null;
             }
         }
@@ -152,47 +178,135 @@
                 document.head.appendChild(preconnectLink);
                 
                 // 嘗試獲取目標網站的 OG metadata
-                // 由於短網址服務會重定向，我們需要先獲取最終目標 URL
-                // 這裡使用一個技巧：通過 iframe 或 fetch 獲取重定向鏈
+                // 直接獲取短網址服務頁面的 OG metadata（短網址服務可能已經設置了目標網站的 OG metadata）
+                // 如果短網址服務沒有，則嘗試跟隨重定向獲取最終目標
                 
-                // 方案：先訪問短網址服務，獲取最終目標 URL，然後獲取 OG metadata
-                // 由於 CORS 限制，我們使用代理服務
-                const proxyShortUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(redirectUrl)}`;
+                // 獲取目標網站的 OG metadata
+                // 策略：先嘗試從短網址服務的 HTML 中提取重定向目標，然後獲取目標網站的 OG metadata
+                // 使用多個代理服務作為備用
+                const proxyUrls = [
+                    `https://api.allorigins.win/get?url=${encodeURIComponent(redirectUrl)}`,
+                    `https://corsproxy.io/?${encodeURIComponent(redirectUrl)}`
+                ];
                 
-                // 異步獲取目標網站的 OG metadata（不阻塞重定向）
-                fetch(proxyShortUrl)
-                    .then(response => response.json())
+                let proxyIndex = 0;
+                
+                function tryGetTargetUrl() {
+                    if (proxyIndex >= proxyUrls.length) {
+                        // 所有代理都失敗，嘗試直接獲取短網址服務的 OG metadata
+                        console.log('所有代理都失敗，嘗試直接獲取短網址服務的 OG metadata');
+                        return fetchOGMetadata(redirectUrl);
+                    }
+                    
+                    const proxyUrl = proxyUrls[proxyIndex];
+                    const isAllOrigins = proxyUrl.includes('allorigins.win');
+                    
+                    return fetch(proxyUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'text/html'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                        return isAllOrigins ? response.json() : response.text();
+                    })
                     .then(data => {
-                        // 從短網址服務的響應中提取最終目標 URL
-                        // 這可能需要解析 HTML 或使用正則表達式
-                        const html = data.contents;
-                        if (html) {
-                            // 嘗試從 HTML 中提取重定向目標
-                            // 或者從 Location header（如果代理服務提供）
-                            const locationMatch = html.match(/location\.href\s*=\s*["']([^"']+)["']/i) ||
-                                                   html.match(/window\.location\s*=\s*["']([^"']+)["']/i) ||
-                                                   html.match(/<meta[^>]*http-equiv=["']refresh["'][^>]*content=["'][^;]*url=([^"']+)["']/i);
-                            
-                            let finalUrl = redirectUrl;
-                            if (locationMatch && locationMatch[1]) {
-                                finalUrl = locationMatch[1];
-                                if (!finalUrl.startsWith('http')) {
+                        const html = isAllOrigins ? data.contents : data;
+                        if (!html) {
+                            throw new Error('短網址服務響應為空');
+                        }
+                        
+                        // 嘗試多種方式提取重定向目標
+                        let finalUrl = null;
+                        
+                        // 方法1: 查找 window.location 或 location.href（JavaScript 重定向）
+                        const locationMatch = html.match(/location\.href\s*=\s*["']([^"']+)["']/i) ||
+                                           html.match(/window\.location\s*=\s*["']([^"']+)["']/i) ||
+                                           html.match(/window\.location\.replace\(["']([^"']+)["']\)/i) ||
+                                           html.match(/window\.location\.href\s*=\s*["']([^"']+)["']/i);
+                        
+                        // 方法2: 查找 meta refresh
+                        const metaRefresh = html.match(/<meta[^>]*http-equiv=["']refresh["'][^>]*content=["'][^;]*url=([^"']+)["']/i);
+                        
+                        // 方法3: 查找 <a> 標籤的 href（如果短網址服務顯示了目標連結）
+                        const linkMatch = html.match(/<a[^>]*href=["']([^"']+)["'][^>]*class[^>]*>/i) ||
+                                        html.match(/<a[^>]*href=["']([^"']+)["'][^>]*>.*(?:點擊|前往|訪問)/i);
+                        
+                        // 方法4: 查找 data-url 或其他屬性
+                        const dataUrlMatch = html.match(/data-url=["']([^"']+)["']/i) ||
+                                           html.match(/data-target=["']([^"']+)["']/i);
+                        
+                        // 方法5: 查找所有 http/https 連結（作為最後手段）
+                        const allLinks = html.match(/https?:\/\/[^\s"'<>]+/g);
+                        
+                        if (locationMatch && locationMatch[1]) {
+                            finalUrl = locationMatch[1];
+                        } else if (metaRefresh && metaRefresh[1]) {
+                            finalUrl = metaRefresh[1];
+                        } else if (dataUrlMatch && dataUrlMatch[1] && dataUrlMatch[1].startsWith('http')) {
+                            finalUrl = dataUrlMatch[1];
+                        } else if (linkMatch && linkMatch[1] && linkMatch[1].startsWith('http')) {
+                            finalUrl = linkMatch[1];
+                        } else if (allLinks && allLinks.length > 0) {
+                            // 過濾掉常見的 CDN 和服務 URL，選擇最可能是目標的 URL
+                            const filteredLinks = allLinks.filter(link => 
+                                !link.includes('go-shorturl.vercel.app') &&
+                                !link.includes('cdnjs.cloudflare.com') &&
+                                !link.includes('fonts.googleapis.com') &&
+                                !link.includes('vercel.app') &&
+                                link.length < 200 // 排除過長的 URL
+                            );
+                            if (filteredLinks.length > 0) {
+                                finalUrl = filteredLinks[0];
+                            }
+                        }
+                        
+                        if (finalUrl) {
+                            // 處理相對路徑
+                            if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+                                try {
                                     finalUrl = new URL(finalUrl, redirectUrl).href;
+                                } catch (e) {
+                                    console.log('無法解析最終 URL:', e);
+                                    // 如果無法解析，嘗試直接使用短網址服務的 OG metadata
+                                    return fetchOGMetadata(redirectUrl);
                                 }
                             }
                             
+                            console.log('找到目標 URL:', finalUrl);
                             // 獲取最終目標網站的 OG metadata
                             return fetchOGMetadata(finalUrl);
-                        }
-                        return null;
-                    })
-                    .then(ogData => {
-                        if (ogData) {
-                            updateOGMetadata(ogData);
+                        } else {
+                            // 如果無法提取目標 URL，嘗試直接獲取短網址服務的 OG metadata
+                            console.log('無法提取目標 URL，嘗試獲取短網址服務的 OG metadata');
+                            return fetchOGMetadata(redirectUrl);
                         }
                     })
                     .catch(err => {
-                        console.log('獲取目標 OG metadata 失敗，使用默認值:', err);
+                        console.log(`代理 ${proxyIndex} 失敗:`, err);
+                        proxyIndex++;
+                        return tryGetTargetUrl(); // 嘗試下一個代理
+                    });
+                }
+                
+                // 開始獲取目標 URL 和 OG metadata
+                tryGetTargetUrl()
+                    .then(ogData => {
+                        if (ogData) {
+                            console.log('成功獲取 OG metadata:', ogData);
+                            updateOGMetadata(ogData);
+                        } else {
+                            console.log('未能獲取 OG metadata，使用默認值');
+                        }
+                    })
+                    .catch(err => {
+                        console.log('獲取目標 OG metadata 完全失敗，使用默認值:', err);
+                        // 失敗時至少更新當前 URL
+                        const ogUrl = document.getElementById('og-url');
+                        if (ogUrl) ogUrl.setAttribute('content', currentUrl);
                     });
                 
                 // 延遲重定向，給時間獲取 OG metadata（800ms 給爬蟲足夠時間）
