@@ -28,6 +28,34 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://xsong.us" id="canonical-url" />
     <script>
+        // 立即檢查並重定向（在頁面渲染前，最快速度）
+        (function() {
+            const currentPath = window.location.pathname;
+            const urlMatch = currentPath.match(/^\/url\/(.+)$/);
+            if (urlMatch) {
+                const shortCode = urlMatch[1];
+                const redirectUrl = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                
+                // 使用 dns-prefetch 和 preconnect 加速連接
+                const dnsLink = document.createElement('link');
+                dnsLink.rel = 'dns-prefetch';
+                dnsLink.href = 'https://go-shorturl.vercel.app';
+                document.head.appendChild(dnsLink);
+                
+                const preconnectLink = document.createElement('link');
+                preconnectLink.rel = 'preconnect';
+                preconnectLink.href = 'https://go-shorturl.vercel.app';
+                document.head.appendChild(preconnectLink);
+                
+                // 立即重定向，不等待頁面渲染（最快速度）
+                // 使用微任務確保在當前執行棧完成後立即執行
+                Promise.resolve().then(() => {
+                    window.location.replace(redirectUrl);
+                });
+            }
+        })();
+    </script>
+    <script>
         // 獲取目標網站的 OG metadata（通過代理服務）
         async function fetchOGMetadata(targetUrl, retryCount = 0) {
             try {
@@ -150,7 +178,7 @@
             document.title = ogData.ogTitle;
         }
         
-        // 檢查並重定向
+        // 檢查並獲取 OG metadata（重定向已在 head 中立即執行）
         (function() {
             const currentPath = window.location.pathname;
             const urlMatch = currentPath.match(/^\/url\/(.+)$/);
@@ -166,16 +194,7 @@
                 if (ogUrl) ogUrl.setAttribute('content', currentUrl);
                 if (canonicalUrl) canonicalUrl.setAttribute('href', currentUrl);
                 
-                // 使用 dns-prefetch 和 preconnect 加速連接
-                const dnsLink = document.createElement('link');
-                dnsLink.rel = 'dns-prefetch';
-                dnsLink.href = 'https://go-shorturl.vercel.app';
-                document.head.appendChild(dnsLink);
-                
-                const preconnectLink = document.createElement('link');
-                preconnectLink.rel = 'preconnect';
-                preconnectLink.href = 'https://go-shorturl.vercel.app';
-                document.head.appendChild(preconnectLink);
+                // 注意：重定向已在 head 中立即執行，這裡只負責獲取 OG metadata
                 
                 // 嘗試獲取目標網站的 OG metadata
                 // 直接獲取短網址服務頁面的 OG metadata（短網址服務可能已經設置了目標網站的 OG metadata）
@@ -309,10 +328,9 @@
                         if (ogUrl) ogUrl.setAttribute('content', currentUrl);
                     });
                 
-                // 延遲重定向，給時間獲取 OG metadata（800ms 給爬蟲足夠時間）
-                setTimeout(() => {
-                    window.location.replace(redirectUrl);
-                }, 800);
+                // 注意：重定向已在 head 中立即執行
+                // OG metadata 獲取在後台異步進行，不阻塞用戶體驗
+                // 對於社交爬蟲，它們會等待頁面加載，所以有時間獲取 OG metadata
             } else {
                 // 如果不是短網址，更新為當前 URL
                 const ogUrl = document.getElementById('og-url');
@@ -531,13 +549,13 @@
                     document.getElementById('redirect-url').textContent = redirectUrl;
                 }
                 
-                // 使用最短延遲（50ms），幾乎立即重定向
-                // 如果 head 中的 script 已經觸發重定向，這裡作為備用
-                setTimeout(() => {
+                // 立即重定向（備用方案）
+                // 如果 head 中的 script 已經觸發重定向，這裡不會執行
+                Promise.resolve().then(() => {
                     if (window.location.href.indexOf('go-shorturl.vercel.app') === -1) {
                         window.location.replace(redirectUrl);
                     }
-                }, 50);
+                });
                 return;
             }
             
