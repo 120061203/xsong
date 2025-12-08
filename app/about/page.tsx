@@ -947,12 +947,47 @@ export default function AboutPage() {
                   我的頻道
                 </button>
                 <span className="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-sm rounded-lg">
-                  演講經驗 (3 場)
+                  演講經驗 (4 場)
                 </span>
               </div>
             </div>
             <div className="space-y-8">
               {/* 演講項目 1 - 最新 */}
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div className="mb-3">
+                  <span className="inline-block px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded-full mb-2">
+                    2025.12.06
+                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Antigravity 導入 SDD 的急速開發術</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 mb-3">2025 Devfest Changhua - Lightning Talk</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  規格驅動開發（SDD）的流程概念及指令與 Google 的 AI 編輯器 Antigravity 功能講解。
+                </p>
+                
+                {/* 連結區域 */}
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <a 
+                    href="https://hackmd.io/@120061203/HyvI1fbf-x" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                    </svg>
+                    簡報
+                  </a>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">SDD</span>
+                  <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">AI</span>
+                  <span className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded">軟體開發</span>
+                </div>
+              </div>
+              
+              {/* 演講項目 2 - 中間 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
@@ -998,7 +1033,7 @@ export default function AboutPage() {
                 </div>
               </div>
               
-              {/* 演講項目 2 - 中間 */}
+              {/* 演講項目 3 - 中間 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
@@ -1044,7 +1079,7 @@ export default function AboutPage() {
                 </div>
               </div>
               
-              {/* 演講項目 3 - 最早 */}
+              {/* 演講項目 4 - 最早 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
