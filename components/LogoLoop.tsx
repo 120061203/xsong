@@ -48,6 +48,7 @@ const toCssLength = (value?: number | string): string | undefined =>
 const useResizeObserver = (
   callback: () => void,
   elements: Array<React.RefObject<Element | null>>,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dependencies: React.DependencyList
 ) => {
   useEffect(() => {
@@ -76,6 +77,7 @@ const useResizeObserver = (
 const useImageLoader = (
   seqRef: React.RefObject<HTMLUListElement | null>,
   onLoad: () => void,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dependencies: React.DependencyList
 ) => {
   useEffect(() => {

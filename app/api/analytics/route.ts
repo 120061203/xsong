@@ -6,7 +6,7 @@ export const runtime = 'nodejs';
 
 // 简单的内存存储（开发环境）
 // 生产环境建议使用 Upstash Redis 或 Supabase
-let stats = {
+const stats = {
   totalVisits: 0,
   totalClicks: 0,
   uniqueVisitors: new Set<string>(),
@@ -63,7 +63,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { event, page, element, referrer, userAgent } = body;
+    const { event, page, element } = body;
+    // referrer 和 userAgent 保留在 body 中，未来可能使用
     const clientIP = getClientIP(request);
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 

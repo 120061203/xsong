@@ -11,6 +11,7 @@ import LogoLoop from '../../components/LogoLoop';
 // WebP 轉換緩存（僅存儲轉換後的 WebP URL，不檢查時間）
 const getCacheKey = (url: string) => `project_image_${btoa(url)}`;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getCachedWebP = (url: string): string | null => {
   try {
     if (typeof window !== 'undefined') {
@@ -23,6 +24,7 @@ const getCachedWebP = (url: string): string | null => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const setCachedWebP = (url: string, webpUrl: string) => {
   try {
     if (typeof window !== 'undefined') {
@@ -34,6 +36,7 @@ const setCachedWebP = (url: string, webpUrl: string) => {
 };
 
 // WebP 轉換函數
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const convertToWebP = async (imageUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (typeof window === 'undefined') {
@@ -707,6 +710,7 @@ const allTechnologies = Array.from(
 ).sort();
 
 // 優化的圖片組件
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface OptimizedImageProps {
   src: string;
   alt: string;
