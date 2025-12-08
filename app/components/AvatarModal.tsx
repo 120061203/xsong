@@ -38,12 +38,19 @@ const socialMedias: SocialMedia[] = [
     icon: 'fa-brands fa-instagram',
     color: 'text-pink-600',
     qrIconColor: 'text-pink-600'
+  },
+  {
+    name: 'Telegram',
+    url: 'https://t.me/song0922',
+    icon: 'fa-brands fa-telegram',
+    color: 'text-blue-500',
+    qrIconColor: 'text-blue-500'
   }
 ];
 
 export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
   const [currentIndex, setCurrentIndex] = useState(1);
-  const [qrCodeDataUrls, setQrCodeDataUrls] = useState<string[]>(['', '', '']);
+  const [qrCodeDataUrls, setQrCodeDataUrls] = useState<string[]>(['', '', '', '']);
   const [isGenerating, setIsGenerating] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);

@@ -112,6 +112,15 @@ export default function Home() {
               <i className="fa-brands fa-instagram text-xl"></i>
             </a>
             <a
+              href="https://t.me/song0922"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Telegram"
+              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+            >
+              <i className="fa-brands fa-telegram text-xl"></i>
+            </a>
+            <a
               href="/cv"
               aria-label="Download CV"
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
