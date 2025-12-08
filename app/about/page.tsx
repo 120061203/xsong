@@ -1393,6 +1393,68 @@ export default function AboutPage() {
                   </div>
                 </div>
               </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-500 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900 dark:text-white">Telegram</h3>
+                  <div className="flex items-center space-x-2">
+                    <a href="https://t.me/song0922" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                      t.me/song0922
+                    </a>
+                    <button 
+                      onClick={async (e) => {
+                        const btn = e.currentTarget as HTMLButtonElement;
+                        if (!btn) return;
+                        
+                        const svg = btn.querySelector('svg');
+                        if (!svg) return;
+                        
+                        const originalIcon = svg.outerHTML;
+                        
+                        svg.outerHTML = `
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                        `;
+                        btn.classList.add('text-green-600', 'dark:text-green-400');
+                        btn.classList.remove('text-gray-400', 'hover:text-gray-600', 'dark:hover:text-gray-300');
+                        
+                        try {
+                          await navigator.clipboard.writeText('https://t.me/song0922');
+                        } catch (err) {
+                          console.error('複製失敗:', err);
+                          const textArea = document.createElement('textarea');
+                          textArea.value = 'https://t.me/song0922';
+                          document.body.appendChild(textArea);
+                          textArea.select();
+                          document.execCommand('copy');
+                          document.body.removeChild(textArea);
+                        }
+                        
+                        setTimeout(() => {
+                          const currentSvg = btn.querySelector('svg');
+                          if (currentSvg) {
+                            currentSvg.outerHTML = originalIcon;
+                          }
+                          btn.classList.remove('text-green-600', 'dark:text-green-400');
+                          btn.classList.add('text-gray-400', 'hover:text-gray-600', 'dark:hover:text-gray-300');
+                        }, 2000);
+                      }}
+                      className="ml-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 rounded"
+                      title="複製 Telegram 連結"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           </div>
