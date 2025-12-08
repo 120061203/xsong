@@ -1,0 +1,11 @@
+# Zeabur 忽略文件
+out/
+.next/
+node_modules/
+.git/
+.github/
+*.log
+.DS_Store
+.env*.local
+*.tsbuildinfo
+

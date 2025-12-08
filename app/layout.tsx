@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Breadcrumb from "./components/Breadcrumb";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import AnalyticsTracker from "./components/AnalyticsTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -119,6 +120,7 @@ export default function RootLayout({
         )}
         
         <ThemeProvider>
+          <AnalyticsTracker />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <Breadcrumb />

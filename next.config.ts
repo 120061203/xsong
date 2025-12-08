@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
+// 检测是否在 Zeabur/Vercel 环境（这些平台支持 API Routes）
+const isZeabur = process.env.ZEABUR === 'true';
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
+const supportsApiRoutes = isZeabur || isVercel;
+
 const nextConfig: NextConfig = {
-  output: 'export', // 保持靜態導出
+  // 在 Zeabur/Vercel 上不进行静态导出，以支持 API Routes
+  // 在 GitHub Pages 上使用静态导出
+  ...(supportsApiRoutes ? {} : { output: 'export' }), // 仅在非 API Routes 支持环境静态导出
   images: {
     unoptimized: true, // 禁用圖片優化（與靜態導出相容）
   },

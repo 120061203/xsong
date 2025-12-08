@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:export": "next build && node scripts/copy-404.js",
+    "build:zeabur": "ZEABUR=true next build",
     "build:blog": "node scripts/build-blog.js",
     "create:blog-images": "node scripts/create-blog-image-folders.js",
     "convert:images": "node scripts/convert-images.js",

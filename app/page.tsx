@@ -4,9 +4,11 @@ import Image from "next/image"
 import { useState } from "react"
 import AvatarModal from "./components/AvatarModal"
 import TypewriterEffect from "./components/TypewriterEffect"
+import { useAnalytics } from "./hooks/useAnalytics"
 
 export default function Home() {
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const { trackSocialClick, trackButtonClick, trackDownload } = useAnalytics();
 
   return (
     <>
@@ -89,6 +91,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
+              onClick={() => trackSocialClick('github')}
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
             >
               <i className="fa-brands fa-github text-xl"></i>
@@ -98,6 +101,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
+              onClick={() => trackSocialClick('linkedin')}
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
             >
               <i className="fa-brands fa-linkedin text-xl"></i>
@@ -107,6 +111,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram Profile"
+              onClick={() => trackSocialClick('instagram')}
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
             >
               <i className="fa-brands fa-instagram text-xl"></i>
@@ -116,6 +121,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Telegram"
+              onClick={() => trackSocialClick('telegram')}
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
             >
               <i className="fa-brands fa-telegram text-xl"></i>
@@ -123,12 +129,16 @@ export default function Home() {
             <a
               href="/cv"
               aria-label="Download CV"
+              onClick={() => trackDownload('cv')}
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
             >
               <i className="fas fa-file-pdf text-xl"></i>
             </a>
             <button
-              onClick={() => setIsAvatarModalOpen(true)}
+              onClick={() => {
+                trackButtonClick('QR Code', 'homepage');
+                setIsAvatarModalOpen(true);
+              }}
               aria-label="View QR Codes"
               className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
             >
@@ -140,7 +150,10 @@ export default function Home() {
         {/* 右側：頭像 */}
         <div className="flex-1 flex justify-center mt-8 md:mt-0">
           <button
-            onClick={() => setIsAvatarModalOpen(true)}
+            onClick={() => {
+              trackButtonClick('Avatar', 'homepage');
+              setIsAvatarModalOpen(true);
+            }}
             className="group relative transition-transform hover:scale-105 active:scale-95"
             aria-label="點擊查看社交媒體 QR Code"
           >
