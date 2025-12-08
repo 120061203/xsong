@@ -6,6 +6,27 @@
     <title>xsong.us - 重定向中...</title>
     <meta name="description" content="xsong.us - 技術分享與作品集網站">
     <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="32x32">
+    <script>
+        // 立即檢查並預加載目標頁面（在頁面渲染前）
+        (function() {
+            const currentPath = window.location.pathname;
+            const urlMatch = currentPath.match(/^\/url\/(.+)$/);
+            if (urlMatch) {
+                const shortCode = urlMatch[1];
+                const redirectUrl = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                // 使用 dns-prefetch 和 preconnect 加速連接
+                const dnsLink = document.createElement('link');
+                dnsLink.rel = 'dns-prefetch';
+                dnsLink.href = 'https://go-shorturl.vercel.app';
+                document.head.appendChild(dnsLink);
+                
+                const preconnectLink = document.createElement('link');
+                preconnectLink.rel = 'preconnect';
+                preconnectLink.href = 'https://go-shorturl.vercel.app';
+                document.head.appendChild(preconnectLink);
+            }
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -200,16 +221,26 @@
             if (urlMatch) {
                 // 提取短網址代碼
                 const shortCode = urlMatch[1];
+                const redirectUrl = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                
+                // 預加載目標頁面，加速轉址
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = redirectUrl;
+                document.head.appendChild(link);
                 
                 // 顯示重定向內容
                 document.getElementById('redirect-content').style.display = 'block';
                 document.getElementById('error-content').style.display = 'none';
-                document.getElementById('redirect-url').textContent = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                document.getElementById('redirect-url').textContent = redirectUrl;
                 
-                // 延遲重定向，讓用戶看到重定向信息
-                setTimeout(() => {
-                    window.location.replace(`https://go-shorturl.vercel.app/url/${shortCode}`);
-                }, 1000);
+                // 使用 requestAnimationFrame 確保在下一帧執行，減少延遲
+                requestAnimationFrame(() => {
+                    // 減少延遲時間到 300ms，讓用戶看到重定向信息但不會等待太久
+                    setTimeout(() => {
+                        window.location.replace(redirectUrl);
+                    }, 300);
+                });
                 return;
             }
             
