@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// 告诉 Next.js 这个路由需要动态处理（即使使用静态导出）
+// 告诉 Next.js 这个路由需要动态处理
+// 注意：在 GitHub Pages 静态导出时，这个文件会在构建前被临时移动，所以不会导致构建错误
+// 在 Zeabur/Vercel 等支持 API Routes 的平台上，这个配置会生效
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
