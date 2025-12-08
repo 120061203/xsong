@@ -30,5 +30,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Temporary API routes (for static export builds)
+# Temporary API routes and blog route (for static export builds)
 .api-temp/
+.blog-temp/

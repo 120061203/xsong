@@ -86,24 +86,33 @@ jobs:
           npm install
           npm run build
           echo "✅ Astro Blog 構建完成"
-      - name: Temporarily move API routes for static export
+      - name: Temporarily move API routes and blog route for static export
         run: |
-          # 在静态导出时，将 API routes 移动到 app 目录外以避免 Next.js 扫描
+          # 在静态导出时，将 API routes 和 blog route 移动到 app 目录外以避免 Next.js 扫描
           if [ -d "app/api" ]; then
             mv app/api .api-temp
             echo "✅ API routes 已临时移动到 .api-temp（静态导出模式）"
+          fi
+          if [ -d "app/blog" ]; then
+            mv app/blog .blog-temp
+            echo "✅ Blog route 已临时移动到 .blog-temp（静态导出模式）"
           fi
       - name: Build with Next.js
         env:
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-      - name: Restore API routes
+      - name: Restore API routes and blog route
         if: always()
         run: |
           # 恢复 API routes 目录
           if [ -d ".api-temp" ]; then
             mv .api-temp app/api
             echo "✅ API routes 已恢复"
+          fi
+          # 恢复 blog route 目录
+          if [ -d ".blog-temp" ]; then
+            mv .blog-temp app/blog
+            echo "✅ Blog route 已恢复"
           fi
       - name: Copy 404.html
         run: cp public/404.html out/404.html

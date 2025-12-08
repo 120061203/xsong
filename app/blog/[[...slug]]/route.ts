@@ -2,9 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// 处理 Astro blog 的路由（仅在非静态导出模式下使用）
-// 在静态导出模式下，Next.js 会自动从 public 目录服务文件
-export const dynamic = 'force-dynamic';
+// 检查是否在支持 API Routes 的环境（非静态导出模式）
+const supportsApiRoutes = typeof process !== 'undefined' && (
+  process.env.VERCEL === '1' || 
+  process.env.VERCEL === 'true' || 
+  process.env.ZEABUR === 'true' ||
+  process.env.ZEABUR === '1'
+);
+
+// 仅在非静态导出模式下导出 dynamic
+// 在静态导出模式下，这个路由不会被使用（Next.js 会从 public 目录服务文件）
+if (supportsApiRoutes) {
+  // 使用条件导出，避免静态导出时的错误
+  // @ts-expect-error - 动态导出，避免静态导出时的错误
+  exports.dynamic = 'force-dynamic';
+}
 
 export async function GET(
   request: NextRequest,
