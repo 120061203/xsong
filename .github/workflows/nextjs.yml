@@ -88,10 +88,10 @@ jobs:
           echo "✅ Astro Blog 構建完成"
       - name: Temporarily move API routes for static export
         run: |
-          # 在静态导出时，临时重命名 API routes 目录以避免构建错误
+          # 在静态导出时，将 API routes 移动到 app 目录外以避免 Next.js 扫描
           if [ -d "app/api" ]; then
-            mv app/api app/api.backup
-            echo "✅ API routes 已临时移动（静态导出模式）"
+            mv app/api .api-temp
+            echo "✅ API routes 已临时移动到 .api-temp（静态导出模式）"
           fi
       - name: Build with Next.js
         env:
@@ -101,8 +101,8 @@ jobs:
         if: always()
         run: |
           # 恢复 API routes 目录
-          if [ -d "app/api.backup" ]; then
-            mv app/api.backup app/api
+          if [ -d ".api-temp" ]; then
+            mv .api-temp app/api
             echo "✅ API routes 已恢复"
           fi
       - name: Copy 404.html
