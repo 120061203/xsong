@@ -2,6 +2,7 @@
   "buildCommand": "ZEABUR=true npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
+  "startCommand": "node server.js",
   "framework": "nextjs",
   "nodeVersion": "18.x"
 }
