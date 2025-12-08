@@ -1,5 +1,5 @@
 {
-  "buildCommand": "ZEABUR=true npm run build",
+  "buildCommand": "ZEABUR=true npm run build:blog && ZEABUR=true npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "startCommand": "node server.js",

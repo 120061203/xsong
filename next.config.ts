@@ -79,6 +79,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // 添加路径重写配置（用于服务 Astro blog）
+  async rewrites() {
+    // 仅在非静态导出模式下使用 rewrites（静态导出不支持 rewrites）
+    if (supportsApiRoutes) {
+      return [
+        // 确保 /blog 路径正确服务 public/blog 目录
+        {
+          source: '/blog/:path*',
+          destination: '/blog/:path*', // Next.js 会自动从 public 目录服务
+        },
+      ];
+    }
+    return [];
+  },
   // 添加安全 HTTP 頭部配置
   async headers() {
     return [
