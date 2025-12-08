@@ -1,12 +1,43 @@
 import type { NextConfig } from "next";
 
-// 检测是否在 Zeabur/Vercel 环境（这些平台支持 API Routes）
-const isZeabur = process.env.ZEABUR === 'true';
-const isVercel = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
-const supportsApiRoutes = isZeabur || isVercel;
+// 检测是否在支持 API Routes 的环境
+// 方法1: 检查环境变量
+const isZeabur = process.env.ZEABUR === 'true' || 
+                 process.env.ZEABUR === '1' ||
+                 process.env.ZEABUR_ENV !== undefined ||
+                 process.env.ZEABUR_PROJECT_ID !== undefined;
+const isVercel = process.env.VERCEL === '1' || 
+                 process.env.VERCEL === 'true' ||
+                 process.env.VERCEL_ENV !== undefined;
+const isOtherPlatform = process.env.RAILWAY_ENVIRONMENT !== undefined ||
+                        process.env.RENDER !== undefined ||
+                        process.env.FLY_APP_NAME !== undefined;
+
+// 方法2: 检查是否存在 API routes 目录（如果存在，说明需要支持 API Routes）
+const fs = require('fs');
+const path = require('path');
+const apiRoutesExist = fs.existsSync(path.join(process.cwd(), 'app', 'api'));
+
+// 如果检测到任何支持 API Routes 的平台，或者存在 API routes 目录，就不使用静态导出
+// 默认情况下，如果存在 API routes，就不使用静态导出（更安全）
+const supportsApiRoutes = isZeabur || isVercel || isOtherPlatform || 
+                          process.env.NEXT_PUBLIC_DISABLE_STATIC_EXPORT === 'true' ||
+                          apiRoutesExist; // 如果存在 API routes，默认支持
+
+// 调试信息
+console.log('[Next.js Config] Environment detection:', {
+  isZeabur,
+  isVercel,
+  isOtherPlatform,
+  apiRoutesExist,
+  supportsApiRoutes,
+  willUseStaticExport: !supportsApiRoutes,
+  ZEABUR: process.env.ZEABUR,
+  VERCEL: process.env.VERCEL,
+});
 
 const nextConfig: NextConfig = {
-  // 在 Zeabur/Vercel 上不进行静态导出，以支持 API Routes
+  // 在支持 API Routes 的平台上不进行静态导出
   // 在 GitHub Pages 上使用静态导出
   ...(supportsApiRoutes ? {} : { output: 'export' }), // 仅在非 API Routes 支持环境静态导出
   images: {
