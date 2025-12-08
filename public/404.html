@@ -6,14 +6,139 @@
     <title>xsong.us - 重定向中...</title>
     <meta name="description" content="xsong.us - 技術分享與作品集網站">
     <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="32x32">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://xsong.us" id="og-url" />
+    <meta property="og:title" content="xsong.us - 重定向中..." id="og-title" />
+    <meta property="og:description" content="xsong.us - 技術分享與作品集網站" id="og-description" />
+    <meta property="og:image" content="https://xsong.us/avatar.png" id="og-image" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="xsong.us - 技術分享與作品集" />
+    <meta property="og:site_name" content="xsong.us" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://xsong.us" id="twitter-url" />
+    <meta name="twitter:title" content="xsong.us - 重定向中..." id="twitter-title" />
+    <meta name="twitter:description" content="xsong.us - 技術分享與作品集網站" id="twitter-description" />
+    <meta name="twitter:image" content="https://xsong.us/avatar.png" id="twitter-image" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://xsong.us" id="canonical-url" />
     <script>
-        // 立即檢查並重定向（在頁面渲染前，最快速度）
+        // 獲取目標網站的 OG metadata（通過代理服務）
+        async function fetchOGMetadata(targetUrl) {
+            try {
+                // 使用 CORS 代理服務獲取目標網站的 HTML
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                
+                const response = await fetch(proxyUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/html'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('無法獲取目標網站內容');
+                }
+                
+                const data = await response.json();
+                const html = data.contents;
+                
+                if (!html) {
+                    throw new Error('目標網站內容為空');
+                }
+                
+                // 解析 HTML 獲取 OG metadata
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 提取 OG metadata（優先順序：og: > twitter: > 標準 meta）
+                const ogTitle = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 
+                               doc.querySelector('meta[name="twitter:title"]')?.getAttribute('content') ||
+                               doc.querySelector('title')?.textContent?.trim() || 
+                               '目標網站';
+                
+                const ogDescription = doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || 
+                                     doc.querySelector('meta[name="twitter:description"]')?.getAttribute('content') ||
+                                     doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
+                                     '正在重定向到目標網站...';
+                
+                let ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || 
+                             doc.querySelector('meta[name="twitter:image"]')?.getAttribute('content') ||
+                             doc.querySelector('meta[property="og:image:url"]')?.getAttribute('content');
+                
+                // 處理相對路徑的圖片 URL
+                if (ogImage) {
+                    ogImage = ogImage.trim();
+                    if (!ogImage.startsWith('http://') && !ogImage.startsWith('https://')) {
+                        try {
+                            const baseUrl = new URL(targetUrl);
+                            ogImage = new URL(ogImage, baseUrl.origin).href;
+                        } catch (e) {
+                            console.log('無法解析圖片 URL:', e);
+                            ogImage = 'https://xsong.us/avatar.png';
+                        }
+                    }
+                } else {
+                    ogImage = 'https://xsong.us/avatar.png';
+                }
+                
+                const ogUrl = doc.querySelector('meta[property="og:url"]')?.getAttribute('content') || targetUrl;
+                
+                return { ogTitle, ogDescription, ogImage, ogUrl };
+            } catch (error) {
+                console.log('無法獲取 OG metadata:', error);
+                return null;
+            }
+        }
+        
+        // 更新頁面的 OG metadata
+        function updateOGMetadata(ogData) {
+            if (!ogData) return;
+            
+            const ogTitleEl = document.getElementById('og-title');
+            const ogDescEl = document.getElementById('og-description');
+            const ogImageEl = document.getElementById('og-image');
+            const ogUrlEl = document.getElementById('og-url');
+            const twitterTitleEl = document.getElementById('twitter-title');
+            const twitterDescEl = document.getElementById('twitter-description');
+            const twitterImageEl = document.getElementById('twitter-image');
+            const ogImageAlt = document.querySelector('meta[property="og:image:alt"]');
+            
+            if (ogTitleEl) ogTitleEl.setAttribute('content', ogData.ogTitle);
+            if (ogDescEl) ogDescEl.setAttribute('content', ogData.ogDescription);
+            if (ogImageEl) {
+                ogImageEl.setAttribute('content', ogData.ogImage);
+                if (ogImageAlt) ogImageAlt.setAttribute('content', ogData.ogTitle);
+            }
+            if (ogUrlEl) ogUrlEl.setAttribute('content', ogData.ogUrl);
+            if (twitterTitleEl) twitterTitleEl.setAttribute('content', ogData.ogTitle);
+            if (twitterDescEl) twitterDescEl.setAttribute('content', ogData.ogDescription);
+            if (twitterImageEl) twitterImageEl.setAttribute('content', ogData.ogImage);
+            
+            // 更新頁面標題
+            document.title = ogData.ogTitle;
+        }
+        
+        // 檢查並重定向
         (function() {
             const currentPath = window.location.pathname;
             const urlMatch = currentPath.match(/^\/url\/(.+)$/);
+            const currentUrl = window.location.href;
+            
             if (urlMatch) {
                 const shortCode = urlMatch[1];
                 const redirectUrl = `https://go-shorturl.vercel.app/url/${shortCode}`;
+                
+                // 更新當前 URL 的 meta
+                const ogUrl = document.getElementById('og-url');
+                const canonicalUrl = document.getElementById('canonical-url');
+                if (ogUrl) ogUrl.setAttribute('content', currentUrl);
+                if (canonicalUrl) canonicalUrl.setAttribute('href', currentUrl);
                 
                 // 使用 dns-prefetch 和 preconnect 加速連接
                 const dnsLink = document.createElement('link');
@@ -26,11 +151,60 @@
                 preconnectLink.href = 'https://go-shorturl.vercel.app';
                 document.head.appendChild(preconnectLink);
                 
-                // 立即重定向，不等待頁面渲染（最快速度）
-                // 使用微任務確保在當前執行棧完成後立即執行
-                Promise.resolve().then(() => {
+                // 嘗試獲取目標網站的 OG metadata
+                // 由於短網址服務會重定向，我們需要先獲取最終目標 URL
+                // 這裡使用一個技巧：通過 iframe 或 fetch 獲取重定向鏈
+                
+                // 方案：先訪問短網址服務，獲取最終目標 URL，然後獲取 OG metadata
+                // 由於 CORS 限制，我們使用代理服務
+                const proxyShortUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(redirectUrl)}`;
+                
+                // 異步獲取目標網站的 OG metadata（不阻塞重定向）
+                fetch(proxyShortUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 從短網址服務的響應中提取最終目標 URL
+                        // 這可能需要解析 HTML 或使用正則表達式
+                        const html = data.contents;
+                        if (html) {
+                            // 嘗試從 HTML 中提取重定向目標
+                            // 或者從 Location header（如果代理服務提供）
+                            const locationMatch = html.match(/location\.href\s*=\s*["']([^"']+)["']/i) ||
+                                                   html.match(/window\.location\s*=\s*["']([^"']+)["']/i) ||
+                                                   html.match(/<meta[^>]*http-equiv=["']refresh["'][^>]*content=["'][^;]*url=([^"']+)["']/i);
+                            
+                            let finalUrl = redirectUrl;
+                            if (locationMatch && locationMatch[1]) {
+                                finalUrl = locationMatch[1];
+                                if (!finalUrl.startsWith('http')) {
+                                    finalUrl = new URL(finalUrl, redirectUrl).href;
+                                }
+                            }
+                            
+                            // 獲取最終目標網站的 OG metadata
+                            return fetchOGMetadata(finalUrl);
+                        }
+                        return null;
+                    })
+                    .then(ogData => {
+                        if (ogData) {
+                            updateOGMetadata(ogData);
+                        }
+                    })
+                    .catch(err => {
+                        console.log('獲取目標 OG metadata 失敗，使用默認值:', err);
+                    });
+                
+                // 延遲重定向，給時間獲取 OG metadata（800ms 給爬蟲足夠時間）
+                setTimeout(() => {
                     window.location.replace(redirectUrl);
-                });
+                }, 800);
+            } else {
+                // 如果不是短網址，更新為當前 URL
+                const ogUrl = document.getElementById('og-url');
+                const canonicalUrl = document.getElementById('canonical-url');
+                if (ogUrl) ogUrl.setAttribute('content', currentUrl);
+                if (canonicalUrl) canonicalUrl.setAttribute('href', currentUrl);
             }
         })();
     </script>
