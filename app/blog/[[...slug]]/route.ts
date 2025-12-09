@@ -27,9 +27,10 @@ export async function GET(
     const slugPath = slug ? slug.join('/') : '';
     
     // 构建文件路径
-    const publicDir = path.join(process.cwd(), 'public', 'blog');
+    // Astro 构建时 base 设置为 /blog，所以文件在 public/blog/blog/ 目录下
+    const publicDir = path.join(process.cwd(), 'public', 'blog', 'blog');
     
-    // 如果是根路径 (/blog 或 /blog/)，返回 index.html
+    // 如果是根路径 (/blog 或 /blog/)，返回 blog/index.html
     if (!slugPath || slugPath === '') {
       const indexPath = path.join(publicDir, 'index.html');
       if (fs.existsSync(indexPath)) {
@@ -71,6 +72,7 @@ export async function GET(
     }
     
     // 如果文件不存在，返回 404
+    console.error(`Blog page not found: ${slugPath}, tried paths: ${indexPath}, ${htmlPath}`);
     return new NextResponse('Blog page not found', { status: 404 });
   } catch (error) {
     console.error('Error serving blog page:', error);
