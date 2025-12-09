@@ -1,5 +1,5 @@
 ---
-title: "Devfest閃電秀 - Antigravity 導入 SDD 的急速開發術"
+title: "DevFest閃電秀 - Antigravity 導入 SDD 的急速開發術"
 description: "靠一張簡報硬抗的閃電秀與開發者們的交流"
 pubDate: 2025-12-08T16:00:00+08:00
 updatedDate: 2025-12-08T16:00:00+08:00
@@ -9,21 +9,21 @@ tags: ["SDD","GDG","Antigravity","AI","軟體開發"]
 private: false
 ---
 
-# Devfest 介紹 - Google 年會
+# DevFest 介紹 - Google 年會
 
-每年的年底都是 Devfest 的舉辦高峰時期，在全台的 6 個縣市分別會舉辦一場大型的開發者年會，年會當天有精彩的議程以及眾多對 Google 技術有興趣的會眾一同參與。
+每年的年底都是 DevFest 的舉辦高峰時期，在全台的 6 個縣市分別會舉辦一場大型的開發者年會，年會當天有精彩的議程以及眾多對 Google 技術有興趣的會眾一同參與。
 
-在 2022 年開始，我第一次參與彰化 Devfest 是在火車站旁的書局地下室，那個場地大約可以容納 30 人，算是彰化 GDG 的首場 Devfest，讓人覺得非常溫馨，再加上彰化是一個和眾多大城市相比更有人情味的地方，我覺得在這裡參與活動的感覺就是小而美的世外桃源。
+在 2022 年開始，我第一次參與彰化 DevFest 是在火車站旁的書局地下室，那個場地大約可以容納 30 人，算是彰化 GDG 的首場 DevFest，讓人覺得非常溫馨，再加上彰化是一個和眾多大城市相比更有人情味的地方，我覺得在這裡參與活動的感覺就是小而美的世外桃源。
 
 ---
 
-# Devfest Changhua 2025
+# DevFest Changhua 2025
 
 今年的活動舉辦在彰化師範大學進德校區的圖資中心地下室演講廳，現場可以容納 120 人左右，這是歷屆最多的人數，而在活動的報到率也超過九成，這是非常高的比例。
 
 ![會眾合照](../../../../assets/images/2025/12/devfest_changhua/1206devfest-1.webp)
 
-彰化 Devfest 由於場地不像台北那麼大，反而能夠讓我在這裡認識了更多的夥伴，從 2022 開始每年都陸續認識很多朋友，例如 GDG 彰化組織者佳新、FKT、Bruce、楷言、橘子等，在活動的現場都能有非常多的交流與互動。
+彰化 DevFest 由於場地不像台北那麼大，反而能夠讓我在這裡認識了更多的夥伴，從 2022 開始每年都陸續認識很多朋友，例如 GDG 彰化組織者佳新、FKT、Bruce、楷言、橘子等，在活動的現場都能有非常多的交流與互動。
 
 ![工作人員合照](../../../../assets/images/2025/12/devfest_changhua/1206devfest-2.webp)
 
@@ -35,7 +35,7 @@ private: false
 
 我的演講經歷從校園的 40 人逐漸成長到如今到破百人，我也依舊不會怯場，走出校園面對的是各式各樣的民眾，需要保留技術的同時，也要講解的淺顯易懂。
 
-從去年 2024 開始我就開始嘗試練習在 Devfest 分享技術，去年在台北 Devfest 講的是[大語言模型的評估](https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0)，而今年我緊扣 Google 最新發表的 AI IDE，**Antigravity** 作為閃電秀的主軸，並且搭配 **規格驅動開發（SDD）** 的急速開發，讓台下百人觀眾得以知道這些技術該如何使用在自己的軟體開發流程。
+從去年 2024 開始我就開始嘗試練習在 DevFest 分享技術，去年在台北 DevFest 講的是[大語言模型的評估](https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0)，而今年我緊扣 Google 最新發表的 AI IDE，**Antigravity** 作為閃電秀的主軸，並且搭配 **規格驅動開發（SDD）** 的急速開發，讓台下百人觀眾得以知道這些技術該如何使用在自己的軟體開發流程。
 
 ## 演講主題：Antigravity 導入 SDD 的急速開發術
 
