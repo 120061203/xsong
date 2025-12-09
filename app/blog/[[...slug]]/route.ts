@@ -14,7 +14,8 @@ const supportsApiRoutes = typeof process !== 'undefined' && (
 // 在静态导出模式下，这个路由不会被使用（Next.js 会从 public 目录服务文件）
 if (supportsApiRoutes) {
   // 使用条件导出，避免静态导出时的错误
-  // @ts-expect-error - 动态导出，避免静态导出时的错误
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - 动态导出，避免静态导出时的错误
   exports.dynamic = 'force-dynamic';
 }
 
@@ -30,16 +31,20 @@ export async function GET(
     // Astro 构建时 base 设置为 /blog，所以文件在 public/blog/blog/ 目录下
     const publicDir = path.join(process.cwd(), 'public', 'blog', 'blog');
     
-    // 如果是根路径 (/blog 或 /blog/)，返回 blog/index.html
+    // 如果是根路径 (/blog 或 /blog/)，返回 blog/blog/index.html
     if (!slugPath || slugPath === '') {
       const indexPath = path.join(publicDir, 'index.html');
+      console.log(`[Blog Route] Serving blog index from: ${indexPath}`);
       if (fs.existsSync(indexPath)) {
         const html = fs.readFileSync(indexPath, 'utf-8');
+        console.log(`[Blog Route] Successfully read blog index, length: ${html.length}`);
         return new NextResponse(html, {
           headers: {
             'Content-Type': 'text/html; charset=utf-8',
           },
         });
+      } else {
+        console.error(`[Blog Route] Blog index not found at: ${indexPath}`);
       }
     }
     
