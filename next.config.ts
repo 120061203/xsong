@@ -80,15 +80,14 @@ const nextConfig: NextConfig = {
     ];
   },
   // 添加路径重写配置（用于服务 Astro blog）
+  // 注意：我们使用 app/blog/[[...slug]]/route.ts 来处理所有 /blog/* 请求
+  // 所以这里不需要 rewrites，避免与 API route 冲突
   async rewrites() {
     // 仅在非静态导出模式下使用 rewrites（静态导出不支持 rewrites）
     if (supportsApiRoutes) {
       return [
-        // 确保 /blog 路径正确服务 public/blog 目录
-        {
-          source: '/blog/:path*',
-          destination: '/blog/:path*', // Next.js 会自动从 public 目录服务
-        },
+        // 移除了 /blog/:path* 的 rewrite，因为由 API route 处理
+        // 如果需要其他路径的 rewrite，可以在这里添加
       ];
     }
     return [];
