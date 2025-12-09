@@ -1,4 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>xsong.us - 技術分享與作品集</title><description>小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。</description><link>https://xsong.us/</link><item><title>解鎖成就-第一次RD會議</title><link>https://xsong.us/blog/2025/10/2025-10-17-milestone-first-rd-meeting/</link><guid isPermaLink="true">https://xsong.us/blog/2025/10/2025-10-17-milestone-first-rd-meeting/</guid><description>當著30位RD、老闆和顧問的面報告 Terraform的部署計劃</description><pubDate>Fri, 17 Oct 2025 08:00:00 GMT</pubDate><content:encoded># 驚心動魄RD大會議
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>xsong.us - 技術分享與作品集</title><description>小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。</description><link>https://xsong.us/</link><item><title>Devfest閃電秀 - Antigravity 導入 SDD 的急速開發術</title><link>https://xsong.us/blog/2025/12/devfest_changhua/</link><guid isPermaLink="true">https://xsong.us/blog/2025/12/devfest_changhua/</guid><description>靠一張簡報硬抗的閃電秀與開發者們的交流</description><pubDate>Mon, 08 Dec 2025 08:00:00 GMT</pubDate><content:encoded># Devfest 介紹 - Google 年會
+
+每年的年底都是 Devfest 的舉辦高峰時期，在全台的 6 個縣市分別會舉辦一場大型的開發者年會，年會當天有精彩的議程以及眾多對 Google 技術有興趣的會眾一同參與。
+
+在 2022 年開始，我第一次參與彰化 Devfest 是在火車站旁的書局地下室，那個場地大約可以容納 30 人，算是彰化 GDG 的首場 Devfest，讓人覺得非常溫馨，再加上彰化是一個和眾多大城市相比更有人情味的地方，我覺得在這裡參與活動的感覺就是小而美的世外桃源。
+
+---
+
+# Devfest Changhua 2025
+
+今年的活動舉辦在彰化師範大學進德校區的圖資中心地下室演講廳，現場可以容納 120 人左右，這是歷屆最多的人數，而在活動的報到率也超過九成，這是非常高的比例。
+
+![會眾合照](../../../../assets/images/2025/12/devfest_changhua/1206devfest-1.webp)
+
+彰化 Devfest 由於場地不像台北那麼大，反而能夠讓我在這裡認識了更多的夥伴，從 2022 開始每年都陸續認識很多朋友，例如 GDG 彰化組織者佳新、FKT、Bruce、楷言、橘子等，在活動的現場都能有非常多的交流與互動。
+
+![工作人員合照](../../../../assets/images/2025/12/devfest_changhua/1206devfest-2.webp)
+
+---
+
+# 演講經歷 - 從校園教室走到演講廳百人觀眾
+
+
+
+我的演講經歷從校園的 40 人逐漸成長到如今到破百人，我也依舊不會怯場，走出校園面對的是各式各樣的民眾，需要保留技術的同時，也要講解的淺顯易懂。
+
+從去年 2024 開始我就開始嘗試練習在 Devfest 分享技術，去年在台北 Devfest 講的是[大語言模型的評估](https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0)，而今年我緊扣 Google 最新發表的 AI IDE，**Antigravity** 作為閃電秀的主軸，並且搭配 **規格驅動開發（SDD）** 的急速開發，讓台下百人觀眾得以知道這些技術該如何使用在自己的軟體開發流程。
+
+## 演講主題：Antigravity 導入 SDD 的急速開發術
+
+&gt; **什麼是規格驅動開發（SDD）？**
+&gt; 
+&gt; 規格驅動開發（Specification-Driven Development, SDD）是一種軟體開發方法論，強調在開始編寫程式碼之前，先定義清楚、完整的規格說明。這種方法可以幫助開發團隊：
+&gt; - 減少需求理解錯誤
+&gt; - 提高開發效率
+&gt; - 降低後續維護成本
+&gt; - 改善團隊溝通
+
+### Antigravity：Google 的 AI 程式編輯器
+
+**Antigravity** 是 Google 最新推出的 AI 程式編輯器，它能夠：
+
+- **程式碼生成**：根據規格自動生成程式碼
+- **即時建議與修正**：提供即時的程式碼建議和錯誤修正
+- **規格理解**：理解自然語言描述的規格，轉換為可執行的程式碼
+- **快速迭代**：大幅縮短從規格到實作的時間
+
+### 演講重點回顧
+
+在這次的閃電秀中，我分享了：
+
+- **SDD 的核心概念**：如何從規格開始，而不是從程式碼開始
+- **Antigravity 的實際應用**：如何在 Antigravity 中使用 SDD 方法
+- **實戰案例**：展示一個完整的開發流程，從規格到實作
+
+
+&gt; **演講簡報連結**：[Antigravity 導入 SDD 的急速開發術](https://hackmd.io/@120061203/HyvI1fbf-x)
+
+![台下觀眾](../../../../assets/images/2025/12/devfest_changhua/1206devfest-3.webp)
+---
+
+# 活動收穫與反思
+
+## 技術交流
+
+在活動現場，我與許多開發者進行了深入的技術交流：
+
+- **SDD 的實際應用場景**：許多開發者分享了他們在專案中使用類似方法的經驗
+- **AI 工具的未來**：討論了 AI 程式編輯器對軟體開發產業的影響
+- **開發流程優化**：交流了如何將新工具整合到現有工作流程中
+
+
+
+## 社群連結
+
+透過這次活動，我認識了更多志同道合的開發者，也加深了與 GDG 彰化社群成員的連結。這種小而美的社群氛圍，讓技術交流更加深入和真誠。
+
+---
+
+
+# 相關資源
+
+-  [本次閃電秀演講簡報](https://hackmd.io/@120061203/HyvI1fbf-x)
+- [2024 DevFest Taipei 演講：LLM Comparator](https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0)
+
+
+---
+
+*感謝 GDG 彰化團隊和所有參與的開發者，讓這次活動如此精彩！期待下次再見！*</content:encoded><category>技術分享</category></item><item><title>通過試用期-我規定了公司的標準部署流程</title><link>https://xsong.us/blog/2025/11/pass_trial_period/</link><guid isPermaLink="true">https://xsong.us/blog/2025/11/pass_trial_period/</guid><description>分享我3個月的付出與收穫</description><pubDate>Mon, 03 Nov 2025 08:00:00 GMT</pubDate><content:encoded># 我為公司做了什麼
+
+今天是我11月3日，晴，入職後的三個月，今天過後我就結束了為期3個月的試用期。我打開公司的Jira，這個記錄了我從入職以來所有任務的工具，我一共接受了28項任務，其中包含寫文件、研究新工具、部署任務、實作API、介紹Terraform，而最重要的是**訂立公司內部的軟體開發部署流程**。
+
+# 軟體開發部署流程
+
+身為專業的 Devops 工程師，將公司內部專案透過不同的部署策略，部署到對應的環境是我的任務，然而在開發工程團隊如何提出正確的部署需求，在我規定之前，貌似都有比較混亂的狀況，最近剛好有個專案由於沒有提供完整的環境變數導致部署失敗，最後排查也耗費比較多人力。
+
+## 如何建立部署流程
+
+在回答這個問題前，我先整理了公司最常有部署需求的服務有哪些，哪些需要儘快提供部署標準流程，哪些是暫時不需要那麼急迫的，這就是我這次的任務優先級安排。在評估後，公司內部有大量 API 部署需求，採用AWS App Runner 的方式去部署，為了能夠因應這種部署方式，我提供了1個部署規範的文件及1個雲端環境基礎建設範例 [App-Hub](https://xsong.us/projects#project-app-hub) ，只需要照著文件的步驟，就可以將開發團隊的功能進行部署。
+
+## 步驟說明
+
+&gt; STEP 0.完成Bitbucket專案上傳
+
+專案的上傳本就是開發團隊已經知道的既有步驟，因此我設定為部署的前置步驟，然而最重要的部分應提供**完整的Dockerfile及requirements.txt**。這是比較多開發團隊可能疏漏的部分，我在會議中也特別強調了要多注意這個部分。
+
+&gt; STEP 1.整理所需AWS資源
+
+由於很多專案需要使用 AWS 資源，如何正確開權限取得資源就是很重要的步驟了，包含RDS、S3、Secret Manager、Cloud Watch......這些都是應該要在部署前告知，並且開啟對應的權限。
+
+&gt; STEP 2. 提供環境變數
+
+如何安全並且完整地提供.env環境變數給Devops團隊是一個很重要的事情，在多方考慮以及討論後，比較了目前現有方法的優劣勢，包含1.通訊軟體直接傳送.env，2.Email寄送.env傳送，3.Google Sheet 建立環境變數的範本。最後，我們採用3.Google Sheet進行統一管理，但prod等重要資訊不揭露在文件中，僅以Check作為設定完成的意思。
+
+&gt;STEP 3. 驗證 App Runner 是否正確讀取 Secrets Manager的環境變數
+
+AWS 的 Secrets Manager是一個用於存放環境變數的工具，但開發團隊並沒有存取權限，因此開發團隊如果需要知道部署後是否有讀取到正確的環境步驟，要有自己的方法能夠確認，我提供了3種方法，1.測試功能完整性，如果功能確實完整，則有讀取到正確的環境變數，2.開啟App Runner的Application Log，並且在程式中print相關環境變數，3.寫1隻專門用於讀取Secret Manager的API，印出環境變數的前5碼等較不機敏的資訊，確認符合需求。
+
+以上簡單的幾個步驟，就可以明確開發團隊所需要的基本資源，並且減少重複溝通，雖然用Google Sheet仍然可能會有權限開啟錯誤等問題，但目前階段可以先嘗試簡單不需要太高學習成本的方法。
+
+# 新鮮人的體悟
+
+作為剛入社會的新鮮人，由於疫情期間導致沒有實習相關經驗（但其實那時候我去兼任了高中的社團老師，也算是某種進入職場？），這是第一次正式上班，很有趣的是我覺得無縫從學生狀態切換成工程師狀態並沒有太多的不適應，反而覺得自己比學生時期更能夠接受新的事物。</content:encoded><category>工作日記</category></item><item><title>解鎖成就-第一次RD會議</title><link>https://xsong.us/blog/2025/10/2025-10-17-milestone-first-rd-meeting/</link><guid isPermaLink="true">https://xsong.us/blog/2025/10/2025-10-17-milestone-first-rd-meeting/</guid><description>當著30位RD、老闆和顧問的面報告</description><pubDate>Fri, 17 Oct 2025 08:00:00 GMT</pubDate><content:encoded># 驚心動魄RD大會議
 
 10月17日，是我第一次當著所有RD工程師面前來進行報告，在座的也有公司的老闆和顧問，讓人覺得既緊張又興奮。
 
