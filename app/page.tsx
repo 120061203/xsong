@@ -134,16 +134,6 @@ export default function Home() {
             >
               <i className="fas fa-file-pdf text-xl"></i>
             </a>
-            <button
-              onClick={() => {
-                trackButtonClick('QR Code', 'homepage');
-                setIsAvatarModalOpen(true);
-              }}
-              aria-label="View QR Codes"
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
-            >
-              <i className="fas fa-qrcode text-xl"></i>
-            </button>
             <a
               href="https://portaly.cc/xsong/support"
               target="_blank"
@@ -154,6 +144,16 @@ export default function Home() {
             >
               <i className="fas fa-coins text-xl"></i>
             </a>
+            <button
+              onClick={() => {
+                trackButtonClick('QR Code', 'homepage');
+                setIsAvatarModalOpen(true);
+              }}
+              aria-label="View QR Codes"
+              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+            >
+              <i className="fas fa-qrcode text-xl"></i>
+            </button>
           </div>
         </div>
 
