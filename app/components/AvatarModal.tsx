@@ -139,16 +139,17 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="relative w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
-        {/* 標題欄 */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
+      <div className="relative w-full max-w-sm max-h-[90vh] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        {/* 標題欄 - 固定在頂部 */}
+        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600 flex-shrink-0 sticky top-0 bg-white dark:bg-gray-800 z-10">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">
             {socialMedias[currentIndex].name}
           </h3>
           <button
             onClick={handleClose}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0"
             type="button"
+            aria-label="關閉"
           >
             <i className="fas fa-times text-lg"></i>
           </button>
@@ -156,7 +157,7 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
 
         {/* 主要內容區域 - 支援觸控滑動 */}
         <div 
-          className="p-4"
+          className="p-4 overflow-y-auto flex-1"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -236,7 +237,7 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
         </div>
 
         {/* 滑動指示器 */}
-        <div className="flex justify-center items-center space-x-2 p-3 border-t border-gray-200 dark:border-gray-600">
+        <div className="flex justify-center items-center space-x-2 p-3 border-t border-gray-200 dark:border-gray-600 flex-shrink-0">
           {socialMedias.map((_, index) => (
             <button
               key={index}
@@ -251,7 +252,7 @@ export default function AvatarModal({ isOpen, onClose }: AvatarModalProps) {
         </div>
 
         {/* 滑動提示 */}
-        <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400">
+        <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
           ← 左右滑動切換社交媒體 →
         </div>
       </div>
