@@ -555,6 +555,8 @@ const relatedPosts = allPosts
 			// 獲取所有標題
 			const headings = articleContent.querySelectorAll('h1, h2, h3, h4');
 			const tocItems = [];
+			let isScrollingToc = false; // 標記是否正在自動滾動目錄
+			let lastActiveId = null; // 記錄上一次激活的目錄項
 			
 			headings.forEach((heading, index) => {
 				// 為標題添加 ID
@@ -621,6 +623,46 @@ const relatedPosts = allPosts
 						element.classList.add('text-gray-600', 'dark:text-gray-400');
 					}
 				});
+				
+				// 同步滾動目錄：當激活項改變時，自動滾動目錄容器使激活項可見
+				if (activeId && activeId !== lastActiveId && !isScrollingToc) {
+					const activeTocItem = tocItems.find(item => item.id === activeId);
+					if (activeTocItem) {
+						isScrollingToc = true;
+						
+						// 計算激活項在目錄容器中的位置
+						const tocContainerRect = tocContainer.getBoundingClientRect();
+						const activeItemRect = activeTocItem.element.getBoundingClientRect();
+						const tocScrollTop = tocContainer.scrollTop;
+						
+						// 計算激活項相對於目錄容器的位置
+						const itemTop = activeItemRect.top - tocContainerRect.top + tocScrollTop;
+						const itemBottom = itemTop + activeItemRect.height;
+						const containerHeight = tocContainer.clientHeight;
+						
+						// 如果激活項不在可見區域內，則滾動到合適位置
+						if (itemTop < tocScrollTop) {
+							// 激活項在可見區域上方，滾動到頂部
+							tocContainer.scrollTo({
+								top: itemTop - 16, // 留出一些頂部間距
+								behavior: 'smooth'
+							});
+						} else if (itemBottom > tocScrollTop + containerHeight) {
+							// 激活項在可見區域下方，滾動到底部
+							tocContainer.scrollTo({
+								top: itemBottom - containerHeight + 16, // 留出一些底部間距
+								behavior: 'smooth'
+							});
+						}
+						
+						// 重置標記
+						setTimeout(() => {
+							isScrollingToc = false;
+						}, 500);
+					}
+					
+					lastActiveId = activeId;
+				}
 			}
 			
 			// 添加滾動監聽器
