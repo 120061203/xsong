@@ -263,16 +263,48 @@ const relatedPosts = allPosts
 
 					<!-- Content -->
 					<div class="prose prose-lg max-w-none dark:prose-invert" id="article-content">
-						<style>
-							.prose img {
-								max-width: 600px !important;
-								width: 100% !important;
-								height: auto !important;
-								border-radius: 8px !important;
-								margin: 1rem auto !important;
-								display: block !important;
-							}
-						</style>
+					<style>
+						.prose img {
+							max-width: 600px !important;
+							width: 100% !important;
+							height: auto !important;
+							border-radius: 8px !important;
+							margin: 1rem auto !important;
+							display: block !important;
+						}
+						
+						/* 目錄滾動條樣式 */
+						#table-of-contents {
+							scrollbar-width: thin;
+							scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+						}
+						
+						#table-of-contents::-webkit-scrollbar {
+							width: 6px;
+						}
+						
+						#table-of-contents::-webkit-scrollbar-track {
+							background: transparent;
+							border-radius: 10px;
+						}
+						
+						#table-of-contents::-webkit-scrollbar-thumb {
+							background: rgba(156, 163, 175, 0.5);
+							border-radius: 10px;
+						}
+						
+						#table-of-contents::-webkit-scrollbar-thumb:hover {
+							background: rgba(156, 163, 175, 0.7);
+						}
+						
+						.dark #table-of-contents::-webkit-scrollbar-thumb {
+							background: rgba(75, 85, 99, 0.5);
+						}
+						
+						.dark #table-of-contents::-webkit-scrollbar-thumb:hover {
+							background: rgba(75, 85, 99, 0.7);
+						}
+					</style>
 						<slot />
 					</div>
 				</div>
@@ -372,7 +404,7 @@ const relatedPosts = allPosts
 					<div class="sticky top-24">
 						<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
 							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">目錄</h3>
-							<nav id="table-of-contents" class="space-y-2">
+							<nav id="table-of-contents" class="space-y-2 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2">
 								<!-- 目錄項目將由 JavaScript 動態生成 -->
 							</nav>
 						</div>
