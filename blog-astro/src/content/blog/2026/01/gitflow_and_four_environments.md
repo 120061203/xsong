@@ -301,5 +301,5 @@ git merge hotfix/critical-bug
 以及如何確保每一次部署都有清楚的版本來源。
 
 > **延伸閱讀**  
-> [從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰](./staging_to_production_versioned_cicd_pipeline)
+> [從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰](/blog/2026/01/staging_to_production_versioned_cicd_pipeline)
 

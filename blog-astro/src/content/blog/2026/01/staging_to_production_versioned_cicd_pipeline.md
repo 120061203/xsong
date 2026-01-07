@@ -11,7 +11,7 @@ private: false
 
 ## 前言
 
-在理解了 [Git flow 與軟體開發的四個環境階段](./gitflow_and_four_environments) 的理論基礎後，  
+在理解了 [Git flow 與軟體開發的四個環境階段](/blog/2026/01/gitflow_and_four_environments) 的理論基礎後，  
 這篇文章將分享我如何為公司建立一套實際的 CI/CD 部署流程。
 
 在實際的開發與部署流程中，**版本控管不只是標記一個數字，而是確保每一次變更都可被追蹤、被驗證、被回溯**。
@@ -29,7 +29,7 @@ private: false
 打造一套 **從 Staging 到 Production 可追蹤、可回溯的部署流程**。
 
 > **前置知識**  
-> 建議先閱讀：[Git flow 與軟體開發的四個環境階段](./gitflow_and_four_environments)  
+> 建議先閱讀：[Git flow 與軟體開發的四個環境階段](/blog/2026/01/gitflow_and_four_environments)  
 > 了解 Git flow 分支策略與四個環境的對應關係。
 
 ---
@@ -270,4 +270,4 @@ Production 僅從 Staging promotion 已驗證過的 image，
 讓部署流程真正成為支撐產品成長的可靠後盾。
 
 > **延伸閱讀**  
-> 上一篇：[Git flow 與軟體開發的四個環境階段](./gitflow_and_four_environments)
+> 上一篇：[Git flow 與軟體開發的四個環境階段](/blog/2026/01/gitflow_and_four_environments)
