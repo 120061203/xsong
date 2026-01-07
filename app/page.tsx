@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-[calc(100vh-200px)] flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+      <div className="min-h-[calc(100vh-200px)] flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 lg:px-8 py-8 overflow-x-hidden w-full">
         
         {/* 左側：文字區塊 */}
         <div className="flex-1 flex flex-col justify-center items-center space-y-6 max-w-2xl md:ml-20 lg:ml-32 xl:ml-40">
@@ -85,16 +85,16 @@ export default function Home() {
           </p>
 
           {/* 社交連結 */}
-          <div className="flex justify-center space-x-4 pt-4">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 pt-4 max-w-full px-2">
             <a
               href="https://github.com/120061203"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
               onClick={() => trackSocialClick('github')}
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fa-brands fa-github text-xl"></i>
+              <i className="fa-brands fa-github text-lg sm:text-xl"></i>
             </a>
             <a
               href="https://linkedin.com/in/songlinchen"
@@ -102,9 +102,9 @@ export default function Home() {
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
               onClick={() => trackSocialClick('linkedin')}
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fa-brands fa-linkedin text-xl"></i>
+              <i className="fa-brands fa-linkedin text-lg sm:text-xl"></i>
             </a>
             <a
               href="https://instagram.com/c.s.l.0922"
@@ -112,9 +112,9 @@ export default function Home() {
               rel="noopener noreferrer"
               aria-label="Instagram Profile"
               onClick={() => trackSocialClick('instagram')}
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fa-brands fa-instagram text-xl"></i>
+              <i className="fa-brands fa-instagram text-lg sm:text-xl"></i>
             </a>
             <a
               href="https://t.me/song0922"
@@ -122,17 +122,17 @@ export default function Home() {
               rel="noopener noreferrer"
               aria-label="Telegram"
               onClick={() => trackSocialClick('telegram')}
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fa-brands fa-telegram text-xl"></i>
+              <i className="fa-brands fa-telegram text-lg sm:text-xl"></i>
             </a>
             <a
               href="/cv"
               aria-label="Download CV"
               onClick={() => trackDownload('cv')}
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fas fa-file-pdf text-xl"></i>
+              <i className="fas fa-file-pdf text-lg sm:text-xl"></i>
             </a>
             <a
               href="https://portaly.cc/xsong/support"
@@ -140,9 +140,9 @@ export default function Home() {
               rel="noopener noreferrer"
               aria-label="贊助支持"
               onClick={() => trackSocialClick('support')}
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fas fa-coins text-xl"></i>
+              <i className="fas fa-coins text-lg sm:text-xl"></i>
             </a>
             <button
               onClick={() => {
@@ -150,9 +150,9 @@ export default function Home() {
                 setIsAvatarModalOpen(true);
               }}
               aria-label="View QR Codes"
-              className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border-2 border-blue-600 dark:border-green-400 text-blue-600 dark:text-green-400 hover:bg-blue-600 dark:hover:bg-green-400 hover:text-white dark:hover:text-gray-900 transition-colors flex-shrink-0"
             >
-              <i className="fas fa-qrcode text-xl"></i>
+              <i className="fas fa-qrcode text-lg sm:text-xl"></i>
             </button>
           </div>
         </div>
