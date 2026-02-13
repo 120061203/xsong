@@ -30,7 +30,7 @@ Vault讓我覺得最強大的地方，不僅只是一個Key Value存儲的地方
 
 不得不說這個契機很巧的是，我在1/31（六）參加 敏捷台中Agile Taichung 舉辦的 **用積木學Scrum**活動，剛好坐在我旁邊的是一位台大電機並且在美商公司擔任Security相關工作的工程師，休息時間閒聊的時候想說問問看他們公司是如何控管機密資訊的，他和我分享了FedRAMP，一個美國聯邦風險與授權管理計畫 (FedRAMP) 提供一套標準化方法，不過這對於目前階段來說好像有點距離，後來他就和我分享了Vault這個關鍵字，但當下我只是默默記下這個關鍵字，其實對Vault不甚了解，很快活動就開始了，我們就繼續參與下去，結束了這個話題，從某種程度上來說，我是不是也算是在假日加班了。
 
-等到下週上班，Team Meeting時，我向主管分享了這個方式，我看這個[Vault的github ](https://github.com/hashicorp/vault) ，居然是由 **HashiCorp** 管理的，這和之前[解鎖成就-第一次RD會議](/blog/2025/10/2025-10-17-milestone-first-RD-meeting.md)這篇分享的Terraform公司是同一間，讓我覺得這看上去是一個可行的方案，畢竟見識過了Terraform的威力。
+等到下週上班，Team Meeting時，我向主管分享了這個方式，我看這個[Vault的github ](https://github.com/hashicorp/vault) ，居然是由 **HashiCorp** 管理的，這和之前[解鎖成就-第一次RD會議](/blog/2025/10/2025-10-17-milestone-first-RD-meeting)這篇分享的Terraform公司是同一間，讓我覺得這看上去是一個可行的方案，畢竟見識過了Terraform的威力。
 
 ## 測試階段Vault
 
