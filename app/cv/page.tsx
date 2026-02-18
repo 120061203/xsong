@@ -6,8 +6,8 @@ export default function CVPage() {
   useEffect(() => {
     // 直接下載PDF檔案，最快速度
     const link = document.createElement('a');
-    link.href = '/songlinchen_20250505.pdf';
-    link.download = 'songlinchen_20250505.pdf';
+    link.href = '/songlinchen_20260218.pdf';
+    link.download = 'songlinchen_20260218.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

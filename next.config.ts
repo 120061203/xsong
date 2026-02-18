@@ -74,7 +74,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/cv',
-        destination: '/songlinchen_20250505.pdf',
+        destination: '/songlinchen_20260218.pdf',
         permanent: false,
       },
     ];
