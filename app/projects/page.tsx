@@ -285,7 +285,7 @@ const projects: Project[] = [
     technologies: ['LaTeX', 'PDF', 'GitHub Pages', 'Makefile', '自動化編譯', '版本管理', '專業排版', '中英文混合', '響應式設計', '個人化模板', '時間戳記', '文件管理'],
     githubUrl: 'https://github.com/120061203/cv',
     liveUrl: 'https://120061203.github.io/cv/',
-    pdfUrl: 'https://www.xsong.us/cv',
+    pdfUrl: 'https://github.com/120061203/xsong/raw/main/public/songlinchen_20260321.pdf',
     backgroundColor: 'bg-[linear-gradient(to_bottom_right,#ababab,#f4f4f4)]',
     textColor: 'text-white',
     lastUpdated: '2025-10-01',

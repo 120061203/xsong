@@ -135,7 +135,7 @@ export const PROJECTS: ProjectMeta[] = [
     links: {
       github: 'https://github.com/120061203/cv',
       demo: 'https://120061203.github.io/cv/',
-      documentation: 'https://www.xsong.us/cv'
+      documentation: 'https://github.com/120061203/xsong/raw/main/public/songlinchen_20260321.pdf'
     }
   },
   { 
