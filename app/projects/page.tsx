@@ -151,13 +151,14 @@ interface SmartImageProps {
 }
 
 function SmartImage({ projectId, alt, className, fill, width, height, priority = false, sizes }: SmartImageProps) {
-  const [imageSrc, setImageSrc] = useState(`/images/projects/webp/${projectId}.webp?v=${Date.now()}`);
-  const [fallbackSrc] = useState(`/images/projects/png/${projectId}.png?v=${Date.now()}`);
+  // 勿用 Date.now() 等每次渲染變動的值：會造成 SSR 與 client hydration 的 src 不一致
+  const webpPath = `/images/projects/webp/${projectId}.webp`;
+  const pngPath = `/images/projects/png/${projectId}.png`;
+  const [imageSrc, setImageSrc] = useState(webpPath);
 
   const handleError = () => {
-    // 如果 WebP 載入失敗，回退到 PNG
     if (imageSrc.includes('/webp/')) {
-      setImageSrc(fallbackSrc);
+      setImageSrc(pngPath);
     }
   };
 
