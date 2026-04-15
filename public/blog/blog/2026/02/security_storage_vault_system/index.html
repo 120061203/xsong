@@ -149,33 +149,32 @@
 				color: #f87171;
 			}
 
+			/* 程式碼區塊：亮色模式沿用 Shiki 內嵌的 github-light；深色模式用 CSS 變數切到 github-dark */
 			.prose pre {
 				position: relative;
-				background-color: #1f2937;
-				color: #f9fafb;
 				padding: 1.5rem;
 				padding-top: 2.75rem;
 				border-radius: 0.5rem;
 				overflow-x: auto;
 				margin: 2rem 0;
-				border: 1px solid #374151;
+				border: 1px solid #e5e7eb;
 			}
 
-			/* 蓋過 Tailwind prose-invert / Shiki 在 token 或 .line 上的殘留背景，避免深色模式出現條紋狀「反白」 */
-			.prose pre,
-			.prose pre.astro-code,
-			.prose pre.shiki {
-				background-color: #1f2937 !important;
+			.dark .prose pre {
+				border-color: #374151;
 			}
 
-			.dark .prose pre,
-			.dark .prose pre.astro-code,
-			.dark .prose pre.shiki {
-				background-color: #111827 !important;
+			html.dark .prose pre.astro-code,
+			html.dark .prose pre.astro-code span {
+				color: var(--shiki-dark) !important;
+				background-color: var(--shiki-dark-bg) !important;
+				font-style: var(--shiki-dark-font-style) !important;
+				font-weight: var(--shiki-dark-font-weight) !important;
+				text-decoration: var(--shiki-dark-text-decoration) !important;
 			}
 
 			.prose pre code {
-				background-color: transparent !important;
+				background-color: transparent;
 				color: inherit;
 				padding: 0;
 				border-radius: 0;
@@ -183,10 +182,8 @@
 				font-weight: 400;
 			}
 
-			.prose pre code,
-			.prose pre code span,
-			.prose pre .line,
-			.prose pre.shiki span {
+			/* 僅在亮色模式下去除 token 上多餘底色，避免條紋；深色由上方 dual-theme 規則處理 */
+			html:not(.dark) .prose pre.astro-code span {
 				background-color: transparent !important;
 				background-image: none !important;
 			}
@@ -205,26 +202,27 @@
 				font-weight: 500;
 				line-height: 1;
 				border-radius: 0.375rem;
-				border: 1px solid #4b5563;
-				background-color: #374151;
-				color: #e5e7eb;
+				border: 1px solid #d1d5db;
+				background-color: #f3f4f6;
+				color: #374151;
 				cursor: pointer;
 				transition: background-color 0.15s ease, border-color 0.15s ease;
 			}
 
 			.code-copy-btn:hover {
+				background-color: #e5e7eb;
+				border-color: #9ca3af;
+			}
+
+			html.dark .code-copy-btn {
+				border-color: #4b5563;
+				background-color: #374151;
+				color: #e5e7eb;
+			}
+
+			html.dark .code-copy-btn:hover {
 				background-color: #4b5563;
 				border-color: #6b7280;
-			}
-
-			.dark .code-copy-btn {
-				background-color: #1f2937;
-				border-color: #4b5563;
-				color: #f3f4f6;
-			}
-
-			.dark .code-copy-btn:hover {
-				background-color: #374151;
 			}
 
 			/* 連結樣式 */
@@ -458,7 +456,7 @@ Tools
 <p>等到下週上班，Team Meeting時，我向主管分享了這個方式，我看這個<a href="https://github.com/hashicorp/vault">Vault的github </a> ，居然是由 <strong>HashiCorp</strong> 管理的，這和之前<a href="/blog/2025/10/2025-10-17-milestone-first-rd-meeting">解鎖成就-第一次RD會議</a>這篇分享的Terraform公司是同一間，讓我覺得這看上去是一個可行的方案，畢竟見識過了Terraform的威力。</p>
 <h2 id="測試階段vault">測試階段Vault</h2>
 <p>在安裝的階段，我先在本機開始測試 Vault 的 Dev 模式，那 Dev 模式就比較不安全，所有機密儲存在記憶體，我在第一天安裝後測試了幾筆資料，並且在下班前關閉Vault了（pkill vault指令），隔天發現資料遺失了，才知道原來 Dev 模式是這樣的儲存方式，而且Unseal Key每次都會變更，所以隔天我就在電腦上切換成Prod模式了，畢竟這樣才比較接近生產環境，而且也能夠測試 Seal 功能。</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>危險指令：</span></span>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>危險指令：</span></span>
 <span class="line"><span>pkill vault</span></span>
 <span class="line"><span>Dev模式下，資料都儲存在記憶體中，因此如果重新啟動，儲存的Userpass帳戶、KV Secrets、Policies皆會遺失</span></span>
 <span class="line"><span></span></span>

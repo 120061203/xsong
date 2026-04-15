@@ -30,4 +30,14 @@ export default defineConfig({
     domains: [],
     remotePatterns: []
   },
+
+  // 程式碼區塊：亮色 / 深色各一套主題（與 Layout 的 html.dark 切換搭配）
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
+  },
 });

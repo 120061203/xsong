@@ -149,33 +149,32 @@
 				color: #f87171;
 			}
 
+			/* 程式碼區塊：亮色模式沿用 Shiki 內嵌的 github-light；深色模式用 CSS 變數切到 github-dark */
 			.prose pre {
 				position: relative;
-				background-color: #1f2937;
-				color: #f9fafb;
 				padding: 1.5rem;
 				padding-top: 2.75rem;
 				border-radius: 0.5rem;
 				overflow-x: auto;
 				margin: 2rem 0;
-				border: 1px solid #374151;
+				border: 1px solid #e5e7eb;
 			}
 
-			/* 蓋過 Tailwind prose-invert / Shiki 在 token 或 .line 上的殘留背景，避免深色模式出現條紋狀「反白」 */
-			.prose pre,
-			.prose pre.astro-code,
-			.prose pre.shiki {
-				background-color: #1f2937 !important;
+			.dark .prose pre {
+				border-color: #374151;
 			}
 
-			.dark .prose pre,
-			.dark .prose pre.astro-code,
-			.dark .prose pre.shiki {
-				background-color: #111827 !important;
+			html.dark .prose pre.astro-code,
+			html.dark .prose pre.astro-code span {
+				color: var(--shiki-dark) !important;
+				background-color: var(--shiki-dark-bg) !important;
+				font-style: var(--shiki-dark-font-style) !important;
+				font-weight: var(--shiki-dark-font-weight) !important;
+				text-decoration: var(--shiki-dark-text-decoration) !important;
 			}
 
 			.prose pre code {
-				background-color: transparent !important;
+				background-color: transparent;
 				color: inherit;
 				padding: 0;
 				border-radius: 0;
@@ -183,10 +182,8 @@
 				font-weight: 400;
 			}
 
-			.prose pre code,
-			.prose pre code span,
-			.prose pre .line,
-			.prose pre.shiki span {
+			/* 僅在亮色模式下去除 token 上多餘底色，避免條紋；深色由上方 dual-theme 規則處理 */
+			html:not(.dark) .prose pre.astro-code span {
 				background-color: transparent !important;
 				background-image: none !important;
 			}
@@ -205,26 +202,27 @@
 				font-weight: 500;
 				line-height: 1;
 				border-radius: 0.375rem;
-				border: 1px solid #4b5563;
-				background-color: #374151;
-				color: #e5e7eb;
+				border: 1px solid #d1d5db;
+				background-color: #f3f4f6;
+				color: #374151;
 				cursor: pointer;
 				transition: background-color 0.15s ease, border-color 0.15s ease;
 			}
 
 			.code-copy-btn:hover {
+				background-color: #e5e7eb;
+				border-color: #9ca3af;
+			}
+
+			html.dark .code-copy-btn {
+				border-color: #4b5563;
+				background-color: #374151;
+				color: #e5e7eb;
+			}
+
+			html.dark .code-copy-btn:hover {
 				background-color: #4b5563;
 				border-color: #6b7280;
-			}
-
-			.dark .code-copy-btn {
-				background-color: #1f2937;
-				border-color: #4b5563;
-				color: #f3f4f6;
-			}
-
-			.dark .code-copy-btn:hover {
-				background-color: #374151;
 			}
 
 			/* 連結樣式 */
@@ -506,10 +504,10 @@ Tools
 </blockquote>
 <h3 id="實作步驟">實作步驟</h3>
 <h4 id="step-1合併程式碼至-staging-分支">Step 1：合併程式碼至 Staging 分支</h4>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 從 develop 或 feature 分支合併至 staging</span></span>
-<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> checkout</span><span style="color:#9ECBFF"> staging</span></span>
-<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> merge</span><span style="color:#9ECBFF"> develop</span><span style="color:#6A737D">  # 或 git merge feature/your-feature</span></span>
-<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> push</span><span style="color:#9ECBFF"> origin</span><span style="color:#9ECBFF"> staging</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># 從 develop 或 feature 分支合併至 staging</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">git</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> checkout</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> staging</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">git</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> merge</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> develop</span><span style="color:#6A737D;--shiki-dark:#6A737D">  # 或 git merge feature/your-feature</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">git</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> push</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> origin</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> staging</span></span></code></pre>
 <p>請先將欲部署的開發程式碼，從 <code>develop</code> / <code>feature/*</code> 分支合併至 <code>staging</code> 分支，<br>
 確保 <code>staging</code> 分支內容即為本次要部署至 Staging 的版本。</p>
 <h4 id="step-2手動觸發-staging-部署-pipeline">Step 2：手動觸發 Staging 部署 Pipeline</h4>
@@ -524,8 +522,8 @@ Tools
 <p><strong>補充說明</strong><br>
 除了手動設定版本號外，也可使用 <strong>Git tag</strong> 指定版本：</p>
 </blockquote>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> tag</span><span style="color:#9ECBFF"> v0.1.0</span></span>
-<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> push</span><span style="color:#9ECBFF"> origin</span><span style="color:#9ECBFF"> v0.1.0</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">git</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> tag</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> v0.1.0</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">git</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> push</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> origin</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> v0.1.0</span></span></code></pre>
 <h4 id="step-3確認-staging-ecr-image-與-tags">Step 3：確認 Staging ECR Image 與 Tags</h4>
 <p>Pipeline 執行完成後，請至 Staging 的 ECR Repository 確認 image。</p>
 <p>系統將同時產生以下四種 tag：</p>
@@ -579,8 +577,8 @@ Tools
 （例如：<code>v0.1.0</code> 或 <code>v0.1.0-staging</code>）</li>
 <li>Pull 對應的 Docker image</li>
 </ol>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Pipeline 自動執行</span></span>
-<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> pull</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">staging-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">latest-version-ta</span><span style="color:#E1E4E8">g</span><span style="color:#F97583">></span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Pipeline 自動執行</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">docker</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> pull</span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">staging-ec</span><span style="color:#24292E;--shiki-dark:#E1E4E8">r</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">/</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">latest-version-ta</span><span style="color:#24292E;--shiki-dark:#E1E4E8">g</span><span style="color:#D73A49;--shiki-dark:#F97583">></span></span></code></pre>
 <hr>
 <h4 id="step-3重新標記並推送至-production-ecr">Step 3：重新標記並推送至 Production ECR</h4>
 <p>取得 image 後，Pipeline 將進行以下操作：</p>
@@ -593,11 +591,11 @@ Tools
 </li>
 <li>推送標記後的 image 至 Production ECR Repository</li>
 </ul>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Pipeline 自動執行</span></span>
-<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> tag</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">staging-imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#9ECBFF">-prod</span></span>
-<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> tag</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">staging-imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:prod</span></span>
-<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> push</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#9ECBFF">-prod</span></span>
-<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> push</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:prod</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Pipeline 自動執行</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">docker</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> tag</span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">staging-imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">versio</span><span style="color:#24292E;--shiki-dark:#E1E4E8">n</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">prod-ec</span><span style="color:#24292E;--shiki-dark:#E1E4E8">r</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">/</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">versio</span><span style="color:#24292E;--shiki-dark:#E1E4E8">n</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">-prod</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">docker</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> tag</span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">staging-imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">versio</span><span style="color:#24292E;--shiki-dark:#E1E4E8">n</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">prod-ec</span><span style="color:#24292E;--shiki-dark:#E1E4E8">r</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">/</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:prod</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">docker</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> push</span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">prod-ec</span><span style="color:#24292E;--shiki-dark:#E1E4E8">r</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">/</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">versio</span><span style="color:#24292E;--shiki-dark:#E1E4E8">n</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">-prod</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">docker</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> push</span><span style="color:#D73A49;--shiki-dark:#F97583"> &#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">prod-ec</span><span style="color:#24292E;--shiki-dark:#E1E4E8">r</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">/</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#032F62;--shiki-dark:#9ECBFF">imag</span><span style="color:#24292E;--shiki-dark:#E1E4E8">e</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#032F62;--shiki-dark:#9ECBFF">:prod</span></span></code></pre>
 <p>此設計可確保：</p>
 <ul>
 <li>Production 與 Staging 使用<strong>完全相同的 image</strong></li>
@@ -627,7 +625,7 @@ Tools
 </blockquote>
 <hr>
 <h2 id="部署流程總覽dev--staging--production">部署流程總覽（Dev → Staging → Production）</h2>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>[ 開發完成 ]</span></span>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>[ 開發完成 ]</span></span>
 <span class="line"><span>      │</span></span>
 <span class="line"><span>      ▼</span></span>
 <span class="line"><span>[ 合併至 Staging 分支 ]</span></span>

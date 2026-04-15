@@ -149,33 +149,32 @@
 				color: #f87171;
 			}
 
+			/* 程式碼區塊：亮色模式沿用 Shiki 內嵌的 github-light；深色模式用 CSS 變數切到 github-dark */
 			.prose pre {
 				position: relative;
-				background-color: #1f2937;
-				color: #f9fafb;
 				padding: 1.5rem;
 				padding-top: 2.75rem;
 				border-radius: 0.5rem;
 				overflow-x: auto;
 				margin: 2rem 0;
-				border: 1px solid #374151;
+				border: 1px solid #e5e7eb;
 			}
 
-			/* 蓋過 Tailwind prose-invert / Shiki 在 token 或 .line 上的殘留背景，避免深色模式出現條紋狀「反白」 */
-			.prose pre,
-			.prose pre.astro-code,
-			.prose pre.shiki {
-				background-color: #1f2937 !important;
+			.dark .prose pre {
+				border-color: #374151;
 			}
 
-			.dark .prose pre,
-			.dark .prose pre.astro-code,
-			.dark .prose pre.shiki {
-				background-color: #111827 !important;
+			html.dark .prose pre.astro-code,
+			html.dark .prose pre.astro-code span {
+				color: var(--shiki-dark) !important;
+				background-color: var(--shiki-dark-bg) !important;
+				font-style: var(--shiki-dark-font-style) !important;
+				font-weight: var(--shiki-dark-font-weight) !important;
+				text-decoration: var(--shiki-dark-text-decoration) !important;
 			}
 
 			.prose pre code {
-				background-color: transparent !important;
+				background-color: transparent;
 				color: inherit;
 				padding: 0;
 				border-radius: 0;
@@ -183,10 +182,8 @@
 				font-weight: 400;
 			}
 
-			.prose pre code,
-			.prose pre code span,
-			.prose pre .line,
-			.prose pre.shiki span {
+			/* 僅在亮色模式下去除 token 上多餘底色，避免條紋；深色由上方 dual-theme 規則處理 */
+			html:not(.dark) .prose pre.astro-code span {
 				background-color: transparent !important;
 				background-image: none !important;
 			}
@@ -205,26 +202,27 @@
 				font-weight: 500;
 				line-height: 1;
 				border-radius: 0.375rem;
-				border: 1px solid #4b5563;
-				background-color: #374151;
-				color: #e5e7eb;
+				border: 1px solid #d1d5db;
+				background-color: #f3f4f6;
+				color: #374151;
 				cursor: pointer;
 				transition: background-color 0.15s ease, border-color 0.15s ease;
 			}
 
 			.code-copy-btn:hover {
+				background-color: #e5e7eb;
+				border-color: #9ca3af;
+			}
+
+			html.dark .code-copy-btn {
+				border-color: #4b5563;
+				background-color: #374151;
+				color: #e5e7eb;
+			}
+
+			html.dark .code-copy-btn:hover {
 				background-color: #4b5563;
 				border-color: #6b7280;
-			}
-
-			.dark .code-copy-btn {
-				background-color: #1f2937;
-				border-color: #4b5563;
-				color: #f3f4f6;
-			}
-
-			.dark .code-copy-btn:hover {
-				background-color: #374151;
 			}
 
 			/* 連結樣式 */
@@ -455,14 +453,14 @@ Tools
 <ol>
 <li>
 <p><strong>設定文章為私有</strong>：</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#B392F0">---</span></span>
-<span class="line"><span style="color:#85E89D">title</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"文章標題"</span></span>
-<span class="line"><span style="color:#85E89D">private</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
-<span class="line"><span style="color:#B392F0">---</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">---</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">title</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"文章標題"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">private</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">true</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">---</span></span></code></pre>
 </li>
 <li>
 <p><strong>分享私有連結</strong>：</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>https://xsong.us/blog/2025/10/private-example</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>https://xsong.us/blog/2025/10/private-example</span></span></code></pre>
 </li>
 </ol>
 <h3 id="安全注意事項">安全注意事項</h3>
