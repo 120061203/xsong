@@ -1,0 +1,654 @@
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="如何滾動更新並且0停機(ZeroDownTime)的策略"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.14.4"><title>企業專案零停機部署：K8s滾動更新與自動擴展</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><!-- Page-specific head slot (OG/Twitter, etc.) --><meta property="og:type" content="article"> <meta property="og:title" content="企業專案零停機部署：K8s滾動更新與自動擴展"> <meta property="og:description" content="如何滾動更新並且0停機(ZeroDownTime)的策略"> <meta property="og:url" content="https://xsong.us/blog/2026/04/setup_k8s_pipeline/">  <meta property="og:image" content="https://xsong.us/blog/_astro/setup_k8s_pipeline-1.C_gDwu8n.webp"> <meta property="og:image:width" content="1200"> <meta property="og:image:height" content="630"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="企業專案零停機部署：K8s滾動更新與自動擴展"> <meta name="twitter:description" content="如何滾動更新並且0停機(ZeroDownTime)的策略"> <meta name="twitter:image" content="https://xsong.us/blog/_astro/setup_k8s_pipeline-1.C_gDwu8n.webp"><link rel="canonical" href="https://xsong.us/blog/2026/04/setup_k8s_pipeline/"> <!-- 自定義部落格樣式 --><style>
+			/* 部落格文章樣式 */
+			.prose {
+				/* 基礎排版 */
+				line-height: 1.8;
+				color: #374151;
+			}
+
+			.dark .prose {
+				color: #d1d5db;
+			}
+
+			/* 標題樣式 */
+			.prose h1 {
+				font-size: 2.25rem;
+				font-weight: 700;
+				line-height: 1.2;
+				margin-top: 2.5rem;
+				margin-bottom: 1.5rem;
+				color: #111827;
+				border-bottom: 2px solid #e5e7eb;
+				padding-bottom: 0.5rem;
+			}
+
+			.dark .prose h1 {
+				color: #f9fafb;
+				border-bottom-color: #374151;
+			}
+
+			.prose h2 {
+				font-size: 1.875rem;
+				font-weight: 600;
+				line-height: 1.3;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				color: #111827;
+				border-left: 4px solid #3b82f6;
+				padding-left: 1rem;
+			}
+
+			.dark .prose h2 {
+				color: #f9fafb;
+				border-left-color: #10b981;
+			}
+
+			.prose h3 {
+				font-size: 1.5rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.75rem;
+				margin-bottom: 0.75rem;
+				color: #111827;
+			}
+
+			.dark .prose h3 {
+				color: #f9fafb;
+			}
+
+			.prose h4 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+				color: #111827;
+			}
+
+			.dark .prose h4 {
+				color: #f9fafb;
+			}
+
+			/* 段落樣式 */
+			.prose p {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				line-height: 1.8;
+				font-size: 1.125rem;
+			}
+
+			/* 列表樣式 */
+			.prose ul, .prose ol {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				padding-left: 1.5rem;
+			}
+
+			.prose li {
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				line-height: 1.7;
+			}
+
+			.prose ul li {
+				list-style-type: disc;
+			}
+
+			.prose ol li {
+				list-style-type: decimal;
+			}
+
+			/* 引用塊樣式 */
+			.prose blockquote {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+				border-left: 4px solid #3b82f6;
+				border-radius: 0.5rem;
+				font-style: italic;
+				position: relative;
+			}
+
+			.dark .prose blockquote {
+				background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+				border-left-color: #10b981;
+			}
+
+			.prose blockquote::before {
+				content: '"';
+				font-size: 3rem;
+				color: #3b82f6;
+				position: absolute;
+				top: -0.5rem;
+				left: 1rem;
+				font-family: serif;
+			}
+
+			.dark .prose blockquote::before {
+				color: #10b981;
+			}
+
+			.prose blockquote p {
+				margin: 0;
+				font-size: 1.125rem;
+				line-height: 1.7;
+			}
+
+			/* 行內 code（僅限 pre 外，避免影響 Shiki 程式碼塊） */
+			.prose :where(p, li, td, th, blockquote, h1, h2, h3, h4, dt, dd) > code {
+				background-color: #f3f4f6;
+				color: #dc2626;
+				padding: 0.25rem 0.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.dark .prose :where(p, li, td, th, blockquote, h1, h2, h3, h4, dt, dd) > code {
+				background-color: #374151;
+				color: #f87171;
+			}
+
+			.prose pre {
+				position: relative;
+				background-color: #1f2937;
+				color: #f9fafb;
+				padding: 1.5rem;
+				padding-top: 2.75rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				margin: 2rem 0;
+				border: 1px solid #374151;
+			}
+
+			/* 蓋過 Tailwind prose-invert / Shiki 在 token 或 .line 上的殘留背景，避免深色模式出現條紋狀「反白」 */
+			.prose pre,
+			.prose pre.astro-code,
+			.prose pre.shiki {
+				background-color: #1f2937 !important;
+			}
+
+			.dark .prose pre,
+			.dark .prose pre.astro-code,
+			.dark .prose pre.shiki {
+				background-color: #111827 !important;
+			}
+
+			.prose pre code {
+				background-color: transparent !important;
+				color: inherit;
+				padding: 0;
+				border-radius: 0;
+				font-size: 0.875rem;
+				font-weight: 400;
+			}
+
+			.prose pre code,
+			.prose pre code span,
+			.prose pre .line,
+			.prose pre.shiki span {
+				background-color: transparent !important;
+				background-image: none !important;
+			}
+
+			/* 複製按鈕（由下方 script 插入） */
+			.code-copy-btn {
+				position: absolute;
+				top: 0.5rem;
+				right: 0.5rem;
+				z-index: 2;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.35rem;
+				padding: 0.35rem 0.65rem;
+				font-size: 0.75rem;
+				font-weight: 500;
+				line-height: 1;
+				border-radius: 0.375rem;
+				border: 1px solid #4b5563;
+				background-color: #374151;
+				color: #e5e7eb;
+				cursor: pointer;
+				transition: background-color 0.15s ease, border-color 0.15s ease;
+			}
+
+			.code-copy-btn:hover {
+				background-color: #4b5563;
+				border-color: #6b7280;
+			}
+
+			.dark .code-copy-btn {
+				background-color: #1f2937;
+				border-color: #4b5563;
+				color: #f3f4f6;
+			}
+
+			.dark .code-copy-btn:hover {
+				background-color: #374151;
+			}
+
+			/* 連結樣式 */
+			.prose a {
+				color: #3b82f6;
+				text-decoration: underline;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 2px;
+				transition: color 0.2s ease;
+			}
+
+			.dark .prose a {
+				color: #10b981;
+			}
+
+			.prose a:hover {
+				color: #2563eb;
+			}
+
+			.dark .prose a:hover {
+				color: #059669;
+			}
+
+			/* 表格樣式 */
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 2rem 0;
+				border-radius: 0.5rem;
+				overflow: hidden;
+				border: 1px solid #e5e7eb;
+			}
+
+			.dark .prose table {
+				border-color: #374151;
+			}
+
+			.prose th {
+				background-color: #f9fafb;
+				color: #111827;
+				font-weight: 600;
+				padding: 0.75rem 1rem;
+				text-align: left;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose th {
+				background-color: #374151;
+				color: #f9fafb;
+				border-bottom-color: #4b5563;
+			}
+
+			.prose td {
+				padding: 0.75rem 1rem;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose td {
+				border-bottom-color: #4b5563;
+			}
+
+			/* 水平線樣式 */
+			.prose hr {
+				margin: 3rem 0;
+				border: none;
+				height: 1px;
+				background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+			}
+
+			.dark .prose hr {
+				background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+			}
+
+			/* 圖片樣式 */
+			.prose img {
+				border-radius: 0.5rem;
+				margin: 2rem 0;
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			}
+
+			/* 強調文字 */
+			.prose strong {
+				font-weight: 600;
+				color: #111827;
+			}
+
+			.dark .prose strong {
+				color: #f9fafb;
+			}
+
+			/* 斜體文字 */
+			.prose em {
+				font-style: italic;
+				color: #6b7280;
+			}
+
+			.dark .prose em {
+				color: #9ca3af;
+			}
+
+			/* 特殊標記 */
+			.prose mark {
+				background-color: #fef3c7;
+				color: #92400e;
+				padding: 0.125rem 0.25rem;
+				border-radius: 0.25rem;
+			}
+
+			.dark .prose mark {
+				background-color: #451a03;
+				color: #fbbf24;
+			}
+
+			/* 段落間距優化 */
+			.prose > * + * {
+				margin-top: 1.5rem;
+			}
+
+			.prose > * + h1,
+			.prose > * + h2,
+			.prose > * + h3,
+			.prose > * + h4 {
+				margin-top: 2.5rem;
+			}
+
+			/* 列表間距 */
+			.prose ul + p,
+			.prose ol + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 引用塊間距 */
+			.prose blockquote + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 程式碼塊間距 */
+			.prose pre + p {
+				margin-top: 1.5rem;
+			}
+
+			/* Footer 樣式 */
+			.footer-content {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between; /* 左右兩側分佈 */
+				gap: 1em;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+			.footer-links {
+				display: flex;
+				align-items: center;
+				gap: 0.75em;
+			}
+			.footer-link {
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				text-decoration: none;
+				color: rgb(107, 114, 128);
+				transition: color 0.3s ease;
+			}
+			.footer-link:hover {
+				color: rgb(31, 41, 55);
+			}
+			.dark .footer-link {
+				color: rgb(156, 163, 175);
+			}
+			.dark .footer-link:hover {
+				color: rgb(249, 250, 251);
+			}
+			.footer-link i {
+				font-size: 0.9em;
+			}
+			.separator {
+				color: rgb(107, 114, 128);
+				opacity: 0.6;
+				margin: 0 0.5em;
+			}
+			.dark .separator {
+				color: rgb(156, 163, 175);
+			}
+			.footer-copyright {
+				font-size: 0.9em;
+				opacity: 0.8;
+			}
+		</style><script>
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {}
+				}
+			}
+		</script><style>.prose[data-astro-cid-bvzihdzo] img[data-astro-cid-bvzihdzo]{max-width:600px!important;width:100%!important;height:auto!important;border-radius:8px!important;margin:1rem auto!important;display:block!important}#table-of-contents[data-astro-cid-bvzihdzo]{scrollbar-width:thin;scrollbar-color:rgba(156,163,175,.5) transparent}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar{width:6px}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-track{background:transparent;border-radius:10px}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb{background:#9ca3af80;border-radius:10px}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb:hover{background:#9ca3afb3}.dark[data-astro-cid-bvzihdzo] #table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb{background:#4b556380}.dark[data-astro-cid-bvzihdzo] #table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb:hover{background:#4b5563b3}
+</style></head> <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white"> <div class="flex flex-col min-h-screen"> <!-- Navigation --> <nav class="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex justify-between items-center h-16"> <!-- Logo --> <a href="/" class="text-2xl md:text-3xl font-bold text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 transition-colors">
+xsong.us
+</a> <!-- Desktop Navigation --> <div class="hidden md:flex items-center space-x-8"> <a href="/about" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+About
+</a> <a href="/blog" class="text-lg font-medium text-blue-600 dark:text-green-400">
+Blog
+</a> <a href="/projects" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+Projects
+</a> <a href="/tools" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+Tools
+</a> </div> <!-- Theme Toggle and Mobile Menu Button --> <div class="flex items-center space-x-2"> <!-- Theme Toggle --> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> <!-- Mobile Menu Button --> <button id="mobile-menu-button" class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle mobile menu"> <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i> </button> </div> </div> <!-- Mobile Navigation Menu --> <div id="mobile-menu" class="md:hidden hidden"> <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"> <a href="/about" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+About
+</a> <a href="/blog" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-green-400 bg-blue-50 dark:bg-green-900/20 rounded-md">
+Blog
+</a> <a href="/projects" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Projects
+</a> <a href="/tools" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Tools
+</a> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-astro-cid-bvzihdzo> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-astro-cid-bvzihdzo> <div class="flex flex-col lg:flex-row gap-8" data-astro-cid-bvzihdzo> <!-- 主要內容區域 --> <div class="lg:w-3/4" data-astro-cid-bvzihdzo> <!-- Back to Blog --> <div class="mb-8" data-astro-cid-bvzihdzo> <a href="/blog" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors" data-astro-cid-bvzihdzo> <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-bvzihdzo></path> </svg>
+返回部落格
+</a> </div> <!-- Article --> <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700" data-astro-cid-bvzihdzo> <div class="w-full h-64 md:h-96 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/setup_k8s_pipeline-1.C_gDwu8n_Z1zVoOH.webp" alt="企業專案零停機部署：K8s滾動更新與自動擴展" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="1020" height="510" class="w-full h-full object-cover"> </div> <div class="p-8" data-astro-cid-bvzihdzo> <!-- Header --> <header class="mb-8" data-astro-cid-bvzihdzo> <!-- 手機版：標題和按鈕分開顯示 --> <div class="block md:hidden" data-astro-cid-bvzihdzo> <!-- 標題和複製按鈕在同一行 --> <div class="flex items-start justify-between mb-4" data-astro-cid-bvzihdzo> <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex-1 min-w-0" data-astro-cid-bvzihdzo> 企業專案零停機部署：K8s滾動更新與自動擴展 </h1> <!-- 複製網址按鈕 --> <button id="copy-url-btn" class="flex items-center gap-1 px-2 py-1 text-xs text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0 ml-3" title="複製文章網址" data-astro-cid-bvzihdzo> <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" data-astro-cid-bvzihdzo></path> </svg> <span id="copy-text" data-astro-cid-bvzihdzo>複製</span> </button> </div> <!-- 分類和標籤 (手機版) --> <div class="mb-4" data-astro-cid-bvzihdzo> <div class="mb-2" data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>分類：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full" data-astro-cid-bvzihdzo> 技術分享 </span> </div> </div> <div data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>標籤：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> K8s </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> Kubernetes </span> </div> </div> </div> <!-- 日期獨占一行 --> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4" data-astro-cid-bvzihdzo> <time dateTime="2026-04-14T08:00:00.000Z" data-astro-cid-bvzihdzo> 2026年4月14日 </time>  <span class="mx-2" data-astro-cid-bvzihdzo>•</span> <span data-astro-cid-bvzihdzo>更新於 2026年4月14日</span>  </div> </div> <!-- 桌面版：標題和按鈕並排顯示 --> <div class="hidden md:block" data-astro-cid-bvzihdzo> <div class="flex items-start justify-between" data-astro-cid-bvzihdzo> <div class="flex-1" data-astro-cid-bvzihdzo> <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-astro-cid-bvzihdzo> 企業專案零停機部署：K8s滾動更新與自動擴展 </h1> <!-- 分類和標籤 --> <div class="mb-4" data-astro-cid-bvzihdzo> <div class="mb-2" data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>分類：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full" data-astro-cid-bvzihdzo> 技術分享 </span> </div> </div> <div data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>標籤：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> K8s </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> Kubernetes </span> </div> </div> </div> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm" data-astro-cid-bvzihdzo> <time dateTime="2026-04-14T08:00:00.000Z" data-astro-cid-bvzihdzo> 2026年4月14日 </time>  <span class="mx-2" data-astro-cid-bvzihdzo>•</span> <span data-astro-cid-bvzihdzo>更新於 2026年4月14日</span>  </div> </div> <!-- 複製網址按鈕 --> <button id="copy-url-btn-desktop" class="ml-4 flex items-center gap-2 px-4 py-2 text-sm text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="複製文章網址" data-astro-cid-bvzihdzo> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" data-astro-cid-bvzihdzo></path> </svg> <span id="copy-text-desktop" data-astro-cid-bvzihdzo>複製網址</span> </button> </div> </div> </header> <!-- Content --> <div class="prose prose-lg max-w-none dark:prose-invert" id="article-content" data-astro-cid-bvzihdzo>   <h2 id="1前言">1.前言</h2>
+<p>時隔 2 個月，終於有繼續更新了blog，這兩個月忙於大專案的上線，但自己還算可以從容應對.今天要來分享一個我一直很感興趣的主題 <strong>Kubernetes（K8s）</strong>。傳統部署的煩惱是每次上線都要排在半夜、提前公告維護視窗、祈禱不要出事，那如何打造一個良好的部署策略，將會是本文的重點。就讓我們用真實專案的部署流程，展示如何實現「推 code → 自動上線，用戶無感」。</p>
+<h2 id="2背景知識">2.背景知識</h2>
+<p>如果你有閱讀過我的<a href="/blog/2025/10/work-two-month-reflection/">工作2個月心得-部署策略與資安洩漏</a> ，裡面有提到多種的部署策略，而其中最不易被用戶察覺的就是「 滾動部署 」。</p>
+<h3 id="2-1-什麼是零停機部署zero-downtime-deployment">2-1. 什麼是零停機部署（Zero-Downtime Deployment）？</h3>
+<blockquote>
+<p>定義：新版本上線期間，舊版本持續服務請求，不出現 502/503</p>
+</blockquote>
+<h3 id="2-2-零停機的三個必要條件">2-2. 零停機的三個必要條件</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>條件</th><th>說明</th></tr></thead><tbody><tr><td>新 Pod 健康才接流量</td><td>readinessProbe</td></tr><tr><td>舊 Pod 優雅退場</td><td>preStop + terminationGracePeriodSeconds</td></tr><tr><td>資料庫遷移不鎖表</td><td>migration job 先跑、向前相容</td></tr></tbody></table>
+<h2 id="3k8s-核心概念介紹">3.K8s 核心概念介紹</h2>
+<h3 id="3-1-deployment--管理-pod-的大腦">3-1. Deployment — 管理 Pod 的大腦</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D"># deployment.yaml 節錄</span></span>
+<span class="line"><span style="color:#85E89D">strategy</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">RollingUpdate</span></span>
+<span class="line"><span style="color:#85E89D">  rollingUpdate</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    maxUnavailable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#6A737D">   # 保證服務不中斷</span></span>
+<span class="line"><span style="color:#85E89D">    maxSurge</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#6A737D">         # 最多多開 1 個新 Pod</span></span></code></pre>
+<ul>
+<li><code>maxUnavailable: 0</code> → 永遠有 Pod 在服務中</li>
+<li><code>maxSurge: 1</code> → 更新時暫時多跑一個新版 Pod，確認健康才殺舊的</li>
+</ul>
+<h3 id="3-2-偵測探針readiness-vs-存活探針liveness-probe">3-2. 偵測探針（Readiness） vs 存活探針（Liveness Probe）</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">readinessProbe</span><span style="color:#E1E4E8">:       </span><span style="color:#6A737D"># 就緒探針：Pod 準備好才接流量</span></span>
+<span class="line"><span style="color:#85E89D">  httpGet</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    path</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">/health</span></span>
+<span class="line"><span style="color:#85E89D">    port</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">8000</span></span>
+<span class="line"><span style="color:#85E89D">  initialDelaySeconds</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span><span style="color:#6A737D">   # 啟動後等 5 秒再開始探測</span></span>
+<span class="line"><span style="color:#85E89D">  periodSeconds</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span><span style="color:#6A737D">         # 每 5 秒探測一次</span></span>
+<span class="line"><span style="color:#85E89D">  failureThreshold</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">3</span><span style="color:#6A737D">      # 連續失敗 3 次才標記為未就緒</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">livenessProbe</span><span style="color:#E1E4E8">:        </span><span style="color:#6A737D"># 存活探針：Pod 卡死時自動重啟</span></span>
+<span class="line"><span style="color:#85E89D">  httpGet</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    path</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">/health</span></span>
+<span class="line"><span style="color:#85E89D">    port</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">8000</span></span>
+<span class="line"><span style="color:#85E89D">  initialDelaySeconds</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">10</span><span style="color:#6A737D">  # 給更多時間完成初始化</span></span>
+<span class="line"><span style="color:#85E89D">  periodSeconds</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">10</span><span style="color:#6A737D">        # 每 10 秒探測一次</span></span>
+<span class="line"><span style="color:#85E89D">  failureThreshold</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">3</span><span style="color:#6A737D">      # 連續失敗 3 次才重啟 Pod</span></span></code></pre>
+<ul>
+<li><strong>readiness</strong>：Pod 還沒 ready 就不接流量（零停機的核心）</li>
+<li><strong>liveness</strong>：Pod 卡死了就重啟（避免殭屍 Pod）</li>
+<li>兩者分開設定的原因：啟動慢不代表需要重啟</li>
+</ul>
+<h3 id="3-3-優雅退場graceful-shutdown">3-3. 優雅退場（Graceful Shutdown）</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">lifecycle</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  preStop</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    exec</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">      command</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">"sleep"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"5"</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#85E89D">terminationGracePeriodSeconds</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">30</span></span></code></pre>
+<ul>
+<li>K8s 刪除 Pod 的流程：<code>SIGTERM</code> → <code>preStop hook</code> → 等待連線完成 → <code>SIGKILL</code></li>
+<li><code>sleep 5</code>：給 ALB 足夠時間把這個 Pod 從目標群組移除，避免 in-flight 請求被切斷</li>
+</ul>
+<h3 id="3-4-service-與-ingress">3-4. Service 與 Ingress</h3>
+<ul>
+<li><strong>Service</strong>：集群內部 L4 負載均衡，穩定的 ClusterIP 讓 Ingress 打得到</li>
+<li><strong>Ingress + AWS ALB Controller</strong>：對外入口，<code>target-type: ip</code> 直打 Pod IP，效能更好</li>
+<li><code>deregistration-delay: 10s</code>：ALB 等 10 秒讓舊連線排空才下線 target</li>
+</ul>
+<h2 id="4零停機為何能成立完整時序">4.零停機為何能成立？完整時序</h2>
+<p>用一張流程圖說清楚：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Push code</span></span>
+<span class="line"><span>  → Bitbucket Pipeline 觸發</span></span>
+<span class="line"><span>  → Step 1: Build Docker image，打上 commit hash tag，push 到 ECR</span></span>
+<span class="line"><span>  → Step 2:</span></span>
+<span class="line"><span>      1. kubectl apply manifests（ingress, secrets...）</span></span>
+<span class="line"><span>      2. 執行 Alembic migration Job（等待成功）</span></span>
+<span class="line"><span>      3. 執行 seed Job（等待成功）</span></span>
+<span class="line"><span>      4. kubectl set image → 觸發 Rolling Update</span></span>
+<span class="line"><span>         - K8s 啟動新 Pod</span></span>
+<span class="line"><span>         - readinessProbe 通過後，ALB 才把流量導入新 Pod</span></span>
+<span class="line"><span>         - 舊 Pod 收到 SIGTERM → preStop sleep 5s → graceful shutdown</span></span>
+<span class="line"><span>      5. kubectl rollout status（等待完成或 timeout 300s）</span></span>
+<span class="line"><span>  → 若失敗：after-script 自動 kubectl rollout undo</span></span></code></pre>
+<blockquote>
+<p><strong>關鍵</strong>：整個過程用戶請求始終有 Pod 接著，沒有空窗期</p>
+</blockquote>
+<h2 id="5eks-與原生-k8s-的差別">5.EKS 與原生 K8s 的差別</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>面向</th><th>原生 K8s（自架）</th><th>AWS EKS</th></tr></thead><tbody><tr><td>控制平面</td><td>自己維護 etcd、kube-apiserver</td><td>AWS 全託管，SLA 99.95%</td></tr><tr><td>節點認證</td><td>手動設定 kubeconfig</td><td>IRSA（IAM Roles for Service Accounts）</td></tr><tr><td>密鑰管理</td><td>自己接 Vault 或 base64 Secret</td><td>External Secrets Operator + AWS Secrets Manager</td></tr><tr><td>負載均衡</td><td>自己裝 ingress-nginx</td><td>AWS Load Balancer Controller → 自動建 ALB</td></tr><tr><td>儲存</td><td>手動掛 NFS/Ceph</td><td>EBS/EFS CSI Driver</td></tr><tr><td>費用模型</td><td>只有機器費</td><td>額外 EKS cluster 費 + AWS 服務費</td></tr></tbody></table>
+<h3 id="5-1-irsa--不需要在程式碼裡放-aws-金鑰">5-1. IRSA — 不需要在程式碼裡放 AWS 金鑰</h3>
+<p>Pod 啟動時自動拿到 temporary credentials，可以直接呼叫 Secrets Manager、S3 等服務</p>
+<h2 id="6cicd-pipeline-設計邏輯">6.CI/CD Pipeline 設計邏輯</h2>
+<h3 id="6-1-雙環境策略">6-1. 雙環境策略</h3>
+<ul>
+<li><code>dev branch</code> → 自動 build + 自動 deploy（快速迭代）</li>
+<li><code>master branch</code> → 自動 build + 手動確認才 deploy（production 保護）</li>
+</ul>
+<h3 id="6-2-image-打兩個-tag-的原因">6-2. Image 打兩個 Tag 的原因</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> tag</span><span style="color:#E1E4E8"> $ECR_REPO</span><span style="color:#9ECBFF">:</span><span style="color:#E1E4E8">$IMAGE_TAG $ECR_REPO</span><span style="color:#9ECBFF">:latest</span></span></code></pre>
+<ul>
+<li><code>commit hash</code>：精準回溯，rollout undo 或 rollout history 能對到具體版本</li>
+<li><code>latest</code>：方便臨時 debug 或本地 pull 最新版</li>
+</ul>
+<h3 id="6-3-migration-先於-deploy-的重要性">6-3. Migration 先於 Deploy 的重要性</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>migrate Job → 成功 → deploy（新版 API 上線）</span></span>
+<span class="line"><span>           ↘ 失敗 → Pipeline 中止，舊版 API 繼續服務</span></span></code></pre>
+<ul>
+<li>向前相容設計（expand/contract pattern）：新欄位先 nullable，讓新舊版本能同時運作</li>
+<li><code>ttlSecondsAfterFinished: 3600</code>：Job 完成後 1 小時自動清理，不塞 API server</li>
+</ul>
+<h3 id="6-4-自動-rollback">6-4. 自動 Rollback</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># after-script（Pipeline 失敗時執行）</span></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#E1E4E8"> [ $BITBUCKET_EXIT_CODE </span><span style="color:#F97583">-ne</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8"> ]; </span><span style="color:#F97583">then</span></span>
+<span class="line"><span style="color:#B392F0">  kubectl</span><span style="color:#9ECBFF"> rollout</span><span style="color:#9ECBFF"> undo</span><span style="color:#9ECBFF"> deployment/your-app</span></span>
+<span class="line"><span style="color:#F97583">fi</span></span></code></pre>
+<h2 id="7常見-kubectl-指令速查">7.常見 kubectl 指令速查</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 查看 Deployment 狀態</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> deployment</span><span style="color:#9ECBFF"> your-app</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> describe</span><span style="color:#9ECBFF"> deployment</span><span style="color:#9ECBFF"> your-app</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 查看 Pod 狀態與事件</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> pods</span><span style="color:#79B8FF"> -l</span><span style="color:#9ECBFF"> app=your-app</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> describe</span><span style="color:#9ECBFF"> pod</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">pod-nam</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> logs</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">pod-nam</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#79B8FF"> --tail=100</span><span style="color:#79B8FF"> -f</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 滾動更新相關</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> rollout</span><span style="color:#9ECBFF"> status</span><span style="color:#9ECBFF"> deployment/your-app</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> rollout</span><span style="color:#9ECBFF"> history</span><span style="color:#9ECBFF"> deployment/your-app</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> rollout</span><span style="color:#9ECBFF"> undo</span><span style="color:#9ECBFF"> deployment/your-app</span><span style="color:#6A737D">                    # 回上一版</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> rollout</span><span style="color:#9ECBFF"> undo</span><span style="color:#9ECBFF"> deployment/your-app</span><span style="color:#79B8FF"> --to-revision=3</span><span style="color:#6A737D">   # 回指定版本</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 手動更新 image</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> set</span><span style="color:#9ECBFF"> image</span><span style="color:#9ECBFF"> deployment/your-app</span><span style="color:#9ECBFF"> api=</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">ecr-rep</span><span style="color:#E1E4E8">o</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">new-ta</span><span style="color:#E1E4E8">g</span><span style="color:#F97583">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 查看 Job 執行結果</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> jobs</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> logs</span><span style="color:#9ECBFF"> job/migrate-</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">short-sh</span><span style="color:#E1E4E8">a</span><span style="color:#F97583">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 強制重啟（不改 image，用於 config 更新）</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> rollout</span><span style="color:#9ECBFF"> restart</span><span style="color:#9ECBFF"> deployment/your-app</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 查看 Ingress 與 Service</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> ingress</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> svc</span><span style="color:#9ECBFF"> your-app</span></span></code></pre>
+<h2 id="8結語">8.結語</h2>
+<ul>
+<li><strong>架構限制</strong>：<code>replicas: 1</code> 在滾動更新期間 <code>surge=1</code> 短暫跑兩個 Pod，成本可接受但不適合有強狀態的服務</li>
+<li><strong>未來擴展</strong>：可加上 HPA（Horizontal Pod Autoscaler）根據 CPU/請求量自動擴縮</li>
+<li><strong>最終心得</strong>：零停機不是魔法，是 readinessProbe + graceful shutdown + 相容性 migration 三個習慣的疊加</li>
+</ul>  </div> </div> </article> <!-- 上一篇/下一篇導航 --> <div class="mt-8 flex flex-col sm:flex-row gap-4" data-astro-cid-bvzihdzo>  <a href="/blog/2026/02/security_storage_vault_system" class="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group" data-astro-cid-bvzihdzo> <div class="flex items-center justify-end" data-astro-cid-bvzihdzo> <div class="text-right" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-1" data-astro-cid-bvzihdzo>下一篇</div> <div class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 企業等級機密資料保存-自架Vault系統簽CA驗證保護 </div> </div> <svg class="ml-3 w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-astro-cid-bvzihdzo></path> </svg> </div> </a> </div> <!-- 相關文章 --> <div class="mt-12" data-astro-cid-bvzihdzo> <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6" data-astro-cid-bvzihdzo>相關文章</h2> <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-astro-cid-bvzihdzo> <a href="/blog/2026/02/security_storage_vault_system" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/security_storage_vault_system-1.DbYUxmxJ_14WybM.webp" alt="企業等級機密資料保存-自架Vault系統簽CA驗證保護" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2026年2月13日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 企業等級機密資料保存-自架Vault系統簽CA驗證保護 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 如何保存機密資料，並且安全有效傳遞，我將會揭秘企業等級的安全儲存方法 </p> </div> </a><a href="/blog/2026/01/staging_to_production_versioned_cicd_pipeline" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/staging_to_production_versioned_cicd_pipeline-1.XvgGPDEu_Z11n0nk.webp" alt="從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2026年1月7日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 實作從 Staging 到 Production 的完整部署流程，確保每一次部署都有清楚的版本來源與可追蹤的 image tag </p> </div> </a><a href="/blog/2026/01/gitflow_and_four_environments" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/gitflow_and_four_environments-1.DGfNG0-P_Z1xPdoB.webp" alt="Git flow 與軟體開發的四個環境階段：從開發到上線的完整流程" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2026年1月6日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> Git flow 與軟體開發的四個環境階段：從開發到上線的完整流程 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 理解 Git flow 分支策略與 Development、Testing、Staging、Production 四個環境的對應關係 </p> </div> </a> </div> </div> </div> <!-- 右側目錄導航 --> <div class="lg:w-1/4" data-astro-cid-bvzihdzo> <div class="sticky top-24" data-astro-cid-bvzihdzo> <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700" data-astro-cid-bvzihdzo> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4" data-astro-cid-bvzihdzo>目錄</h3> <nav id="table-of-contents" class="space-y-2 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2" data-astro-cid-bvzihdzo> <!-- 目錄項目將由 JavaScript 動態生成 --> </nav> </div> </div> </div> </div> </div> </div>  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"企業專案零停機部署：K8s滾動更新與自動擴展","description":"如何滾動更新並且0停機(ZeroDownTime)的策略","url":"https://xsong.us/blog/2026/04/setup_k8s_pipeline/","datePublished":"2026-04-14T08:00:00.000Z","dateModified":"2026-04-14T08:00:00.000Z","author":{"@type":"Person","name":"小松","url":"https://xsong.us"},"publisher":{"@type":"Organization","name":"xsong.us","url":"https://xsong.us","logo":{"@type":"ImageObject","url":"https://xsong.us/avatar.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://xsong.us/blog/2026/04/setup_k8s_pipeline/"},"image":{"@type":"ImageObject","url":"https://xsong.us/blog/_astro/setup_k8s_pipeline-1.C_gDwu8n.webp","width":1200,"height":630}}</script> <script type="module">function x(){const d=document.getElementById("copy-url-btn"),r=document.getElementById("copy-text"),i=document.getElementById("copy-url-btn-desktop"),g=document.getElementById("copy-text-desktop");async function u(e,s){if(!(!e||!s))try{await navigator.clipboard.writeText(window.location.href);const n=e.querySelector("svg").outerHTML,c=s.textContent,t=e.id==="copy-url-btn"?"w-3 h-3":"w-4 h-4";e.querySelector("svg").outerHTML=`
+						<svg class="${t}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`,s.textContent="已複製！",e.classList.add("text-green-600","dark:text-green-400"),e.classList.remove("text-gray-500"),setTimeout(()=>{e.querySelector("svg").outerHTML=n,s.textContent=c,e.classList.remove("text-green-600","dark:text-green-400"),e.className=e.className.replace(/text-\w+-\d+/g,""),e.classList.add("text-gray-500")},2e3)}catch{const c=document.createElement("textarea");c.value=window.location.href,document.body.appendChild(c),c.select(),document.execCommand("copy"),document.body.removeChild(c);const o=e.querySelector("svg").outerHTML,t=s.textContent,l=e.id==="copy-url-btn"?"w-3 h-3":"w-4 h-4";e.querySelector("svg").outerHTML=`
+						<svg class="${l}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`,s.textContent="已複製！",e.classList.add("text-green-600","dark:text-green-400"),e.classList.remove("text-gray-500"),setTimeout(()=>{e.querySelector("svg").outerHTML=o,s.textContent=t,e.classList.remove("text-green-600","dark:text-green-400"),e.className=e.className.replace(/text-\w+-\d+/g,""),e.classList.add("text-gray-500")},2e3)}}d&&r&&d.addEventListener("click",()=>u(d,r)),i&&g&&i.addEventListener("click",()=>u(i,g))}function v(){const d=document.getElementById("article-content"),r=document.getElementById("table-of-contents");if(!d||!r)return;const i=d.querySelectorAll("h1, h2, h3, h4"),g=[];let u=!1,e=null;i.forEach((n,c)=>{const o=`heading-${c}`;n.id=o;const t=document.createElement("a");t.href=`#${o}`,t.textContent=n.textContent,t.className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-green-400 transition-colors py-1 px-2 rounded cursor-pointer",t.addEventListener("click",l=>{l.preventDefault();const m=document.getElementById(o);m&&m.scrollIntoView({behavior:"smooth",block:"start"})});const a=parseInt(n.tagName.charAt(1));t.style.paddingLeft=`${(a-1)*12+8}px`,r.appendChild(t),g.push({element:t,id:o})});function s(){let n=null,c=1/0;if(i.forEach(o=>{const t=o.getBoundingClientRect(),a=Math.abs(t.top);a<c&&t.top<=150&&(c=a,n=o.id)}),!n&&i.length>0&&(n=i[0].id),g.forEach(({element:o,id:t})=>{t===n?(o.classList.add("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),o.classList.remove("text-gray-600","dark:text-gray-400")):(o.classList.remove("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),o.classList.add("text-gray-600","dark:text-gray-400"))}),n&&n!==e&&!u){const o=g.find(t=>t.id===n);if(o){u=!0;const t=r.getBoundingClientRect(),a=o.element.getBoundingClientRect(),l=r.scrollTop,m=a.top-t.top+l,p=m+a.height,y=r.clientHeight;m<l?r.scrollTo({top:m-16,behavior:"smooth"}):p>l+y&&r.scrollTo({top:p-y+16,behavior:"smooth"}),setTimeout(()=>{u=!1},500)}e=n}}window.addEventListener("scroll",s),s()}document.addEventListener("DOMContentLoaded",()=>{x(),v()});</script>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8"> <div class="footer-content text-center"> <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full"> <p class="text-gray-600 dark:text-gray-400 text-sm m-0">
+&copy; 2025 xsong.us All Rights Reserved
+</p> <span class="hidden sm:block text-gray-400 dark:text-gray-500">|</span> <div class="flex items-center gap-4 sm:gap-6"> <a href="/rss" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors footer-link"> <i class="fas fa-rss"></i> <span class="text-xs sm:text-sm font-medium">RSS Feed</span> </a> <span class="text-gray-400 dark:text-gray-500">|</span> <a href="/about#contact" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors footer-link"> <i class="fas fa-envelope"></i> <span class="text-xs sm:text-sm font-medium">Contact</span> </a> </div> </div> </div> </div> </footer> </div> <script type="module">const m=document.getElementById("theme-toggle"),r=document.getElementById("theme-icon"),l=document.getElementById("mobile-menu-button"),c=document.getElementById("mobile-menu"),a=document.getElementById("mobile-menu-icon"),u=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",u==="dark");i();m.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),i()});l.addEventListener("click",()=>{const e=c.classList.toggle("hidden");a.className=`fas ${e?"fa-bars":"fa-times"} text-xl`});document.addEventListener("click",e=>{!l.contains(e.target)&&!c.contains(e.target)&&(c.classList.add("hidden"),a.className="fas fa-bars text-xl")});const f=c.querySelectorAll("a");f.forEach(e=>{e.addEventListener("click",()=>{c.classList.add("hidden"),a.className="fas fa-bars text-xl"})});function i(){const e=document.documentElement.classList.contains("dark");r.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}function b(){document.querySelectorAll(".prose pre").forEach(e=>{if(e.querySelector(":scope > .code-copy-btn"))return;const t=document.createElement("button");t.type="button",t.className="code-copy-btn",t.setAttribute("aria-label","複製程式碼"),t.innerHTML='<i class="fas fa-copy" aria-hidden="true"></i><span class="code-copy-label">複製</span>',t.addEventListener("click",async()=>{const s=e.querySelector("code"),d=s?s.innerText:e.innerText;try{await navigator.clipboard.writeText(d);const n=t.querySelector(".code-copy-label"),o=t.querySelector("i");n&&(n.textContent="已複製"),o&&(o.className="fas fa-check"),setTimeout(()=>{n&&(n.textContent="複製"),o&&(o.className="fas fa-copy")},2e3)}catch{const n=t.querySelector(".code-copy-label");n&&(n.textContent="失敗"),setTimeout(()=>{n&&(n.textContent="複製")},2e3)}}),e.appendChild(t)})}document.addEventListener("DOMContentLoaded",b);</script> </body> </html>

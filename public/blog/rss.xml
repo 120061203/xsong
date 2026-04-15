@@ -1,18 +1,824 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>xsong.us - 技術分享與作品集</title><description>小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。</description><link>https://xsong.us/</link><item><title>Devfest閃電秀 - Antigravity 導入 SDD 的急速開發術</title><link>https://xsong.us/blog/2025/12/devfest_changhua/</link><guid isPermaLink="true">https://xsong.us/blog/2025/12/devfest_changhua/</guid><description>靠一張簡報硬抗的閃電秀與開發者們的交流</description><pubDate>Mon, 08 Dec 2025 08:00:00 GMT</pubDate><content:encoded># Devfest 介紹 - Google 年會
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>xsong.us - 技術分享與作品集</title><description>小松的技術分享平台，包含技術文章、專案作品、演講心得與職涯經驗。專精於前端開發、DevOps 和技術分享。</description><link>https://xsong.us/</link><item><title>企業專案零停機部署：K8s滾動更新與自動擴展</title><link>https://xsong.us/blog/2026/04/setup_k8s_pipeline/</link><guid isPermaLink="true">https://xsong.us/blog/2026/04/setup_k8s_pipeline/</guid><description>如何滾動更新並且0停機(ZeroDownTime)的策略</description><pubDate>Tue, 14 Apr 2026 08:00:00 GMT</pubDate><content:encoded>## 1.前言
 
-每年的年底都是 Devfest 的舉辦高峰時期，在全台的 6 個縣市分別會舉辦一場大型的開發者年會，年會當天有精彩的議程以及眾多對 Google 技術有興趣的會眾一同參與。
+時隔 2 個月，終於有繼續更新了blog，這兩個月忙於大專案的上線，但自己還算可以從容應對.今天要來分享一個我一直很感興趣的主題 **Kubernetes（K8s）**。傳統部署的煩惱是每次上線都要排在半夜、提前公告維護視窗、祈禱不要出事，那如何打造一個良好的部署策略，將會是本文的重點。就讓我們用真實專案的部署流程，展示如何實現「推 code → 自動上線，用戶無感」。
 
-在 2022 年開始，我第一次參與彰化 Devfest 是在火車站旁的書局地下室，那個場地大約可以容納 30 人，算是彰化 GDG 的首場 Devfest，讓人覺得非常溫馨，再加上彰化是一個和眾多大城市相比更有人情味的地方，我覺得在這裡參與活動的感覺就是小而美的世外桃源。
+## 2.背景知識
+
+如果你有閱讀過我的[工作2個月心得-部署策略與資安洩漏](/blog/2025/10/work-two-month-reflection/) ，裡面有提到多種的部署策略，而其中最不易被用戶察覺的就是「 滾動部署 」。
+
+### 2-1. 什麼是零停機部署（Zero-Downtime Deployment）？
+&gt; 定義：新版本上線期間，舊版本持續服務請求，不出現 502/503 
+
+### 2-2. 零停機的三個必要條件
+
+| 條件 | 說明 |
+|------|------|
+| 新 Pod 健康才接流量 | readinessProbe |
+| 舊 Pod 優雅退場 | preStop + terminationGracePeriodSeconds |
+| 資料庫遷移不鎖表 | migration job 先跑、向前相容 |
+
+
+## 3.K8s 核心概念介紹
+
+### 3-1. Deployment — 管理 Pod 的大腦
+
+```yaml
+# deployment.yaml 節錄
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0   # 保證服務不中斷
+    maxSurge: 1         # 最多多開 1 個新 Pod
+```
+
+- `maxUnavailable: 0` → 永遠有 Pod 在服務中
+- `maxSurge: 1` → 更新時暫時多跑一個新版 Pod，確認健康才殺舊的
+
+### 3-2. 偵測探針（Readiness） vs 存活探針（Liveness Probe）
+
+```yaml
+readinessProbe:       # 就緒探針：Pod 準備好才接流量
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 5   # 啟動後等 5 秒再開始探測
+  periodSeconds: 5         # 每 5 秒探測一次
+  failureThreshold: 3      # 連續失敗 3 次才標記為未就緒
+
+livenessProbe:        # 存活探針：Pod 卡死時自動重啟
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 10  # 給更多時間完成初始化
+  periodSeconds: 10        # 每 10 秒探測一次
+  failureThreshold: 3      # 連續失敗 3 次才重啟 Pod
+```
+
+- **readiness**：Pod 還沒 ready 就不接流量（零停機的核心）
+- **liveness**：Pod 卡死了就重啟（避免殭屍 Pod）
+- 兩者分開設定的原因：啟動慢不代表需要重啟
+
+### 3-3. 優雅退場（Graceful Shutdown）
+
+```yaml
+lifecycle:
+  preStop:
+    exec:
+      command: [&quot;sleep&quot;, &quot;5&quot;]
+terminationGracePeriodSeconds: 30
+```
+
+- K8s 刪除 Pod 的流程：`SIGTERM` → `preStop hook` → 等待連線完成 → `SIGKILL`
+- `sleep 5`：給 ALB 足夠時間把這個 Pod 從目標群組移除，避免 in-flight 請求被切斷
+
+### 3-4. Service 與 Ingress
+
+- **Service**：集群內部 L4 負載均衡，穩定的 ClusterIP 讓 Ingress 打得到
+- **Ingress + AWS ALB Controller**：對外入口，`target-type: ip` 直打 Pod IP，效能更好
+- `deregistration-delay: 10s`：ALB 等 10 秒讓舊連線排空才下線 target
+
+## 4.零停機為何能成立？完整時序
+
+用一張流程圖說清楚：
+
+```
+Push code
+  → Bitbucket Pipeline 觸發
+  → Step 1: Build Docker image，打上 commit hash tag，push 到 ECR
+  → Step 2:
+      1. kubectl apply manifests（ingress, secrets...）
+      2. 執行 Alembic migration Job（等待成功）
+      3. 執行 seed Job（等待成功）
+      4. kubectl set image → 觸發 Rolling Update
+         - K8s 啟動新 Pod
+         - readinessProbe 通過後，ALB 才把流量導入新 Pod
+         - 舊 Pod 收到 SIGTERM → preStop sleep 5s → graceful shutdown
+      5. kubectl rollout status（等待完成或 timeout 300s）
+  → 若失敗：after-script 自動 kubectl rollout undo
+```
+
+&gt; **關鍵**：整個過程用戶請求始終有 Pod 接著，沒有空窗期
+
+## 5.EKS 與原生 K8s 的差別
+
+| 面向 | 原生 K8s（自架） | AWS EKS |
+|------|-----------------|---------|
+| 控制平面 | 自己維護 etcd、kube-apiserver | AWS 全託管，SLA 99.95% |
+| 節點認證 | 手動設定 kubeconfig | IRSA（IAM Roles for Service Accounts） |
+| 密鑰管理 | 自己接 Vault 或 base64 Secret | External Secrets Operator + AWS Secrets Manager |
+| 負載均衡 | 自己裝 ingress-nginx | AWS Load Balancer Controller → 自動建 ALB |
+| 儲存 | 手動掛 NFS/Ceph | EBS/EFS CSI Driver |
+| 費用模型 | 只有機器費 | 額外 EKS cluster 費 + AWS 服務費 |
+
+
+### 5-1. IRSA — 不需要在程式碼裡放 AWS 金鑰
+
+Pod 啟動時自動拿到 temporary credentials，可以直接呼叫 Secrets Manager、S3 等服務
+
+## 6.CI/CD Pipeline 設計邏輯
+
+### 6-1. 雙環境策略
+
+- `dev branch` → 自動 build + 自動 deploy（快速迭代）
+- `master branch` → 自動 build + 手動確認才 deploy（production 保護）
+
+### 6-2. Image 打兩個 Tag 的原因
+
+```bash
+docker tag $ECR_REPO:$IMAGE_TAG $ECR_REPO:latest
+```
+
+- `commit hash`：精準回溯，rollout undo 或 rollout history 能對到具體版本
+- `latest`：方便臨時 debug 或本地 pull 最新版
+
+### 6-3. Migration 先於 Deploy 的重要性
+
+```
+migrate Job → 成功 → deploy（新版 API 上線）
+           ↘ 失敗 → Pipeline 中止，舊版 API 繼續服務
+```
+
+- 向前相容設計（expand/contract pattern）：新欄位先 nullable，讓新舊版本能同時運作
+- `ttlSecondsAfterFinished: 3600`：Job 完成後 1 小時自動清理，不塞 API server
+
+### 6-4. 自動 Rollback
+
+```bash
+# after-script（Pipeline 失敗時執行）
+if [ $BITBUCKET_EXIT_CODE -ne 0 ]; then
+  kubectl rollout undo deployment/your-app
+fi
+```
+
+## 7.常見 kubectl 指令速查
+
+```bash
+# 查看 Deployment 狀態
+kubectl get deployment your-app
+kubectl describe deployment your-app
+
+# 查看 Pod 狀態與事件
+kubectl get pods -l app=your-app
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt; --tail=100 -f
+
+# 滾動更新相關
+kubectl rollout status deployment/your-app
+kubectl rollout history deployment/your-app
+kubectl rollout undo deployment/your-app                    # 回上一版
+kubectl rollout undo deployment/your-app --to-revision=3   # 回指定版本
+
+# 手動更新 image
+kubectl set image deployment/your-app api=&lt;ecr-repo&gt;:&lt;new-tag&gt;
+
+# 查看 Job 執行結果
+kubectl get jobs
+kubectl logs job/migrate-&lt;short-sha&gt;
+
+# 強制重啟（不改 image，用於 config 更新）
+kubectl rollout restart deployment/your-app
+
+# 查看 Ingress 與 Service
+kubectl get ingress
+kubectl get svc your-app
+```
+
+## 8.結語
+
+- **架構限制**：`replicas: 1` 在滾動更新期間 `surge=1` 短暫跑兩個 Pod，成本可接受但不適合有強狀態的服務
+- **未來擴展**：可加上 HPA（Horizontal Pod Autoscaler）根據 CPU/請求量自動擴縮
+- **最終心得**：零停機不是魔法，是 readinessProbe + graceful shutdown + 相容性 migration 三個習慣的疊加</content:encoded><category>技術分享</category></item><item><title>企業等級機密資料保存-自架Vault系統簽CA驗證保護</title><link>https://xsong.us/blog/2026/02/security_storage_vault_system/</link><guid isPermaLink="true">https://xsong.us/blog/2026/02/security_storage_vault_system/</guid><description>如何保存機密資料，並且安全有效傳遞，我將會揭秘企業等級的安全儲存方法</description><pubDate>Fri, 13 Feb 2026 08:00:00 GMT</pubDate><content:encoded>## 前言
+
+在開發階段會有很多的機密資訊例如 **.env** 檔案會儲存在自己的電腦本地，而一旦牽涉到上雲端、跨部門協作、遠端工作等情境，勢必就避免不了需要有一個更好的方式去存儲與傳遞。如果你有閱讀過我去年的這篇[通過試用期-我規定了公司的標準部署流程](/blog/2025/11/pass_trial_period) ，裡面有提到目前的方式是採用 Google Sheet 的方式去傳遞環境變數，由RD交付給Devops來進行部署。
+
+然而最近由於公司的政策變動，可能會需要將資料從 Google 系列進行移出，目前存放於公司私有的 Notion，但在這時我的工程師直覺警報響起，Notion是一個適合筆記、線上共同編寫的平台，可是真的是適合儲存機密資訊的嗎，但是目前還沒有一個適合存放機密資料的平台，因此交給我去研究一個適合的解決方式。
+
+## 我對未來機密資訊存儲的要求
+
+1. 機密資訊的加密:反正不該看到明文，應該有一定的加解密方法
+2. 權限控管嚴格：包含人員控管、IP控管、登入方式控管，最好能夠由OAuth方式，這樣才方便。
+3. 定期的備份機制：如果能夠像Raid備份那樣，即使機器壞了也可自動切換該有多好，而且要有snapshot，可以自動備份到安全的地方。
+4. 最好免費且開源：方便擴充以及收到最新的更新。~~我相信開源之力~~
+
+## Vault的強大之處
+
+Vault讓我覺得最強大的地方，不僅只是一個Key Value存儲的地方，這套系統透過Admin權限的Token，可以自動發行短暫的user token，每一次的有效時間可以自由設定，例如限制在1小時內才可以存取DB，不會再擔心帳號密碼遺失或被盜用的問題，一切的託管交給Vault。
+
+## 知道Vault的契機
+
+不得不說這個契機很巧的是，我在1/31（六）參加 敏捷台中Agile Taichung 舉辦的 **用積木學Scrum**活動，剛好坐在我旁邊的是一位台大電機並且在美商公司擔任Security相關工作的工程師，休息時間閒聊的時候想說問問看他們公司是如何控管機密資訊的，他和我分享了FedRAMP，一個美國聯邦風險與授權管理計畫 (FedRAMP) 提供一套標準化方法，不過這對於目前階段來說好像有點距離，後來他就和我分享了Vault這個關鍵字，但當下我只是默默記下這個關鍵字，其實對Vault不甚了解，很快活動就開始了，我們就繼續參與下去，結束了這個話題，從某種程度上來說，我是不是也算是在假日加班了。
+
+等到下週上班，Team Meeting時，我向主管分享了這個方式，我看這個[Vault的github ](https://github.com/hashicorp/vault) ，居然是由 **HashiCorp** 管理的，這和之前[解鎖成就-第一次RD會議](/blog/2025/10/2025-10-17-milestone-first-rd-meeting)這篇分享的Terraform公司是同一間，讓我覺得這看上去是一個可行的方案，畢竟見識過了Terraform的威力。
+
+## 測試階段Vault
+
+在安裝的階段，我先在本機開始測試 Vault 的 Dev 模式，那 Dev 模式就比較不安全，所有機密儲存在記憶體，我在第一天安裝後測試了幾筆資料，並且在下班前關閉Vault了（pkill vault指令），隔天發現資料遺失了，才知道原來 Dev 模式是這樣的儲存方式，而且Unseal Key每次都會變更，所以隔天我就在電腦上切換成Prod模式了，畢竟這樣才比較接近生產環境，而且也能夠測試 Seal 功能。
+
+```
+危險指令：
+pkill vault
+Dev模式下，資料都儲存在記憶體中，因此如果重新啟動，儲存的Userpass帳戶、KV Secrets、Policies皆會遺失
+
+Seal 功能：
+在發生資料洩漏事件時，允許密封Vault，只有提供5把Unseal Key 中的 3 把，才可以解封。
+```
+
+## EC2安裝Vault
+
+研究了一個階段，我覺得如果繼續研究本地端的會有點浪費時間，畢竟很多事情都是在雲端環境中才會出現的，例如Domain 、 VPC 、 ALB 、SSL等問題，因此我就採用 Terraform 去開了3台Vault 並且內建Vault，我只能說一鍵啟動EC2 並且安裝完成Vault真的很輕鬆，Terraform萬歲。但是在安裝的過程中預設安裝了Vault 15，這是可以在Terraform中避免的，未來如果安裝還是要仔細檢查一下。
+
+## 為了安全使用Vault，我建立了 7層防護
+
+1. 捨棄SSH連線，採用SSM連線
+我在建立 EC2 時，捨棄採用 SSH連線 的方式，我採用SSM連線，只有被允許的IAM才能夠存取，這樣就再也不用擔心SSH的pem被遺失了，因為根本沒有pem。
+
+2. IP限制 透過Security Group Rule 
+只有接入公司的內網IP 才能夠存取這台Vault，即使外部人員知道 Vault 的IP 或 Domain 也無法入侵，另外即使知道了ALB的原始網址也無法存取，因為Vault限制了合法的Domain存取路徑，所以可以擋住不必要的DDoS攻擊。
+
+3. AWS KMS Auto Unseal
+在原本採用Unseal Key，還需要自行保存5把Key，那在這個模式下，只需要讓AWS KMS去管理Unseal Key就可以了，每次重啟Vault都可以自動解鎖，安全又方便，但是自己還是需要保管Recovery Key和Root Token。
+
+4. mTLS 雙向驗證，伺服器端口的驗證機制更加嚴格，我一共開了3台EC2 ，Vault-0、1、2，我在Vault-0 Leader機上用Open SSL ，建立了CA，並且簽發了vault-0、1、2的憑證，同時具備serverAuth、 clientAuth憑證的才可以互相存取彼此，並且也在Security Group進行防護，沒有其他任何機器可以存取。
+
+5. AWS Cognito Auth 認證
+由於公司內部採用AWS，那我就採用Cognito進行Auth認證，只有用公司建立由AWS帳號才可以進入，並且第一次登入強制更改密碼，即便是管理員也不知道你的密碼呢，而且每次登入都非常輕鬆，再也不需要記住獨立的帳號以及密碼了。
+
+6. Vault Policy 嚴格的權限控管
+這就是Vault強大的地方了， 權限細緻的程度可以設定 Role、 Entity、Group、Policy，每個權限都需要有Root權限確認才能夠建立，控制每一個登入者能夠存取的範圍、token時間。
+
+7. Snapshot定期備份到S3存儲
+透過instance role去存取S3 並且加密，讓大量的機密被安全隱藏與備份，只有Vault才能夠加密與解鎖，即使機器損壞也可以被還原，不用再擔心資料遺失。
+
+## 正式上線
+
+由於現在還處於年假期間，我的主管也去放年假了，所以我還沒有進行實際使用者測試，但我想等下一次RD會議的時候來分享這個專案，並且邀請有興趣的RD來測試，應該是很有價值的事情。</content:encoded><category>技術分享</category></item><item><title>從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰</title><link>https://xsong.us/blog/2026/01/staging_to_production_versioned_cicd_pipeline/</link><guid isPermaLink="true">https://xsong.us/blog/2026/01/staging_to_production_versioned_cicd_pipeline/</guid><description>實作從 Staging 到 Production 的完整部署流程，確保每一次部署都有清楚的版本來源與可追蹤的 image tag</description><pubDate>Wed, 07 Jan 2026 08:00:00 GMT</pubDate><content:encoded>## 前言
+
+在理解了 [Git flow 與軟體開發的四個環境階段](/blog/2026/01/gitflow_and_four_environments) 的理論基礎後，  
+這篇文章將分享我如何為公司建立一套實際的 CI/CD 部署流程。
+
+在實際的開發與部署流程中，**版本控管不只是標記一個數字，而是確保每一次變更都可被追蹤、被驗證、被回溯**。
+
+為了更完整地實踐 Git flow，我希望能建立一套明確的部署規範：  
+**所有程式碼在部署至正式環境（Production）之前，必須先經過模擬（Staging）環境的驗證流程**。  
+這不僅能降低直接影響正式站的風險，也能讓每一次上線都有清楚的版本依據。
+
+同時，在每一次部署的過程中，我也希望能夠**自動產生對應版本的 changelog**，讓團隊成員與未來的維護者能快速了解：
+- 這個版本做了哪些功能調整
+- 修復了哪些問題
+- 是否包含破壞性變更
+
+因此，這篇文章將分享我如何結合 Git flow、CI/CD Pipeline 與版本標記策略，  
+打造一套 **從 Staging 到 Production 可追蹤、可回溯的部署流程**。
+
+&gt; **前置知識**  
+&gt; 建議先閱讀：[Git flow 與軟體開發的四個環境階段](/blog/2026/01/gitflow_and_four_environments)  
+&gt; 了解 Git flow 分支策略與四個環境的對應關係。
 
 ---
 
-# Devfest Changhua 2025
+## 部署流程目標
+
+在建立實際的 CI/CD 流程之前，我們先明確幾個核心目標：
+
+### 核心原則
+
+&gt; **Build once, deploy many**  
+&gt; - Production 部署流程**不重新建置（build）image**
+&gt; - 不依賴 `main` / `staging` 分支的程式碼內容
+&gt; - 僅從 Staging 的 ECR Repository 複製已部署且驗證完成的 image
+&gt; - 將 Staging 視為 Production 的唯一版本來源（Single Source of Truth）
+
+### 流程要求
+
+1. **Dev → Staging 部署**
+   - 部署至 Staging 時需**明確指定版本號**
+   - 版本號由使用者在 Bitbucket Pipeline 執行時手動輸入
+   - 該版本號將作為後續 Production 部署與 changelog 的依據
+
+2. **Staging → Production 部署**
+   - Production 部署時**不需手動輸入版本號**
+   - Pipeline 自動抓取「最後一版已部署至 Staging 的版本」
+   - 確保 Production 僅能從已驗證過的 Staging 版本進行升級
+
+---
+
+## Dev → Staging 部署流程
+
+### 部署流程目標
+
+&gt; **核心要求**
+&gt; - 部署至 Staging 時需**明確指定版本號**
+&gt; - 版本號由使用者在 Bitbucket Pipeline 執行時手動輸入
+&gt; - 該版本號將作為後續 Production 部署與 changelog 的依據
+
+### 實作步驟
+
+#### Step 1：合併程式碼至 Staging 分支
+
+```bash
+# 從 develop 或 feature 分支合併至 staging
+git checkout staging
+git merge develop  # 或 git merge feature/your-feature
+git push origin staging
+```
+
+請先將欲部署的開發程式碼，從 `develop` / `feature/*` 分支合併至 `staging` 分支，  
+確保 `staging` 分支內容即為本次要部署至 Staging 的版本。
+
+#### Step 2：手動觸發 Staging 部署 Pipeline
+
+進入 Bitbucket Pipeline 介面後：
+
+- 點選 **Run pipeline**
+- **Branch**：`staging`
+- **Pipeline**：`custom:deploy-to-staging`
+- **設定變數**：
+
+&gt; **補充說明**  
+&gt; 除了手動設定版本號外，也可使用 **Git tag** 指定版本：
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+#### Step 3：確認 Staging ECR Image 與 Tags
+
+Pipeline 執行完成後，請至 Staging 的 ECR Repository 確認 image。
+
+系統將同時產生以下四種 tag：
+
+- `staging`
+- `git-sha`
+- `v1.2.0-staging`
+- `v1.2.0`
+
+---
+
+## Staging → Production 部署流程
+
+### 部署流程目標
+
+&gt; **自動化設計**
+&gt; - Production 部署時**不需手動輸入版本號**
+&gt; - Pipeline 自動抓取「最後一版已部署至 Staging 的版本」
+&gt; - 確保 Production 僅能從已驗證過的 Staging 版本進行升級
+
+### 核心設計概念
+
+&gt; **Build once, deploy many**  
+&gt; - Production 部署流程**不重新建置（build）image**
+&gt; - 不依賴 `main` / `staging` 分支的程式碼內容
+&gt; - 僅從 Staging 的 ECR Repository 複製已部署且驗證完成的 image
+&gt; - 將 Staging 視為 Production 的唯一版本來源（Single Source of Truth）
+
+---
+
+### 實作步驟
+
+#### Step 1：執行 Promotion Pipeline
+
+進入 Bitbucket Pipeline 介面後：
+
+- 點選 **Run pipeline**
+- **Branch**：`staging` 或 `main` 皆可
+- **Pipeline**：`promote-staging-to-prod`
+
+&gt; **說明**  
+&gt; 此 Pipeline 不會根據 `branch` 內容建置新的 image，  
+&gt; 而是從 Staging ECR 中查找最新的 `version tag` 並進行 promotion，  
+&gt; 因此 `branch` 的選擇不影響實際部署結果。
+
+---
+
+#### Step 2：從 Staging ECR 取得最新版本 Image
+Pipeline 會自動執行以下動作：
+
+1. 從 Staging ECR Repository 中找出最新的版本 tag  
+   （例如：`v0.1.0` 或 `v0.1.0-staging`）
+2. Pull 對應的 Docker image
+
+```bash
+# Pipeline 自動執行
+docker pull &lt;staging-ecr&gt;/&lt;image&gt;:&lt;latest-version-tag&gt;
+```
+
+---
+
+#### Step 3：重新標記並推送至 Production ECR
+取得 image 後，Pipeline 將進行以下操作：
+
+- 重新標記 image，產生：
+  - `v0.1.0-prod`
+  - `prod`
+- 推送標記後的 image 至 Production ECR Repository
+
+```bash
+# Pipeline 自動執行
+docker tag &lt;staging-image&gt;:&lt;version&gt; &lt;prod-ecr&gt;/&lt;image&gt;:&lt;version&gt;-prod
+docker tag &lt;staging-image&gt;:&lt;version&gt; &lt;prod-ecr&gt;/&lt;image&gt;:prod
+docker push &lt;prod-ecr&gt;/&lt;image&gt;:&lt;version&gt;-prod
+docker push &lt;prod-ecr&gt;/&lt;image&gt;:prod
+```
+
+此設計可確保：
+- Production 與 Staging 使用**完全相同的 image**
+- 任何正式環境問題皆可直接回溯至對應的 Staging 版本
+
+---
+
+### 部署完成驗證
+部署完成後，請至 Production 的 ECR Repository 確認：
+
+- 是否存在對應版本的 `vX.Y.Z-prod` tag
+- `prod` tag 是否指向最新部署版本
+
+&gt; **驗證重點**  
+&gt; 確認 Production ECR 中的 image 與 Staging ECR 中的 image 內容完全一致，  
+&gt; 僅 tag 標記不同。
+
+---
+
+### 流程效益
+
+&gt; **核心優勢**
+&gt; - 避免 Production 部署時的人工版本輸入錯誤
+&gt; - 確保 Production 僅使用經過 Staging 驗證的版本
+&gt; - 提升部署流程的穩定性、可追蹤性與可回溯性
+
+---
+
+## 部署流程總覽（Dev → Staging → Production）
+
+```text
+[ 開發完成 ]
+      │
+      ▼
+[ 合併至 Staging 分支 ]
+      │
+      ▼
+[ 執行 Staging 部署 Pipeline ]
+  - 手動輸入版本號 (VERSION)
+  - 建置 Docker Image
+      │
+      ▼
+[ 推送 Image 至 Staging ECR ]
+  - 標記版本 (vX.Y.Z)
+  - 標記環境 (staging)
+      │
+      ▼
+[ 執行 Production 部署 Pipeline ]
+  - 不重新建置 Image
+      │
+      ▼
+[ 從 Staging ECR 取得最新版本 Image ]
+      │
+      ▼
+[ 重新標記 Image ]
+  - vX.Y.Z-prod
+  - prod
+      │
+      ▼
+[ 部署至正式環境 Production ]
+```
+
+---
+
+## 結語
+
+透過這次的流程設計與實作，我們將原本容易出錯、難以追蹤的部署流程，  
+逐步轉化為一套 **可預期、可回溯、可自動化** 的 CI/CD 機制。
+
+以 Git flow 作為開發與分支管理的基礎，  
+並明確區分 **開發環境、測試環境、預備環境與正式環境**，  
+確保所有版本在進入 Production 之前，**一定會先經過 Staging 的驗證流程**，  
+有效降低正式上線的風險。
+
+在部署策略上，透過 **「Build once, deploy many」** 的概念，  
+Production 僅從 Staging promotion 已驗證過的 image，  
+避免在正式環境重新建置所帶來的不確定性，  
+同時也讓每一次部署都有清楚的版本來源可供追蹤。
+
+此外，將 **changelog** 的產生與 **Pull Request** 流程結合，  
+不僅減少人工維護文件的負擔，  
+也讓每一次版本釋出都能清楚記錄「做了什麼改動、為什麼改、影響哪些功能」。
+
+這套流程並非一次到位的最終解法，  
+但它提供了一個穩固的基礎，  
+讓團隊能在持續交付的前提下，逐步提升部署品質與系統穩定度。
+
+未來也可在此基礎上，持續加入更多自動化與防護機制，  
+例如更完整的測試策略、部署驗證、或更細緻的版本治理，  
+讓部署流程真正成為支撐產品成長的可靠後盾。
+
+&gt; **延伸閱讀**  
+&gt; 上一篇：[Git flow 與軟體開發的四個環境階段](/blog/2026/01/gitflow_and_four_environments)</content:encoded><category>技術分享</category></item><item><title>Git flow 與軟體開發的四個環境階段：從開發到上線的完整流程</title><link>https://xsong.us/blog/2026/01/gitflow_and_four_environments/</link><guid isPermaLink="true">https://xsong.us/blog/2026/01/gitflow_and_four_environments/</guid><description>理解 Git flow 分支策略與 Development、Testing、Staging、Production 四個環境的對應關係</description><pubDate>Tue, 06 Jan 2026 08:00:00 GMT</pubDate><content:encoded>## 前言
+
+在 SaaS 服務盛行的時代，系統更新頻率越來越高，  
+**如何讓功能能穩定、可預期地上線，成為軟體開發中非常重要的一環**。
+
+要建立一套完整的 CI/CD 與版本控管流程，首先需要理解兩個核心概念：
+- **Git flow** 的分支開發模式
+- **軟體開發常見的四個環境階段**
+
+這篇文章將深入介紹這兩個概念，以及它們如何相互對應，  
+為後續的 CI/CD 實作打下穩固的理論基礎。
+
+&gt; **系列文章**  
+&gt; 本文為系列文章的第一篇，著重於理論基礎。  
+&gt; 下一篇將介紹如何將這些概念應用到實際的 CI/CD 部署流程中。
+
+---
+
+## Git flow 簡介
+
+Git flow 是一種常見的 Git 分支管理策略，  
+目的是讓功能開發、版本釋出與修補錯誤能夠有明確的流程與界線。
+
+常見的分支角色包含：
+
+| 分支類型 | 用途 | 對應環境 |
+|---------|------|---------|
+| `main` / `master` | 正式環境程式碼 | Production |
+| `develop` | 日常整合開發分支 | Development / Testing |
+| `feature/*` | 功能開發分支 | Development |
+| `release/*` | 準備釋出版本 | Staging |
+| `hotfix/*` | 緊急修補正式環境問題 | Production |
+
+透過 Git flow，可以確保：
+
+&gt; **核心優勢**
+&gt; - 新功能不會直接影響正式環境
+&gt; - 每一次釋出都有清楚的版本來源
+&gt; - 能與部署流程（**CI/CD**）自然整合
+
+
+如果你對 **Git 基礎入門**有興趣，歡迎看看我的 [Youtbe 教學 - Git程式碼時光機 - 新手入門](https://www.youtube.com/watch?v=s3LWK39HWHM)
+
+
+---
+
+## 軟體開發的四個階段（Environments）
+
+在實務上，軟體從開發到正式上線，通常會經過以下四個階段：
+
+1. **Development** - 開發環境
+2. **Testing** - 測試環境
+3. **Staging** - 預備環境
+4. **Production** - 正式環境
+
+&gt; **重要概念**  
+&gt; 這些名詞也是工程師在日常溝通中最常提到的術語，  
+&gt; 每個階段都有不同的目的、參與角色與衡量指標。
+
+## 第一階段： 開發環境 - Development
+
+### 定義
+Development 是實際撰寫程式碼的階段，  
+團隊會在此階段建立開發環境，根據需求開始實作功能。
+
+這個階段通常：
+- 功能變動頻繁
+- Bug 最多
+- 穩定性最低（也是工程師最忙的時期）
+
+### 執行項目
+- 定義客戶與產品需求
+- 系統設計（架構、語言、框架規劃）
+- 功能開發與程式撰寫
+- 單元測試（Unit Test）
+
+### 量化指標
+
+- 功能完成進度（例如：每週完成 `3` 個功能模組）
+
+### 工作分配
+- 開發人員：功能開發與單元測試
+- UI/UX 設計師：設計稿與互動設計
+- 產品經理：需求分析與規劃
+
+---
+
+## 第二階段：測試環境 - Testing
+
+### 定義
+Testing 階段由測試人員主導，  
+針對已完成的功能進行各類測試，並協助找出潛在問題。
+
+### 執行項目
+- 功能測試（Functional Testing）
+- 回歸測試（Regression Testing）
+- 效能測試（Performance Testing）
+- 安全性測試（Security Testing）
+- 紀錄 log 與錯誤回報
+
+### 量化指標
+
+- 測試案例數（例如：每週執行 `50` 個測試案例）
+- Bug 修復率（例如：發現 `20` 個，修復 `15` 個）
+
+### 工作分配
+- 測試工程師：設計並執行測試
+- 自動化測試工程師：撰寫自動化測試
+- 開發人員：修復測試中發現的問題
+
+---
+
+## 第三階段：預備環境 - Staging
+
+### 定義
+Staging 是一個**高度模擬 Production 的環境**，  
+目的是在正式上線前，進行最後的整合與驗證。
+
+在這個階段，系統的部署方式、設定與 Production 幾乎一致。
+
+### 執行項目
+- 最終整合測試
+- 使用者驗收測試（User Acceptance Testing, UAT）
+- 部署流程與資料遷移測試
+- 負載與壓力測試
+
+### 量化指標
+
+- UAT 通過率（例如 `90%` 測試案例通過）
+- 部署成功率（例如 `95%` 無錯誤完成部署）
+
+### 工作分配
+- 測試工程師：最終測試
+- 產品經理：協調使用者驗收
+- 開發人員：修復驗收中發現的問題
+
+---
+
+## 第四階段：正式環境 - Production
+
+### 定義
+Production 是系統正式提供給使用者使用的環境，  
+任何變更都會直接影響真實用戶。
+
+### 常見部署方式
+- 直接以新版本取代舊版本
+- 建立新伺服器，逐步切換流量（如 Blue-Green / Canary）
+
+### 執行項目
+- 正式部署
+- 系統監控與維運
+- 問題回報與快速修復
+
+### 量化指標
+
+- 系統可用率（例如 `99.9%` uptime）
+- 使用者滿意度
+
+### 工作分配
+- 維運工程師：部署與監控
+- 開發人員：持續優化與問題修復
+
+---
+
+## 將軟體開發四個階段對應到 Git flow
+
+在理解軟體開發的四個環境後，下一個關鍵問題是：  
+**這些環境在 Git flow 中，分別對應到哪些分支？**
+
+透過明確地將「環境」與「分支」一一對應，不僅能讓團隊在開發與部署時有共同語言，也能讓 CI/CD 流程自動化得更自然、可控。
+
+---
+
+### Development（開發環境） ↔ `feature/*`、`develop`
+
+開發環境主要用來實作新功能與日常開發，因此在 Git flow 中，通常會對應到：
+
+- `feature/*`：  
+  每一個新功能或需求，都會從 `develop` 分支開出獨立的 feature branch 進行開發。
+- `develop`：  
+  作為功能整合分支，當 feature 開發完成並通過基本測試後，會合併回 `develop`。
+
+**特性**
+- 功能變動頻繁
+- 不追求穩定性
+- 以開發效率為優先
+
+---
+
+### Testing（測試環境） ↔ `develop`
+
+Testing 環境通常會部署 `develop` 分支的最新狀態，  
+用來進行功能測試、回歸測試與自動化測試。
+
+此時的重點在於：
+- 驗證多個 feature 整合後是否正常運作
+- 提早發現功能衝突或邏輯錯誤
+
+**特性**
+- 持續更新
+- 用於驗證整合後的功能品質
+- 尚未具備正式釋出的穩定度
+
+---
+
+### Staging（預備環境） ↔ `release/*`
+
+當功能開發完成，準備進入正式釋出流程時，  
+會從 `develop` 分支切出 `release/*` 分支，並對應到 Staging（預備環境）。
+
+在這個階段：
+- 功能原則上已經凍結（Feature Freeze）
+- 僅允許修正 Bug、調整設定或文件
+- 進行 UAT、部署驗證與最終測試
+
+**特性**
+- 高度模擬正式環境
+- 每個 `release/*` 分支對應一個可追蹤的版本
+- 適合作為 Production 部署的版本來源
+
+&gt; **關鍵原則**  
+&gt; 這也是**正式環境前的最後一道防線**。
+
+---
+
+### Production（正式環境） ↔ `main` / `master`
+
+當 `release/*` 分支在 Staging 環境通過所有驗證後，  
+便會合併至 `main`（或 `master`）分支，並部署至 Production（正式環境）。
+
+**特性**
+- 穩定性優先
+- 所有變更都可被回溯
+- 與實際使用者直接相關
+
+&gt; **重要提醒**  
+&gt; 通常在這個時候：
+&gt; - 會為該次釋出建立 Git tag（例如 `v1.2.0`）
+&gt; - 該 tag 也可作為 Docker image 的版本標記
+&gt; - 對外正式提供服務
+
+---
+
+### Hotfix 的特殊情境
+
+當正式環境發生緊急問題時，  
+Git flow 會使用 `hotfix/*` 分支直接從 `main` 切出修復。
+
+修復完成後：
+
+```bash
+# Hotfix 修復流程
+git checkout main
+git checkout -b hotfix/critical-bug
+# ... 修復問題 ...
+git checkout main
+git merge hotfix/critical-bug
+git checkout develop
+git merge hotfix/critical-bug
+```
+
+- 合併回 `main`
+- 同步回 `develop`
+- 視情況重新部署 Staging 與 Production
+
+&gt; **設計優勢**  
+&gt; 這樣可以在**不破壞既有流程**的前提下，快速修正正式環境問題。
+
+---
+
+### 環境與分支對應總覽
+
+| 環境 | 中文名稱 | Git flow 分支 |
+|----|--------|---------------|
+| Development | 開發環境 | `feature/*`、`develop` |
+| Testing | 測試環境 | `develop` |
+| Staging | 預備環境 | `release/*` |
+| Production | 正式環境 | `main` / `master` |
+
+---
+
+## 結語
+
+透過明確地將「環境」與「分支」一一對應，  
+每一個環境、每一個版本，都能在 Git 中找到明確的來源，  
+也為後續的 CI/CD、自動部署與 changelog 產生打下穩固的基礎。
+
+在下一篇文章中，我們將介紹如何將這些理論應用到實際的 CI/CD 部署流程中，  
+包括如何建立從 Staging 到 Production 的可追蹤部署機制，  
+以及如何確保每一次部署都有清楚的版本來源。
+
+&gt; **延伸閱讀**  
+&gt; [從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰](/blog/2026/01/staging_to_production_versioned_cicd_pipeline)</content:encoded><category>技術分享</category></item><item><title>DevFest閃電秀 - Antigravity 導入 SDD 的急速開發術</title><link>https://xsong.us/blog/2025/12/devfest_changhua/</link><guid isPermaLink="true">https://xsong.us/blog/2025/12/devfest_changhua/</guid><description>靠一張簡報硬抗的閃電秀與開發者們的交流</description><pubDate>Mon, 08 Dec 2025 08:00:00 GMT</pubDate><content:encoded># DevFest 介紹 - Google 年會
+
+每年的年底都是 DevFest 的舉辦高峰時期，在全台的 6 個縣市分別會舉辦一場大型的開發者年會，年會當天有精彩的議程以及眾多對 Google 技術有興趣的會眾一同參與。
+
+在 2022 年開始，我第一次參與彰化 DevFest 是在火車站旁的書局地下室，那個場地大約可以容納 30 人，算是彰化 GDG 的首場 DevFest，讓人覺得非常溫馨，再加上彰化是一個和眾多大城市相比更有人情味的地方，我覺得在這裡參與活動的感覺就是小而美的世外桃源。
+
+---
+
+# DevFest Changhua 2025
 
 今年的活動舉辦在彰化師範大學進德校區的圖資中心地下室演講廳，現場可以容納 120 人左右，這是歷屆最多的人數，而在活動的報到率也超過九成，這是非常高的比例。
 
 ![會眾合照](../../../../assets/images/2025/12/devfest_changhua/1206devfest-1.webp)
 
-彰化 Devfest 由於場地不像台北那麼大，反而能夠讓我在這裡認識了更多的夥伴，從 2022 開始每年都陸續認識很多朋友，例如 GDG 彰化組織者佳新、FKT、Bruce、楷言、橘子等，在活動的現場都能有非常多的交流與互動。
+彰化 DevFest 由於場地不像台北那麼大，反而能夠讓我在這裡認識了更多的夥伴，從 2022 開始每年都陸續認識很多朋友，例如 GDG 彰化組織者佳新、FKT、Bruce、楷言、橘子等，在活動的現場都能有非常多的交流與互動。
 
 ![工作人員合照](../../../../assets/images/2025/12/devfest_changhua/1206devfest-2.webp)
 
@@ -24,7 +830,7 @@
 
 我的演講經歷從校園的 40 人逐漸成長到如今到破百人，我也依舊不會怯場，走出校園面對的是各式各樣的民眾，需要保留技術的同時，也要講解的淺顯易懂。
 
-從去年 2024 開始我就開始嘗試練習在 Devfest 分享技術，去年在台北 Devfest 講的是[大語言模型的評估](https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0)，而今年我緊扣 Google 最新發表的 AI IDE，**Antigravity** 作為閃電秀的主軸，並且搭配 **規格驅動開發（SDD）** 的急速開發，讓台下百人觀眾得以知道這些技術該如何使用在自己的軟體開發流程。
+從去年 2024 開始我就開始嘗試練習在 DevFest 分享技術，去年在台北 DevFest 講的是[大語言模型的評估](https://docs.google.com/presentation/d/150t0ppvSmcPPfs7YnsXUXoqGm73F3trhX0uv1Ez1KXA/edit?slide=id.g2efaa4a1007_0_0#slide=id.g2efaa4a1007_0_0)，而今年我緊扣 Google 最新發表的 AI IDE，**Antigravity** 作為閃電秀的主軸，並且搭配 **規格驅動開發（SDD）** 的急速開發，讓台下百人觀眾得以知道這些技術該如何使用在自己的軟體開發流程。
 
 ## 演講主題：Antigravity 導入 SDD 的急速開發術
 

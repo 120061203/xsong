@@ -1,0 +1,693 @@
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="UTF-8"><meta name="description" content="實作從 Staging 到 Production 的完整部署流程，確保每一次部署都有清楚的版本來源與可追蹤的 image tag"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.14.4"><title>從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script><!-- Page-specific head slot (OG/Twitter, etc.) --><meta property="og:type" content="article"> <meta property="og:title" content="從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰"> <meta property="og:description" content="實作從 Staging 到 Production 的完整部署流程，確保每一次部署都有清楚的版本來源與可追蹤的 image tag"> <meta property="og:url" content="https://xsong.us/blog/2026/01/staging_to_production_versioned_cicd_pipeline/">  <meta property="og:image" content="https://xsong.us/blog/_astro/staging_to_production_versioned_cicd_pipeline-1.XvgGPDEu.webp"> <meta property="og:image:width" content="1200"> <meta property="og:image:height" content="630"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰"> <meta name="twitter:description" content="實作從 Staging 到 Production 的完整部署流程，確保每一次部署都有清楚的版本來源與可追蹤的 image tag"> <meta name="twitter:image" content="https://xsong.us/blog/_astro/staging_to_production_versioned_cicd_pipeline-1.XvgGPDEu.webp"><link rel="canonical" href="https://xsong.us/blog/2026/01/staging_to_production_versioned_cicd_pipeline/"> <!-- 自定義部落格樣式 --><style>
+			/* 部落格文章樣式 */
+			.prose {
+				/* 基礎排版 */
+				line-height: 1.8;
+				color: #374151;
+			}
+
+			.dark .prose {
+				color: #d1d5db;
+			}
+
+			/* 標題樣式 */
+			.prose h1 {
+				font-size: 2.25rem;
+				font-weight: 700;
+				line-height: 1.2;
+				margin-top: 2.5rem;
+				margin-bottom: 1.5rem;
+				color: #111827;
+				border-bottom: 2px solid #e5e7eb;
+				padding-bottom: 0.5rem;
+			}
+
+			.dark .prose h1 {
+				color: #f9fafb;
+				border-bottom-color: #374151;
+			}
+
+			.prose h2 {
+				font-size: 1.875rem;
+				font-weight: 600;
+				line-height: 1.3;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				color: #111827;
+				border-left: 4px solid #3b82f6;
+				padding-left: 1rem;
+			}
+
+			.dark .prose h2 {
+				color: #f9fafb;
+				border-left-color: #10b981;
+			}
+
+			.prose h3 {
+				font-size: 1.5rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.75rem;
+				margin-bottom: 0.75rem;
+				color: #111827;
+			}
+
+			.dark .prose h3 {
+				color: #f9fafb;
+			}
+
+			.prose h4 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				line-height: 1.4;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+				color: #111827;
+			}
+
+			.dark .prose h4 {
+				color: #f9fafb;
+			}
+
+			/* 段落樣式 */
+			.prose p {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				line-height: 1.8;
+				font-size: 1.125rem;
+			}
+
+			/* 列表樣式 */
+			.prose ul, .prose ol {
+				margin-top: 1.25rem;
+				margin-bottom: 1.25rem;
+				padding-left: 1.5rem;
+			}
+
+			.prose li {
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				line-height: 1.7;
+			}
+
+			.prose ul li {
+				list-style-type: disc;
+			}
+
+			.prose ol li {
+				list-style-type: decimal;
+			}
+
+			/* 引用塊樣式 */
+			.prose blockquote {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+				border-left: 4px solid #3b82f6;
+				border-radius: 0.5rem;
+				font-style: italic;
+				position: relative;
+			}
+
+			.dark .prose blockquote {
+				background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+				border-left-color: #10b981;
+			}
+
+			.prose blockquote::before {
+				content: '"';
+				font-size: 3rem;
+				color: #3b82f6;
+				position: absolute;
+				top: -0.5rem;
+				left: 1rem;
+				font-family: serif;
+			}
+
+			.dark .prose blockquote::before {
+				color: #10b981;
+			}
+
+			.prose blockquote p {
+				margin: 0;
+				font-size: 1.125rem;
+				line-height: 1.7;
+			}
+
+			/* 行內 code（僅限 pre 外，避免影響 Shiki 程式碼塊） */
+			.prose :where(p, li, td, th, blockquote, h1, h2, h3, h4, dt, dd) > code {
+				background-color: #f3f4f6;
+				color: #dc2626;
+				padding: 0.25rem 0.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.dark .prose :where(p, li, td, th, blockquote, h1, h2, h3, h4, dt, dd) > code {
+				background-color: #374151;
+				color: #f87171;
+			}
+
+			.prose pre {
+				position: relative;
+				background-color: #1f2937;
+				color: #f9fafb;
+				padding: 1.5rem;
+				padding-top: 2.75rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				margin: 2rem 0;
+				border: 1px solid #374151;
+			}
+
+			/* 蓋過 Tailwind prose-invert / Shiki 在 token 或 .line 上的殘留背景，避免深色模式出現條紋狀「反白」 */
+			.prose pre,
+			.prose pre.astro-code,
+			.prose pre.shiki {
+				background-color: #1f2937 !important;
+			}
+
+			.dark .prose pre,
+			.dark .prose pre.astro-code,
+			.dark .prose pre.shiki {
+				background-color: #111827 !important;
+			}
+
+			.prose pre code {
+				background-color: transparent !important;
+				color: inherit;
+				padding: 0;
+				border-radius: 0;
+				font-size: 0.875rem;
+				font-weight: 400;
+			}
+
+			.prose pre code,
+			.prose pre code span,
+			.prose pre .line,
+			.prose pre.shiki span {
+				background-color: transparent !important;
+				background-image: none !important;
+			}
+
+			/* 複製按鈕（由下方 script 插入） */
+			.code-copy-btn {
+				position: absolute;
+				top: 0.5rem;
+				right: 0.5rem;
+				z-index: 2;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.35rem;
+				padding: 0.35rem 0.65rem;
+				font-size: 0.75rem;
+				font-weight: 500;
+				line-height: 1;
+				border-radius: 0.375rem;
+				border: 1px solid #4b5563;
+				background-color: #374151;
+				color: #e5e7eb;
+				cursor: pointer;
+				transition: background-color 0.15s ease, border-color 0.15s ease;
+			}
+
+			.code-copy-btn:hover {
+				background-color: #4b5563;
+				border-color: #6b7280;
+			}
+
+			.dark .code-copy-btn {
+				background-color: #1f2937;
+				border-color: #4b5563;
+				color: #f3f4f6;
+			}
+
+			.dark .code-copy-btn:hover {
+				background-color: #374151;
+			}
+
+			/* 連結樣式 */
+			.prose a {
+				color: #3b82f6;
+				text-decoration: underline;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 2px;
+				transition: color 0.2s ease;
+			}
+
+			.dark .prose a {
+				color: #10b981;
+			}
+
+			.prose a:hover {
+				color: #2563eb;
+			}
+
+			.dark .prose a:hover {
+				color: #059669;
+			}
+
+			/* 表格樣式 */
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 2rem 0;
+				border-radius: 0.5rem;
+				overflow: hidden;
+				border: 1px solid #e5e7eb;
+			}
+
+			.dark .prose table {
+				border-color: #374151;
+			}
+
+			.prose th {
+				background-color: #f9fafb;
+				color: #111827;
+				font-weight: 600;
+				padding: 0.75rem 1rem;
+				text-align: left;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose th {
+				background-color: #374151;
+				color: #f9fafb;
+				border-bottom-color: #4b5563;
+			}
+
+			.prose td {
+				padding: 0.75rem 1rem;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.dark .prose td {
+				border-bottom-color: #4b5563;
+			}
+
+			/* 水平線樣式 */
+			.prose hr {
+				margin: 3rem 0;
+				border: none;
+				height: 1px;
+				background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+			}
+
+			.dark .prose hr {
+				background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+			}
+
+			/* 圖片樣式 */
+			.prose img {
+				border-radius: 0.5rem;
+				margin: 2rem 0;
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			}
+
+			/* 強調文字 */
+			.prose strong {
+				font-weight: 600;
+				color: #111827;
+			}
+
+			.dark .prose strong {
+				color: #f9fafb;
+			}
+
+			/* 斜體文字 */
+			.prose em {
+				font-style: italic;
+				color: #6b7280;
+			}
+
+			.dark .prose em {
+				color: #9ca3af;
+			}
+
+			/* 特殊標記 */
+			.prose mark {
+				background-color: #fef3c7;
+				color: #92400e;
+				padding: 0.125rem 0.25rem;
+				border-radius: 0.25rem;
+			}
+
+			.dark .prose mark {
+				background-color: #451a03;
+				color: #fbbf24;
+			}
+
+			/* 段落間距優化 */
+			.prose > * + * {
+				margin-top: 1.5rem;
+			}
+
+			.prose > * + h1,
+			.prose > * + h2,
+			.prose > * + h3,
+			.prose > * + h4 {
+				margin-top: 2.5rem;
+			}
+
+			/* 列表間距 */
+			.prose ul + p,
+			.prose ol + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 引用塊間距 */
+			.prose blockquote + p {
+				margin-top: 1.5rem;
+			}
+
+			/* 程式碼塊間距 */
+			.prose pre + p {
+				margin-top: 1.5rem;
+			}
+
+			/* Footer 樣式 */
+			.footer-content {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between; /* 左右兩側分佈 */
+				gap: 1em;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+			.footer-links {
+				display: flex;
+				align-items: center;
+				gap: 0.75em;
+			}
+			.footer-link {
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				text-decoration: none;
+				color: rgb(107, 114, 128);
+				transition: color 0.3s ease;
+			}
+			.footer-link:hover {
+				color: rgb(31, 41, 55);
+			}
+			.dark .footer-link {
+				color: rgb(156, 163, 175);
+			}
+			.dark .footer-link:hover {
+				color: rgb(249, 250, 251);
+			}
+			.footer-link i {
+				font-size: 0.9em;
+			}
+			.separator {
+				color: rgb(107, 114, 128);
+				opacity: 0.6;
+				margin: 0 0.5em;
+			}
+			.dark .separator {
+				color: rgb(156, 163, 175);
+			}
+			.footer-copyright {
+				font-size: 0.9em;
+				opacity: 0.8;
+			}
+		</style><script>
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {}
+				}
+			}
+		</script><style>.prose[data-astro-cid-bvzihdzo] img[data-astro-cid-bvzihdzo]{max-width:600px!important;width:100%!important;height:auto!important;border-radius:8px!important;margin:1rem auto!important;display:block!important}#table-of-contents[data-astro-cid-bvzihdzo]{scrollbar-width:thin;scrollbar-color:rgba(156,163,175,.5) transparent}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar{width:6px}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-track{background:transparent;border-radius:10px}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb{background:#9ca3af80;border-radius:10px}#table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb:hover{background:#9ca3afb3}.dark[data-astro-cid-bvzihdzo] #table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb{background:#4b556380}.dark[data-astro-cid-bvzihdzo] #table-of-contents[data-astro-cid-bvzihdzo]::-webkit-scrollbar-thumb:hover{background:#4b5563b3}
+</style></head> <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white"> <div class="flex flex-col min-h-screen"> <!-- Navigation --> <nav class="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex justify-between items-center h-16"> <!-- Logo --> <a href="/" class="text-2xl md:text-3xl font-bold text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 transition-colors">
+xsong.us
+</a> <!-- Desktop Navigation --> <div class="hidden md:flex items-center space-x-8"> <a href="/about" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+About
+</a> <a href="/blog" class="text-lg font-medium text-blue-600 dark:text-green-400">
+Blog
+</a> <a href="/projects" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+Projects
+</a> <a href="/tools" class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors">
+Tools
+</a> </div> <!-- Theme Toggle and Mobile Menu Button --> <div class="flex items-center space-x-2"> <!-- Theme Toggle --> <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme"> <i class="fas fa-moon text-xl" id="theme-icon"></i> </button> <!-- Mobile Menu Button --> <button id="mobile-menu-button" class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle mobile menu"> <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i> </button> </div> </div> <!-- Mobile Navigation Menu --> <div id="mobile-menu" class="md:hidden hidden"> <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"> <a href="/about" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+About
+</a> <a href="/blog" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-green-400 bg-blue-50 dark:bg-green-900/20 rounded-md">
+Blog
+</a> <a href="/projects" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Projects
+</a> <a href="/tools" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+Tools
+</a> </div> </div> </div> </nav> <!-- Main Content --> <main class="flex-1">   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-astro-cid-bvzihdzo> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-astro-cid-bvzihdzo> <div class="flex flex-col lg:flex-row gap-8" data-astro-cid-bvzihdzo> <!-- 主要內容區域 --> <div class="lg:w-3/4" data-astro-cid-bvzihdzo> <!-- Back to Blog --> <div class="mb-8" data-astro-cid-bvzihdzo> <a href="/blog" class="inline-flex items-center text-blue-600 dark:text-green-400 hover:text-blue-700 dark:hover:text-green-300 font-medium transition-colors" data-astro-cid-bvzihdzo> <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-bvzihdzo></path> </svg>
+返回部落格
+</a> </div> <!-- Article --> <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700" data-astro-cid-bvzihdzo> <div class="w-full h-64 md:h-96 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/staging_to_production_versioned_cicd_pipeline-1.XvgGPDEu_Z7REvJ.webp" alt="從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="1020" height="510" class="w-full h-full object-cover"> </div> <div class="p-8" data-astro-cid-bvzihdzo> <!-- Header --> <header class="mb-8" data-astro-cid-bvzihdzo> <!-- 手機版：標題和按鈕分開顯示 --> <div class="block md:hidden" data-astro-cid-bvzihdzo> <!-- 標題和複製按鈕在同一行 --> <div class="flex items-start justify-between mb-4" data-astro-cid-bvzihdzo> <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex-1 min-w-0" data-astro-cid-bvzihdzo> 從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰 </h1> <!-- 複製網址按鈕 --> <button id="copy-url-btn" class="flex items-center gap-1 px-2 py-1 text-xs text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0 ml-3" title="複製文章網址" data-astro-cid-bvzihdzo> <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" data-astro-cid-bvzihdzo></path> </svg> <span id="copy-text" data-astro-cid-bvzihdzo>複製</span> </button> </div> <!-- 分類和標籤 (手機版) --> <div class="mb-4" data-astro-cid-bvzihdzo> <div class="mb-2" data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>分類：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full" data-astro-cid-bvzihdzo> 技術分享 </span> </div> </div> <div data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>標籤：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> CICD </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> Pipeline </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> Bitbucket </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> AWS </span> </div> </div> </div> <!-- 日期獨占一行 --> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4" data-astro-cid-bvzihdzo> <time dateTime="2026-01-07T08:00:00.000Z" data-astro-cid-bvzihdzo> 2026年1月7日 </time>  <span class="mx-2" data-astro-cid-bvzihdzo>•</span> <span data-astro-cid-bvzihdzo>更新於 2026年1月7日</span>  </div> </div> <!-- 桌面版：標題和按鈕並排顯示 --> <div class="hidden md:block" data-astro-cid-bvzihdzo> <div class="flex items-start justify-between" data-astro-cid-bvzihdzo> <div class="flex-1" data-astro-cid-bvzihdzo> <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-astro-cid-bvzihdzo> 從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰 </h1> <!-- 分類和標籤 --> <div class="mb-4" data-astro-cid-bvzihdzo> <div class="mb-2" data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>分類：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full" data-astro-cid-bvzihdzo> 技術分享 </span> </div> </div> <div data-astro-cid-bvzihdzo> <span class="text-sm text-gray-600 dark:text-gray-400 mr-2" data-astro-cid-bvzihdzo>標籤：</span> <div class="inline-flex flex-wrap gap-2" data-astro-cid-bvzihdzo> <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> CICD </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> Pipeline </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> Bitbucket </span><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md" data-astro-cid-bvzihdzo> AWS </span> </div> </div> </div> <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm" data-astro-cid-bvzihdzo> <time dateTime="2026-01-07T08:00:00.000Z" data-astro-cid-bvzihdzo> 2026年1月7日 </time>  <span class="mx-2" data-astro-cid-bvzihdzo>•</span> <span data-astro-cid-bvzihdzo>更新於 2026年1月7日</span>  </div> </div> <!-- 複製網址按鈕 --> <button id="copy-url-btn-desktop" class="ml-4 flex items-center gap-2 px-4 py-2 text-sm text-gray-500 hover:text-blue-600 dark:hover:text-green-400 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="複製文章網址" data-astro-cid-bvzihdzo> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" data-astro-cid-bvzihdzo></path> </svg> <span id="copy-text-desktop" data-astro-cid-bvzihdzo>複製網址</span> </button> </div> </div> </header> <!-- Content --> <div class="prose prose-lg max-w-none dark:prose-invert" id="article-content" data-astro-cid-bvzihdzo>   <h2 id="前言">前言</h2>
+<p>在理解了 <a href="/blog/2026/01/gitflow_and_four_environments">Git flow 與軟體開發的四個環境階段</a> 的理論基礎後，<br>
+這篇文章將分享我如何為公司建立一套實際的 CI/CD 部署流程。</p>
+<p>在實際的開發與部署流程中，<strong>版本控管不只是標記一個數字，而是確保每一次變更都可被追蹤、被驗證、被回溯</strong>。</p>
+<p>為了更完整地實踐 Git flow，我希望能建立一套明確的部署規範：<br>
+<strong>所有程式碼在部署至正式環境（Production）之前，必須先經過模擬（Staging）環境的驗證流程</strong>。<br>
+這不僅能降低直接影響正式站的風險，也能讓每一次上線都有清楚的版本依據。</p>
+<p>同時，在每一次部署的過程中，我也希望能夠<strong>自動產生對應版本的 changelog</strong>，讓團隊成員與未來的維護者能快速了解：</p>
+<ul>
+<li>這個版本做了哪些功能調整</li>
+<li>修復了哪些問題</li>
+<li>是否包含破壞性變更</li>
+</ul>
+<p>因此，這篇文章將分享我如何結合 Git flow、CI/CD Pipeline 與版本標記策略，<br>
+打造一套 <strong>從 Staging 到 Production 可追蹤、可回溯的部署流程</strong>。</p>
+<blockquote>
+<p><strong>前置知識</strong><br>
+建議先閱讀：<a href="/blog/2026/01/gitflow_and_four_environments">Git flow 與軟體開發的四個環境階段</a><br>
+了解 Git flow 分支策略與四個環境的對應關係。</p>
+</blockquote>
+<hr>
+<h2 id="部署流程目標">部署流程目標</h2>
+<p>在建立實際的 CI/CD 流程之前，我們先明確幾個核心目標：</p>
+<h3 id="核心原則">核心原則</h3>
+<blockquote>
+<p><strong>Build once, deploy many</strong></p>
+<ul>
+<li>Production 部署流程<strong>不重新建置（build）image</strong></li>
+<li>不依賴 <code>main</code> / <code>staging</code> 分支的程式碼內容</li>
+<li>僅從 Staging 的 ECR Repository 複製已部署且驗證完成的 image</li>
+<li>將 Staging 視為 Production 的唯一版本來源（Single Source of Truth）</li>
+</ul>
+</blockquote>
+<h3 id="流程要求">流程要求</h3>
+<ol>
+<li>
+<p><strong>Dev → Staging 部署</strong></p>
+<ul>
+<li>部署至 Staging 時需<strong>明確指定版本號</strong></li>
+<li>版本號由使用者在 Bitbucket Pipeline 執行時手動輸入</li>
+<li>該版本號將作為後續 Production 部署與 changelog 的依據</li>
+</ul>
+</li>
+<li>
+<p><strong>Staging → Production 部署</strong></p>
+<ul>
+<li>Production 部署時<strong>不需手動輸入版本號</strong></li>
+<li>Pipeline 自動抓取「最後一版已部署至 Staging 的版本」</li>
+<li>確保 Production 僅能從已驗證過的 Staging 版本進行升級</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="dev--staging-部署流程">Dev → Staging 部署流程</h2>
+<h3 id="部署流程目標-1">部署流程目標</h3>
+<blockquote>
+<p><strong>核心要求</strong></p>
+<ul>
+<li>部署至 Staging 時需<strong>明確指定版本號</strong></li>
+<li>版本號由使用者在 Bitbucket Pipeline 執行時手動輸入</li>
+<li>該版本號將作為後續 Production 部署與 changelog 的依據</li>
+</ul>
+</blockquote>
+<h3 id="實作步驟">實作步驟</h3>
+<h4 id="step-1合併程式碼至-staging-分支">Step 1：合併程式碼至 Staging 分支</h4>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 從 develop 或 feature 分支合併至 staging</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> checkout</span><span style="color:#9ECBFF"> staging</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> merge</span><span style="color:#9ECBFF"> develop</span><span style="color:#6A737D">  # 或 git merge feature/your-feature</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> push</span><span style="color:#9ECBFF"> origin</span><span style="color:#9ECBFF"> staging</span></span></code></pre>
+<p>請先將欲部署的開發程式碼，從 <code>develop</code> / <code>feature/*</code> 分支合併至 <code>staging</code> 分支，<br>
+確保 <code>staging</code> 分支內容即為本次要部署至 Staging 的版本。</p>
+<h4 id="step-2手動觸發-staging-部署-pipeline">Step 2：手動觸發 Staging 部署 Pipeline</h4>
+<p>進入 Bitbucket Pipeline 介面後：</p>
+<ul>
+<li>點選 <strong>Run pipeline</strong></li>
+<li><strong>Branch</strong>：<code>staging</code></li>
+<li><strong>Pipeline</strong>：<code>custom:deploy-to-staging</code></li>
+<li><strong>設定變數</strong>：</li>
+</ul>
+<blockquote>
+<p><strong>補充說明</strong><br>
+除了手動設定版本號外，也可使用 <strong>Git tag</strong> 指定版本：</p>
+</blockquote>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> tag</span><span style="color:#9ECBFF"> v0.1.0</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> push</span><span style="color:#9ECBFF"> origin</span><span style="color:#9ECBFF"> v0.1.0</span></span></code></pre>
+<h4 id="step-3確認-staging-ecr-image-與-tags">Step 3：確認 Staging ECR Image 與 Tags</h4>
+<p>Pipeline 執行完成後，請至 Staging 的 ECR Repository 確認 image。</p>
+<p>系統將同時產生以下四種 tag：</p>
+<ul>
+<li><code>staging</code></li>
+<li><code>git-sha</code></li>
+<li><code>v1.2.0-staging</code></li>
+<li><code>v1.2.0</code></li>
+</ul>
+<hr>
+<h2 id="staging--production-部署流程">Staging → Production 部署流程</h2>
+<h3 id="部署流程目標-2">部署流程目標</h3>
+<blockquote>
+<p><strong>自動化設計</strong></p>
+<ul>
+<li>Production 部署時<strong>不需手動輸入版本號</strong></li>
+<li>Pipeline 自動抓取「最後一版已部署至 Staging 的版本」</li>
+<li>確保 Production 僅能從已驗證過的 Staging 版本進行升級</li>
+</ul>
+</blockquote>
+<h3 id="核心設計概念">核心設計概念</h3>
+<blockquote>
+<p><strong>Build once, deploy many</strong></p>
+<ul>
+<li>Production 部署流程<strong>不重新建置（build）image</strong></li>
+<li>不依賴 <code>main</code> / <code>staging</code> 分支的程式碼內容</li>
+<li>僅從 Staging 的 ECR Repository 複製已部署且驗證完成的 image</li>
+<li>將 Staging 視為 Production 的唯一版本來源（Single Source of Truth）</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="實作步驟-1">實作步驟</h3>
+<h4 id="step-1執行-promotion-pipeline">Step 1：執行 Promotion Pipeline</h4>
+<p>進入 Bitbucket Pipeline 介面後：</p>
+<ul>
+<li>點選 <strong>Run pipeline</strong></li>
+<li><strong>Branch</strong>：<code>staging</code> 或 <code>main</code> 皆可</li>
+<li><strong>Pipeline</strong>：<code>promote-staging-to-prod</code></li>
+</ul>
+<blockquote>
+<p><strong>說明</strong><br>
+此 Pipeline 不會根據 <code>branch</code> 內容建置新的 image，<br>
+而是從 Staging ECR 中查找最新的 <code>version tag</code> 並進行 promotion，<br>
+因此 <code>branch</code> 的選擇不影響實際部署結果。</p>
+</blockquote>
+<hr>
+<h4 id="step-2從-staging-ecr-取得最新版本-image">Step 2：從 Staging ECR 取得最新版本 Image</h4>
+<p>Pipeline 會自動執行以下動作：</p>
+<ol>
+<li>從 Staging ECR Repository 中找出最新的版本 tag<br>
+（例如：<code>v0.1.0</code> 或 <code>v0.1.0-staging</code>）</li>
+<li>Pull 對應的 Docker image</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Pipeline 自動執行</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> pull</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">staging-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">latest-version-ta</span><span style="color:#E1E4E8">g</span><span style="color:#F97583">></span></span></code></pre>
+<hr>
+<h4 id="step-3重新標記並推送至-production-ecr">Step 3：重新標記並推送至 Production ECR</h4>
+<p>取得 image 後，Pipeline 將進行以下操作：</p>
+<ul>
+<li>重新標記 image，產生：
+<ul>
+<li><code>v0.1.0-prod</code></li>
+<li><code>prod</code></li>
+</ul>
+</li>
+<li>推送標記後的 image 至 Production ECR Repository</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Pipeline 自動執行</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> tag</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">staging-imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#9ECBFF">-prod</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> tag</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">staging-imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:prod</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> push</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">versio</span><span style="color:#E1E4E8">n</span><span style="color:#F97583">></span><span style="color:#9ECBFF">-prod</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> push</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">prod-ec</span><span style="color:#E1E4E8">r</span><span style="color:#F97583">></span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">imag</span><span style="color:#E1E4E8">e</span><span style="color:#F97583">></span><span style="color:#9ECBFF">:prod</span></span></code></pre>
+<p>此設計可確保：</p>
+<ul>
+<li>Production 與 Staging 使用<strong>完全相同的 image</strong></li>
+<li>任何正式環境問題皆可直接回溯至對應的 Staging 版本</li>
+</ul>
+<hr>
+<h3 id="部署完成驗證">部署完成驗證</h3>
+<p>部署完成後，請至 Production 的 ECR Repository 確認：</p>
+<ul>
+<li>是否存在對應版本的 <code>vX.Y.Z-prod</code> tag</li>
+<li><code>prod</code> tag 是否指向最新部署版本</li>
+</ul>
+<blockquote>
+<p><strong>驗證重點</strong><br>
+確認 Production ECR 中的 image 與 Staging ECR 中的 image 內容完全一致，<br>
+僅 tag 標記不同。</p>
+</blockquote>
+<hr>
+<h3 id="流程效益">流程效益</h3>
+<blockquote>
+<p><strong>核心優勢</strong></p>
+<ul>
+<li>避免 Production 部署時的人工版本輸入錯誤</li>
+<li>確保 Production 僅使用經過 Staging 驗證的版本</li>
+<li>提升部署流程的穩定性、可追蹤性與可回溯性</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="部署流程總覽dev--staging--production">部署流程總覽（Dev → Staging → Production）</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>[ 開發完成 ]</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 合併至 Staging 分支 ]</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 執行 Staging 部署 Pipeline ]</span></span>
+<span class="line"><span>  - 手動輸入版本號 (VERSION)</span></span>
+<span class="line"><span>  - 建置 Docker Image</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 推送 Image 至 Staging ECR ]</span></span>
+<span class="line"><span>  - 標記版本 (vX.Y.Z)</span></span>
+<span class="line"><span>  - 標記環境 (staging)</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 執行 Production 部署 Pipeline ]</span></span>
+<span class="line"><span>  - 不重新建置 Image</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 從 Staging ECR 取得最新版本 Image ]</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 重新標記 Image ]</span></span>
+<span class="line"><span>  - vX.Y.Z-prod</span></span>
+<span class="line"><span>  - prod</span></span>
+<span class="line"><span>      │</span></span>
+<span class="line"><span>      ▼</span></span>
+<span class="line"><span>[ 部署至正式環境 Production ]</span></span></code></pre>
+<hr>
+<h2 id="結語">結語</h2>
+<p>透過這次的流程設計與實作，我們將原本容易出錯、難以追蹤的部署流程，<br>
+逐步轉化為一套 <strong>可預期、可回溯、可自動化</strong> 的 CI/CD 機制。</p>
+<p>以 Git flow 作為開發與分支管理的基礎，<br>
+並明確區分 <strong>開發環境、測試環境、預備環境與正式環境</strong>，<br>
+確保所有版本在進入 Production 之前，<strong>一定會先經過 Staging 的驗證流程</strong>，<br>
+有效降低正式上線的風險。</p>
+<p>在部署策略上，透過 <strong>「Build once, deploy many」</strong> 的概念，<br>
+Production 僅從 Staging promotion 已驗證過的 image，<br>
+避免在正式環境重新建置所帶來的不確定性，<br>
+同時也讓每一次部署都有清楚的版本來源可供追蹤。</p>
+<p>此外，將 <strong>changelog</strong> 的產生與 <strong>Pull Request</strong> 流程結合，<br>
+不僅減少人工維護文件的負擔，<br>
+也讓每一次版本釋出都能清楚記錄「做了什麼改動、為什麼改、影響哪些功能」。</p>
+<p>這套流程並非一次到位的最終解法，<br>
+但它提供了一個穩固的基礎，<br>
+讓團隊能在持續交付的前提下，逐步提升部署品質與系統穩定度。</p>
+<p>未來也可在此基礎上，持續加入更多自動化與防護機制，<br>
+例如更完整的測試策略、部署驗證、或更細緻的版本治理，<br>
+讓部署流程真正成為支撐產品成長的可靠後盾。</p>
+<blockquote>
+<p><strong>延伸閱讀</strong><br>
+上一篇：<a href="/blog/2026/01/gitflow_and_four_environments">Git flow 與軟體開發的四個環境階段</a></p>
+</blockquote>  </div> </div> </article> <!-- 上一篇/下一篇導航 --> <div class="mt-8 flex flex-col sm:flex-row gap-4" data-astro-cid-bvzihdzo> <a href="/blog/2026/02/security_storage_vault_system" class="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group" data-astro-cid-bvzihdzo> <div class="flex items-center" data-astro-cid-bvzihdzo> <svg class="mr-3 w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-bvzihdzo></path> </svg> <div data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-1" data-astro-cid-bvzihdzo>上一篇</div> <div class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 企業等級機密資料保存-自架Vault系統簽CA驗證保護 </div> </div> </div> </a> <a href="/blog/2026/01/gitflow_and_four_environments" class="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group" data-astro-cid-bvzihdzo> <div class="flex items-center justify-end" data-astro-cid-bvzihdzo> <div class="text-right" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-1" data-astro-cid-bvzihdzo>下一篇</div> <div class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> Git flow 與軟體開發的四個環境階段：從開發到上線的完整流程 </div> </div> <svg class="ml-3 w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-bvzihdzo> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-astro-cid-bvzihdzo></path> </svg> </div> </a> </div> <!-- 相關文章 --> <div class="mt-12" data-astro-cid-bvzihdzo> <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6" data-astro-cid-bvzihdzo>相關文章</h2> <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-astro-cid-bvzihdzo> <a href="/blog/2026/04/setup_k8s_pipeline" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/setup_k8s_pipeline-1.C_gDwu8n_1boSqq.webp" alt="企業專案零停機部署：K8s滾動更新與自動擴展" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2026年4月14日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 企業專案零停機部署：K8s滾動更新與自動擴展 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 如何滾動更新並且0停機(ZeroDownTime)的策略 </p> </div> </a><a href="/blog/2026/02/security_storage_vault_system" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/security_storage_vault_system-1.DbYUxmxJ_14WybM.webp" alt="企業等級機密資料保存-自架Vault系統簽CA驗證保護" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2026年2月13日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> 企業等級機密資料保存-自架Vault系統簽CA驗證保護 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 如何保存機密資料，並且安全有效傳遞，我將會揭秘企業等級的安全儲存方法 </p> </div> </a><a href="/blog/2026/01/gitflow_and_four_environments" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group" data-astro-cid-bvzihdzo> <div class="h-48 overflow-hidden" data-astro-cid-bvzihdzo> <img src="/blog/_astro/gitflow_and_four_environments-1.DGfNG0-P_Z1xPdoB.webp" alt="Git flow 與軟體開發的四個環境階段：從開發到上線的完整流程" data-astro-cid-bvzihdzo="true" loading="lazy" decoding="async" fetchpriority="auto" width="400" height="250" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"> </div> <div class="p-6" data-astro-cid-bvzihdzo> <div class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-astro-cid-bvzihdzo> 2026年1月6日 </div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-green-400 transition-colors" data-astro-cid-bvzihdzo> Git flow 與軟體開發的四個環境階段：從開發到上線的完整流程 </h3> <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2" data-astro-cid-bvzihdzo> 理解 Git flow 分支策略與 Development、Testing、Staging、Production 四個環境的對應關係 </p> </div> </a> </div> </div> </div> <!-- 右側目錄導航 --> <div class="lg:w-1/4" data-astro-cid-bvzihdzo> <div class="sticky top-24" data-astro-cid-bvzihdzo> <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700" data-astro-cid-bvzihdzo> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4" data-astro-cid-bvzihdzo>目錄</h3> <nav id="table-of-contents" class="space-y-2 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2" data-astro-cid-bvzihdzo> <!-- 目錄項目將由 JavaScript 動態生成 --> </nav> </div> </div> </div> </div> </div> </div>  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"從 Staging 到 Production：一套可追蹤的 CI/CD 版本控管實戰","description":"實作從 Staging 到 Production 的完整部署流程，確保每一次部署都有清楚的版本來源與可追蹤的 image tag","url":"https://xsong.us/blog/2026/01/staging_to_production_versioned_cicd_pipeline/","datePublished":"2026-01-07T08:00:00.000Z","dateModified":"2026-01-07T08:00:00.000Z","author":{"@type":"Person","name":"小松","url":"https://xsong.us"},"publisher":{"@type":"Organization","name":"xsong.us","url":"https://xsong.us","logo":{"@type":"ImageObject","url":"https://xsong.us/avatar.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://xsong.us/blog/2026/01/staging_to_production_versioned_cicd_pipeline/"},"image":{"@type":"ImageObject","url":"https://xsong.us/blog/_astro/staging_to_production_versioned_cicd_pipeline-1.XvgGPDEu.webp","width":1200,"height":630}}</script> <script type="module">function x(){const d=document.getElementById("copy-url-btn"),r=document.getElementById("copy-text"),i=document.getElementById("copy-url-btn-desktop"),g=document.getElementById("copy-text-desktop");async function u(e,s){if(!(!e||!s))try{await navigator.clipboard.writeText(window.location.href);const n=e.querySelector("svg").outerHTML,c=s.textContent,t=e.id==="copy-url-btn"?"w-3 h-3":"w-4 h-4";e.querySelector("svg").outerHTML=`
+						<svg class="${t}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`,s.textContent="已複製！",e.classList.add("text-green-600","dark:text-green-400"),e.classList.remove("text-gray-500"),setTimeout(()=>{e.querySelector("svg").outerHTML=n,s.textContent=c,e.classList.remove("text-green-600","dark:text-green-400"),e.className=e.className.replace(/text-\w+-\d+/g,""),e.classList.add("text-gray-500")},2e3)}catch{const c=document.createElement("textarea");c.value=window.location.href,document.body.appendChild(c),c.select(),document.execCommand("copy"),document.body.removeChild(c);const o=e.querySelector("svg").outerHTML,t=s.textContent,l=e.id==="copy-url-btn"?"w-3 h-3":"w-4 h-4";e.querySelector("svg").outerHTML=`
+						<svg class="${l}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+					`,s.textContent="已複製！",e.classList.add("text-green-600","dark:text-green-400"),e.classList.remove("text-gray-500"),setTimeout(()=>{e.querySelector("svg").outerHTML=o,s.textContent=t,e.classList.remove("text-green-600","dark:text-green-400"),e.className=e.className.replace(/text-\w+-\d+/g,""),e.classList.add("text-gray-500")},2e3)}}d&&r&&d.addEventListener("click",()=>u(d,r)),i&&g&&i.addEventListener("click",()=>u(i,g))}function v(){const d=document.getElementById("article-content"),r=document.getElementById("table-of-contents");if(!d||!r)return;const i=d.querySelectorAll("h1, h2, h3, h4"),g=[];let u=!1,e=null;i.forEach((n,c)=>{const o=`heading-${c}`;n.id=o;const t=document.createElement("a");t.href=`#${o}`,t.textContent=n.textContent,t.className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-green-400 transition-colors py-1 px-2 rounded cursor-pointer",t.addEventListener("click",l=>{l.preventDefault();const m=document.getElementById(o);m&&m.scrollIntoView({behavior:"smooth",block:"start"})});const a=parseInt(n.tagName.charAt(1));t.style.paddingLeft=`${(a-1)*12+8}px`,r.appendChild(t),g.push({element:t,id:o})});function s(){let n=null,c=1/0;if(i.forEach(o=>{const t=o.getBoundingClientRect(),a=Math.abs(t.top);a<c&&t.top<=150&&(c=a,n=o.id)}),!n&&i.length>0&&(n=i[0].id),g.forEach(({element:o,id:t})=>{t===n?(o.classList.add("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),o.classList.remove("text-gray-600","dark:text-gray-400")):(o.classList.remove("text-blue-600","dark:text-green-400","bg-blue-50","dark:bg-green-900/20","font-medium"),o.classList.add("text-gray-600","dark:text-gray-400"))}),n&&n!==e&&!u){const o=g.find(t=>t.id===n);if(o){u=!0;const t=r.getBoundingClientRect(),a=o.element.getBoundingClientRect(),l=r.scrollTop,m=a.top-t.top+l,p=m+a.height,y=r.clientHeight;m<l?r.scrollTo({top:m-16,behavior:"smooth"}):p>l+y&&r.scrollTo({top:p-y+16,behavior:"smooth"}),setTimeout(()=>{u=!1},500)}e=n}}window.addEventListener("scroll",s),s()}document.addEventListener("DOMContentLoaded",()=>{x(),v()});</script>  </main> <!-- Footer --> <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"> <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8"> <div class="footer-content text-center"> <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full"> <p class="text-gray-600 dark:text-gray-400 text-sm m-0">
+&copy; 2025 xsong.us All Rights Reserved
+</p> <span class="hidden sm:block text-gray-400 dark:text-gray-500">|</span> <div class="flex items-center gap-4 sm:gap-6"> <a href="/rss" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors footer-link"> <i class="fas fa-rss"></i> <span class="text-xs sm:text-sm font-medium">RSS Feed</span> </a> <span class="text-gray-400 dark:text-gray-500">|</span> <a href="/about#contact" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors footer-link"> <i class="fas fa-envelope"></i> <span class="text-xs sm:text-sm font-medium">Contact</span> </a> </div> </div> </div> </div> </footer> </div> <script type="module">const m=document.getElementById("theme-toggle"),r=document.getElementById("theme-icon"),l=document.getElementById("mobile-menu-button"),c=document.getElementById("mobile-menu"),a=document.getElementById("mobile-menu-icon"),u=localStorage.getItem("theme")||"light";document.documentElement.classList.toggle("dark",u==="dark");i();m.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",e?"dark":"light"),i()});l.addEventListener("click",()=>{const e=c.classList.toggle("hidden");a.className=`fas ${e?"fa-bars":"fa-times"} text-xl`});document.addEventListener("click",e=>{!l.contains(e.target)&&!c.contains(e.target)&&(c.classList.add("hidden"),a.className="fas fa-bars text-xl")});const f=c.querySelectorAll("a");f.forEach(e=>{e.addEventListener("click",()=>{c.classList.add("hidden"),a.className="fas fa-bars text-xl"})});function i(){const e=document.documentElement.classList.contains("dark");r.className=`fas ${e?"fa-sun":"fa-moon"} text-xl`}function b(){document.querySelectorAll(".prose pre").forEach(e=>{if(e.querySelector(":scope > .code-copy-btn"))return;const t=document.createElement("button");t.type="button",t.className="code-copy-btn",t.setAttribute("aria-label","複製程式碼"),t.innerHTML='<i class="fas fa-copy" aria-hidden="true"></i><span class="code-copy-label">複製</span>',t.addEventListener("click",async()=>{const s=e.querySelector("code"),d=s?s.innerText:e.innerText;try{await navigator.clipboard.writeText(d);const n=t.querySelector(".code-copy-label"),o=t.querySelector("i");n&&(n.textContent="已複製"),o&&(o.className="fas fa-check"),setTimeout(()=>{n&&(n.textContent="複製"),o&&(o.className="fas fa-copy")},2e3)}catch{const n=t.querySelector(".code-copy-label");n&&(n.textContent="失敗"),setTimeout(()=>{n&&(n.textContent="複製")},2e3)}}),e.appendChild(t)})}document.addEventListener("DOMContentLoaded",b);</script> </body> </html>
