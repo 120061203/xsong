@@ -158,8 +158,8 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 				line-height: 1.7;
 			}
 
-			/* 程式碼樣式 */
-			.prose code {
+			/* 行內 code（僅限 pre 外，避免影響 Shiki 程式碼塊） */
+			.prose :where(p, li, td, th, blockquote, h1, h2, h3, h4, dt, dd) > code {
 				background-color: #f3f4f6;
 				color: #dc2626;
 				padding: 0.25rem 0.5rem;
@@ -168,27 +168,87 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 				font-weight: 500;
 			}
 
-			.dark .prose code {
+			.dark .prose :where(p, li, td, th, blockquote, h1, h2, h3, h4, dt, dd) > code {
 				background-color: #374151;
 				color: #f87171;
 			}
 
 			.prose pre {
+				position: relative;
 				background-color: #1f2937;
 				color: #f9fafb;
 				padding: 1.5rem;
+				padding-top: 2.75rem;
 				border-radius: 0.5rem;
 				overflow-x: auto;
 				margin: 2rem 0;
 				border: 1px solid #374151;
 			}
 
+			/* 蓋過 Tailwind prose-invert / Shiki 在 token 或 .line 上的殘留背景，避免深色模式出現條紋狀「反白」 */
+			.prose pre,
+			.prose pre.astro-code,
+			.prose pre.shiki {
+				background-color: #1f2937 !important;
+			}
+
+			.dark .prose pre,
+			.dark .prose pre.astro-code,
+			.dark .prose pre.shiki {
+				background-color: #111827 !important;
+			}
+
 			.prose pre code {
-				background-color: transparent;
+				background-color: transparent !important;
 				color: inherit;
 				padding: 0;
 				border-radius: 0;
 				font-size: 0.875rem;
+				font-weight: 400;
+			}
+
+			.prose pre code,
+			.prose pre code span,
+			.prose pre .line,
+			.prose pre.shiki span {
+				background-color: transparent !important;
+				background-image: none !important;
+			}
+
+			/* 複製按鈕（由下方 script 插入） */
+			.code-copy-btn {
+				position: absolute;
+				top: 0.5rem;
+				right: 0.5rem;
+				z-index: 2;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.35rem;
+				padding: 0.35rem 0.65rem;
+				font-size: 0.75rem;
+				font-weight: 500;
+				line-height: 1;
+				border-radius: 0.375rem;
+				border: 1px solid #4b5563;
+				background-color: #374151;
+				color: #e5e7eb;
+				cursor: pointer;
+				transition: background-color 0.15s ease, border-color 0.15s ease;
+			}
+
+			.code-copy-btn:hover {
+				background-color: #4b5563;
+				border-color: #6b7280;
+			}
+
+			.dark .code-copy-btn {
+				background-color: #1f2937;
+				border-color: #4b5563;
+				color: #f3f4f6;
+			}
+
+			.dark .code-copy-btn:hover {
+				background-color: #374151;
 			}
 
 			/* 連結樣式 */
@@ -535,6 +595,47 @@ const { title, description = "分享我的想法、技術心得和生活點滴" 
 				const isDark = document.documentElement.classList.contains('dark');
 				themeIcon.className = `fas ${isDark ? 'fa-sun' : 'fa-moon'} text-xl`;
 			}
+
+			/** 程式碼區塊右上角複製按鈕 */
+			function enhanceProseCodeBlocks() {
+				document.querySelectorAll('.prose pre').forEach((pre) => {
+					if (pre.querySelector(':scope > .code-copy-btn')) return;
+
+					const btn = document.createElement('button');
+					btn.type = 'button';
+					btn.className = 'code-copy-btn';
+					btn.setAttribute('aria-label', '複製程式碼');
+					btn.innerHTML = '<i class="fas fa-copy" aria-hidden="true"></i><span class="code-copy-label">複製</span>';
+
+					btn.addEventListener('click', async () => {
+						const codeEl = pre.querySelector('code');
+						const text = codeEl ? codeEl.innerText : pre.innerText;
+						try {
+							await navigator.clipboard.writeText(text);
+							const label = btn.querySelector('.code-copy-label');
+							const icon = btn.querySelector('i');
+							if (label) label.textContent = '已複製';
+							if (icon) {
+								icon.className = 'fas fa-check';
+							}
+							setTimeout(() => {
+								if (label) label.textContent = '複製';
+								if (icon) icon.className = 'fas fa-copy';
+							}, 2000);
+						} catch {
+							const label = btn.querySelector('.code-copy-label');
+							if (label) label.textContent = '失敗';
+							setTimeout(() => {
+								if (label) label.textContent = '複製';
+							}, 2000);
+						}
+					});
+
+					pre.appendChild(btn);
+				});
+			}
+
+			document.addEventListener('DOMContentLoaded', enhanceProseCodeBlocks);
 		</script>
 	</body>
 </html>
