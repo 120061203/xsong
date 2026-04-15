@@ -1,0 +1,10 @@
+---
+description: 禁止在 git commit 使用 --trailer
+alwaysApply: true
+---
+
+# Git：禁止 `--trailer`
+
+- 執行 `git commit` 時**不得**使用 `--trailer`（含任何 trailer 參數）。
+- 使用一般訊息即可，例如：`git commit -m "type(scope): 簡短說明"`。
+- 若需補充說明，寫在訊息本文或 body，不要加 trailer 區塊。
