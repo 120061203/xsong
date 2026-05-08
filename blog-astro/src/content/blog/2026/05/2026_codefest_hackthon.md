@@ -11,19 +11,22 @@ private: false
 
 ## 前言
 
-在研究所在學期間，我和學校的夥伴會一起去參加黑客松競賽提升實力，接觸業界，但是我發現在工作後，很少有機會接觸外界，整天就是工作，下班後會很累（雖然我自己還是去進修不同課程啦），而且我們公司有台北、台中、新竹Office，雖然我都在工作上和台北的工程師配合各種專案的維運，不過實際上在真實世界裡沒有遇過他們，公司裡的人都戲稱為「網友」。
+在研究所在學期間，我和學校的夥伴會一起去參加黑客松競賽提升實力、接觸業界。但是我發現在工作後，很少有機會接觸外界，整天就是工作，下班後會很累（雖然我自己還是去進修不同課程啦）。而且我們公司有**台北、台中、新竹** Office，雖然我都在工作上和台北的工程師配合各種專案的維運，不過實際上在真實世界裡沒有遇過他們，公司裡的人都戲稱為「**網友**」。
 
-在3月的某一天，我記得是報名截止日前一週左右，我問了台北的後端工程師，這裡簡稱R工程師，他說他也有興趣，後續他幫我邀請了專案經理、前端工程師、AI工程師，就這樣我們5個人組成了一隻隊伍前往參賽。
+在 **3 月的某一天**，我記得是報名截止日前一週左右，我問了台北的後端工程師（這裡簡稱 **R 工程師**），他說他也有興趣，後續他幫我邀請了**專案經理、前端工程師、AI 工程師**，就這樣我們 **5 個人**組成了一支隊伍前往參賽。
 
-在賽前工作坊4/11當天，我前往台北，當天早上是資訊局長趙氏隆介紹比賽規則，並且有城市儀表板開發團隊進行了比賽技術的介紹。刺激的事情來了，我們隊其實在事前雖然有討論一些主題，不過局長有提到比賽主題將會在比賽當天才公布，因此我們之前討論的東西都不能用，我看著其他隊伍拿著精美的簡報應對下午的選手面談，讓我覺得有一點點緊張和擔憂。所幸我在事前有整理了很多大會官方的資源，並且完整部署過環境，因此我還是在工作坊當天提出了一些能夠在比賽當中實作的想法，我當時提出的想法是運用類似Spotify的歌曲封面分享功能，讓城市儀表板能夠在普羅大眾之間去分享。
- ![分享功能示意圖](../../../../assets/images/2026/05/2026_codefest_hackthon/2026_codefest_hackthon-1.png)
+在賽前工作坊 **4/11** 當天，我前往台北。當天早上是**資訊局長趙式隆**介紹比賽規則，並且有城市儀表板開發團隊進行了比賽技術的介紹。刺激的事情來了——我們隊其實在事前雖然有討論一些主題，不過局長有提到**比賽主題將會在比賽當天才公布**，因此我們之前討論的東西都不能用。我看著其他隊伍拿著精美的簡報應對下午的選手面談，讓我覺得有一點點緊張和擔憂。
 
- 在工作坊結束後，我們**順利的入選了**，在報告的時候我的電腦還因為插上HDMI，結果Ram過載，突然當機，還好有隊友的電腦借來備用，有驚無險。
+> 所幸我在事前有整理了很多大會官方的資源，並且完整部署過環境，因此我還是在工作坊當天提出了一些能夠在比賽當中實作的想法——運用類似 Spotify 的歌曲封面分享功能，讓城市儀表板能夠在普羅大眾之間去分享。
+
+![分享功能示意圖](../../../../assets/images/2026/05/2026_codefest_hackthon/2026_codefest_hackthon-1.png)
+
+在工作坊結束後，我們**順利入選了**！在報告的時候我的電腦還因為插上 HDMI，結果 RAM 過載，突然當機，還好有隊友的電腦借來備用，有驚無險。
 
 
- ## 背景知識
+## 背景知識
 
- 如果你對黑客松有興趣，我這裡也提供官方的[報名頁面](https://codefest.taipei/2026-spring/)（不過今年春季已經截止了，可以期待秋季的）,我第一次參加是在2024年，當時我懵懂無知，不過每次的競賽都會讓自己某方面的技能提升一點，例如這一次我提升比較多的是在Data Engineering 的部分，因此接下來會著重介紹。
+如果你對黑客松有興趣，我這裡也提供官方的[報名頁面](https://codefest.taipei/2026-spring/)（不過今年春季已經截止了，可以期待秋季的）。我第一次參加是在 **2024 年**，當時懵懂無知，不過**每次的競賽都會讓自己某方面的技能提升一點**。例如這一次我提升比較多的是在 **Data Engineering** 的部分，因此接下來會著重介紹。
 
  ### 什麼是 Data Engineering？
 
@@ -59,11 +62,13 @@ Data Engineering（資料工程）是指**建立和維護資料管道（Data Pip
 
 ## ETL 實作解析
 
-這次比賽的核心是一支 Python ETL 腳本，共分四個階段。
+這次比賽的核心是一支 **Python ETL 腳本**，共分**四個階段**：
+
+> **下載原始資料 → 標準化 → 建構儀表板資料 → 寫入 PostgreSQL**
 
 ### 第一階段：下載原始資料
 
-用 `urllib.request` 批次下載多個資料集，並支援三種執行模式：
+用 `urllib.request` 批次下載多個資料集，並支援**三種執行模式**：
 
 ```python
 import urllib.request
@@ -89,7 +94,7 @@ def download_raw_files(mode="missing_only"):
 
 ### 第二階段：標準化（Normalize）
 
-每個資料集有對應的 `normalize_*()` 函數，統一透過字典分派：
+每個資料集有對應的 `normalize_*()` 函數，統一透過**字典分派**：
 
 ```python
 NORMALIZERS = {
@@ -102,7 +107,7 @@ for key, rows in raw_data.items():
     normalized[key] = NORMALIZERS[key](rows)
 ```
 
-三個常用的輔助轉換函數：
+三個常用的**輔助轉換函數**：
 
 **民國日期 → 西元**
 
@@ -138,7 +143,7 @@ def district_from_code(code: str) -> str:
 
 ### 第三階段：建構儀表板資料
 
-每個儀表板對應一個 `build_*()` 函數，輸入標準化資料，輸出聚合統計：
+每個儀表板對應一個 `build_*()` 函數，**輸入**標準化資料，**輸出**聚合統計：
 
 ```python
 def build_inspection_dashboard(data: list[dict]) -> dict:
@@ -160,7 +165,7 @@ def build_risk_dashboard(datasets: dict) -> list[dict]:
 
 ### 第四階段：寫入 PostgreSQL
 
-透過 `docker exec` 對容器內的 PostgreSQL 執行 SQL：
+透過 `docker exec` 對**容器內**的 PostgreSQL 執行 SQL，不需在宿主機安裝 psql：
 
 ```python
 def run_sql(container: str, db: str, sql: str):
@@ -186,11 +191,16 @@ def load_to_db():
 
 ## SQL 設計
 
-ETL 腳本呼叫兩支 SQL 檔案，分別寫入不同的資料庫容器。
+ETL 腳本呼叫**兩支 SQL 檔案**，分別寫入不同的資料庫容器：
+
+| 檔案 | 目標容器 | 用途 |
+|------|----------|------|
+| `food_safety_tables.sql` | `postgres-data` | 建表、寫入資料 |
+| `food_safety_components.sql` | `postgres-manager` | 註冊儀表板組件 |
 
 ### food_safety_tables.sql（schema + 靜態資料）
 
-**建表**：每張表以 `CREATE TABLE IF NOT EXISTS` 建立，並在後面立刻 `TRUNCATE` 清空，確保每次 ETL 重跑都是乾淨的：
+**建表**：每張表以 `CREATE TABLE IF NOT EXISTS` 建立，並在後面立刻 `TRUNCATE` 清空，確保**每次 ETL 重跑都是乾淨的**：
 
 ```sql
 CREATE TABLE IF NOT EXISTS food_inspection_failures (
@@ -204,7 +214,7 @@ CREATE TABLE IF NOT EXISTS food_inspection_failures (
 TRUNCATE food_inspection_failures;
 ```
 
-複雜的巢狀結構（如多種違規原因計數）用 `JSONB` 欄位存：
+複雜的巢狀結構（如多種違規原因計數）用 **`JSONB`** 欄位存：
 
 ```sql
 reason_counts JSONB  -- {"標示不符": 12, "添加物超標": 5, ...}
@@ -238,9 +248,9 @@ DROP TABLE IF EXISTS food_inspection_by_district;
 
 ### food_safety_components.sql（儀表板註冊）
 
-這支 SQL 寫入另一個容器（`postgres-manager`），負責告訴儀表板系統「有哪些組件、要查什麼資料、怎麼顯示」。
+這支 SQL 寫入另一個容器（`postgres-manager`），負責告訴儀表板系統**「有哪些組件、要查什麼資料、怎麼顯示」**。
 
-**每次重跑前先清舊資料**，避免重複：
+> 每次重跑前先清舊資料，避免重複插入造成資料錯亂。
 
 ```sql
 DELETE FROM dashboard_groups
@@ -251,7 +261,7 @@ DELETE FROM dashboards WHERE index IN ('food_safety_taipei', ...);
 
 **組件查詢 SQL 的幾個常見模式：**
 
-分類彙整（CASE WHEN 將細項歸大類）：
+**1. 分類彙整**（`CASE WHEN` 將細項歸大類）：
 
 ```sql
 SELECT
@@ -265,7 +275,7 @@ FROM food_inspection_failures
 GROUP BY category;
 ```
 
-跨城市 UNION（合併台北＋新北資料）：
+**2. 跨城市 UNION**（合併台北＋新北資料）：
 
 ```sql
 WITH taipei AS (
@@ -281,7 +291,7 @@ SELECT * FROM ntpc_normalized
 ORDER BY data DESC;
 ```
 
-時間軸查詢（年份轉時間戳）：
+**3. 時間軸查詢**（年份轉時間戳）：
 
 ```sql
 SELECT
@@ -291,7 +301,7 @@ FROM food_hygiene_work
 ORDER BY year DESC LIMIT 12;
 ```
 
-**最後建立儀表板**，用 `ON CONFLICT DO UPDATE` 讓重複執行安全：
+**4. 建立儀表板**，用 `ON CONFLICT DO UPDATE` 讓重複執行**安全冪等**：
 
 ```sql
 INSERT INTO dashboards (index, name, icon)
@@ -305,11 +315,15 @@ ON CONFLICT (index) DO UPDATE SET name = EXCLUDED.name;
 
 整個 ETL 的設計重點：
 
-- **字典分派**取代 if/else，讓新增資料集只需加一行
-- **輔助函數**集中處理資料格式差異（日期、地址、區域代碼）
-- **執行模式**用 CLI 參數控制，開發與正式環境共用同一支腳本
-- **docker exec** 讓 DB 操作不需在宿主機安裝 psql
-- **TRUNCATE + 重跑**保證資料冪等性，`ON CONFLICT DO UPDATE` 讓 SQL 也冪等
+| 設計 | 效果 |
+|------|------|
+| **字典分派**取代 if/else | 新增資料集只需加一行 |
+| **輔助函數**集中轉換 | 統一處理日期、地址、區域代碼差異 |
+| **CLI 執行模式** | 開發與正式環境共用同一支腳本 |
+| **docker exec** | DB 操作不需在宿主機安裝 psql |
+| **TRUNCATE + 重跑** | 保證資料冪等性 |
+
+> `ON CONFLICT DO UPDATE` 讓 SQL 註冊也是冪等的，重跑不怕重複。
 
 ---
 
