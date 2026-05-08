@@ -3,6 +3,7 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+import rehypeExternalLinks from 'rehype-external-links';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -33,6 +34,9 @@ export default defineConfig({
 
   // 程式碼區塊：亮色 / 深色各一套主題（與 Layout 的 html.dark 切換搭配）
   markdown: {
+    rehypePlugins: [
+      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+    ],
     shikiConfig: {
       themes: {
         light: 'github-light',
