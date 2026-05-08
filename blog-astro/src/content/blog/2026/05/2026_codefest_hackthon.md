@@ -3,7 +3,7 @@ title: "32小時黑客松極限開發-ETL資料處理運用於政府開放資料
 description: "2026雙北程式設計節，工程師的休閒娛樂就是這麼樸實無華"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/04/setup_k8s_pipeline/setup_k8s_pipeline-1.webp"
+heroImage: "../../../../assets/images/2026/05/2026_codefest_hackthon/2026_codefest_hackthon-3.webp"
 categories: ["技術分享"]
 tags: ["Hackthon","ETL"]
 private: false
@@ -56,3 +56,283 @@ Data Engineering（資料工程）是指**建立和維護資料管道（Data Pip
 | **Load（載入）** | 寫入資料庫 | 存進 PostgreSQL |
 
  ![Data Engineering示意圖](../../../../assets/images/2026/05/2026_codefest_hackthon/2026_codefest_hackthon-2.png)
+
+## ETL 實作解析
+
+這次比賽的核心是一支 Python ETL 腳本，共分四個階段。
+
+### 第一階段：下載原始資料
+
+用 `urllib.request` 批次下載多個資料集，並支援三種執行模式：
+
+```python
+import urllib.request
+
+def download_raw_files(mode="missing_only"):
+    for key, dataset in TARGETS.items():
+        for url in dataset["access_urls"]:
+            dest = f"raw/{key}.csv"
+            if mode == "skip":
+                continue
+            if mode == "missing_only" and os.path.exists(dest):
+                continue
+            urllib.request.urlretrieve(url, dest)
+```
+
+| 模式 | 行為 |
+|------|------|
+| 預設 | 只下載本地不存在的檔案 |
+| `--refresh-raw` | 強制重新下載全部 |
+| `--skip-download` | 跳過下載，直接用現有檔案 |
+
+---
+
+### 第二階段：標準化（Normalize）
+
+每個資料集有對應的 `normalize_*()` 函數，統一透過字典分派：
+
+```python
+NORMALIZERS = {
+    "dataset_a": normalize_a,
+    "dataset_b": normalize_b,
+    # ...
+}
+
+for key, rows in raw_data.items():
+    normalized[key] = NORMALIZERS[key](rows)
+```
+
+三個常用的輔助轉換函數：
+
+**民國日期 → 西元**
+
+```python
+def parse_date(raw: str) -> str:
+    # "1120104" → "2023-01-04"
+    if len(raw) == 7:
+        year = int(raw[:3]) + 1911
+        return f"{year}-{raw[3:5]}-{raw[5:7]}"
+```
+
+**拆分店名與地址**
+
+```python
+def split_place(text: str) -> tuple[str, str]:
+    # "廣誠素食臺北市松山區..." → ("廣誠素食", "臺北市松山區...")
+    match = re.search(r"(台|臺|新北|基隆)", text)
+    idx = match.start() if match else len(text)
+    return text[:idx], text[idx:]
+```
+
+**郵遞區號 → 行政區**
+
+```python
+def district_from_code(code: str) -> str:
+    # 取後 4 碼對照區域表
+    return DISTRICT_MAP.get(code[-4:], "未知")
+```
+
+產出：`normalized/{key}.json`
+
+---
+
+### 第三階段：建構儀表板資料
+
+每個儀表板對應一個 `build_*()` 函數，輸入標準化資料，輸出聚合統計：
+
+```python
+def build_inspection_dashboard(data: list[dict]) -> dict:
+    return {
+        "summary": {"total": len(data)},
+        "by_year": group_by(data, "year"),
+        "by_district": group_by(data, "district"),
+        "latest_records": data[:500],
+    }
+
+def build_risk_dashboard(datasets: dict) -> list[dict]:
+    for district in districts:
+        failure_index = failures[district] / max_failures * 75
+        risk_score = min(100, failure_index + grade_gap_index)
+    return sorted(results, key=lambda x: -x["risk_score"])
+```
+
+---
+
+### 第四階段：寫入 PostgreSQL
+
+透過 `docker exec` 對容器內的 PostgreSQL 執行 SQL：
+
+```python
+def run_sql(container: str, db: str, sql: str):
+    subprocess.run(
+        ["docker", "exec", "-i", container, "psql", "-U", "postgres", "-d", db],
+        input=sql.encode(),
+        check=True,
+    )
+
+def load_to_db():
+    # 1. 建立 schema
+    run_sql("postgres-data", "dashboard", open("schema.sql").read())
+
+    # 2. 批次 INSERT 標準化資料
+    for table, rows in normalized.items():
+        insert_rows(table, rows)
+
+    # 3. 註冊儀表板組件
+    run_sql("postgres-manager", "dashboardmanager", open("components.sql").read())
+```
+
+---
+
+## SQL 設計
+
+ETL 腳本呼叫兩支 SQL 檔案，分別寫入不同的資料庫容器。
+
+### food_safety_tables.sql（schema + 靜態資料）
+
+**建表**：每張表以 `CREATE TABLE IF NOT EXISTS` 建立，並在後面立刻 `TRUNCATE` 清空，確保每次 ETL 重跑都是乾淨的：
+
+```sql
+CREATE TABLE IF NOT EXISTS food_inspection_failures (
+    id          SERIAL PRIMARY KEY,
+    district    TEXT,
+    sample_date DATE,
+    year        INTEGER,
+    item        TEXT,
+    result      TEXT
+);
+TRUNCATE food_inspection_failures;
+```
+
+複雜的巢狀結構（如多種違規原因計數）用 `JSONB` 欄位存：
+
+```sql
+reason_counts JSONB  -- {"標示不符": 12, "添加物超標": 5, ...}
+```
+
+**相容舊 schema**：若表已存在但缺少新欄位，用 `ADD COLUMN IF NOT EXISTS` 補充，不需整張表重建：
+
+```sql
+ALTER TABLE district_food_risk ADD COLUMN IF NOT EXISTS city TEXT;
+```
+
+**靜態資料**：ETL 無法自動抓取的資料直接 `INSERT` 寫死，再用 `UPDATE` 補齊關聯欄位：
+
+```sql
+INSERT INTO market_quality_awards (city, year, market_name, grade) VALUES
+('taipei', 2020, '士東市場', 5),
+('taipei', 2020, '南門市場', 5);
+
+-- 來源沒有 district，手動 UPDATE 補上
+UPDATE market_quality_awards SET district = '士林區' WHERE market_name = '士東市場';
+```
+
+**清理舊表**：版本迭代後廢棄的表用 `DROP TABLE IF EXISTS` 移除：
+
+```sql
+DROP TABLE IF EXISTS food_inspection_trend;
+DROP TABLE IF EXISTS food_inspection_by_district;
+```
+
+---
+
+### food_safety_components.sql（儀表板註冊）
+
+這支 SQL 寫入另一個容器（`postgres-manager`），負責告訴儀表板系統「有哪些組件、要查什麼資料、怎麼顯示」。
+
+**每次重跑前先清舊資料**，避免重複：
+
+```sql
+DELETE FROM dashboard_groups
+WHERE dashboard_id IN (SELECT id FROM dashboards WHERE index IN ('food_safety_taipei', ...));
+
+DELETE FROM dashboards WHERE index IN ('food_safety_taipei', ...);
+```
+
+**組件查詢 SQL 的幾個常見模式：**
+
+分類彙整（CASE WHEN 將細項歸大類）：
+
+```sql
+SELECT
+    CASE
+        WHEN item ~ '青江菜|菠菜|小白菜' THEN '葉菜類'
+        WHEN item ~ '芫荽|青蔥|香菜'     THEN '香辛植物'
+        ELSE '其他'
+    END AS category,
+    COUNT(*) AS total
+FROM food_inspection_failures
+GROUP BY category;
+```
+
+跨城市 UNION（合併台北＋新北資料）：
+
+```sql
+WITH taipei AS (
+    SELECT x_axis, data FROM district_food_risk
+),
+ntpc_normalized AS (
+    SELECT district AS x_axis, ROUND(total / max_val * 100) AS data
+    FROM ntpc_aggregated
+)
+SELECT * FROM taipei
+UNION ALL
+SELECT * FROM ntpc_normalized
+ORDER BY data DESC;
+```
+
+時間軸查詢（年份轉時間戳）：
+
+```sql
+SELECT
+    make_timestamptz(year, 7, 1, 0, 0, 0, 'UTC') AS x_axis,
+    food_poisoning_people::float AS data
+FROM food_hygiene_work
+ORDER BY year DESC LIMIT 12;
+```
+
+**最後建立儀表板**，用 `ON CONFLICT DO UPDATE` 讓重複執行安全：
+
+```sql
+INSERT INTO dashboards (index, name, icon)
+VALUES ('food_safety_metrotaipei', '食安守護', 'restaurant')
+ON CONFLICT (index) DO UPDATE SET name = EXCLUDED.name;
+```
+
+---
+
+### 小結
+
+整個 ETL 的設計重點：
+
+- **字典分派**取代 if/else，讓新增資料集只需加一行
+- **輔助函數**集中處理資料格式差異（日期、地址、區域代碼）
+- **執行模式**用 CLI 參數控制，開發與正式環境共用同一支腳本
+- **docker exec** 讓 DB 操作不需在宿主機安裝 psql
+- **TRUNCATE + 重跑**保證資料冪等性，`ON CONFLICT DO UPDATE` 讓 SQL 也冪等
+
+---
+
+## GitHub
+
+- 我的參賽分支：[120061203/Taipei-City-Dashboard (billy-base)](https://github.com/120061203/Taipei-City-Dashboard/tree/billy-base)
+- 官方儀表板：[taipei-doit/Taipei-City-Dashboard](https://github.com/taipei-doit/Taipei-City-Dashboard)
+
+---
+
+## 資料來源
+
+### 食物中毒趨勢
+- 台北市：[食品衛生業務工作概況](https://data.taipei/dataset/detail?id=7d50657f-b35b-496e-b83f-5713893b9a9e)
+
+### 餐飲衛生分級
+- 台北市：[餐飲衛生安全分級評核](https://data.taipei/dataset/detail?id=59579c19-a561-4564-8c0f-545bfb32c0f6)、[傳統市場衛生品質評核](https://data.taipei/dataset/detail?id=bb665f7f-085c-40f9-9b9a-844e46da9c65)
+- 新北市：[餐飲衛生安全分級評核](https://data.ntpc.gov.tw/datasets/8e64b205-a100-4a9a-bd76-8e362761fd61)
+
+### 食品抽檢不合格
+- 台北市：[食品抽驗不合格資料](https://data.taipei/dataset/detail?id=09a917a0-0fb5-47e1-957c-5f1268fba517)
+- 新北市：[食品抽驗不合格資料](https://data.ntpc.gov.tw/datasets/078cb722-15ac-4e1e-b541-e75bfe0aa440)
+
+### 行政區食安風險指數
+- 台北市：[食品衛生業務工作概況](https://data.taipei/dataset/detail?id=7d50657f-b35b-496e-b83f-5713893b9a9e)、[食品藥物稽查](https://data.taipei/dataset/detail?id=9431f450-57d6-4c23-aca6-0ff50de49f0d)、[市場環境衛生稽查](https://data.taipei/dataset/detail?id=c3ae074c-f65f-4f69-bf65-2c00a674e870)
+- 新北市：[食品藥物稽查](https://data.ntpc.gov.tw/datasets/905e5bf0-995a-473f-a2e9-1b25a39a0829)
