@@ -3,7 +3,7 @@ title: "MLOps 學習筆記（二）：Transformer 架構與 HuggingFace 入門"
 description: "從神經網路原理到 Self-Attention，理解 BERT/GPT 的底層結構，並用 HuggingFace 做推論"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-hero.png"
+heroImage: "../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-hero.webp"
 categories: ["技術分享"]
 tags: ["MLOps", "Transformer", "HuggingFace", "AI"]
 private: false

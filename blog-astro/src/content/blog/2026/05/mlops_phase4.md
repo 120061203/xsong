@@ -3,7 +3,7 @@ title: "MLOps 學習筆記（四）：打包模型，部署到 AWS SageMaker End
 description: "從 fine-tuned 模型到雲端 API：模型打包成 tar.gz、上傳 S3、部署 SageMaker Endpoint 的完整流程"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/05/mlops/mlops-phase4.webp"
+heroImage: "../../../../assets/images/2026/05/mlops_phase4/mlops_phase4-hero.webp"
 categories: ["技術分享"]
 tags: ["MLOps", "AWS", "SageMaker", "S3", "AI部署"]
 private: false

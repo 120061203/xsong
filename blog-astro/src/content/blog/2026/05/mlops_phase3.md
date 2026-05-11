@@ -3,7 +3,7 @@ title: "MLOps 學習筆記（三）：Fine-Tuning 預訓練模型做文字分類
 description: "用 HuggingFace Trainer 和自訂訓練迴圈 fine-tune DistilBERT，從 50% 到 84% 準確率的完整過程"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/05/mlops/mlops-phase3.webp"
+heroImage: "../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-hero.webp"
 categories: ["技術分享"]
 tags: ["MLOps", "Fine-Tuning", "HuggingFace", "DistilBERT", "AI"]
 private: false
