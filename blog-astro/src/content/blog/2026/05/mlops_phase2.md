@@ -3,7 +3,7 @@ title: "MLOps 學習筆記（二）：Transformer 架構與 HuggingFace 入門"
 description: "從神經網路原理到 Self-Attention，理解 BERT/GPT 的底層結構，並用 HuggingFace 做推論"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/05/mlops/mlops-phase2.webp"
+heroImage: "../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-hero.png"
 categories: ["技術分享"]
 tags: ["MLOps", "Transformer", "HuggingFace", "AI"]
 private: false
@@ -55,6 +55,9 @@ Self-Attention 把每個 token 轉成三個向量：
 計算流程：Q 和每個 K 做內積 → Softmax 得到注意力權重 → 對 V 做加權平均：
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+
+![Self-Attention Q、K、V 視覺隱喻](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-1.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Q（放大鏡）對準每個 K（文件夾）做配對，配對權重決定從 V（數據流）中提取多少資訊</p>
 
 ---
 
@@ -122,6 +125,9 @@ class MultiHeadAttention(nn.Module):
         return self.W_o(out)
 ```
 
+![Multi-Head Attention 架構圖](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-2.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Input 經 Linear 投影後分流至多個 Head 各自計算 Attention，最後 Concat 合併輸出</p>
+
 每個 Head 可以關注不同的語言關係：
 - Head 1：主詞-動詞關係
 - Head 2：指代關係（「他」→「John」）
@@ -152,6 +158,9 @@ class PositionalEncoding(nn.Module):
         return x + self.pe[:, :x.size(1)]  # 加到輸入上
 ```
 
+![Positional Encoding 位置編碼示意圖](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-3.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 用 sin/cos 波形將位置資訊編進向量，讓模型區分「我打你」與「你打我」的詞序差異</p>
+
 ### BERT vs GPT：Encoder vs Decoder
 
 | | BERT | GPT |
@@ -160,6 +169,9 @@ class PositionalEncoding(nn.Module):
 | 方向 | 雙向（看整句話） | 單向（只看左邊） |
 | 預訓練任務 | Masked Language Model | Next Token Prediction |
 | 適合任務 | 分類、NER、問答 | 文字生成 |
+
+![BERT vs GPT 架構對比圖](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-4.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ BERT（Encoder）雙向看整句話適合分類；GPT（Decoder）單向只看左邊適合文字生成</p>
 
 ### HuggingFace：幾行程式碼完成推論
 

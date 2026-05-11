@@ -3,7 +3,7 @@ title: "MLOps 學習筆記（一）：從 NumPy 到 PyTorch 訓練迴圈"
 description: "用 Python 建立 ML 基礎：矩陣運算、自動微分、完整訓練迴圈與資料載入"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/05/mlops_phase1/mlops_phase1_summary.png"
+heroImage: "../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-hero.png"
 categories: ["技術分享"]
 tags: ["MLOps", "PyTorch", "NumPy", "AI"]
 private: false
