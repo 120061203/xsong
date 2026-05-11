@@ -45,6 +45,7 @@ Tensor:         n 維  → 以上的通稱
 ```
 
 ![Tensor 張量結構說明圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-1.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 從 0D 純量、1D 向量、2D 矩陣，到多維堆疊的 3D Tensor，維度依序延伸</p>
 
 ### 什麼是 Autograd（自動微分）？
 
@@ -96,6 +97,7 @@ result = A + b        # shape: (3, 4)
 ```
 
 ![NumPy 向量化與 Broadcasting 廣播機制示意圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-2.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 左：for loop 逐筆處理；右：向量化並行運算。下方示意 Broadcasting 如何自動對齊不同 shape 的矩陣</p>
 
 ### Autograd：看懂梯度怎麼算
 
@@ -122,6 +124,7 @@ print(x.grad)  # tensor(8.)
 ```
 
 ![Autograd 計算圖：反向傳播梯度示意](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-3.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ PyTorch 在前向傳播時記錄計算圖，呼叫 .backward() 後沿著圖反推每個節點的梯度</p>
 
 這就是整個深度學習的基礎：用梯度告訴模型「往哪個方向調整參數，Loss 才會下降」。梯度下降的參數更新式：
 
@@ -140,6 +143,7 @@ MSE Loss 衡量預測和真實的差距：
 $$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(\hat{y}_i - y_i)^2$$
 
 ![完整訓練迴圈流程圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-4.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 每個 epoch 的五步驟閉環：Forward → Loss → zero_grad → Backward → Optimizer Step</p>
 
 ```python
 import torch
@@ -182,6 +186,7 @@ for epoch in range(1000):
 | `DataLoader` | 負責批次切分、shuffle、多執行緒載入 |
 
 ![Dataset 與 DataLoader 批次載入機制示意圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-5.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Dataset 定義取資料的方式，DataLoader 負責 shuffle、切 batch、多執行緒並行送往 GPU</p>
 
 自定義 Dataset 只需要實作三個方法：
 
@@ -227,6 +232,7 @@ for epoch in range(epochs):
 ## 小結
 
 ![Phase 1 學習總覽](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1_summary.png)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Phase 1 五大核心概念一覽：向量化、Tensor、Autograd、訓練迴圈、Dataset/DataLoader</p>
 
 | 概念 | 重點 |
 |------|------|
