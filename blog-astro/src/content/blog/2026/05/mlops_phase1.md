@@ -3,7 +3,7 @@ title: "MLOps 學習筆記（一）：從 NumPy 到 PyTorch 訓練迴圈"
 description: "用 Python 建立 ML 基礎：矩陣運算、自動微分、完整訓練迴圈與資料載入"
 pubDate: 2026-05-08T16:00:00+08:00
 updatedDate: 2026-05-08T16:00:00+08:00
-heroImage: "../../../../assets/images/2026/05/mlops/mlops-phase1.webp"
+heroImage: "../../../../assets/images/2026/05/mlops_phase1/mlops_phase1_summary.png"
 categories: ["技術分享"]
 tags: ["MLOps", "PyTorch", "NumPy", "AI"]
 private: false
@@ -43,6 +43,8 @@ Tensor 是 PyTorch 的核心資料結構，你可以把它想成「可以在 GPU
 矩陣（Matrix）:  2 維  → [[1, 2], [3, 4]]
 Tensor:         n 維  → 以上的通稱
 ```
+
+![Tensor 張量結構說明圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-1.png)
 
 ### 什麼是 Autograd（自動微分）？
 
@@ -93,6 +95,8 @@ b = np.array([1, 2, 3, 4])  # shape: (4,)
 result = A + b        # shape: (3, 4)
 ```
 
+![NumPy 向量化與 Broadcasting 廣播機制示意圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-2.png)
+
 ### Autograd：看懂梯度怎麼算
 
 給定函數：
@@ -117,6 +121,8 @@ y.backward()              # 反向傳播
 print(x.grad)  # tensor(8.)
 ```
 
+![Autograd 計算圖：反向傳播梯度示意](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-3.png)
+
 這就是整個深度學習的基礎：用梯度告訴模型「往哪個方向調整參數，Loss 才會下降」。梯度下降的參數更新式：
 
 $$\theta \leftarrow \theta - \alpha \cdot \nabla_\theta \mathcal{L}$$
@@ -132,6 +138,8 @@ $$\hat{y} = Wx + b$$
 MSE Loss 衡量預測和真實的差距：
 
 $$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(\hat{y}_i - y_i)^2$$
+
+![完整訓練迴圈流程圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-4.png)
 
 ```python
 import torch
@@ -172,6 +180,8 @@ for epoch in range(1000):
 |------|------|
 | `Dataset` | 定義「怎麼取第 i 筆資料」 |
 | `DataLoader` | 負責批次切分、shuffle、多執行緒載入 |
+
+![Dataset 與 DataLoader 批次載入機制示意圖](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1-5.png)
 
 自定義 Dataset 只需要實作三個方法：
 
@@ -215,6 +225,8 @@ for epoch in range(epochs):
 ---
 
 ## 小結
+
+![Phase 1 學習總覽](../../../../assets/images/2026/05/mlops_phase1/mlops_phase1_summary.png)
 
 | 概念 | 重點 |
 |------|------|
