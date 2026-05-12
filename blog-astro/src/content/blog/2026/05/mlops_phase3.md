@@ -51,6 +51,9 @@ LoRA（Low-Rank Adaptation）的概念：凍結原始權重，只在旁邊插入
 
 ### 第一步：資料準備
 
+![Tensor 結構圖：input_ids 與 attention_mask 的底層形態](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-1.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 資料進入模型前的物理形態：Batch Size × Seq Length 的 2D Tensor，input_ids 存 token ID，attention_mask 標記真實 token（1）與 padding（0）</p>
+
 ```python
 from datasets import load_dataset
 from transformers import AutoTokenizer
@@ -78,6 +81,9 @@ tokenized_train.set_format("torch", columns=["input_ids", "attention_mask", "lab
 
 `padding="max_length"` 讓所有輸入統一長度（128），短的補零，長的截斷。
 `attention_mask` 告訴模型哪些是真實 token（1），哪些是 padding（0）。
+
+![向量化運算 vs 傳統迴圈與 Broadcasting 廣播機制示意圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-2.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ batched=True 讓整批資料一次並行處理（向量化），比逐筆迴圈快數十倍；Broadcasting 讓不同 shape 的 Tensor 自動對齊</p>
 
 ### 第二步：載入預訓練模型，加上分類頭
 
@@ -144,6 +150,9 @@ Epoch 2 eval_accuracy: 0.8400
 
 只用 500 筆訓練資料，2 個 epoch，就從 51% 升到 84%。這就是 pre-trained model 的威力。
 
+![Trainer API 訓練流程圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-4.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ HuggingFace Trainer 將資料載入、前向傳播、Loss 計算、反向傳播與評估全部封裝，讓訓練迴圈只需幾行設定</p>
+
 ### 第四步：自訂訓練迴圈（不用 Trainer）
 
 理解 Trainer 在背後做什麼也很重要。Phase 3 的第二個練習是手動寫出完整訓練迴圈：
@@ -185,6 +194,9 @@ for epoch in range(num_epochs):
 `weight_decay`：L2 正則化，避免過擬合。
 `clip_grad_norm_`：把梯度的 norm 限制在 1.0 以內，避免參數更新太劇烈。
 
+![Autograd 計算圖：反向傳播梯度流動示意](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-3.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ loss.backward() 觸發後，PyTorch 沿計算圖反推每個參數的梯度；藍色為前向路徑，紅色為梯度反向流動方向</p>
+
 ### 第五步：評估指標
 
 Accuracy 只適合類別平衡的場景，實際上更常用 F1：
@@ -211,6 +223,9 @@ accuracy                            0.84
 實際負面       83        17       ← 17 個負面被誤判成正面（FP）
 實際正面       15        85       ← 15 個正面被誤判成負面（FN）
 ```
+
+![Confusion Matrix 評估指標視覺化](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-5.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Confusion Matrix 呈現四種預測結果分布，讓你清楚看出模型在哪個類別上的錯誤最多</p>
 
 ### 第六步：儲存與載入
 
@@ -259,6 +274,9 @@ results = clf([
 ---
 
 ## 小結
+
+![Fine-Tuning 全景圖：從預訓練模型到任務部署的完整路徑](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-6.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Fine-Tuning 全流程：預訓練語言模型 → 加分類頭 → 少量標記資料訓練 → 評估 → 儲存部署</p>
 
 | 步驟 | 工具 | 要點 |
 |------|------|------|
