@@ -83,13 +83,10 @@ tokenized_train.set_format("torch", columns=["input_ids", "attention_mask", "lab
 ```
 
 `padding="max_length"` 讓所有輸入統一長度（128），短的補零，長的截斷。
-`attention_mask` 告訴模型哪些是真實 token（1），哪些是 padding（0）。資料在底層以 Batch Size × Seq Length 的 2D Tensor 形式存在（如圖 1 所示）。處理好的資料再透過 DataLoader 批次化送入模型（如圖 5 所示）。
+`attention_mask` 告訴模型哪些是真實 token（1），哪些是 padding（0）。資料在底層以 Batch Size × Seq Length 的 2D Tensor 形式存在（如圖 1 所示）。
 
 ![向量化運算 vs 傳統迴圈與 Broadcasting 廣播機制示意圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-2.webp)
 <p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖2 ▲ batched=True 讓整批資料一次並行處理（向量化），比逐筆迴圈快數十倍；Broadcasting 讓不同 shape 的 Tensor 自動對齊</p>
-
-![資料吞吐機制：Dataset & DataLoader 示意圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-5.webp)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖5 ▲ Dataset 定義取資料的方式，DataLoader 負責 shuffle、切 batch、多執行緒並行將資料送往 GPU</p>
 
 ### 第二步：載入預訓練模型，加上分類頭
 
@@ -197,8 +194,11 @@ for epoch in range(num_epochs):
 `weight_decay`：L2 正則化，避免過擬合。
 `clip_grad_norm_`：把梯度的 norm 限制在 1.0 以內，避免參數更新太劇烈。
 
-![完整訓練迴圈 SOP：單一 Batch 的七步驟](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-training-loop.webp)
+![完整訓練迴圈 SOP：單一 Batch 的七步驟](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-4.webp)
 <p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖4 ▲ 每個 Batch 的完整訓練 SOP：Zero Grad → Forward → Compute Loss → Backward → Gradient Clipping → Optimizer Step → Scheduler Step</p>
+
+![資料吞吐機制：Dataset & DataLoader 示意圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-5.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖5 ▲ Dataset 定義取資料的方式，DataLoader 負責 shuffle、切 batch、多執行緒並行將資料送往 GPU</p>
 
 ### 第五步：評估指標
 
