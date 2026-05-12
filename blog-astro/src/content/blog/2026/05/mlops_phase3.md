@@ -45,6 +45,9 @@ Fine-tuning 只需要：
 
 LoRA（Low-Rank Adaptation）的概念：凍結原始權重，只在旁邊插入低秩矩陣，大幅減少需要訓練的參數量。
 
+![Positional Encoding 位置編碼示意圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-positional-encoding.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ DistilBERT 內建 Positional Encoding，用 sin/cos 波形將位置資訊編進每個 token 向量，讓模型理解詞序</p>
+
 ---
 
 ## Phase 3 實作解析
@@ -150,9 +153,6 @@ Epoch 2 eval_accuracy: 0.8400
 
 只用 500 筆訓練資料，2 個 epoch，就從 51% 升到 84%。這就是 pre-trained model 的威力。
 
-![Trainer API 訓練流程圖](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-4.webp)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ HuggingFace Trainer 將資料載入、前向傳播、Loss 計算、反向傳播與評估全部封裝，讓訓練迴圈只需幾行設定</p>
-
 ### 第四步：自訂訓練迴圈（不用 Trainer）
 
 理解 Trainer 在背後做什麼也很重要。Phase 3 的第二個練習是手動寫出完整訓練迴圈：
@@ -194,8 +194,8 @@ for epoch in range(num_epochs):
 `weight_decay`：L2 正則化，避免過擬合。
 `clip_grad_norm_`：把梯度的 norm 限制在 1.0 以內，避免參數更新太劇烈。
 
-![Autograd 計算圖：反向傳播梯度流動示意](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-3.webp)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ loss.backward() 觸發後，PyTorch 沿計算圖反推每個參數的梯度；藍色為前向路徑，紅色為梯度反向流動方向</p>
+![完整訓練迴圈 SOP：單一 Batch 的七步驟](../../../../assets/images/2026/05/mlops_phase3/mlops_phase3-training-loop.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 每個 Batch 的完整訓練 SOP：Zero Grad → Forward → Compute Loss → Backward → Gradient Clipping → Optimizer Step → Scheduler Step</p>
 
 ### 第五步：評估指標
 
