@@ -52,12 +52,12 @@ Self-Attention 把每個 token 轉成三個向量：
 - **K（Key）**：「我有什麼資訊？」
 - **V（Value）**：「我實際提供的內容」
 
-計算流程：Q 和每個 K 做內積 → Softmax 得到注意力權重 → 對 V 做加權平均：
+計算流程：Q 和每個 K 做內積 → Softmax 得到注意力權重 → 對 V 做加權平均（如圖 1 所示）：
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
 
 ![Self-Attention Q、K、V 視覺隱喻](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-1.png)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Q（放大鏡）對準每個 K（文件夾）做配對，配對權重決定從 V（數據流）中提取多少資訊</p>
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖1 ▲ Q（放大鏡）對準每個 K（文件夾）做配對，配對權重決定從 V（數據流）中提取多少資訊</p>
 
 ---
 
@@ -94,7 +94,7 @@ def scaled_dot_product_attention(Q, K, V, mask=None):
 
 ### Multi-Head Attention：同時從多個角度理解
 
-單一 Attention 只能關注一種關係。Multi-Head 讓模型同時從多個角度做 Attention，最後合併：
+單一 Attention 只能關注一種關係。Multi-Head 讓模型同時從多個角度做 Attention，最後合併（架構如圖 2 所示）：
 
 ```python
 class MultiHeadAttention(nn.Module):
@@ -126,7 +126,7 @@ class MultiHeadAttention(nn.Module):
 ```
 
 ![Multi-Head Attention 架構圖](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-2.png)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ Input 經 Linear 投影後分流至多個 Head 各自計算 Attention，最後 Concat 合併輸出</p>
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖2 ▲ Input 經 Linear 投影後分流至多個 Head 各自計算 Attention，最後 Concat 合併輸出</p>
 
 每個 Head 可以關注不同的語言關係：
 - Head 1：主詞-動詞關係
@@ -135,7 +135,7 @@ class MultiHeadAttention(nn.Module):
 
 ### Positional Encoding：補充順序資訊
 
-Attention 本身沒有「順序」的概念，「我打你」和「你打我」對 Attention 來說看起來一樣。Positional Encoding 用 sin/cos 函式把位置資訊編進向量：
+Attention 本身沒有「順序」的概念，「我打你」和「你打我」對 Attention 來說看起來一樣。Positional Encoding 用 sin/cos 函式把位置資訊編進向量（如圖 3 所示）：
 
 $$PE_{(pos,\ 2i)} = \sin\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right), \quad PE_{(pos,\ 2i+1)} = \cos\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
 
@@ -159,7 +159,7 @@ class PositionalEncoding(nn.Module):
 ```
 
 ![Positional Encoding 位置編碼示意圖](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-3.png)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ 用 sin/cos 波形將位置資訊編進向量，讓模型區分「我打你」與「你打我」的詞序差異</p>
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖3 ▲ 用 sin/cos 波形將位置資訊編進向量，讓模型區分「我打你」與「你打我」的詞序差異</p>
 
 ### BERT vs GPT：Encoder vs Decoder
 
@@ -170,8 +170,10 @@ class PositionalEncoding(nn.Module):
 | 預訓練任務 | Masked Language Model | Next Token Prediction |
 | 適合任務 | 分類、NER、問答 | 文字生成 |
 
+兩種架構的設計差異如圖 4 所示。
+
 ![BERT vs GPT 架構對比圖](../../../../assets/images/2026/05/mlops_phase2/mlops_phase2-4.png)
-<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">▲ BERT（Encoder）雙向看整句話適合分類；GPT（Decoder）單向只看左邊適合文字生成</p>
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖4 ▲ BERT（Encoder）雙向看整句話適合分類；GPT（Decoder）單向只看左邊適合文字生成</p>
 
 ### HuggingFace：幾行程式碼完成推論
 
