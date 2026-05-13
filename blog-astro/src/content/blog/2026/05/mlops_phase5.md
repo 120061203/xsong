@@ -1,8 +1,8 @@
 ---
 title: "MLOps 學習筆記（五）：Model Registry、SageMaker Pipeline 與全流程自動化"
 description: "把訓練→評估→登記→部署串成自動化 Pipeline，加上 CI/CD 觸發與 CloudWatch 監控，完成完整 MLOps 閉環"
-pubDate: 2026-05-13T16:00:00+08:00
-updatedDate: 2026-05-13T16:00:00+08:00
+pubDate: 2026-05-13T14:00:00+08:00
+updatedDate: 2026-05-13T14:00:00+08:00
 heroImage: "../../../../assets/images/2026/05/mlops_phase5/mlops_phase5-hero.webp"
 categories: ["技術分享"]
 tags: ["MLOps", "SageMaker", "CI/CD", "CloudWatch", "自動化", "AI"]
