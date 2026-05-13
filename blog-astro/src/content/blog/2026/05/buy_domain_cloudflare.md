@@ -1,8 +1,8 @@
 ---
 title: "如何購買網域並設定 Cloudflare 托管"
 description: "以Hinet為例，購買自己的第一個Domain"
-pubDate: 2026-05-13T16:00:00+08:00
-updatedDate: 2026-05-13T16:00:00+08:00
+pubDate: 2026-05-13T15:00:00+08:00
+updatedDate: 2026-05-13T15:00:00+08:00
 heroImage: "../../../../assets/images/2026/05/buy_domain_cloudflare/buy_domain_cloudflare-1.webp"
 categories: ["技術分享"]
 tags: ["Domain", "Cloudflare", "DNS"]
