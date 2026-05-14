@@ -18,6 +18,8 @@ private: false
 - 已將網域的 NS 設定為 Cloudflare（網域由 Cloudflare 托管）
 - 擁有一個 Gmail 帳號作為實際收信信箱
 
+如果你還不會如何將網域交給Cloudflare託管，可以參考[如何購買網域並設定 Cloudflare 托管](/blog/2026/05/buy_domain_cloudflare)
+
 ---
 
 ## 第一步：設定 Cloudflare Email Routing

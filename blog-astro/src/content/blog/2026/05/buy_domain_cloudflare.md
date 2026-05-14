@@ -34,8 +34,7 @@ private: false
 1. 前往 [HiNet 域名註冊](https://domain.hinet.net)，搜尋你想要的網域名稱
 2. 選擇喜歡的網域並完成購買
 
-我這邊選的是單字domain ： [果.tw](https://果.tw)
-購買完成後，進入網域管理頁面，你會看到網域的基本資訊。
+我這邊選的是單字domain ： [果.tw](https://果.tw)，購買完成後，進入網域管理頁面，你會看到網域的基本資訊。
 
 ---
 
@@ -89,4 +88,6 @@ DNS 更新通常在幾小時內生效（最長 48 小時）。生效後，Cloudf
 - 設定 **Email Routing**，建立自訂網域信箱
 - 啟用 **SSL/TLS**，讓網站支援 HTTPS
 
+如果你對如何設定Email Routing有興趣，可以參考[用 Cloudflare Email Routing 打造自訂網域信箱](/blog/2026/05/cloudflare_email_routing)
 只要將網域的 NS 設定為 Cloudflare，後續所有設定都能在同一個平台完成，省時又方便 🎉
+
