@@ -17,6 +17,39 @@ export interface ProjectMeta {
 
 export const PROJECTS: ProjectMeta[] = [
   {
+    id: 'friday-agent',
+    title: 'Friday Agent — 美好生活 AI 助理',
+    description: '以 Claude API 實作的個人生活推薦系統，可視化 Agent 決策過程，即時展示 thinking、tool use、multi-agent 協作的完整流程。',
+    fullDescription: 'Friday Agent 是一個以 Claude Sonnet 4.6 API 為核心的個人生活推薦系統。使用者可透過自然語言查詢週末行程、餐廳推薦、便當計畫、城市活動與電影推薦。系統最大特色是即時可視化 Agent 決策過程：Extended Thinking 面板顯示 Claude 內部推理、Tool Calls 面板顯示每次工具呼叫與回傳、Agents 面板追蹤 multi-agent 協作狀態。',
+    technologies: ['Claude API', 'Sonnet 4.6', 'FastAPI', 'Python', 'SSE', 'Multi-Agent', 'Tool Use', 'Extended Thinking', 'DuckDuckGo Search', 'Anthropic SDK'],
+    date: '2026-05-14',
+    features: [
+      '週末行程規劃、餐廳推薦、便當計畫、城市活動、電影推薦',
+      'Extended Thinking 視覺化 — 即時顯示 Claude 內部推理過程',
+      'Tool Calls 面板 — 顯示每次工具呼叫的名稱、參數與結果',
+      'Agents 面板 — 追蹤 multi-agent 協作狀態',
+      'profile.md 記憶庫 — 儲存個人偏好，每次查詢自動帶入',
+      'SSE 串流即時推送事件',
+      'Orchestrator 調度 event_planner / food_advisor / local_scout sub-agent',
+    ],
+    challenges: [
+      'SSE 串流與前端即時渲染',
+      'Multi-agent 協作與狀態追蹤',
+      'Extended Thinking 事件解析',
+      'profile.md 記憶庫設計',
+    ],
+    results: [
+      '完整可視化 Agent 決策流程',
+      '支援 5 種生活推薦情境',
+      '即時顯示 Claude 內部推理過程',
+      '建立可擴展的 multi-agent 架構',
+    ],
+    links: {
+      github: 'https://github.com/120061203/friday-agent',
+      demo: 'https://friday-agent.xsong.us',
+    },
+  },
+  {
     id: 'mlops',
     title: 'MLOps 學習專案',
     description: '從 NumPy 基礎到完整 AWS MLOps 部署的學習專案，涵蓋 GitHub CI/CD、AWS SageMaker 訓練與部署、HuggingFace 模型 Fine-Tuning，以及 CloudWatch 監控與自動化 Pipeline。',

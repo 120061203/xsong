@@ -246,6 +246,33 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
 const projects: Project[] = [
   {
+    id: 'friday-agent',
+    title: 'Friday Agent — 美好生活 AI 助理',
+    description: '以 Claude API 實作的個人生活推薦系統，可視化 Agent 決策過程，即時展示 thinking、tool use、multi-agent 協作的完整流程。',
+    longDescription: 'Friday Agent 是一個以 Claude Sonnet 4.6 API 為核心的個人生活推薦系統。使用者可透過自然語言查詢週末行程、餐廳推薦、便當計畫、城市活動與電影推薦。系統最大特色是即時可視化 Agent 決策過程：Extended Thinking 面板顯示 Claude 內部推理、Tool Calls 面板顯示每次工具呼叫與回傳、Agents 面板追蹤 multi-agent 協作狀態。架構上由 Orchestrator 統一調度，視任務複雜度呼叫 event_planner、food_advisor、local_scout 等 sub-agent，每個 sub-agent 有獨立的 agent loop 並可自主使用 web_search、get_current_time 等 tools。',
+    image: getProjectImageUrl('friday-agent'),
+    technologies: ['Claude API', 'Sonnet 4.6', 'FastAPI', 'Python', 'SSE', 'Multi-Agent', 'Tool Use', 'Extended Thinking', 'DuckDuckGo Search', 'Anthropic SDK'],
+    githubUrl: 'https://github.com/120061203/friday-agent',
+    liveUrl: 'https://friday-agent.xsong.us',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#1a0533,#3b0764)]',
+    textColor: 'text-white',
+    lastUpdated: '2026-05-14',
+    features: [
+      '週末行程規劃 — 週五下班到週日的完整活動安排',
+      '餐廳推薦 — 根據個人口味推薦附近餐廳',
+      '便當計畫 — 一週便當料理與採購清單',
+      '各城市活動 — 台北、台中、高雄、東京、倫敦近期活動',
+      '電影推薦 — 根據喜好推薦當週上映電影',
+      'Extended Thinking 視覺化 — 即時顯示 Claude 內部推理過程',
+      'Tool Calls 面板 — 顯示每次工具呼叫的名稱、參數與結果',
+      'Agents 面板 — 追蹤 multi-agent 協作狀態（active / done）',
+      'profile.md 記憶庫 — 儲存個人偏好，每次查詢自動帶入',
+      'SSE 串流 — 即時推送 thinking / tool_call / agent_start 等事件',
+      'Multi-agent 架構 — Orchestrator 調度 event_planner / food_advisor / local_scout',
+      'DuckDuckGo 真實搜尋 — 查詢活動、餐廳、電影即時資訊',
+    ]
+  },
+  {
     id: 'mlops',
     title: 'MLOps 學習專案',
     description: '從 NumPy 基礎到完整 AWS MLOps 部署的學習專案，涵蓋 GitHub CI/CD、AWS SageMaker 訓練與部署、HuggingFace 模型 Fine-Tuning，以及 CloudWatch 監控與自動化 Pipeline。',
