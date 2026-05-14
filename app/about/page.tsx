@@ -439,6 +439,33 @@ export default function AboutPage() {
 
               {/* 時間軸項目 */}
               <div className="space-y-8">
+                {/* 2026雙北程式設計節 城市儀表板大黑客松 */}
+                <div className="relative">
+                  <div className="absolute left-6 top-2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white dark:border-gray-800"></div>
+                  <div className="ml-16">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
+                        2026.05
+                      </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">2026雙北程式設計節 城市儀表板大黑客松</h3>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">參賽</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      整合市政開放資料、地理資訊與 AI 問答的全端智慧城市監控平台。
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {['ETL', 'OpenData', 'Vue', 'Go'].map(tag => (
+                        <span key={tag} className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded flex items-center">
+                          <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                          </svg>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
                 {/* AWS臺灣生成式AI應用黑客松競賽 */}
                 <div className="relative">
                   <div className="absolute left-6 top-2 w-4 h-4 bg-red-500 rounded-full border-4 border-white dark:border-gray-800"></div>
