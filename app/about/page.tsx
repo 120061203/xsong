@@ -445,7 +445,7 @@ export default function AboutPage() {
                   <div className="ml-16">
                     <div className="mb-3">
                       <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
-                        2026.05
+                        2026.5
                       </span>
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">2026雙北程式設計節 城市儀表板大黑客松</h3>
                     </div>
