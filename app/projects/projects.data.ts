@@ -16,8 +16,41 @@ export interface ProjectMeta {
 }
 
 export const PROJECTS: ProjectMeta[] = [
-  { 
-    id: 'jenkins-grafana', 
+  {
+    id: 'mlops',
+    title: 'MLOps 學習專案',
+    description: '從 NumPy 基礎到完整 AWS MLOps 部署的學習專案，涵蓋 GitHub CI/CD、AWS SageMaker 訓練與部署、HuggingFace 模型 Fine-Tuning，以及 CloudWatch 監控與自動化 Pipeline。',
+    fullDescription: '這是一個系統性的 MLOps 學習專案，從機器學習基礎出發，逐步建立完整的雲端 ML 工程能力。涵蓋 NumPy / PyTorch 訓練迴圈、Transformer 架構原理、HuggingFace Fine-Tuning、AWS SageMaker 部署，以及 SageMaker Pipeline 自動化與 CloudWatch 監控，完整走過一個 MLOps 閉環。',
+    technologies: ['Python', 'PyTorch', 'HuggingFace', 'DistilBERT', 'AWS SageMaker', 'AWS S3', 'CloudWatch', 'GitHub Actions', 'CI/CD', 'MLOps', 'Fine-Tuning', 'Model Registry'],
+    date: '2026-05-13',
+    features: [
+      'Phase 1：NumPy / PyTorch 訓練迴圈與梯度下降',
+      'Phase 2：Transformer 架構、Self-Attention、HuggingFace 入門',
+      'Phase 3：DistilBERT Fine-Tuning，準確率從 51% 提升到 84%',
+      'Phase 4：模型打包 tar.gz、上傳 S3、部署 SageMaker Endpoint',
+      'Phase 5：Model Registry 版本管控、SageMaker Pipeline 自動化',
+      'CloudWatch 監控儀表板與 SNS 警報通知',
+      'CI/CD 觸發（Bitbucket / Jenkins）整合 SageMaker Pipeline',
+      'API Gateway + Lambda 公開 HTTPS API',
+    ],
+    challenges: [
+      'SageMaker inference.py 四函式介面設計',
+      'Model Registry Approved / Rejected 狀態流程',
+      'SageMaker Pipeline DAG 依賴關係管理',
+      'CloudWatch Alarm 指標設定與 SNS 通知串接',
+    ],
+    results: [
+      'Fine-Tuning 後準確率提升 33%（51% → 84%）',
+      '完整 MLOps 閉環：從 git push 到自動部署與監控',
+      '建立可重複執行的 SageMaker Pipeline',
+      '模型版本可追溯、可回滾',
+    ],
+    links: {
+      github: 'https://github.com/120061203/MLops',
+    },
+  },
+  {
+    id: 'jenkins-grafana',
     title: 'Jenkins + Grafana Cloud 自動部署', 
     description: 'CI/CD 自動將 Dashboard 部署到 Grafana Cloud。',
     fullDescription: '這是一個完整的 CI/CD 自動化部署解決方案，整合 Jenkins 與 Grafana Cloud，實現 Dashboard 的自動化部署與監控。透過 Jenkins Pipeline，當程式碼更新時自動觸發部署流程，將最新的 Dashboard 配置部署到 Grafana Cloud，並提供完整的監控與告警機制。',
