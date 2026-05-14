@@ -246,6 +246,32 @@ function ABTestImage({ projectId, alt, className }: ABTestImageProps) {
 
 const projects: Project[] = [
   {
+    id: 'mlops',
+    title: 'MLOps 學習專案',
+    description: '從 NumPy 基礎到完整 AWS MLOps 部署的學習專案，涵蓋 GitHub CI/CD、AWS SageMaker 訓練與部署、HuggingFace 模型 Fine-Tuning，以及 CloudWatch 監控與自動化 Pipeline。',
+    longDescription: '這是一個系統性的 MLOps 學習專案，從機器學習基礎出發，逐步建立完整的雲端 ML 工程能力。Phase 1 從 NumPy/PyTorch 訓練迴圈與梯度下降出發，Phase 2 深入 Transformer 架構與 HuggingFace，Phase 3 以 DistilBERT Fine-Tuning 做情感分類（準確率從 51% 提升到 84%），Phase 4 將模型打包部署到 SageMaker Endpoint，Phase 5 建立完整 MLOps 閉環：Model Registry 版本管控、SageMaker Pipeline 自動化訓練流程、CI/CD 整合，以及 CloudWatch 監控與 SNS 警報通知。',
+    image: getProjectImageUrl('mlops'),
+    technologies: ['Python', 'PyTorch', 'HuggingFace', 'DistilBERT', 'AWS SageMaker', 'AWS S3', 'CloudWatch', 'GitHub Actions', 'CI/CD', 'MLOps', 'Fine-Tuning', 'Model Registry'],
+    githubUrl: 'https://github.com/120061203/MLops',
+    backgroundColor: 'bg-[linear-gradient(to_bottom_right,#0f172a,#1e3a5f)]',
+    textColor: 'text-white',
+    lastUpdated: '2026-05-13',
+    features: [
+      'Phase 1：NumPy / PyTorch 訓練迴圈與梯度下降',
+      'Phase 2：Transformer 架構、Self-Attention、HuggingFace 入門',
+      'Phase 3：DistilBERT Fine-Tuning，準確率從 51% 提升到 84%',
+      'Phase 4：模型打包 tar.gz、上傳 S3、部署 SageMaker Endpoint',
+      'Phase 5：Model Registry 版本管控、SageMaker Pipeline 自動化',
+      'CloudWatch 監控儀表板與 SNS 警報通知',
+      'CI/CD 觸發（Bitbucket / Jenkins）整合 SageMaker Pipeline',
+      'API Gateway + Lambda 公開 HTTPS API',
+      'inference.py 四函式介面（model_fn / input_fn / predict_fn / output_fn）',
+      'SageMaker Pipeline DAG 有向圖訓練流程',
+      'Approved / Rejected / PendingManualApproval 狀態管控',
+      '完整 MLOps 閉環：git push → 自動訓練 → 部署 → 監控'
+    ]
+  },
+  {
     id: 'ansible-tutorial',
     title: 'Ansible 基礎設施自動部署',
     description: '專業級 Ansible 自動化部署解決方案，展示企業級 DevOps 實踐與安全最佳實踐。包含 Ansible Vault 安全加密、SSH 金鑰認證、Nginx 自動化部署等完整功能。',
