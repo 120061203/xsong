@@ -17,7 +17,7 @@ Phase 3 結束後，我有一個 fine-tuned 的 DistilBERT 模型，存在本機
 
 Phase 4 的目標：把這個模型部署到 **AWS SageMaker**，讓它變成一個可以透過 HTTPS 呼叫的推論服務。
 
-整個流程分三個大步驟：
+整個流程分三個大步驟（如圖 1 所示）：
 
 ```
 fine-tuned model（本機）
@@ -25,6 +25,9 @@ fine-tuned model（本機）
   → 上傳到 S3
   → SageMaker Endpoint（HTTPS API）
 ```
+
+![部署全景圖：從本地到雲端 API](../../../../assets/images/2026/05/mlops_phase4/mlops_phase4-1.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖1 ▲ Local fine-tuned 模型 → 打包 tar.gz → S3 → SageMaker Endpoint，完整數據流向總覽</p>
 
 ---
 
@@ -46,7 +49,10 @@ SageMaker 是 AWS 的 ML 全套服務，在部署這個環節的優勢：
 3. Endpoint → 實際啟動服務（幾分鐘後變成 HTTPS API）
 ```
 
-用 Python SDK 的話，`huggingface_model.deploy()` 會把 2、3 步合起來幫你做。
+用 Python SDK 的話，`huggingface_model.deploy()` 會把 2、3 步合起來幫你做（物件關係如圖 4 所示）。
+
+![SageMaker 物件關係圖：Model vs Config vs Endpoint](../../../../assets/images/2026/05/mlops_phase4/mlops_phase4-4.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖4 ▲ deploy() 背後產生的三層 AWS 資源：Model → Endpoint Config → Endpoint，以及它們之間的層次關係</p>
 
 ### Instance Type 選擇
 
@@ -90,7 +96,7 @@ with open("./phase4/aws_config.json", "w") as f:
 
 ### 第二步：打包模型
 
-SageMaker 要求模型打包成 `model.tar.gz`，格式如下：
+SageMaker 要求模型打包成 `model.tar.gz`，格式如下（如圖 2 所示）：
 
 ```
 model.tar.gz
@@ -102,7 +108,10 @@ model.tar.gz
     └── inference.py       ← SageMaker 推論入口（必要）
 ```
 
-`inference.py` 是 SageMaker 呼叫的入口，需要實作四個函式：
+![模型打包結構圖：model.tar.gz 內部組成](../../../../assets/images/2026/05/mlops_phase4/mlops_phase4-2.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖2 ▲ model.tar.gz 內部結構：模型權重、config、tokenizer 設定，加上必要的 code/inference.py 推論入口</p>
+
+`inference.py` 是 SageMaker 呼叫的入口，需要實作四個函式（如圖 3 所示）：
 
 ```python
 # code/inference.py
@@ -147,6 +156,9 @@ def output_fn(prediction, accept="application/json"):
     """序列化回傳給呼叫方"""
     return json.dumps(prediction, ensure_ascii=False), accept
 ```
+
+![inference.py 四函式接力邏輯](../../../../assets/images/2026/05/mlops_phase4/mlops_phase4-3.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖3 ▲ SageMaker 呼叫 inference.py 的四函式接力：model_fn（載入）→ input_fn（解析請求）→ predict_fn（推論）→ output_fn（序列化回傳）</p>
 
 打包：
 
@@ -256,13 +268,16 @@ for name, endpoint in models.items():
 
 ### 重要：用完記得刪除 Endpoint
 
-Endpoint 只要是 `InService` 就持續計費：
+Endpoint 只要是 `InService` 就持續計費（費用與監控詳見圖 5）：
 
 ```python
 predictor.delete_endpoint()
 # 或
 boto3.client("sagemaker").delete_endpoint(EndpointName="mlops-sentiment-endpoint")
 ```
+
+![成本與監控：SageMaker Endpoint 費用與 CloudWatch 監控整合](../../../../assets/images/2026/05/mlops_phase4/mlops_phase4-5.webp)
+<p style="text-align: center; font-size: 0.875rem; color: #6b7280;">圖5 ▲ Endpoint 計費模式（InService 持續收費）、CloudWatch 監控指標，以及刪除 Endpoint 停止計費的操作流程</p>
 
 ---
 
