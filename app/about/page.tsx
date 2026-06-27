@@ -973,13 +973,57 @@ export default function AboutPage() {
                   </svg>
                   我的頻道
                 </button>
-                <span className="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-sm rounded-lg">
-                  演講經驗 (4 場)
-                </span>
               </div>
             </div>
             <div className="space-y-8">
               {/* 演講項目 1 - 最新 */}
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div className="mb-3">
+                  <span className="inline-block px-3 py-1 text-sm bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded-full mb-2">
+                    2026.06.26
+                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">當 Release 不再靠人工：自動化版本治理與 DevX 實戰</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 mb-3">DevOpsDay Taipei 2026</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  從 GitFlow 實務出發，探討如何透過 CI/CD 打造更佳的 Developer Experience（DevX）。透過制定分支規範、導入 Conventional Commits、結合自動化工具產生 Release Note，並與後端 ECR Image Tag 對齊，建立可追蹤、可回溯、可快速切換的版本治理流程，讓 Release 成為可複製、可擴展的工程流程。
+                </p>
+
+                {/* 連結區域 */}
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <a
+                    href="https://devopsdays.tw/2026/session/4760"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded-lg hover:bg-teal-200 dark:hover:bg-teal-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    議程
+                  </a>
+                  <a
+                    href="https://docs.google.com/presentation/d/1VWC1t7YzqX3ZboQXJFRchW3H8riejSdy/edit?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                    </svg>
+                    簡報
+                  </a>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded">DevOps</span>
+                  <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded">CI/CD</span>
+                  <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded">版本治理</span>
+                  <span className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded">DevX</span>
+                </div>
+              </div>
+
+              {/* 演講項目 2 - 最新 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded-full mb-2">
@@ -1014,7 +1058,7 @@ export default function AboutPage() {
                 </div>
               </div>
               
-              {/* 演講項目 2 - 中間 */}
+              {/* 演講項目 3 - 中間 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full mb-2">
@@ -1060,7 +1104,7 @@ export default function AboutPage() {
                 </div>
               </div>
               
-              {/* 演講項目 3 - 中間 */}
+              {/* 演講項目 4 - 中間 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full mb-2">
@@ -1106,7 +1150,7 @@ export default function AboutPage() {
                 </div>
               </div>
               
-              {/* 演講項目 4 - 最早 */}
+              {/* 演講項目 5 - 最早 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full mb-2">
