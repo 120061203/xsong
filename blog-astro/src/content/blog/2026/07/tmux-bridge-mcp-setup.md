@@ -119,8 +119,8 @@ kimi mcp add tmux-bridge -- npx tmux-bridge-mcp
 
 ```bash
 #!/bin/zsh
-SESSION="ai"
 DIR=${1:-$(pwd)}
+SESSION=$(basename "$DIR")
 
 # 如果 session 已存在就直接 attach
 if tmux has-session -t $SESSION 2>/dev/null; then
@@ -142,6 +142,8 @@ tmux select-pane -t $SESSION:0.1 -T codex
 tmux attach -t $SESSION
 ```
 
+Session 名稱會自動用**目錄名稱**命名，例如在 `~/Documents/xsong` 啟動，session 就叫 `xsong`，開多個專案時不會互相衝突。
+
 存成 `~/start-ai.sh`，加上執行權限：
 
 ```bash
@@ -160,19 +162,41 @@ chmod +x ~/start-ai.sh
 
 ---
 
-## 加上 alias（選用）
+## 加上 alias 與管理指令（選用）
 
 在 `~/.zshrc` 加入：
 
 ```bash
 alias 2ai="~/start-ai.sh"
+
+2ai-kill() {
+  echo "目前所有 session："
+  tmux ls 2>/dev/null || { echo "沒有任何 session"; return; }
+  echo ""
+  local name="${1:-}"
+  if [ -z "$name" ]; then
+    read "name?輸入要關閉的 session 名稱: "
+    [ -z "$name" ] && echo "已取消" && return
+  fi
+  read "confirm?確定關閉 '$name'？(y/N): "
+  [[ "$confirm" =~ ^[Yy]$ ]] && tmux kill-session -t "$name" && echo "已關閉 '$name'" || echo "已取消"
+}
 ```
 
-之後直接打 `2ai` 就能啟動整套環境，不需要切換目錄。
+- `2ai`：在目前目錄啟動整套環境
+- `2ai-kill`：互動式關閉指定 session，有列表預覽 + 確認步驟，避免誤刪
 
 ```bash
 source ~/.zshrc
+
+# 啟動
 2ai
+
+# 關閉（互動式選擇）
+2ai-kill
+
+# 直接指定名稱關閉
+2ai-kill xsong
 ```
 
 ---
