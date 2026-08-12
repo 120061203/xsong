@@ -979,6 +979,65 @@ export default function AboutPage() {
               {/* 演講項目 1 - 最新 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
+                  <span className="inline-block px-3 py-1 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full mb-2">
+                    2026.08.08
+                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">當 Release 不再靠人工：用 Python 生態打造自動化版本治理與 DevX 實戰</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 mb-3">COSCUP 2026 - Python Track by Taipei.py</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  以 Python 專案開發流程為背景，介紹如何結合 Conventional Commits、分支治理策略（GitFlow / Trunk-based）與 CI/CD 自動化流程，打造一套「不依賴人工」的版本治理機制。展示如何在 Python 專案中透過 commit 規範自動驅動版本號（semantic versioning）、使用 semantic-release / commitizen 自動產生 Release Note，並將版本資訊整合進部署流程，提升 Developer Experience（DevX）與團隊協作效率。
+                </p>
+
+                {/* 連結區域 */}
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <a
+                    href="https://coscup.org/2026/session/CUVVTA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-lg hover:bg-yellow-200 dark:hover:bg-yellow-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    議程
+                  </a>
+                  <a
+                    href="https://docs.google.com/presentation/d/1O_33Mex1VisneXtGGuCx8bz3j2CAKVx6/edit?usp=sharing&ouid=104899367635346717402&rtpof=true&sd=true"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                    </svg>
+                    簡報
+                  </a>
+                  <a
+                    href="https://hackmd.io/S1wLlNx8fx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-2 text-sm bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"/>
+                    </svg>
+                    共筆
+                  </a>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">Python</span>
+                  <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">DevOps</span>
+                  <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">CI/CD</span>
+                  <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">版本治理</span>
+                  <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded">DevX</span>
+                </div>
+              </div>
+
+              {/* 演講項目 2 */}
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-teal-100 dark:bg-teal-900/20 text-teal-800 dark:text-teal-300 rounded-full mb-2">
                     2026.06.26
                   </span>
@@ -1023,7 +1082,7 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* 演講項目 2 - 最新 */}
+              {/* 演講項目 3 */}
               <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="mb-3">
                   <span className="inline-block px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-800 dark:text-orange-300 rounded-full mb-2">
